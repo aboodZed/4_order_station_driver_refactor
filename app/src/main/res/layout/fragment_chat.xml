@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".utils.dialogs.ChatFragment">
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/top"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/medium_padding"
+        android:paddingBottom="@dimen/small_padding">
+
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/medium_padding"
+            android:src="@drawable/ic_left_arrow" />
+
+        <ImageView
+            android:layout_width="@dimen/margin"
+            android:layout_height="@dimen/large_margin"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/logo" />
+
+    </RelativeLayout>
+    
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ll_bottom"
+        android:layout_below="@id/rl_top"
+        android:padding="@dimen/medium_padding"/>
+    
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/button"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/medium_padding">
+
+        <EditText
+            android:id="@+id/et_message"
+            android:layout_width="0dp"
+            android:layout_weight="9"
+            android:layout_height="wrap_content"
+            android:background="@drawable/chat_edit_text"
+            android:padding="@dimen/small_margin"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray"
+            android:hint="@string/your_massage"
+            android:layout_marginEnd="@dimen/small_padding"/>
+
+        <ImageView
+            android:id="@+id/iv_upload_message"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_upload_message"/>
+
+    </LinearLayout>
+    
+</RelativeLayout>

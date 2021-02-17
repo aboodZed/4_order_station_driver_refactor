@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".utils.dialogs.SendMessageDialog"
+    android:padding="@dimen/medium_padding"
+    android:background="@drawable/dark_button">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/subject"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/small_text" />
+
+    <EditText
+        android:id="@+id/et_enter_subject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/medium_padding"
+        android:backgroundTint="@color/gray"
+        android:gravity="start"
+        android:hint="@string/type_subject"
+        android:inputType="text"
+        android:padding="@dimen/medium_padding"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:textColorHint="@color/gray" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/message"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/small_text" />
+
+    <EditText
+        android:id="@+id/et_enter_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/medium_padding"
+        android:backgroundTint="@color/gray"
+        android:gravity="start"
+        android:hint="@string/type_message"
+        android:inputType="text"
+        android:padding="@dimen/medium_padding"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:textColorHint="@color/gray" />
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/blue_button"
+        android:text="@string/send"
+        android:layout_marginTop="@dimen/medium_padding"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/small_text"
+        android:textStyle="bold" />
+</LinearLayout>

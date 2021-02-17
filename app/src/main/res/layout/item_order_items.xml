@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="@dimen/rate"
+    android:layout_marginBottom="@dimen/rate">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="start"
+            android:layout_alignParentStart="true">
+
+            <TextView
+                android:id="@+id/tv_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="burger king"
+                android:textColor="@color/black"
+                android:textSize="@dimen/small_text"
+                android:layout_gravity="start"/>
+
+            <TextView
+                android:id="@+id/tv_item_describe"
+                android:layout_width="@dimen/width_text"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/small_margin"
+                android:textColor="@color/gray" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_item_qnt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@color/black"
+            android:textSize="@dimen/small_text"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:id="@+id/tv_item_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textColor="@color/black"
+            android:textSize="@dimen/small_text"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>

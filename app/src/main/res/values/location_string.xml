@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+     <string name="turn_on_location_services" translatable="false">
+        Turn on location services so the app can find places near you.
+    </string>
+
+    <string name="location_services_needed" translatable="false">Location Services Needed</string>
+    <string name="location_services_denial" translatable="false">
+       The app needs location services to find out where you currently are.
+    </string>
+    <string name="location_services_confirm" translatable="false">Turn on location services</string>
+
+    <string name="location_permission_needed" translatable="false">Location Permission Needed</string>
+    <string name="location_permission_denial" translatable="false">
+        The app needs permission to access your current location.
+    </string>
+    <string name="give_location_permission" translatable="false">Give us location permission</string>
+
+    <string name="location_services_on" translatable="false">
+        Location services turned on. Fetching current location&#8230;
+    </string>
+    <string name="auto_location_fail" translatable="false">
+        We couldn\'t get your current location.
+        Please try again or reset location services.
+    </string>
+
+</resources>
