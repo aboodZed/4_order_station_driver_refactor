@@ -60,13 +60,13 @@ public class LanguageDialog extends DialogFragment {
 
     //clicks
     public void arabic() {
-        AppLanguageUtil.getInstance().setAppLanguage(getContext(), "ar");
+        AppLanguageUtil.getInstance().setAppLanguage(getContext(), AppLanguageUtil.ARABIC);
         dismiss();
         getActivity().recreate();
     }
 
     public void english() {
-        AppLanguageUtil.getInstance().setAppLanguage(getContext(), "en");
+        AppLanguageUtil.getInstance().setAppLanguage(getContext(), AppLanguageUtil.English);
         dismiss();
         getActivity().recreate();
     }
@@ -74,7 +74,8 @@ public class LanguageDialog extends DialogFragment {
     private void data() {
         binding.tvArabic.setBackgroundResource(R.drawable.dark_gray_button);
         binding.tvEnglish.setBackgroundResource(R.drawable.dark_gray_button);
-        if (AppController.getInstance().getAppSettingsPreferences().getAppLanguage().equals("ar")) {
+        if (AppController.getInstance().getAppSettingsPreferences()
+                .getAppLanguage().equals(AppLanguageUtil.English)) {
             binding.tvArabic.setBackgroundResource(R.drawable.blue_button);
         } else {
             binding.tvEnglish.setBackgroundResource(R.drawable.blue_button);

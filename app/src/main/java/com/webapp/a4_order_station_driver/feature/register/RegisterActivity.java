@@ -55,17 +55,8 @@ public class RegisterActivity extends BaseActivity {
 
 
     private void click() {
-        setOnClickListeners(new View[]{binding.btnNext, binding.ivBack},
-                view -> {
-                    switch (view.getId()) {
-                        case R.id.btn_next:
-                            next();
-                            break;
-                        case R.id.iv_back:
-                            back();
-                            break;
-                    }
-                });
+        binding.btnNext.setOnClickListener(view -> next());
+        binding.ivBack.setOnClickListener(view -> back());
     }
 
     //clicks

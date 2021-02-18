@@ -34,7 +34,10 @@ public interface AppContent {
     String TO_CLIENT_STATUS = "in_the_way_to_client";
     String ON_DELIVERY_STATUS = "on_delivery";
     String DELIVERY_STATUS = "delivered";
-    String CANCEL_STATUS = "cancelled";
+    String CANCELLED_STATUS = "cancelled";
+    String CANCEL_STATUS = "cancel";
+    String READY_STATUS = "ready";
+    String PENDING_STATUS = "pending";
 
     //map to reset password
     String RESET_MOBILE = "mobile";
@@ -43,6 +46,8 @@ public interface AppContent {
     String FILE_PROVIDER_AUTHORITY = "com.webapp.a4_order_station_driver.provider";
     String FILE_PROVIDER_PATH = "/Android/data/com.webapp.a4_order_station_driver/files/Pictures";
     //API
+    //order type
+    String TYPE_ORDER_PUBLIC = "public";
 
     //FIREBASE
     String FIREBASE_MESSAGE = "message";

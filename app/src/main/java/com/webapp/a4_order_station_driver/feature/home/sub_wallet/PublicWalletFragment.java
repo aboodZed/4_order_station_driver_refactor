@@ -1,43 +1,29 @@
 package com.webapp.a4_order_station_driver.feature.home.sub_wallet;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.wang.avi.AVLoadingIndicatorView;
-import com.webapp.a4_order_station_driver.R;
+import com.webapp.a4_order_station_driver.databinding.FragmentPublicWalletBinding;
 import com.webapp.a4_order_station_driver.feature.home.adapter.PublicWalletAdapter;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
 import com.webapp.a4_order_station_driver.models.PublicWallet;
+import com.webapp.a4_order_station_driver.utils.APIUtils;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.ToolUtils;
 import com.webapp.a4_order_station_driver.utils.formatter.DecimalFormatterManager;
+import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class PublicWalletFragment extends Fragment {
 
-    @BindView(R.id.tv_total_balance) TextView tvTotalBalance;
-    @BindView(R.id.tv_total_orders_price) TextView tvTotalOrdersPrice;
-    @BindView(R.id.tv_delegate_dues) TextView tvDelegateDues;
-    @BindView(R.id.tv_app_dues) TextView tvAppDues;
-    @BindView(R.id.tv_driver_bills) TextView tvDriverBills;
-    @BindView(R.id.rv_balance) RecyclerView rvBalance;
-    @BindView(R.id.avi) AVLoadingIndicatorView avi;
+    private FragmentPublicWalletBinding binding;
 
     private PublicWalletAdapter publicWalletAdapter;
 
@@ -51,51 +37,57 @@ public class PublicWalletFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_public_wallet, container, false);
-        ButterKnife.bind(this, view);
-        setData();
-        return view;
+        //View view = inflater.inflate(R.layout.fragment_public_wallet, container, false);
+        binding = FragmentPublicWalletBinding.inflate(getLayoutInflater());
+        getData();
+        return binding.getRoot();
     }
 
-    private void setData() {
+    private void getData() {
+        new APIUtils<PublicWallet>(getActivity()).getData(AppController.getInstance()
+                .getApi().getPublicWallet(), new RequestListener<PublicWallet>() {
+            @Override
+            public void onSuccess(PublicWallet publicWallet, String msg) {
+                setData(publicWallet);
+                binding.avi.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError(String msg) {
+                ToolUtils.showLongToast(msg, getActivity());
+                binding.avi.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFail(String msg) {
+                ToolUtils.showLongToast(msg, getActivity());
+                binding.avi.setVisibility(View.GONE);
+            }
+        });
+    }
+
+
+    private void setData(PublicWallet publicWallet) {
         String currency = AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code();
 
-        if (ToolUtils.checkTheInternet()) {
-            AppController.getInstance().getApi().getPublicWallet().enqueue(new Callback<PublicWallet>() {
-                @Override
-                public void onResponse(Call<PublicWallet> call, Response<PublicWallet> response) {
-                    if (response.isSuccessful()) {
-                        tvTotalBalance.setText(DecimalFormatterManager.getFormatterInstance()
-                                .format(Double.parseDouble(response.body().getWallet()) + Double.parseDouble(response.body().getTotalClientBills())) + " " + currency);
-                        tvTotalOrdersPrice.setText(DecimalFormatterManager.getFormatterInstance()
-                                .format(Double.parseDouble(response.body().getTotal_orders_amount())) + " " + currency);
-                        tvDelegateDues.setText(DecimalFormatterManager.getFormatterInstance()
-                                .format(response.body().getTotal_driver_revenue()) + " " + currency);
-                        tvAppDues.setText(DecimalFormatterManager.getFormatterInstance()
-                                .format(response.body().getTotal_app_revenue()) + " " + currency);
-                        tvDriverBills.setText(DecimalFormatterManager.getFormatterInstance()
-                                .format(Double.parseDouble(response.body().getTotalClientBills())) + " " + currency);
-                        initRecycleView(response.body().getPublicOrders());
-                    } else {
-                        ToolUtils.showError(getActivity(), response.errorBody());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<PublicWallet> call, Throwable t) {
-                    ToolUtils.showLongToast(t.getMessage(), getActivity());
-                }
-            });
-        } else {
-            ToolUtils.showLongToast(getString(R.string.no_connection), getActivity());
-        }
+        binding.tvTotalBalance.setText(DecimalFormatterManager.getFormatterInstance()
+                .format(Double.parseDouble(publicWallet.getWallet())
+                        + Double.parseDouble(publicWallet.getTotalClientBills())) + " " + currency);
+        binding.tvTotalOrdersPrice.setText(DecimalFormatterManager.getFormatterInstance()
+                .format(Double.parseDouble(publicWallet.getTotal_orders_amount())) + " " + currency);
+        binding.tvDelegateDues.setText(DecimalFormatterManager.getFormatterInstance()
+                .format(publicWallet.getTotal_driver_revenue()) + " " + currency);
+        binding.tvAppDues.setText(DecimalFormatterManager.getFormatterInstance()
+                .format(publicWallet.getTotal_app_revenue()) + " " + currency);
+        binding.tvDriverBills.setText(DecimalFormatterManager.getFormatterInstance()
+                .format(Double.parseDouble(publicWallet.getTotalClientBills())) + " " + currency);
+        initRecycleView(publicWallet.getPublicOrders());
     }
 
     private void initRecycleView(ArrayList<PublicOrder> publicOrders) {
         publicWalletAdapter = new PublicWalletAdapter(publicOrders);
-        rvBalance.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvBalance.setItemAnimator(new DefaultItemAnimator());
-        rvBalance.setAdapter(publicWalletAdapter);
-        avi.setVisibility(View.GONE);
+        binding.rvBalance.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.rvBalance.setItemAnimator(new DefaultItemAnimator());
+        binding.rvBalance.setAdapter(publicWalletAdapter);
     }
 }

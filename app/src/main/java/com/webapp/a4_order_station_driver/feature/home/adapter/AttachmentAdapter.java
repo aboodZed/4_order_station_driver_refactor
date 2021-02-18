@@ -2,25 +2,18 @@ package com.webapp.a4_order_station_driver.feature.home.adapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.webapp.a4_order_station_driver.R;
+import com.webapp.a4_order_station_driver.databinding.ItemAttachmentBinding;
 import com.webapp.a4_order_station_driver.models.Attachment;
 import com.webapp.a4_order_station_driver.utils.ToolUtils;
 import com.webapp.a4_order_station_driver.utils.dialogs.ImageFragment;
 
 import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.AttachmentHolder> {
 
@@ -37,8 +30,8 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
     @NonNull
     @Override
     public AttachmentHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new AttachmentHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_attachment, parent, false));
+        return new AttachmentHolder(ItemAttachmentBinding.inflate(LayoutInflater
+                .from(parent.getContext()),parent,false));
     }
 
     @Override
@@ -53,23 +46,25 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
 
     class AttachmentHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.iv_image)
-        ImageView ivImage;
-        @BindView(R.id.pb_wait_image)
-        ProgressBar pbWaitImage;
+        private ItemAttachmentBinding binding;
 
-        public AttachmentHolder(@NonNull View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        public AttachmentHolder(ItemAttachmentBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+            click();
+        }
+
+        private void click() {
+            binding.ivImage.setOnClickListener(view -> openImage());
         }
 
         private void setData(Attachment attachment) {
-            ToolUtils.loadImage(activity, pbWaitImage, attachment.getImage_url(), ivImage);
+            ToolUtils.loadImage(activity, binding.pbWaitImage, attachment.getImage_url(), binding.ivImage);
         }
 
-        @OnClick(R.id.iv_image)
         public void openImage() {
-            ImageFragment.newInstance(ToolUtils.getBitmapFromImageView(ivImage)).show(fragmentManager, "");
+            ImageFragment.newInstance(ToolUtils.getBitmapFromImageView(binding.ivImage))
+                    .show(fragmentManager, "");
         }
     }
 

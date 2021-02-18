@@ -7,7 +7,7 @@
     android:background="@color/black"
     android:orientation="vertical"
     android:padding="@dimen/medium_padding"
-    tools:context=".feature.home.EditProfileFragment">
+    tools:context=".feature.home.editProfile.EditProfileFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

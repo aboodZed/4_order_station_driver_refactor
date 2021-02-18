@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.webapp.a4_order_station_driver.R;
+import com.webapp.a4_order_station_driver.feature.home.editProfile.EditProfileFragment;
 import com.webapp.a4_order_station_driver.models.Login;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.OrderStation;
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView,
         orderViewFragment = OrderViewFragment.newInstance(this, this);
         orderViewFragment.setListener(this);
         profileFragment = ProfileFragment.newInstance(this);
-        editProfileFragment = EditProfileFragment.newInstance(this);
+        editProfileFragment = EditProfileFragment.newInstance();
 
         //navigation
         if (AppController.getInstance().getAppSettingsPreferences().getLogin().getUser() != null) {

@@ -10,6 +10,9 @@ import java.util.Locale;
 
 public class AppLanguageUtil {
 
+    public static final String ARABIC = "ar";
+    public static final String English = "en";
+
     private static AppLanguageUtil instance = null;
     private AppSettingsPreferences appSettingsPreferences;
 
@@ -26,14 +29,14 @@ public class AppLanguageUtil {
 
     public void setAppFirstRunLng() {
         switch (Locale.getDefault().getLanguage()) {
-            case "ar":
-                setAppLanguage(getContext(), "ar");
+            case ARABIC:
+                setAppLanguage(getContext(), ARABIC);
                 break;
-            case "en":
-                setAppLanguage(getContext(), "en");
+            case English:
+                setAppLanguage(getContext(), English);
                 break;
             default:
-                setAppLanguage(getContext(), "en");
+                setAppLanguage(getContext(), English);
                 break;
         }
         appSettingsPreferences.setFirstRun();

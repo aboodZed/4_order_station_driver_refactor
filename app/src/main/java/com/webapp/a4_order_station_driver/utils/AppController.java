@@ -2,9 +2,8 @@ package com.webapp.a4_order_station_driver.utils;
 
 import android.app.Application;
 
-import com.webapp.a4_order_station_driver.utils.api.ApiClient;
 import com.webapp.a4_order_station_driver.services.api.ApiInterface;
-import com.webapp.a4_order_station_driver.utils.location.GPSTracking;
+import com.webapp.a4_order_station_driver.services.api.ApiClient;
 
 public class AppController extends Application {
 

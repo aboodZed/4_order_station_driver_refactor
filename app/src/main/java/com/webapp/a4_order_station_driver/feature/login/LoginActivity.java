@@ -1,9 +1,7 @@
 package com.webapp.a4_order_station_driver.feature.login;
 
 import android.os.Bundle;
-import android.view.View;
 
-import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.ActivityLoginBinding;
 import com.webapp.a4_order_station_driver.feature.home.MainActivity;
 import com.webapp.a4_order_station_driver.feature.register.RegisterActivity;
@@ -29,7 +27,6 @@ public class LoginActivity extends BaseActivity implements DialogView<Login> {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         super.setRootView(binding.getRoot());
         super.onCreate(savedInstanceState);
-
         //presenter
         presenter = new LoginPresenter(this, this);
         //view
@@ -39,21 +36,9 @@ public class LoginActivity extends BaseActivity implements DialogView<Login> {
     }
 
     private void click() {
-        setOnClickListeners(new View[]{binding.btnLogin, binding.tvForget, binding.btnSignUp}
-                , view -> {
-                    switch (view.getId()){
-                        case R.id.btn_login:
-                            presenter.checkInput(binding.etEnterPhone, binding.etEnterPassword);
-                            break;
-                        case R.id.btn_sign_up:
-                            navigate(RegisterActivity.page);
-                            break;
-                        case R.id.tv_forget:
-                            navigate(ResetPasswordActivity.page);
-                            break;
-                            
-                    }
-                });
+        binding.btnLogin.setOnClickListener(view -> presenter.checkInput(binding.etEnterPhone, binding.etEnterPassword));
+        binding.tvForget.setOnClickListener(view -> navigate(ResetPasswordActivity.page));
+        binding.btnSignUp.setOnClickListener(view -> navigate(RegisterActivity.page));
     }
 
     private void showCountries() {

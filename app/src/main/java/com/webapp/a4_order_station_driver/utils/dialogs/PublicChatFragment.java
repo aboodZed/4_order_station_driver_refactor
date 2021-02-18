@@ -2,7 +2,6 @@ package com.webapp.a4_order_station_driver.utils.dialogs;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,8 +14,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -92,13 +89,7 @@ public class PublicChatFragment extends DialogFragment implements PhotoTakerMana
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.dialog);
-
         photoTakerManager = new PhotoTakerManager(this);
-        if (getArguments() != null) {
-            this.publicOrder = (PublicOrder) getArguments().get(AppContent.INPUT_ORDER);
-            data();
-        }
-        click();
     }
 
     private void click() {
@@ -117,7 +108,12 @@ public class PublicChatFragment extends DialogFragment implements PhotoTakerMana
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //View view = inflater.inflate(R.layout.fragment_public_chat, container, false);
         binding = FragmentPublicChatBinding.inflate(getLayoutInflater());
-        data();
+        if (getArguments() != null) {
+            this.publicOrder = (PublicOrder) getArguments().get(AppContent.INPUT_ORDER);
+            data();
+            click();
+        }
+        //data();
         db = FirebaseDatabase.getInstance().getReference(AppContent.FIREBASE_PUBLIC_STORE_CHAT_INSTANCE);
         getMessages();
         initRecycleView();
@@ -218,7 +214,7 @@ public class PublicChatFragment extends DialogFragment implements PhotoTakerMana
                 publicOrder = publicArrays.getPublicOrder();
                 data();
                 if (publicOrder.getStatus().equals(AppContent.DELIVERY_STATUS)
-                        || publicOrder.getStatus().equals(AppContent.CANCEL_STATUS)) {
+                        || publicOrder.getStatus().equals(AppContent.CANCELLED_STATUS)) {
                     if (tracking != null) {
                         tracking.endGPSTracking();
                     }
@@ -252,7 +248,7 @@ public class PublicChatFragment extends DialogFragment implements PhotoTakerMana
         binding.tvTaxPrice.setText(DecimalFormatterManager.getFormatterInstance()
                 .format(Double.parseDouble(publicOrder.getTax())) + " " + currency);
         if (publicOrder.getStatus().equals(AppContent.DELIVERY_STATUS)
-                || publicOrder.getStatus().equals(AppContent.CANCEL_STATUS)) {
+                || publicOrder.getStatus().equals(AppContent.CANCELLED_STATUS)) {
             binding.ivMore.setVisibility(View.GONE);
             binding.ivTracking.setVisibility(View.GONE);
             binding.llBottom.setVisibility(View.GONE);

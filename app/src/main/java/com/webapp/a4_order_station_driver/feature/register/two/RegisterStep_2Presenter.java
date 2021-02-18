@@ -8,7 +8,7 @@ import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.feature.home.MainActivity;
 import com.webapp.a4_order_station_driver.models.Login;
 import com.webapp.a4_order_station_driver.models.User;
-import com.webapp.a4_order_station_driver.services.GenerateFCMService;
+import com.webapp.a4_order_station_driver.services.firebase.GenerateFCMService;
 import com.webapp.a4_order_station_driver.utils.APIUtils;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.ToolUtils;

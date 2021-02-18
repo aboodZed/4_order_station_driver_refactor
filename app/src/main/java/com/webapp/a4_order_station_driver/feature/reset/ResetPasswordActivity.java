@@ -42,7 +42,7 @@ public class ResetPasswordActivity extends BaseActivity {
     }
 
     private void click() {
-        setOnClickListeners(new View[]{binding.ivBack}, view -> back());
+        binding.ivBack.setOnClickListener(view -> back());
     }
 
     //Clicks
