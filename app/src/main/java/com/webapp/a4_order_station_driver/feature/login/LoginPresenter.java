@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.widget.EditText;
 
 import com.webapp.a4_order_station_driver.R;
-import com.webapp.a4_order_station_driver.feature.home.MainActivity;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.models.Login;
 import com.webapp.a4_order_station_driver.services.firebase.GenerateFCMService;
 import com.webapp.a4_order_station_driver.utils.APIUtils;

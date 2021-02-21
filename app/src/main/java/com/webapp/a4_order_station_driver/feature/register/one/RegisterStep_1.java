@@ -1,47 +1,26 @@
 package com.webapp.a4_order_station_driver.feature.register.one;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.provider.MediaStore;
-import android.text.TextUtils;
-import android.util.Log;
-import android.util.Patterns;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.TextView;
-
-import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentRegisterStep1Binding;
-import com.webapp.a4_order_station_driver.feature.register.RegisterActivity;
-import com.webapp.a4_order_station_driver.feature.register.two.RegisterStep_2;
 import com.webapp.a4_order_station_driver.models.Login;
-import com.webapp.a4_order_station_driver.models.User;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.PhotoTakerManager;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
 import com.webapp.a4_order_station_driver.utils.dialogs.ItemSelectImageDialogFragment;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 import static com.webapp.a4_order_station_driver.utils.AppContent.REQUEST_STUDIO;

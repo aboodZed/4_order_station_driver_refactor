@@ -130,16 +130,16 @@ public class Shop {
         this.address_en = address_en;
     }
 
-    public String getLat() {
-        return lat;
+    public double getLat() {
+        return Double.parseDouble(lat);
     }
 
     public void setLat(String lat) {
         this.lat = lat;
     }
 
-    public String getLng() {
-        return lng;
+    public double getLng() {
+        return Double.parseDouble(lng);
     }
 
     public void setLng(String lng) {

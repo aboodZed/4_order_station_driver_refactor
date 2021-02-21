@@ -2,9 +2,6 @@ package com.webapp.a4_order_station_driver.utils.dialogs;
 
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.fragment.app.DialogFragment;
-
 import android.text.Html;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -13,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import androidx.fragment.app.DialogFragment;
+
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentPrivacyPolicyBinding;
 import com.webapp.a4_order_station_driver.models.Privacy;
@@ -20,11 +19,6 @@ import com.webapp.a4_order_station_driver.utils.APIUtils;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.ToolUtils;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
-
-import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class PrivacyPolicyFragment extends DialogFragment {
 
@@ -46,7 +40,12 @@ public class PrivacyPolicyFragment extends DialogFragment {
         // View v = inflater.inflate(R.layout.fragment_privacy_policy, container, false);
         binding = FragmentPrivacyPolicyBinding.inflate(getLayoutInflater());
         data();
+        click();
         return binding.getRoot();
+    }
+
+    private void click() {
+        binding.ivBack.setOnClickListener(view -> dismiss());
     }
 
     private void data() {
@@ -94,10 +93,5 @@ public class PrivacyPolicyFragment extends DialogFragment {
                 return true;
             } else return false;
         });
-    }
-
-    @OnClick(R.id.iv_back)
-    public void back() {
-        this.dismiss();
     }
 }

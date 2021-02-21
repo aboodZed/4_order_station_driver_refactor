@@ -163,7 +163,7 @@ public class ChatFragment extends DialogFragment {
                 db.child(order.getId() + "").child(key).setValue(chatMessage);
                 ToolUtils.hideSoftKeyboard(getActivity(), binding.etMessage);
                 binding.etMessage.setText("");
-                NotificationUtil.sendMessageNotification(order.getInvoice_number()
+                NotificationUtil.sendMessageNotification(getActivity(), order.getInvoice_number()
                         , order.getId() + "", order.getUser().getId() + ""
                         , "4station");
             }

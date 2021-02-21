@@ -7,7 +7,7 @@
     android:background="@color/black"
     android:paddingStart="@dimen/medium_padding"
     android:paddingEnd="@dimen/medium_padding"
-    tools:context=".feature.home.NotificationFragment">
+    tools:context=".feature.main.natification.NotificationFragment">
 
     <TextView
         android:id="@+id/tv_title"

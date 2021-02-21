@@ -89,7 +89,5 @@ public class NewPublicOrderDialog extends DialogFragment {
 
     public interface NewPublicOrderListener {
         void viewNewOrder(PublicOrder publicOrder);
-
-        void cancel();
     }
 }

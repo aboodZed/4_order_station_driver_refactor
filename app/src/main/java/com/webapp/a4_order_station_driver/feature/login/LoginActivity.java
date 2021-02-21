@@ -3,7 +3,7 @@ package com.webapp.a4_order_station_driver.feature.login;
 import android.os.Bundle;
 
 import com.webapp.a4_order_station_driver.databinding.ActivityLoginBinding;
-import com.webapp.a4_order_station_driver.feature.home.MainActivity;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.register.RegisterActivity;
 import com.webapp.a4_order_station_driver.feature.reset.ResetPasswordActivity;
 import com.webapp.a4_order_station_driver.models.Login;

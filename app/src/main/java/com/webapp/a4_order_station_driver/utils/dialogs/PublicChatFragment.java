@@ -27,8 +27,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentPublicChatBinding;
-import com.webapp.a4_order_station_driver.feature.home.OrdersFragment;
-import com.webapp.a4_order_station_driver.feature.home.WalletFragment;
+import com.webapp.a4_order_station_driver.feature.main.orders.OrdersFragment;
+import com.webapp.a4_order_station_driver.feature.main.wallets.WalletFragment;
 import com.webapp.a4_order_station_driver.models.PublicArrays;
 import com.webapp.a4_order_station_driver.models.PublicChatMessage;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
@@ -41,8 +41,8 @@ import com.webapp.a4_order_station_driver.utils.PhotoTakerManager;
 import com.webapp.a4_order_station_driver.utils.ToolUtils;
 import com.webapp.a4_order_station_driver.utils.dialogs.adapter.PublicChatAdapter;
 import com.webapp.a4_order_station_driver.utils.formatter.DecimalFormatterManager;
+import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
-import com.webapp.a4_order_station_driver.utils.view.NavigationView;
 import com.webapp.a4_order_station_driver.utils.view.Tracking;
 
 import java.util.ArrayList;
@@ -65,20 +65,21 @@ public class PublicChatFragment extends DialogFragment implements PhotoTakerMana
     private Uri filePath;
     private StorageReference storageReference;
     private PhotoTakerManager photoTakerManager;
-    private NavigationView navigationView;
+
+    private BaseActivity baseActivity;
     private Tracking tracking;
     public static double s = 0;
     public static boolean isOpenPublicChat = false;
 
-    public PublicChatFragment(NavigationView navigationView, Tracking tracking) {
-        this.navigationView = navigationView;
+    public PublicChatFragment(BaseActivity baseActivity, Tracking tracking) {
+        this.baseActivity = baseActivity;
         this.tracking = tracking;
     }
 
     public static PublicChatFragment newInstance(PublicOrder order
-            , NavigationView navigationView, Tracking tracking) {
+            , BaseActivity baseActivity, Tracking tracking) {
 
-        PublicChatFragment fragment = new PublicChatFragment(navigationView, tracking);
+        PublicChatFragment fragment = new PublicChatFragment(baseActivity, tracking);
         Bundle args = new Bundle();
         args.putSerializable(AppContent.INPUT_ORDER, order);
         fragment.setArguments(args);
@@ -94,7 +95,7 @@ public class PublicChatFragment extends DialogFragment implements PhotoTakerMana
 
     private void click() {
         binding.ivBack.setOnClickListener(view -> {
-            navigationView.navigate(3);
+            baseActivity.navigate(OrdersFragment.page);
             dismiss();
         });
 
@@ -137,8 +138,8 @@ public class PublicChatFragment extends DialogFragment implements PhotoTakerMana
     @Override
     public void onStart() {
         super.onStart();
-        OrdersFragment.page = 1;
-        WalletFragment.page = 1;
+        OrdersFragment.viewPagerPage = 1;
+        WalletFragment.viewPagerPage = 1;
         isOpenPublicChat = true;
     }
 
@@ -213,7 +214,7 @@ public class PublicChatFragment extends DialogFragment implements PhotoTakerMana
                 WaitDialogFragment.newInstance().dismiss();
                 publicOrder = publicArrays.getPublicOrder();
                 data();
-                if (publicOrder.getStatus().equals(AppContent.DELIVERY_STATUS)
+                if (publicOrder.getStatus().equals(AppContent.DELIVERED_STATUS)
                         || publicOrder.getStatus().equals(AppContent.CANCELLED_STATUS)) {
                     if (tracking != null) {
                         tracking.endGPSTracking();
@@ -247,7 +248,7 @@ public class PublicChatFragment extends DialogFragment implements PhotoTakerMana
                 .format(Double.parseDouble(publicOrder.getDelivery_cost())) + " " + currency);
         binding.tvTaxPrice.setText(DecimalFormatterManager.getFormatterInstance()
                 .format(Double.parseDouble(publicOrder.getTax())) + " " + currency);
-        if (publicOrder.getStatus().equals(AppContent.DELIVERY_STATUS)
+        if (publicOrder.getStatus().equals(AppContent.DELIVERED_STATUS)
                 || publicOrder.getStatus().equals(AppContent.CANCELLED_STATUS)) {
             binding.ivMore.setVisibility(View.GONE);
             binding.ivTracking.setVisibility(View.GONE);
@@ -321,8 +322,9 @@ public class PublicChatFragment extends DialogFragment implements PhotoTakerMana
                 publicStoreMessage.setTime(System.currentTimeMillis() / 1000);
                 String key = db.push().getKey();
                 db.child(publicOrder.getId() + "").child(key).setValue(publicStoreMessage);
-                NotificationUtil.sendMessageNotification(publicOrder.getInvoice_number(), publicOrder.getId() + ""
-                        , publicOrder.getClient_id() + "", "public");
+                NotificationUtil.sendMessageNotification(getActivity(), publicOrder.getInvoice_number()
+                        , publicOrder.getId() + "", publicOrder.getClient_id() + ""
+                        , AppContent.TYPE_ORDER_PUBLIC);
             }
             ToolUtils.hideSoftKeyboard(getActivity(), binding.etMessage);
             binding.etMessage.setText("");

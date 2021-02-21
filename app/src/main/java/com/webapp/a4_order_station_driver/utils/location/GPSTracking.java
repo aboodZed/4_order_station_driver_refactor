@@ -14,10 +14,12 @@ import androidx.core.app.ActivityCompat;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.MyLocation;
 import com.webapp.a4_order_station_driver.models.OrderStation;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
+import com.webapp.a4_order_station_driver.utils.APIUtils;
 import com.webapp.a4_order_station_driver.utils.AppController;
 
 import java.util.HashMap;
@@ -97,7 +99,7 @@ public class GPSTracking {
                     myLocation.setDriver_id(AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getId());
                     myLocation.setCountry_id(AppController.getInstance().getAppSettingsPreferences().getCountry().getId());
                     if (AppController.getInstance().getAppSettingsPreferences().getLogin()
-                            .getUser().getIs_online().equals("1")) {
+                            .getUser().getIs_online().equals(MainActivity.online)) {
                         if (gpsTracking == null) {
                             myLocation.setStatus("online");
                         } else {
@@ -109,17 +111,17 @@ public class GPSTracking {
                     db.setValue(myLocation);
                     map.put("driver_id", AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getId() + "");
                     AppController.getInstance().getApi().updateLocation(map)
-                    .enqueue(new Callback<Message>() {
-                        @Override
-                        public void onResponse(Call<Message> call, Response<Message> response) {
-                            Log.e("trackInServer", myLocation.toString());
-                        }
+                            .enqueue(new Callback<Message>() {
+                                @Override
+                                public void onResponse(Call<Message> call, Response<Message> response) {
+                                    Log.e("trackInServer", myLocation.toString());
+                                }
 
-                        @Override
-                        public void onFailure(Call<Message> call, Throwable t) {
+                                @Override
+                                public void onFailure(Call<Message> call, Throwable t) {
 
-                        }
-                    });
+                                }
+                            });
                     Log.e("trackings", myLocation.toString());
                 } else {
                     lm.removeUpdates(locationListener);

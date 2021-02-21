@@ -15,7 +15,7 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.webapp.a4_order_station_driver.R;
-import com.webapp.a4_order_station_driver.feature.home.MainActivity;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.dialogs.ChatFragment;
 import com.webapp.a4_order_station_driver.utils.dialogs.PublicChatFragment;

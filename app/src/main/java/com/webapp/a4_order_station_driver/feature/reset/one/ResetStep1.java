@@ -1,30 +1,17 @@
 package com.webapp.a4_order_station_driver.feature.reset.one;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentResetStep1Binding;
-import com.webapp.a4_order_station_driver.feature.reset.two.ResetStep2;
 import com.webapp.a4_order_station_driver.models.ResetCode;
-import com.webapp.a4_order_station_driver.utils.AppContent;
-import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
-
-import java.util.HashMap;
-
-import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ResetStep1 extends Fragment implements DialogView<ResetCode> {
 

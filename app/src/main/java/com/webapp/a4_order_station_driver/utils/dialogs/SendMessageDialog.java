@@ -13,8 +13,10 @@ import androidx.fragment.app.DialogFragment;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentSendMessageBinding;
 import com.webapp.a4_order_station_driver.models.Message;
+import com.webapp.a4_order_station_driver.utils.APIUtils;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 import java.util.HashMap;
 
@@ -91,32 +93,29 @@ public class SendMessageDialog extends DialogFragment {
     }
 
     private void send(HashMap<String, String> map) {
-        if (ToolUtils.checkTheInternet()) {
-            binding.btnSend.setClickable(false);
-            AppController.getInstance().getApi().sendMessage(map).enqueue(new Callback<Message>() {
-                @Override
-                public void onResponse(Call<Message> call, Response<Message> response) {
-                    if (response.isSuccessful()) {
-                        if (getContext() != null) {
-                            ToolUtils.showLongToast(response.body().getMassage(), getActivity());
-                            dismiss();
-                        }
-                    } else {
-                        if (getContext() != null) {
-                            ToolUtils.showError(getActivity(), response.errorBody());
-                            dismiss();
-                        }
-                    }
-                }
+        WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
+        new APIUtils<Message>(getActivity()).getData(AppController.getInstance()
+                .getApi().sendMessage(map), new RequestListener<Message>() {
+            @Override
+            public void onSuccess(Message message, String msg) {
+                ToolUtils.showLongToast(message.getMassage(), getActivity());
+                WaitDialogFragment.newInstance().dismiss();
+                dismiss();
+            }
 
-                @Override
-                public void onFailure(Call<Message> call, Throwable t) {
-                    t.printStackTrace();
-                    dismiss();
-                }
-            });
-        } else {
-            ToolUtils.showLongToast(getActivity().getString(R.string.no_connection), getActivity());
-        }
+            @Override
+            public void onError(String msg) {
+                ToolUtils.showLongToast(msg, getActivity());
+                WaitDialogFragment.newInstance().dismiss();
+                dismiss();
+            }
+
+            @Override
+            public void onFail(String msg) {
+                ToolUtils.showLongToast(msg, getActivity());
+                WaitDialogFragment.newInstance().dismiss();
+                dismiss();
+            }
+        });
     }
 }

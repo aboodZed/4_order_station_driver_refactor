@@ -18,8 +18,6 @@ import com.webapp.a4_order_station_driver.models.OrderStation;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 
-import butterknife.OnClick;
-
 public class NewOrderDialog extends DialogFragment {
 
     private DialogNewOrderBinding binding;

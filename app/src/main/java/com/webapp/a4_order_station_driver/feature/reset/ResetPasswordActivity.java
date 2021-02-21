@@ -1,14 +1,11 @@
 package com.webapp.a4_order_station_driver.feature.reset;
 
 import android.os.Bundle;
-import android.view.View;
 import android.view.WindowManager;
-
-import androidx.fragment.app.FragmentManager;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.ActivityResetPasswordBinding;
-import com.webapp.a4_order_station_driver.feature.home.MainActivity;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
 import com.webapp.a4_order_station_driver.feature.reset.one.ResetStep1;
 import com.webapp.a4_order_station_driver.feature.reset.three.ResetStep3;

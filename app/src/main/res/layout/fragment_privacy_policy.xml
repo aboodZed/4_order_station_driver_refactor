@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/black"
     android:orientation="vertical"
-    tools:context=".feature.home.NotificationFragment">
+    tools:context=".feature.main.natification.NotificationFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

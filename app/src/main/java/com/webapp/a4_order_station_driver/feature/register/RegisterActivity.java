@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,7 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.ActivityRegisterBinding;
-import com.webapp.a4_order_station_driver.feature.home.MainActivity;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
 import com.webapp.a4_order_station_driver.feature.register.one.RegisterStep_1;
 import com.webapp.a4_order_station_driver.feature.register.two.RegisterStep_2;

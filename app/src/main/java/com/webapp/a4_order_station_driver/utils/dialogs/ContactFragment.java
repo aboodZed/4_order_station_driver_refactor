@@ -23,7 +23,7 @@ import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.NavigateUtils;
 import com.webapp.a4_order_station_driver.utils.ToolUtils;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
-import com.webapp.a4_order_station_driver.utils.location.PermissionUtil;
+import com.webapp.a4_order_station_driver.utils.PermissionUtil;
 
 import static com.webapp.a4_order_station_driver.utils.AppContent.PHONE_CALL_CODE;
 

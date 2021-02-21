@@ -3,7 +3,7 @@ package com.webapp.a4_order_station_driver.feature.splash;
 import android.app.Activity;
 import android.util.Log;
 
-import com.webapp.a4_order_station_driver.feature.home.MainActivity;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
 import com.webapp.a4_order_station_driver.models.Login;
 import com.webapp.a4_order_station_driver.models.User;

@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.webapp.a4_order_station_driver.R;
+import com.webapp.a4_order_station_driver.utils.PermissionUtil;
 import com.webapp.a4_order_station_driver.utils.ToolUtils;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -20,7 +21,6 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
-
 
 public class LocationManager {
 

@@ -33,7 +33,7 @@ public interface AppContent {
     String TO_STORE_STATUS = "in_the_way_to_store";
     String TO_CLIENT_STATUS = "in_the_way_to_client";
     String ON_DELIVERY_STATUS = "on_delivery";
-    String DELIVERY_STATUS = "delivered";
+    String DELIVERED_STATUS = "delivered";
     String CANCELLED_STATUS = "cancelled";
     String CANCEL_STATUS = "cancel";
     String READY_STATUS = "ready";
@@ -48,10 +48,15 @@ public interface AppContent {
     //API
     //order type
     String TYPE_ORDER_PUBLIC = "public";
+    String TYPE_ORDER_4STATION = "4station";
 
     //FIREBASE
     String FIREBASE_MESSAGE = "message";
+    String FIREBASE_TYPE = "type";
+    String FIREBASE_MSG = "msg";
+    String FIREBASE_STATUS = "status";
     String FIREBASE_CHAT_INSTANCE = "Chat";
     String FIREBASE_PUBLIC_STORE_CHAT_INSTANCE = "PublicStoreChat";
+
 }
 

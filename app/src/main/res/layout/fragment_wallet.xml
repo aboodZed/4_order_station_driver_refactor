@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:paddingStart="@dimen/medium_padding"
     android:paddingEnd="@dimen/medium_padding"
-    tools:context=".feature.home.WalletFragment">
+    tools:context=".feature.main.wallets.WalletFragment">
 
     <TextView
         android:layout_width="wrap_content"

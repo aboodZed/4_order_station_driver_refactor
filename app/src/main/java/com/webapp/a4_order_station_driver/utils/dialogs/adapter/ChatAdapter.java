@@ -3,16 +3,13 @@ package com.webapp.a4_order_station_driver.utils.dialogs.adapter;
 import android.app.Activity;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.webapp.a4_order_station_driver.R;
+import com.webapp.a4_order_station_driver.databinding.ItemChatLeftBinding;
+import com.webapp.a4_order_station_driver.databinding.ItemChatRightBinding;
 import com.webapp.a4_order_station_driver.models.ChatMessage;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.ToolUtils;
@@ -20,9 +17,6 @@ import com.webapp.a4_order_station_driver.utils.ToolUtils;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -50,11 +44,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == 1) {
-            return new DriverHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_chat_right, parent, false));
+            return new DriverHolder(ItemChatRightBinding.inflate(LayoutInflater
+                    .from(parent.getContext()), parent, false));
         } else {
-            return new ReceiverHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_chat_left, parent, false));
+            return new ReceiverHolder(ItemChatLeftBinding.inflate(LayoutInflater
+                    .from(parent.getContext()), parent, false));
         }
     }
 
@@ -79,55 +73,43 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public class DriverHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.tv_message_text)
-        TextView tvMessageText;
-        @BindView(R.id.tv_message_time)
-        TextView tvMessageTime;
-        @BindView(R.id.pb_wait_avater)
-        ProgressBar pbWaitAvater;
-        @BindView(R.id.iv_user_image)
-        ImageView ivUserImage;
+        private ItemChatRightBinding binding;
 
-        public DriverHolder(@NonNull View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        public DriverHolder(ItemChatRightBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
         private void setData(ChatMessage data) {
-            tvMessageText.setText(data.getText());
+            binding.tvMessageText.setText(data.getText());
             try {
-                tvMessageTime.setText(dateFormat.format(data.getTime()));
+                binding.tvMessageTime.setText(dateFormat.format(data.getTime()));
             } catch (Exception e) {
                 Log.e("error", "" + e.getMessage());
             }
-            ToolUtils.loadImage(activity, pbWaitAvater, data.getSender_avatar_url(), ivUserImage);
+            ToolUtils.loadImage(activity, binding.pbWaitAvater
+                    , data.getSender_avatar_url(), binding.ivUserImage);
         }
     }
 
     public class ReceiverHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.pb_wait_avater)
-        ProgressBar pbWaitAvater;
-        @BindView(R.id.iv_user_image)
-        ImageView ivUserImage;
-        @BindView(R.id.tv_message_text)
-        TextView tvMessageText;
-        @BindView(R.id.tv_message_time)
-        TextView tvMessageTime;
+        private ItemChatLeftBinding binding;
 
-        public ReceiverHolder(@NonNull View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        public ReceiverHolder(ItemChatLeftBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
         private void setData(ChatMessage data) {
-            tvMessageText.setText(data.getText());
+            binding.tvMessageText.setText(data.getText());
             try {
-                tvMessageTime.setText(dateFormat.format(data.getTime()));
+                binding.tvMessageTime.setText(dateFormat.format(data.getTime()));
             } catch (Exception e) {
                 Log.e("error", "" + e.getMessage());
             }
-            ToolUtils.loadImage(activity, pbWaitAvater, data.getSender_avatar_url(), ivUserImage);
+            ToolUtils.loadImage(activity, binding.pbWaitAvater
+                    , data.getSender_avatar_url(), binding.ivUserImage);
         }
     }
 }

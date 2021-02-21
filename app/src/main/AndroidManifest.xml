@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.webapp.a4_order_station_driver">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -13,7 +14,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
-        android:name="com.webapp.a4_order_station_driver.utils.AppController"
+        android:name=".utils.AppController"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,10 +22,10 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
+        <activity android:name=".feature.order.OrderActivity"></activity>
 
-        <service android:name=".services.GenerateFCMService" />
-
-        <service android:name=".services.MyFirebaseMessagingService">
+        <service android:name=".services.firebase.GenerateFCMService" />
+        <service android:name=".services.firebase.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -34,21 +35,21 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.webapp.a4_order_station_driver.provider"
             android:exported="false"
-            android:grantUriPermissions="true" >
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name="com.webapp.a4_order_station_driver.feature.reset.ResetPasswordActivity" />
+        <activity android:name=".feature.reset.ResetPasswordActivity" />
         <activity
-            android:name="com.webapp.a4_order_station_driver.feature.register.RegisterActivity"
+            android:name=".feature.register.RegisterActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.webapp.a4_order_station_driver.feature.login.LoginActivity"
+            android:name=".feature.login.LoginActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.webapp.a4_order_station_driver.feature.splash.SplashActivity"
+            android:name=".feature.splash.SplashActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -57,10 +58,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.webapp.a4_order_station_driver.feature.home.MainActivity"
-            android:theme="@style/AppTheme" >
+            android:name=".feature.main.MainActivity"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="com.webapp.a4_order_station_driver.feture.home.MainActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

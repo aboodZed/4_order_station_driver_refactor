@@ -344,16 +344,16 @@ public class OrderStation implements Serializable {
         this.payment_type = payment_type;
     }
 
-    public String getDestination_lat() {
-        return destination_lat;
+    public double getDestination_lat() {
+        return Double.parseDouble(destination_lat);
     }
 
     public void setDestination_lat(String destination_lat) {
         this.destination_lat = destination_lat;
     }
 
-    public String getDestination_lng() {
-        return destination_lng;
+    public double getDestination_lng() {
+        return Double.parseDouble(destination_lng);
     }
 
     public void setDestination_lng(String destination_lng) {

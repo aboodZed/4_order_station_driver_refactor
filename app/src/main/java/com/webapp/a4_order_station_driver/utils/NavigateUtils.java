@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.webapp.a4_order_station_driver.R;
-import com.webapp.a4_order_station_driver.feature.home.MainActivity;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 
 public class NavigateUtils {
 
@@ -24,7 +24,8 @@ public class NavigateUtils {
 
     public void activityIntent(Context from, Class to, boolean back) {
         Intent intent = new Intent(from, to);
-        if (!back) intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        if (!back) intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         from.startActivity(intent);
     }
 
@@ -39,7 +40,8 @@ public class NavigateUtils {
     public void activityIntentWithPage(Context from, Class to, boolean back, int pageNum) {
         Intent intent = new Intent(from, to);
         intent.putExtra(AppContent.PAGE, pageNum);
-        if (!back) intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        if (!back) intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         from.startActivity(intent);
     }
 

@@ -14,8 +14,10 @@ import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentCountryBinding;
 import com.webapp.a4_order_station_driver.models.Arrays;
 import com.webapp.a4_order_station_driver.models.Country;
+import com.webapp.a4_order_station_driver.utils.APIUtils;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 import java.util.ArrayList;
 
@@ -57,26 +59,28 @@ public class CountryFragment extends DialogFragment {
     }
 
     private void data() {
-        WaitDialogFragment.newInstance().show(getFragmentManager(), "");
-        AppController.getInstance().getApi().getCountries()
-                .enqueue(new Callback<Arrays>() {
-                    @Override
-                    public void onResponse(Call<Arrays> call, Response<Arrays> response) {
-                        if (response.isSuccessful()) {
-                            countries = response.body().getCountries();
-                            setData();
-                        } else {
-                            ToolUtils.showError(getActivity(), response.errorBody());
-                        }
-                        WaitDialogFragment.newInstance().dismiss();
-                    }
+        WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
+        new APIUtils<Arrays>(getActivity()).getData(AppController.getInstance()
+                .getApi().getCountries(), new RequestListener<Arrays>() {
+            @Override
+            public void onSuccess(Arrays arrays, String msg) {
+                WaitDialogFragment.newInstance().dismiss();
+                countries = arrays.getCountries();
+                setData();
+            }
 
-                    @Override
-                    public void onFailure(Call<Arrays> call, Throwable t) {
-                        ToolUtils.showLongToast(t.getLocalizedMessage(), getActivity());
-                        WaitDialogFragment.newInstance().dismiss();
-                    }
-                });
+            @Override
+            public void onError(String msg) {
+                WaitDialogFragment.newInstance().dismiss();
+                ToolUtils.showLongToast(msg, getActivity());
+            }
+
+            @Override
+            public void onFail(String msg) {
+                WaitDialogFragment.newInstance().dismiss();
+                ToolUtils.showLongToast(msg, getActivity());
+            }
+        });
     }
 
     private void setData() {

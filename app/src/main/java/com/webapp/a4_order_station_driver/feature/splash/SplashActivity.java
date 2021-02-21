@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.webapp.a4_order_station_driver.databinding.ActivitySplachBinding;
-import com.webapp.a4_order_station_driver.feature.home.MainActivity;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
 import com.webapp.a4_order_station_driver.utils.NavigateUtils;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
