@@ -12,38 +12,24 @@ import com.webapp.a4_order_station_driver.databinding.ActivityMainBinding;
 import com.webapp.a4_order_station_driver.feature.main.editProfile.EditProfileFragment;
 import com.webapp.a4_order_station_driver.feature.main.hame.HomeFragment;
 import com.webapp.a4_order_station_driver.feature.main.natification.NotificationFragment;
-import com.webapp.a4_order_station_driver.feature.main.newOrders.NewOrderFragment;
-import com.webapp.a4_order_station_driver.feature.main.newOrders.NewPublicOrderFragment;
 import com.webapp.a4_order_station_driver.feature.main.orders.OrdersFragment;
+import com.webapp.a4_order_station_driver.feature.main.orders.publicO.OrderPublicFragment;
+import com.webapp.a4_order_station_driver.feature.main.orders.station.OrderStationFragment;
 import com.webapp.a4_order_station_driver.feature.main.profile.ProfileFragment;
 import com.webapp.a4_order_station_driver.feature.main.rate.RatingFragment;
-import com.webapp.a4_order_station_driver.feature.main.viewOrders.OrderViewFragment;
+import com.webapp.a4_order_station_driver.feature.main.wallets.OrderStationWalletFragment;
+import com.webapp.a4_order_station_driver.feature.main.wallets.PublicWalletFragment;
 import com.webapp.a4_order_station_driver.feature.main.wallets.WalletFragment;
-import com.webapp.a4_order_station_driver.models.Login;
-import com.webapp.a4_order_station_driver.models.Message;
-import com.webapp.a4_order_station_driver.models.OrderStation;
-import com.webapp.a4_order_station_driver.models.PublicArrays;
-import com.webapp.a4_order_station_driver.models.PublicOrder;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
+import com.webapp.a4_order_station_driver.feature.order.newPublicOrder.NewPublicOrderFragment;
+import com.webapp.a4_order_station_driver.feature.order.orderStationView.OrderStationViewFragment;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.NavigateUtils;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
-import com.webapp.a4_order_station_driver.utils.dialogs.ChatFragment;
-import com.webapp.a4_order_station_driver.utils.dialogs.NewOrderDialog;
+import com.webapp.a4_order_station_driver.utils.NavigateUtil;
+import com.webapp.a4_order_station_driver.utils.dialogs.NewOrderStationDialog;
 import com.webapp.a4_order_station_driver.utils.dialogs.NewPublicOrderDialog;
-import com.webapp.a4_order_station_driver.utils.dialogs.PublicChatFragment;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
-import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
-import com.webapp.a4_order_station_driver.utils.location.GPSTracking;
-import com.webapp.a4_order_station_driver.utils.view.Tracking;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-public class MainActivity extends BaseActivity implements
-        Tracking, OrderViewFragment.Listener, NewOrderFragment.Listener
-        , NewPublicOrderFragment.Listener {
+public class MainActivity extends BaseActivity {
 
     public static final int page = 200;
 
@@ -56,16 +42,15 @@ public class MainActivity extends BaseActivity implements
     private NotificationFragment notificationFragment;
     private OrdersFragment ordersFragment;
     private RatingFragment ratingFragment;
-    private NewOrderFragment newOrderFragment;
-    private OrderViewFragment orderViewFragment;
     private WalletFragment walletFragment;
     private ProfileFragment profileFragment;
     private EditProfileFragment editProfileFragment;
-    private NewPublicOrderFragment newPublicOrderFragment;
 
+    /*private static OrderStation orderStation;
+    private static PublicOrder publicOrder;*/
 
-    private static OrderStation order;
-    private static PublicOrder publicOrder;
+    private MainPresenter presenter;
+
     public static boolean isLoadingNewOrder;
 
     @Override
@@ -73,8 +58,9 @@ public class MainActivity extends BaseActivity implements
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         super.setRootView(binding.getRoot());
         super.onCreate(savedInstanceState);
-        click();
+        presenter = new MainPresenter(this);
         data();
+        click();
     }
 
     private void click() {
@@ -89,29 +75,29 @@ public class MainActivity extends BaseActivity implements
 
     public void setOnline() {
         if (binding.scAppear.isChecked()) {
-            updateUserStatus(online);
+            presenter.updateState(online, binding);
         } else {
-            updateUserStatus(offline);
+            presenter.updateState(offline, binding);
         }
     }
 
     //functions
     private void data() {
-        //navigation
         if (AppController.getInstance().getAppSettingsPreferences().getLogin().getUser() != null) {
             if (AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getIs_online().equals("1")) {
                 binding.scAppear.setChecked(true);
             }
         }
-        if (AppController.getInstance().getAppSettingsPreferences().getTrackingPublicOrder() != null)
-            publicOrder = AppController.getInstance().getAppSettingsPreferences().getTrackingPublicOrder();
+        /*if (AppController.getInstance().getAppSettingsPreferences().getTrackingOrder() != null)
+            publicOrder = AppController.getInstance().getAppSettingsPreferences().getTrackingOrder();
         if (AppController.getInstance().getAppSettingsPreferences().getTrackingOrder() != null)
-            order = AppController.getInstance().getAppSettingsPreferences().getTrackingOrder();
-
+            orderStation = AppController.getInstance().getAppSettingsPreferences().getTrackingOrder();
+*/
         //dialog
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            try {
+            navigate(bundle.getInt(AppContent.PAGE));
+           /* try {
                 int id;
                 String type;
                 String jSON = (String) bundle.get("message");
@@ -155,7 +141,7 @@ public class MainActivity extends BaseActivity implements
                             String s = getIntent().getExtras().getString("status");
                             navigate(OrdersFragment.page);
                             if (s.equals("new_message")) {
-                                PublicChatFragment publicChatFragment = PublicChatFragment
+                                /*PublicOrderViewFragment publicChatFragment = PublicOrderViewFragment
                                         .newInstance(publicOrder, this, this);
                                 publicChatFragment.show(getSupportFragmentManager(), "");
                             }
@@ -163,7 +149,7 @@ public class MainActivity extends BaseActivity implements
                             String s = getIntent().getExtras().getString("status");
                             navigate(OrdersFragment.page);
                             if (s.equals("new_message")) {
-                                ChatFragment chatFragment = ChatFragment.newInstance(order);
+                                ChatFragment chatFragment = ChatFragment.newInstance(orderStation);
                                 chatFragment.show(getSupportFragmentManager(), "");
                             }
                         } else if (type.contains("wallet")) {
@@ -177,7 +163,7 @@ public class MainActivity extends BaseActivity implements
                 e.printStackTrace();
                 isLoadingNewOrder = false;
                 navigate(HomeFragment.page);
-            }
+            }*/
         } else {
             navigate(HomeFragment.page);
         }
@@ -199,161 +185,95 @@ public class MainActivity extends BaseActivity implements
         switch (page) {
             case HomeFragment.page://1
                 homeFragment = HomeFragment.newInstance();
-                new NavigateUtils().replaceFragment(getSupportFragmentManager()
+                new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , homeFragment, R.id.fragment_container);
                 binding.ivIcHome.setBackgroundResource(R.drawable.ic_home_blue);
                 binding.tvTextHome.setTextColor(getResources().getColor(R.color.colorPrimary));
                 break;
             case WalletFragment.page://2
                 walletFragment = WalletFragment.newInstance();
-                new NavigateUtils().replaceFragment(getSupportFragmentManager()
+                new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , walletFragment, R.id.fragment_container);
                 binding.ivIcWallet.setBackgroundResource(R.drawable.ic_wallet_blue);
                 binding.tvTextWallet.setTextColor(getResources().getColor(R.color.colorPrimary));
                 break;
             case OrdersFragment.page://3
-                ordersFragment = OrdersFragment.newInstance(this, this);
-                new NavigateUtils().replaceFragment(getSupportFragmentManager()
+                ordersFragment = OrdersFragment.newInstance(this);
+                new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , ordersFragment, R.id.fragment_container);
                 binding.ivIcOrders.setBackgroundResource(R.drawable.ic_orders_blue);
                 binding.tvTextOrders.setTextColor(getResources().getColor(R.color.colorPrimary));
                 break;
             case ProfileFragment.page://4
                 profileFragment = ProfileFragment.newInstance(this);
-                new NavigateUtils().replaceFragment(getSupportFragmentManager()
+                new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , profileFragment, R.id.fragment_container);
                 binding.ivIcProfile.setBackgroundResource(R.drawable.ic_profile_blue);
                 binding.tvTextProfile.setTextColor(getResources().getColor(R.color.colorPrimary));
                 break;
             case RatingFragment.page://5
                 ratingFragment = RatingFragment.newInstance();
-                new NavigateUtils().replaceFragment(getSupportFragmentManager()
+                new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , ratingFragment, R.id.fragment_container);
                 binding.ivIcRating.setBackgroundResource(R.drawable.ic_rating_blue);
                 binding.tvTextRating.setTextColor(getResources().getColor(R.color.colorPrimary));
                 break;
-            case 6://6
-                newOrderFragment = NewOrderFragment.newInstance(this, this);
+            /*case 6://6
+                newOrderFragment = NewOrderStationFragment.newInstance(this, this);
                 newOrderFragment.setListener(this);
-                new NavigateUtils().replaceFragment(getSupportFragmentManager()
+                new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , newOrderFragment, R.id.fragment_container);
                 break;
             case 7://7
-                orderViewFragment = OrderViewFragment.newInstance(this, this);
+                orderViewFragment = OrderStationViewFragment.newInstance(this, this);
                 orderViewFragment.setListener(this);
-                new NavigateUtils().replaceFragment(getSupportFragmentManager()
+                new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , orderViewFragment, R.id.fragment_container);
-                break;
+                break;*/
             case NotificationFragment.page://8
-                notificationFragment = NotificationFragment.newInstance(this, this);
-                new NavigateUtils().replaceFragment(getSupportFragmentManager()
+                notificationFragment = NotificationFragment.newInstance(this);
+                new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , notificationFragment, R.id.fragment_container);
                 break;
             case EditProfileFragment.page://9
                 editProfileFragment = EditProfileFragment.newInstance();
-                new NavigateUtils().replaceFragment(getSupportFragmentManager()
+                new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , editProfileFragment, R.id.fragment_container);
                 break;
-            case 10://10
+           /* case 10://10
                 newPublicOrderFragment = NewPublicOrderFragment.newInstance(this, this);
                 newPublicOrderFragment.setListener(this);
-                new NavigateUtils().replaceFragment(getSupportFragmentManager()
+                new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , newPublicOrderFragment, R.id.fragment_container);
-                break;
+                break;*/
         }
-    }
-
-    private void updateUserStatus(String status) {
-        new APIUtils<Message>(this).getData(AppController.getInstance()
-                .getApi().isOnline(status), new RequestListener<Message>() {
-            @Override
-            public void onSuccess(Message message, String msg) {
-                Login login = AppController.getInstance().getAppSettingsPreferences().getLogin();
-                login.getUser().setIs_online(status);
-                AppController.getInstance().getAppSettingsPreferences().setLogin(login);
-                ToolUtils.showLongToast(message.getMassage(), MainActivity.this);
-            }
-
-            @Override
-            public void onError(String msg) {
-                ToolUtils.showLongToast(msg, MainActivity.this);
-                if (status.equals(online)) {
-                    binding.scAppear.setChecked(false);
-                } else {
-                    binding.scAppear.setChecked(true);
-                }
-            }
-
-            @Override
-            public void onFail(String msg) {
-                ToolUtils.showLongToast(msg, MainActivity.this);
-                if (status.equals(online)) {
-                    binding.scAppear.setChecked(false);
-                } else {
-                    binding.scAppear.setChecked(true);
-                }
-            }
-        });
     }
 
     private void createNewOrder(int id, String type) {
         isLoadingNewOrder = true;
         if (type != null)
             if (type.equals(AppContent.TYPE_ORDER_4STATION)) {
-                new APIUtils<OrderStation>(this).getData(AppController.getInstance()
-                        .getApi().getOrderById(id), new RequestListener<OrderStation>() {
-                    @Override
-                    public void onSuccess(OrderStation orderStation, String msg) {
-                        NewOrderDialog dialog = NewOrderDialog.newInstance(orderStation);
-                        dialog.show(getSupportFragmentManager(), "");
-                        dialog.setListener(order -> {
-                            setId(order);
-                            navigate(6);
-                            dialog.dismiss();
-                            isLoadingNewOrder = false;
-                        });
-                    }
-
-                    @Override
-                    public void onError(String msg) {
-                        ToolUtils.showLongToast(msg, MainActivity.this);
-                        isLoadingNewOrder = false;
-                    }
-
-                    @Override
-                    public void onFail(String msg) {
-                        ToolUtils.showLongToast(msg, MainActivity.this);
-                        isLoadingNewOrder = false;
-                    }
-                });
-
+                NewOrderStationDialog dialog = NewOrderStationDialog.newInstance(id);
+                /*@Override
+                public void viewNewOrder(OrderStation order) {
+                        setId(order);
+                navigate(6);
+                dialog.dismiss();
+                    isLoadingNewOrder = false;
+                }*/
+                dialog.setListener(() -> isLoadingNewOrder = false);
+                dialog.show(getSupportFragmentManager(), "");
             } else {
-                new APIUtils<PublicArrays>(this).getData(AppController.getInstance()
-                        .getApi().getPublicOrder(id), new RequestListener<PublicArrays>() {
-                    @Override
-                    public void onSuccess(PublicArrays publicArrays, String msg) {
-                        NewPublicOrderDialog dialog = NewPublicOrderDialog.newInstance(publicArrays.getPublicOrder());
-                        dialog.show(getSupportFragmentManager(), "");
-                        dialog.setListener(publicOrder -> {
-                            setPublicOrder(publicOrder);
-                            navigate(10);
-                            dialog.dismiss();
-                            isLoadingNewOrder = false;
-                        });
-                    }
-
-                    @Override
-                    public void onError(String msg) {
-                        ToolUtils.showLongToast(msg, MainActivity.this);
-                        isLoadingNewOrder = false;
-                    }
-
-                    @Override
-                    public void onFail(String msg) {
-                        ToolUtils.showLongToast(msg, MainActivity.this);
-                        isLoadingNewOrder = false;
-                    }
-                });
+                NewPublicOrderDialog dialog = NewPublicOrderDialog.newInstance(id);
+                dialog.show(getSupportFragmentManager(), "");
+                /*@Override
+                public void viewNewOrder(PublicOrder publicOrder) {
+                    setPublicOrder(publicOrder);
+                    navigate(10);
+                    dialog.dismiss();
+                    isLoadingNewOrder = false;
+                }*/
+                dialog.setListener(() -> isLoadingNewOrder = false);
             }
     }
 
@@ -367,14 +287,14 @@ public class MainActivity extends BaseActivity implements
                 instanceof EditProfileFragment) {
             navigate(ProfileFragment.page);
         } else if (fragmentManager.findFragmentById(R.id.fragment_container)
-                instanceof OrderViewFragment) {
-            OrdersFragment.viewPagerPage = 0;
-            WalletFragment.viewPagerPage = 0;
+                instanceof OrderStationViewFragment) {
+            OrdersFragment.viewPagerPage = OrderStationFragment.viewPagerPage;
+            WalletFragment.viewPagerPage = OrderStationWalletFragment.viewPagerPage;
             navigate(OrdersFragment.page);
         } else if (fragmentManager.findFragmentById(R.id.fragment_container)
                 instanceof NewPublicOrderFragment) {
-            OrdersFragment.viewPagerPage = 1;
-            WalletFragment.viewPagerPage = 1;
+            OrdersFragment.viewPagerPage = OrderPublicFragment.viewPagerPage;
+            WalletFragment.viewPagerPage = PublicWalletFragment.viewPagerPage;
             navigate(OrdersFragment.page);
         } else {
             navigate(HomeFragment.page);
@@ -391,48 +311,52 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    public static void setId(OrderStation o) {
-        order = o;
+   /* public static void setId(OrderStation o) {
+        orderStation = o;
         publicOrder = null;
         isLoadingNewOrder = false;
     }
 
     public static void setPublicOrder(PublicOrder o) {
-        order = null;
+        orderStation = null;
         publicOrder = o;
         isLoadingNewOrder = false;
     }
 
     @Override
     public void setDataInOrderView() {
-        orderViewFragment.setData(order);
+        orderViewFragment.setData(orderStation);
     }
 
     @Override
     public void setDataInNewOrder() {
-        newOrderFragment.setData(order);
+        newOrderFragment.setData(orderStation);
     }
 
     @Override
     public void setDataInNewPublicOrder() {
-        newPublicOrderFragment.setData(publicOrder);
-    }
+        newPublicOrderFragment.data(publicOrder);
+    }*/
 
-    @Override
+   /* @Override
     public void startGPSTracking() {
         if (publicOrder == null) {
-            GPSTracking.getInstance(this, order).startGPSTracking();
+            new OrderGPSTracking(this, orderStation).startGPSTracking();
+            //GPSTracking.getInstance(this, order).startGPSTracking();
         } else {
-            GPSTracking.getInstance(this, publicOrder).startGPSTracking();
+            new OrderGPSTracking(this, publicOrder).startGPSTracking();
+            //GPSTracking.getInstance(this, publicOrder).startGPSTracking();
         }
     }
 
     @Override
     public void endGPSTracking() {
         if (publicOrder == null) {
-            GPSTracking.getInstance(this, order).removeUpdates();
+            //GPSTracking.getInstance(this, orderStation).removeUpdates();
+            new OrderGPSTracking(this, orderStation).removeUpdates();
         } else {
-            GPSTracking.getInstance(this, publicOrder).removeUpdates();
+            new OrderGPSTracking(this, publicOrder).removeUpdates();
+            //GPSTracking.getInstance(this, publicOrder).removeUpdates();
         }
-    }
+    }*/
 }

@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.webapp.a4_order_station_driver.databinding.FragmentRatingBinding;
 import com.webapp.a4_order_station_driver.feature.main.adapter.ReviewsAdapter;
-import com.webapp.a4_order_station_driver.models.Arrays;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
+import com.webapp.a4_order_station_driver.models.RatingObject;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 public class RatingFragment extends Fragment {
@@ -52,28 +52,28 @@ public class RatingFragment extends Fragment {
     //functions
     private void getRatings(String url) {
         binding.avi.setVisibility(View.VISIBLE);
-        new APIUtils<Arrays>(getActivity()).getData(AppController.getInstance()
-                .getApi().getRating(url), new RequestListener<Arrays>() {
+        new APIUtil<RatingObject>(getActivity()).getData(AppController.getInstance()
+                .getApi().getRating(url), new RequestListener<RatingObject>() {
             @Override
-            public void onSuccess(Arrays arrays, String msg) {
+            public void onSuccess(RatingObject ratings, String msg) {
                 loadingMoreItems = false;
                 binding.avi.setVisibility(View.GONE);
-                next_page_url = arrays.getRatings().getNext_page_url();
-                reviewsAdapter.addAll(arrays.getRatings().getData());
+                next_page_url = ratings.getRatings().getNext_page_url();
+                reviewsAdapter.addAll(ratings.getRatings().getData());
             }
 
             @Override
             public void onError(String msg) {
                 loadingMoreItems = false;
                 binding.avi.setVisibility(View.GONE);
-                ToolUtils.showLongToast(msg, getActivity());
+                ToolUtil.showLongToast(msg, getActivity());
             }
 
             @Override
             public void onFail(String msg) {
                 loadingMoreItems = false;
                 binding.avi.setVisibility(View.GONE);
-                ToolUtils.showLongToast(msg, getActivity());
+                ToolUtil.showLongToast(msg, getActivity());
             }
         });
     }

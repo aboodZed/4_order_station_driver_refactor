@@ -13,15 +13,17 @@ import com.webapp.a4_order_station_driver.databinding.FragmentOrderStationWallet
 import com.webapp.a4_order_station_driver.feature.main.adapter.WalletAdapter;
 import com.webapp.a4_order_station_driver.models.Ongoing;
 import com.webapp.a4_order_station_driver.models.StationWallet;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.formatter.DecimalFormatterManager;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 import java.util.ArrayList;
 
 public class OrderStationWalletFragment extends Fragment {
+
+    public static final int viewPagerPage = 0;
 
     private FragmentOrderStationWalletBinding binding;
 
@@ -43,7 +45,7 @@ public class OrderStationWalletFragment extends Fragment {
     }
 
     private void getData() {
-        new APIUtils<StationWallet>(getActivity()).getData(AppController.getInstance()
+        new APIUtil<StationWallet>(getActivity()).getData(AppController.getInstance()
                 .getApi().getWalletDetails(), new RequestListener<StationWallet>() {
             @Override
             public void onSuccess(StationWallet stationWallet, String msg) {
@@ -54,13 +56,13 @@ public class OrderStationWalletFragment extends Fragment {
             @Override
             public void onError(String msg) {
                 binding.avi.setVisibility(View.GONE);
-                ToolUtils.showLongToast(msg, getActivity());
+                ToolUtil.showLongToast(msg, getActivity());
             }
 
             @Override
             public void onFail(String msg) {
                 binding.avi.setVisibility(View.GONE);
-                ToolUtils.showLongToast(msg, getActivity());
+                ToolUtil.showLongToast(msg, getActivity());
             }
         });
     }

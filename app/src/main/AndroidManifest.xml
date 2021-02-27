@@ -22,7 +22,6 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
-        <activity android:name=".feature.order.OrderActivity"></activity>
 
         <service android:name=".services.firebase.GenerateFCMService" />
         <service android:name=".services.firebase.MyFirebaseMessagingService">
@@ -40,6 +39,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <activity android:name=".feature.order.OrderActivity" />
 
         <activity android:name=".feature.reset.ResetPasswordActivity" />
         <activity

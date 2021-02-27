@@ -2,7 +2,6 @@ package com.webapp.a4_order_station_driver.utils;
 
 public interface AppContent {
     String APP_NAME = "4 OrderStation Station";
-    String INPUT_ORDER = "inputOrder";
     String INPUT_SETTINGS = "setting";
     String CODE_DETAILS = "codeDetails";
     String BASE_URL = "https://control.4orderstation.net/api/v2/";
@@ -11,6 +10,7 @@ public interface AppContent {
     //navigation
     String PAGE = "page";
     String ORDER_Id = "order_id";
+    String ORDER_OBJECT = "order_object";
 
     //request from camera or gallery for register
     int REQUEST_PERMISSIONS_R_W_STORAGE_CAMERA = 1000;
@@ -29,6 +29,7 @@ public interface AppContent {
     int REQUEST_STUDIO = 1013;
     int REQUEST_IMAGE_YOUR_LICENSE_UPLOAD = 1014;
     int REQUEST_IMAGE_YOUR_LICENSE_CAMERA = 1015;
+
     //public order status
     String TO_STORE_STATUS = "in_the_way_to_store";
     String TO_CLIENT_STATUS = "in_the_way_to_client";
@@ -57,6 +58,8 @@ public interface AppContent {
     String FIREBASE_STATUS = "status";
     String FIREBASE_CHAT_INSTANCE = "Chat";
     String FIREBASE_PUBLIC_STORE_CHAT_INSTANCE = "PublicStoreChat";
-
+    //TRACKING
+    String PUBLIC_TRACKING_INSTANCE = "PublicTracking";
+    String TRACKING_INSTANCE = "Tracking";
 }
 

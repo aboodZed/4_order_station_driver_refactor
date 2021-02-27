@@ -14,17 +14,17 @@ import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.main.editProfile.EditProfileFragment;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.User;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.NavigateUtils;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.NavigateUtil;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.ContactFragment;
 import com.webapp.a4_order_station_driver.utils.dialogs.LanguageDialog;
 import com.webapp.a4_order_station_driver.utils.dialogs.PrivacyPolicyFragment;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
-import com.webapp.a4_order_station_driver.utils.location.GPSTracking;
+import com.webapp.a4_order_station_driver.utils.location.tracking.GPSTracking;
 
 public class ProfileFragment extends Fragment {
 
@@ -86,25 +86,25 @@ public class ProfileFragment extends Fragment {
 
     public void logout() {
         WaitDialogFragment.newInstance().show(getFragmentManager(), "");
-        new APIUtils<Message>(getActivity()).getData(AppController.getInstance()
+        new APIUtil<Message>(getActivity()).getData(AppController.getInstance()
                 .getApi().isOnline(MainActivity.offline), new RequestListener<Message>() {
             @Override
             public void onSuccess(Message message, String msg) {
                 AppController.getInstance().getAppSettingsPreferences().setIsLogin(false);
                 GPSTracking.getInstance(getContext()).removeMyUpdates();
-                new NavigateUtils().activityIntent(getActivity(), LoginActivity.class, false);
+                new NavigateUtil().activityIntent(getActivity(), LoginActivity.class, false);
                 WaitDialogFragment.newInstance().dismiss();
             }
 
             @Override
             public void onError(String msg) {
-                ToolUtils.showLongToast(msg, getActivity());
+                ToolUtil.showLongToast(msg, getActivity());
                 WaitDialogFragment.newInstance().dismiss();
             }
 
             @Override
             public void onFail(String msg) {
-                ToolUtils.showLongToast(msg, getActivity());
+                ToolUtil.showLongToast(msg, getActivity());
                 WaitDialogFragment.newInstance().dismiss();
             }
         });
@@ -114,7 +114,7 @@ public class ProfileFragment extends Fragment {
     private void data() {
         User user = AppController.getInstance().getAppSettingsPreferences().getLogin().getUser();
         Log.e("usercountryid", user.getCountry_id() + "");
-        ToolUtils.loadImage(getContext(), binding.pbWait, user.getAvatar_url(), binding.ivDriverAvatar);
+        ToolUtil.loadImage(getContext(), binding.pbWait, user.getAvatar_url(), binding.ivDriverAvatar);
         binding.tvDriverName.setText(user.getName());
         binding.rbUser.setRating(user.getRate());
     }

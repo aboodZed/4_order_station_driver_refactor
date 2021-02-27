@@ -12,18 +12,14 @@ import androidx.fragment.app.DialogFragment;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentCountryBinding;
-import com.webapp.a4_order_station_driver.models.Arrays;
+import com.webapp.a4_order_station_driver.models.CountryList;
 import com.webapp.a4_order_station_driver.models.Country;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class CountryFragment extends DialogFragment {
 
@@ -60,25 +56,25 @@ public class CountryFragment extends DialogFragment {
 
     private void data() {
         WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
-        new APIUtils<Arrays>(getActivity()).getData(AppController.getInstance()
-                .getApi().getCountries(), new RequestListener<Arrays>() {
+        new APIUtil<CountryList>(getActivity()).getData(AppController.getInstance()
+                .getApi().getCountries(), new RequestListener<CountryList>() {
             @Override
-            public void onSuccess(Arrays arrays, String msg) {
+            public void onSuccess(CountryList countries, String msg) {
                 WaitDialogFragment.newInstance().dismiss();
-                countries = arrays.getCountries();
+                CountryFragment.this.countries = countries.getCountries();
                 setData();
             }
 
             @Override
             public void onError(String msg) {
                 WaitDialogFragment.newInstance().dismiss();
-                ToolUtils.showLongToast(msg, getActivity());
+                ToolUtil.showLongToast(msg, getActivity());
             }
 
             @Override
             public void onFail(String msg) {
                 WaitDialogFragment.newInstance().dismiss();
-                ToolUtils.showLongToast(msg, getActivity());
+                ToolUtil.showLongToast(msg, getActivity());
             }
         });
     }

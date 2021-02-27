@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.location.GPSTracking;
+import com.webapp.a4_order_station_driver.utils.location.tracking.GPSTracking;
 
 import java.io.IOException;
 

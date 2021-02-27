@@ -8,9 +8,9 @@ import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentEditProfileBinding;
 import com.webapp.a4_order_station_driver.models.Login;
 import com.webapp.a4_order_station_driver.models.User;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
@@ -48,12 +48,12 @@ class EditProfilePresenter {
             return;
         }
         User user = new User(
-                ToolUtils.bitmapToBase64(ToolUtils.getBitmapFromImageView(binding.ivDriverAvatar)),
-                ToolUtils.bitmapToBase64(ToolUtils.getBitmapFromImageView(binding.ivInsuranceLicense)),
-                ToolUtils.bitmapToBase64(ToolUtils.getBitmapFromImageView(binding.ivYourLicense)),
-                ToolUtils.bitmapToBase64(ToolUtils.getBitmapFromImageView(binding.ivVehicleLicense)),
-                ToolUtils.bitmapToBase64(ToolUtils.getBitmapFromImageView(binding.ivIdPic)),
-                ToolUtils.bitmapToBase64(ToolUtils.getBitmapFromImageView(binding.ivYourVehicle)),
+                ToolUtil.bitmapToBase64(ToolUtil.getBitmapFromImageView(binding.ivDriverAvatar)),
+                ToolUtil.bitmapToBase64(ToolUtil.getBitmapFromImageView(binding.ivInsuranceLicense)),
+                ToolUtil.bitmapToBase64(ToolUtil.getBitmapFromImageView(binding.ivYourLicense)),
+                ToolUtil.bitmapToBase64(ToolUtil.getBitmapFromImageView(binding.ivVehicleLicense)),
+                ToolUtil.bitmapToBase64(ToolUtil.getBitmapFromImageView(binding.ivIdPic)),
+                ToolUtil.bitmapToBase64(ToolUtil.getBitmapFromImageView(binding.ivYourVehicle)),
                 AppController.getInstance().getAppSettingsPreferences().getPassword(),
                 AppController.getInstance().getAppSettingsPreferences().getPassword(),
                 mobile, email, address);
@@ -61,7 +61,7 @@ class EditProfilePresenter {
     }
 
     private void upload(User user) {
-        new APIUtils<User>(activity)
+        new APIUtil<User>(activity)
                 .getData(AppController.getInstance().getApi().updateProfile(user),
                         new RequestListener<User>() {
                             @Override
@@ -74,14 +74,14 @@ class EditProfilePresenter {
 
                             @Override
                             public void onError(String msg) {
-                                ToolUtils.showLongToast(msg, activity);
+                                ToolUtil.showLongToast(msg, activity);
                                 WaitDialogFragment.newInstance().dismiss();
                             }
 
                             @Override
                             public void onFail(String msg) {
                                 WaitDialogFragment.newInstance().dismiss();
-                                ToolUtils.showLongToast(msg, activity);
+                                ToolUtil.showLongToast(msg, activity);
                             }
                         });
     }

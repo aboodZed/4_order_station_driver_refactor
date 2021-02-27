@@ -17,7 +17,7 @@ import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentRegisterStep2Binding;
 import com.webapp.a4_order_station_driver.models.User;
 import com.webapp.a4_order_station_driver.utils.AppContent;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
@@ -77,7 +77,7 @@ public class RegisterStep_2 extends Fragment implements DialogView<User> {
     }
 
     void setIvVehicleUpload() {
-        if (ToolUtils.checkTheInternet()) {
+        if (ToolUtil.checkTheInternet()) {
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, AppContent.REQUEST_IMAGE_VEHICLE_UPLOAD);
@@ -85,7 +85,7 @@ public class RegisterStep_2 extends Fragment implements DialogView<User> {
     }
 
     void setIvVehicleLicenseUpload() {
-        if (ToolUtils.checkTheInternet()) {
+        if (ToolUtil.checkTheInternet()) {
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_UPLOAD);
@@ -93,7 +93,7 @@ public class RegisterStep_2 extends Fragment implements DialogView<User> {
     }
 
     void setIvVehicleInsuranceUpload() {
-        if (ToolUtils.checkTheInternet()) {
+        if (ToolUtil.checkTheInternet()) {
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_UPLOAD);
@@ -101,7 +101,7 @@ public class RegisterStep_2 extends Fragment implements DialogView<User> {
     }
 
     void setIvIdentityUpload() {
-        if (ToolUtils.checkTheInternet()) {
+        if (ToolUtil.checkTheInternet()) {
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, AppContent.REQUEST_IMAGE_IDENTITY_UPLOAD);
@@ -109,7 +109,7 @@ public class RegisterStep_2 extends Fragment implements DialogView<User> {
     }
 
     void setIvYourLicenseUpload() {
-        if (ToolUtils.checkTheInternet()) {
+        if (ToolUtil.checkTheInternet()) {
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, AppContent.REQUEST_IMAGE_YOUR_LICENSE_UPLOAD);
@@ -117,7 +117,7 @@ public class RegisterStep_2 extends Fragment implements DialogView<User> {
     }
 
     void setIvVehicleCamera() {
-        if (ToolUtils.checkTheInternet()) {
+        if (ToolUtil.checkTheInternet()) {
             Intent photoPickerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (photoPickerIntent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
                 getActivity().startActivityForResult(photoPickerIntent, AppContent.REQUEST_IMAGE_VEHICLE_CAMERA);
@@ -126,28 +126,28 @@ public class RegisterStep_2 extends Fragment implements DialogView<User> {
     }
 
     void setIvVehicleLicenseCamera() {
-        if (ToolUtils.checkTheInternet()) {
+        if (ToolUtil.checkTheInternet()) {
             Intent photoPickerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(photoPickerIntent, AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_CAMERA);
         }
     }
 
     void setIvVehicleInsuranceCamera() {
-        if (ToolUtils.checkTheInternet()) {
+        if (ToolUtil.checkTheInternet()) {
             Intent photoPickerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(photoPickerIntent, AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_CAMERA);
         }
     }
 
     void setIvIdentityCamera() {
-        if (ToolUtils.checkTheInternet()) {
+        if (ToolUtil.checkTheInternet()) {
             Intent photoPickerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(photoPickerIntent, AppContent.REQUEST_IMAGE_IDENTITY_CAMERA);
         }
     }
 
     void setIvYourLicenseCamera() {
-        if (ToolUtils.checkTheInternet()) {
+        if (ToolUtil.checkTheInternet()) {
             Intent photoPickerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(photoPickerIntent, AppContent.REQUEST_IMAGE_YOUR_LICENSE_CAMERA);
         }
@@ -162,7 +162,7 @@ public class RegisterStep_2 extends Fragment implements DialogView<User> {
                     //code
                     Uri uri = data.getData();
                     binding.ivVehicle.setImageURI(uri);
-                    images[0] = ToolUtils.bitmapToBase64(ToolUtils.getBitmapFromImageView(binding.ivVehicle));
+                    images[0] = ToolUtil.bitmapToBase64(ToolUtil.getBitmapFromImageView(binding.ivVehicle));
                     saveImage[0] = true;
                     //code
                 } catch (OutOfMemoryError error) {
@@ -174,7 +174,7 @@ public class RegisterStep_2 extends Fragment implements DialogView<User> {
                     //code
                     Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
                     binding.ivVehicle.setImageBitmap(imageBitmap);
-                    images[0] = ToolUtils.bitmapToBase64(imageBitmap);
+                    images[0] = ToolUtil.bitmapToBase64(imageBitmap);
                     saveImage[0] = true;
                     //code
                 } catch (OutOfMemoryError error) {
@@ -186,7 +186,7 @@ public class RegisterStep_2 extends Fragment implements DialogView<User> {
                     //code
                     Uri uri = data.getData();
                     binding.ivVehicleLicense.setImageURI(uri);
-                    images[1] = ToolUtils.bitmapToBase64(ToolUtils.getBitmapFromImageView(binding.ivVehicleLicense));
+                    images[1] = ToolUtil.bitmapToBase64(ToolUtil.getBitmapFromImageView(binding.ivVehicleLicense));
                     saveImage[1] = true;
                     //code
                 } catch (OutOfMemoryError error) {
@@ -198,7 +198,7 @@ public class RegisterStep_2 extends Fragment implements DialogView<User> {
                     //code
                     Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
                     binding.ivVehicleLicense.setImageBitmap(imageBitmap);
-                    images[1] = ToolUtils.bitmapToBase64(imageBitmap);
+                    images[1] = ToolUtil.bitmapToBase64(imageBitmap);
                     saveImage[1] = true;
 
                     //code
@@ -211,7 +211,7 @@ public class RegisterStep_2 extends Fragment implements DialogView<User> {
                     //code
                     Uri uri = data.getData();
                     binding.ivVehicleInsurance.setImageURI(uri);
-                    images[2] = ToolUtils.bitmapToBase64(ToolUtils.getBitmapFromImageView(binding.ivVehicleInsurance));
+                    images[2] = ToolUtil.bitmapToBase64(ToolUtil.getBitmapFromImageView(binding.ivVehicleInsurance));
                     saveImage[2] = true;
                     //code
                 } catch (OutOfMemoryError error) {
@@ -223,7 +223,7 @@ public class RegisterStep_2 extends Fragment implements DialogView<User> {
                     //code
                     Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
                     binding.ivVehicleInsurance.setImageBitmap(imageBitmap);
-                    images[2] = ToolUtils.bitmapToBase64(imageBitmap);
+                    images[2] = ToolUtil.bitmapToBase64(imageBitmap);
                     saveImage[2] = true;
                     //code
                 } catch (OutOfMemoryError error) {
@@ -235,7 +235,7 @@ public class RegisterStep_2 extends Fragment implements DialogView<User> {
                     //code
                     Uri uri = data.getData();
                     binding.ivIdentity.setImageURI(uri);
-                    images[3] = ToolUtils.bitmapToBase64(ToolUtils.getBitmapFromImageView(binding.ivIdentity));
+                    images[3] = ToolUtil.bitmapToBase64(ToolUtil.getBitmapFromImageView(binding.ivIdentity));
                     saveImage[3] = true;
                     //code
                 } catch (OutOfMemoryError error) {
@@ -247,7 +247,7 @@ public class RegisterStep_2 extends Fragment implements DialogView<User> {
                     //code
                     Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
                     binding.ivIdentity.setImageBitmap(imageBitmap);
-                    images[3] = ToolUtils.bitmapToBase64(imageBitmap);
+                    images[3] = ToolUtil.bitmapToBase64(imageBitmap);
                     saveImage[3] = true;
                     //code
                 } catch (OutOfMemoryError error) {
@@ -259,7 +259,7 @@ public class RegisterStep_2 extends Fragment implements DialogView<User> {
                     //code
                     Uri uri = data.getData();
                     binding.ivYourLicense.setImageURI(uri);
-                    images[4] = ToolUtils.bitmapToBase64(ToolUtils.getBitmapFromImageView(binding.ivYourLicense));
+                    images[4] = ToolUtil.bitmapToBase64(ToolUtil.getBitmapFromImageView(binding.ivYourLicense));
                     saveImage[4] = true;
                     //code
                 } catch (OutOfMemoryError error) {
@@ -271,7 +271,7 @@ public class RegisterStep_2 extends Fragment implements DialogView<User> {
                     //code
                     Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
                     binding.ivYourLicense.setImageBitmap(imageBitmap);
-                    images[4] = ToolUtils.bitmapToBase64(imageBitmap);
+                    images[4] = ToolUtil.bitmapToBase64(imageBitmap);
                     saveImage[4] = true;
                     //code
                 } catch (OutOfMemoryError error) {

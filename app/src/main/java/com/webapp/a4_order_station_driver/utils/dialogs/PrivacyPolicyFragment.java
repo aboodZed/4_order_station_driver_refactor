@@ -15,9 +15,9 @@ import androidx.fragment.app.DialogFragment;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentPrivacyPolicyBinding;
 import com.webapp.a4_order_station_driver.models.Privacy;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 public class PrivacyPolicyFragment extends DialogFragment {
@@ -49,7 +49,7 @@ public class PrivacyPolicyFragment extends DialogFragment {
     }
 
     private void data() {
-        new APIUtils<Privacy>(getActivity()).getData(AppController.getInstance()
+        new APIUtil<Privacy>(getActivity()).getData(AppController.getInstance()
                 .getApi().getPrivacy(), new RequestListener<Privacy>() {
             @Override
             public void onSuccess(Privacy privacy, String msg) {
@@ -65,13 +65,13 @@ public class PrivacyPolicyFragment extends DialogFragment {
 
             @Override
             public void onError(String msg) {
-                ToolUtils.showLongToast(msg, getActivity());
+                ToolUtil.showLongToast(msg, getActivity());
                 binding.pbWait.setVisibility(View.GONE);
             }
 
             @Override
             public void onFail(String msg) {
-                ToolUtils.showLongToast(msg, getActivity());
+                ToolUtil.showLongToast(msg, getActivity());
                 binding.pbWait.setVisibility(View.GONE);
             }
         });

@@ -1,6 +1,6 @@
 package com.webapp.a4_order_station_driver.models;
 
-public class Location {
+public class GPSLocation {
 
     private double lat;
     private double lng;
@@ -23,7 +23,7 @@ public class Location {
 
     @Override
     public String toString() {
-        return "Location{" +
+        return "GPSLocation{" +
                 "Lat='" + lat + '\'' +
                 ", Lng='" + lng + '\'' +
                 '}';

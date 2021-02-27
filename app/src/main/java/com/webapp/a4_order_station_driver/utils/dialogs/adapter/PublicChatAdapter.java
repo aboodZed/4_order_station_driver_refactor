@@ -20,7 +20,7 @@ import com.webapp.a4_order_station_driver.databinding.ItemLeftPublicChatBinding;
 import com.webapp.a4_order_station_driver.databinding.ItemRightPublicChatBinding;
 import com.webapp.a4_order_station_driver.models.PublicChatMessage;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.ImageFragment;
 
 import java.util.ArrayList;
@@ -89,7 +89,7 @@ public class PublicChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         private void setData(PublicChatMessage data) {
             binding.message.setText(data.getText());
-            ToolUtils.loadImage(activity, binding.progressBar, data.getSender_avatar_url(), binding.senderImage);
+            ToolUtil.loadImage(activity, binding.progressBar, data.getSender_avatar_url(), binding.senderImage);
             if (!data.getImageUrl().isEmpty()) {
                 binding.progressBar.setVisibility(View.VISIBLE);
                 Glide.with(activity).load(data.getImageUrl()).listener(new RequestListener<Drawable>() {
@@ -113,11 +113,11 @@ public class PublicChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 binding.message.setVisibility(View.VISIBLE);
                 binding.message.setText(binding.message.getText());
             }
-            binding.time.setText(ToolUtils.getDate(data.getTime()));
+            binding.time.setText(ToolUtil.getDate(data.getTime()));
         }
 
         public void open() {
-            ImageFragment.newInstance(ToolUtils.getBitmapFromImageView(binding.image)).show(fragmentManager, "");
+            ImageFragment.newInstance(ToolUtil.getBitmapFromImageView(binding.image)).show(fragmentManager, "");
         }
     }
 
@@ -140,7 +140,7 @@ public class PublicChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private void setData(PublicChatMessage data) {
             publicChatMessage = data;
             binding.message.setText(data.getText());
-            ToolUtils.loadImage(activity, binding.progressBar, data.getSender_avatar_url(), binding.senderImage);
+            ToolUtil.loadImage(activity, binding.progressBar, data.getSender_avatar_url(), binding.senderImage);
             if (!data.getImageUrl().isEmpty()) {
                 binding.progressBar.setVisibility(View.VISIBLE);
                 Glide.with(activity).load(data.getImageUrl()).listener(new RequestListener<Drawable>() {
@@ -163,11 +163,11 @@ public class PublicChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 binding.message.setVisibility(View.VISIBLE);
                 binding.message.setText(binding.message.getText());
             }
-            binding.time.setText(ToolUtils.getDate(data.getTime()));
+            binding.time.setText(ToolUtil.getDate(data.getTime()));
         }
 
         public void open() {
-            ImageFragment.newInstance(ToolUtils.getBitmapFromImageView(binding.image)).show(fragmentManager, "");
+            ImageFragment.newInstance(ToolUtil.getBitmapFromImageView(binding.image)).show(fragmentManager, "");
         }
     }
 }

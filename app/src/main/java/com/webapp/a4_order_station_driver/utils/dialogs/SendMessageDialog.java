@@ -13,16 +13,12 @@ import androidx.fragment.app.DialogFragment;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentSendMessageBinding;
 import com.webapp.a4_order_station_driver.models.Message;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 import java.util.HashMap;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SendMessageDialog extends DialogFragment {
 
@@ -94,25 +90,25 @@ public class SendMessageDialog extends DialogFragment {
 
     private void send(HashMap<String, String> map) {
         WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
-        new APIUtils<Message>(getActivity()).getData(AppController.getInstance()
+        new APIUtil<Message>(getActivity()).getData(AppController.getInstance()
                 .getApi().sendMessage(map), new RequestListener<Message>() {
             @Override
             public void onSuccess(Message message, String msg) {
-                ToolUtils.showLongToast(message.getMassage(), getActivity());
+                ToolUtil.showLongToast(message.getMassage(), getActivity());
                 WaitDialogFragment.newInstance().dismiss();
                 dismiss();
             }
 
             @Override
             public void onError(String msg) {
-                ToolUtils.showLongToast(msg, getActivity());
+                ToolUtil.showLongToast(msg, getActivity());
                 WaitDialogFragment.newInstance().dismiss();
                 dismiss();
             }
 
             @Override
             public void onFail(String msg) {
-                ToolUtils.showLongToast(msg, getActivity());
+                ToolUtil.showLongToast(msg, getActivity());
                 WaitDialogFragment.newInstance().dismiss();
                 dismiss();
             }

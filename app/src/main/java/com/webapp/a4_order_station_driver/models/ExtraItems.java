@@ -3,7 +3,9 @@ package com.webapp.a4_order_station_driver.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ExtraItems {
+import java.io.Serializable;
+
+public class ExtraItems implements Serializable {
 
     @SerializedName("id")
     @Expose

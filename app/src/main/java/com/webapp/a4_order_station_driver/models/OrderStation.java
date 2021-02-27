@@ -6,11 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class OrderStation implements Serializable {
-
-    @SerializedName("id")
-    @Expose
-    private int id;
+public class OrderStation extends Order implements Serializable {
 
     @SerializedName("invoice_date")
     @Expose
@@ -24,10 +20,6 @@ public class OrderStation implements Serializable {
     @Expose
     private String reference_number;
 
-    @SerializedName("status")
-    @Expose
-    private String status;
-
     @SerializedName("paid_status")
     @Expose
     private String paid_status;
@@ -35,10 +27,6 @@ public class OrderStation implements Serializable {
     @SerializedName("type_of_receive")
     @Expose
     private String type_of_receive;
-
-    @SerializedName("type")
-    @Expose
-    private String type;
 
     @SerializedName("sub_total_1")
     @Expose
@@ -144,14 +132,6 @@ public class OrderStation implements Serializable {
     @Expose
     private ArrayList<OrderItem> order_items;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getInvoice_date() {
         return invoice_date;
     }
@@ -176,14 +156,6 @@ public class OrderStation implements Serializable {
         this.reference_number = reference_number;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String getPaid_status() {
         return paid_status;
     }
@@ -198,14 +170,6 @@ public class OrderStation implements Serializable {
 
     public void setType_of_receive(String type_of_receive) {
         this.type_of_receive = type_of_receive;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getSub_total_1() {
@@ -416,14 +380,11 @@ public class OrderStation implements Serializable {
     @Override
     public String toString() {
         return "OrderStation{" +
-                "id=" + id +
                 ", invoice_date='" + invoice_date + '\'' +
                 ", invoice_number='" + invoice_number + '\'' +
                 ", reference_number='" + reference_number + '\'' +
-                ", status='" + status + '\'' +
                 ", paid_status='" + paid_status + '\'' +
                 ", type_of_receive='" + type_of_receive + '\'' +
-                ", type='" + type + '\'' +
                 ", sub_total_1='" + sub_total_1 + '\'' +
                 ", discount='" + discount + '\'' +
                 ", sub_total_2='" + sub_total_2 + '\'' +

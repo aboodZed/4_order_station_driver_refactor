@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import static com.webapp.a4_order_station_driver.utils.ToolUtils.changeFcm;
+import static com.webapp.a4_order_station_driver.utils.ToolUtil.changeFcm;
 
 public class GenerateFCMService extends Service {
 

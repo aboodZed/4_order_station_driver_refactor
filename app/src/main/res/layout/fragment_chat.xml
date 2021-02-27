@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".utils.dialogs.ChatFragment">
+    tools:context=".feature.order.chat.ChatFragment">
 
-    <RelativeLayout
+   <!-- <RelativeLayout
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,14 +29,15 @@
             android:layout_centerHorizontal="true"
             android:src="@drawable/logo" />
 
-    </RelativeLayout>
-    
+    </RelativeLayout>-->
+
+    <!-- android:layout_below="@id/rl_top" -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_chat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/ll_bottom"
-        android:layout_below="@id/rl_top"
         android:padding="@dimen/medium_padding"/>
     
     <LinearLayout

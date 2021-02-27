@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.webapp.a4_order_station_driver.models.Country;
 import com.webapp.a4_order_station_driver.models.Login;
 import com.google.gson.Gson;
+import com.webapp.a4_order_station_driver.models.Order;
 import com.webapp.a4_order_station_driver.models.OrderStation;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
 
@@ -17,7 +18,7 @@ public class AppSettingsPreferences {
     public final static String KEY_USER_PASSWORD = "password";
     private static final String USER_SIGN = "UserSign";
     private static final String TRACKING_ORDER = "tracking";
-    private static final String PUBLIC_TRACKING_ORDER = "publicTracking";
+    //private static final String PUBLIC_TRACKING_ORDER = "publicTracking";
     private static final String COUNTRY = "country";
     private static final String PAY_TYPE = "pay_type";
 
@@ -87,35 +88,35 @@ public class AppSettingsPreferences {
         return pref.getString(KEY_USER_PASSWORD, "");
     }
 
-    public void setTrackingOrder(OrderStation order) {
+    public void setTrackingOrder(Order order) {
         Gson gson = new Gson();
         String json = gson.toJson(order);
         editor.putString(TRACKING_ORDER, json);
         editor.apply();
     }
 
-    public OrderStation getTrackingOrder() {
+    public Order getTrackingOrder() {
         Gson gson = new Gson();
         String json = pref.getString(TRACKING_ORDER, null);
-        return gson.fromJson(json, OrderStation.class);
+        return gson.fromJson(json, Order.class);
     }
 
-    public void setTrackingPublicOrder(PublicOrder publicOrder) {
+    /*public void setTrackingPublicOrder(PublicOrder publicOrder) {
         Gson gson = new Gson();
         String json = gson.toJson(publicOrder);
         editor.putString(PUBLIC_TRACKING_ORDER, json);
         editor.apply();
-    }
+    }*/
 
-    public PublicOrder getTrackingPublicOrder() {
+    /*public PublicOrder getTrackingPublicOrder() {
         Gson gson = new Gson();
         String json = pref.getString(PUBLIC_TRACKING_ORDER, null);
         return gson.fromJson(json, PublicOrder.class);
-    }
+    }*/
 
     public void removeOrder() {
         editor.remove(TRACKING_ORDER);
-        editor.remove(PUBLIC_TRACKING_ORDER);
+        //editor.remove(PUBLIC_TRACKING_ORDER);
         editor.apply();
     }
 
@@ -132,13 +133,13 @@ public class AppSettingsPreferences {
         return gson.fromJson(json, Country.class);
     }
 
-    public void setPayType(String s){
-        editor.putString(PAY_TYPE,s);
+    public void setPayType(String s) {
+        editor.putString(PAY_TYPE, s);
         editor.apply();
     }
 
-    public String getPayType(){
-        return pref.getString(PAY_TYPE,"");
+    public String getPayType() {
+        return pref.getString(PAY_TYPE, "");
     }
 
     public void clean() {

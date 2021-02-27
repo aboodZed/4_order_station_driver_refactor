@@ -16,12 +16,12 @@ import androidx.fragment.app.DialogFragment;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentContactBinding;
-import com.webapp.a4_order_station_driver.models.Arrays;
-import com.webapp.a4_order_station_driver.models.Settings;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
+import com.webapp.a4_order_station_driver.models.SettingsObject;
+import com.webapp.a4_order_station_driver.models.SettingsData;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.NavigateUtils;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.NavigateUtil;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 import com.webapp.a4_order_station_driver.utils.PermissionUtil;
 
@@ -30,7 +30,7 @@ import static com.webapp.a4_order_station_driver.utils.AppContent.PHONE_CALL_COD
 public class ContactFragment extends DialogFragment {
 
     private FragmentContactBinding binding;
-    private Settings settings;
+    private SettingsData settings;
 
     public static ContactFragment newInstance() {
         ContactFragment fragment = new ContactFragment();
@@ -57,24 +57,24 @@ public class ContactFragment extends DialogFragment {
                 .getAppSettingsPreferences().getCountry().getId();
 
         WaitDialogFragment.newInstance().show(getFragmentManager(), "");
-        new APIUtils<Arrays>(getActivity()).getData(AppController.getInstance().getApi()
-                .getSettings(url), new RequestListener<Arrays>() {
+        new APIUtil<SettingsObject>(getActivity()).getData(AppController.getInstance().getApi()
+                .getSettings(url), new RequestListener<SettingsObject>() {
             @Override
-            public void onSuccess(Arrays arrays, String msg) {
-                settings = arrays.getSettings();
+            public void onSuccess(SettingsObject settings, String msg) {
+                ContactFragment.this.settings = settings.getSettings();
                 setDate();
                 WaitDialogFragment.newInstance().dismiss();
             }
 
             @Override
             public void onError(String msg) {
-                ToolUtils.showLongToast(msg, getActivity());
+                ToolUtil.showLongToast(msg, getActivity());
                 WaitDialogFragment.newInstance().dismiss();
             }
 
             @Override
             public void onFail(String msg) {
-                ToolUtils.showLongToast(msg, getActivity());
+                ToolUtil.showLongToast(msg, getActivity());
                 WaitDialogFragment.newInstance().dismiss();
             }
         });
@@ -125,7 +125,7 @@ public class ContactFragment extends DialogFragment {
 
     void phone() {
         if (PermissionUtil.isPermissionGranted(Manifest.permission.CALL_PHONE, getActivity())) {
-            new NavigateUtils().makeCall(getActivity(), settings.getMobile());
+            new NavigateUtil().makeCall(getActivity(), settings.getMobile());
         } else {
             PermissionUtil.requestPermissionOnFragment(this, Manifest.permission.CALL_PHONE, PHONE_CALL_CODE);
         }
@@ -138,24 +138,24 @@ public class ContactFragment extends DialogFragment {
         }
 
         if ((grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-            new NavigateUtils().makeCall(getActivity(), settings.getMobile());
+            new NavigateUtil().makeCall(getActivity(), settings.getMobile());
         }
     }
 
     void facebook() {
-        new NavigateUtils().openLink(getActivity(), settings.getFacebook_link());
+        new NavigateUtil().openLink(getActivity(), settings.getFacebook_link());
     }
 
     void twitter() {
-        new NavigateUtils().openLink(getActivity(), settings.getTwitter_link());
+        new NavigateUtil().openLink(getActivity(), settings.getTwitter_link());
     }
 
     void instagram() {
-        new NavigateUtils().openLink(getActivity(), settings.getInstagram_link());
+        new NavigateUtil().openLink(getActivity(), settings.getInstagram_link());
     }
 
     void linkedin() {
-        new NavigateUtils().openLink(getActivity(), settings.getLinkedin_link());
+        new NavigateUtil().openLink(getActivity(), settings.getLinkedin_link());
     }
 
     private void setDate() {

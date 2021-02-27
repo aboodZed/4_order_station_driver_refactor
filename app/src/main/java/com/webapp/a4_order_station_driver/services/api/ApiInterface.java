@@ -1,13 +1,19 @@
 package com.webapp.a4_order_station_driver.services.api;
 
-import com.webapp.a4_order_station_driver.models.Arrays;
+import com.webapp.a4_order_station_driver.models.CountryList;
 import com.webapp.a4_order_station_driver.models.Login;
 import com.webapp.a4_order_station_driver.models.Message;
+import com.webapp.a4_order_station_driver.models.NotificationList;
 import com.webapp.a4_order_station_driver.models.OrderStation;
+import com.webapp.a4_order_station_driver.models.OrderStationList;
 import com.webapp.a4_order_station_driver.models.Privacy;
-import com.webapp.a4_order_station_driver.models.PublicArrays;
+import com.webapp.a4_order_station_driver.models.PublicOrderListObject;
+import com.webapp.a4_order_station_driver.models.PublicOrderObject;
 import com.webapp.a4_order_station_driver.models.PublicWallet;
+import com.webapp.a4_order_station_driver.models.RatingObject;
 import com.webapp.a4_order_station_driver.models.ResetCode;
+import com.webapp.a4_order_station_driver.models.SettingsObject;
+import com.webapp.a4_order_station_driver.models.ShopObject;
 import com.webapp.a4_order_station_driver.models.StationWallet;
 import com.webapp.a4_order_station_driver.models.User;
 import com.webapp.a4_order_station_driver.models.VerifyCode;
@@ -56,16 +62,16 @@ public interface ApiInterface {
     Call<StationWallet> getWalletDetails();
 
     @GET("notifications")
-    Call<Arrays> getNotifications();
+    Call<NotificationList> getNotifications();
 
     @GET("delivery/myOrders")
-    Call<Arrays> getOrders();
+    Call<OrderStationList> getOrdersStation();
 
     @GET("delivery/order/{id}")
     Call<OrderStation> getOrderById(@Path("id") int id);
 
     @GET("shop/{id}")
-    Call<Arrays> getShop(@Path("id") int id);
+    Call<ShopObject> getShop(@Path("id") int id);
 
     @POST("delivery/pickupOrder")
     Call<Message> pickupOrder(@Query("order_id") int id);
@@ -74,13 +80,13 @@ public interface ApiInterface {
     Call<Message> deliveryOrder(@Query("order_id") int id);
 
     @GET
-    Call<Arrays> getRating(@Url String url);
+    Call<RatingObject> getRating(@Url String url);
 
     @POST("contact")
     Call<Message> sendMessage(@QueryMap HashMap<String, String> params);
 
     @GET
-    Call<Arrays> getSettings(@Url String url);
+    Call<SettingsObject> getSettings(@Url String url);
 
     @GET("clientPrivacy")
     Call<Privacy> getPrivacy();
@@ -89,10 +95,10 @@ public interface ApiInterface {
     Call<Message> fcmToken(@Query("token") String token);
 
     @GET
-    Call<PublicArrays> getPublicOrders(@Url String url);
+    Call<PublicOrderListObject> getPublicOrders(@Url String url);
 
     @GET("public/order/client/order/{id}")
-    Call<PublicArrays> getPublicOrder(@Path("id") int id);
+    Call<PublicOrderObject> getPublicOrder(@Path("id") int id);
 
     @POST("public/order/driver/pickupOrder")
     Call<Message> pickupPublicOrder(@Query("order_id") int id);
@@ -118,6 +124,6 @@ public interface ApiInterface {
     @POST("delivery/updateDriverLocation")
     Call<Message> updateLocation(@QueryMap HashMap<String, String> params);
 
-    @GET("countries-list")
-    Call<Arrays> getCountries();
+    @GET("CountryList-list")
+    Call<CountryList> getCountries();
 }

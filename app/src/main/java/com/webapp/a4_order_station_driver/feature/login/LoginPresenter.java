@@ -7,9 +7,9 @@ import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.models.Login;
 import com.webapp.a4_order_station_driver.services.firebase.GenerateFCMService;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
@@ -55,7 +55,7 @@ public class LoginPresenter {
 
     private void login(HashMap<String, String> map) {
         dialogView.showDialog("");
-        new APIUtils<Login>(baseActivity).getData(AppController.getInstance().getApi().login(map),
+        new APIUtil<Login>(baseActivity).getData(AppController.getInstance().getApi().login(map),
                 new RequestListener<Login>() {
                     @Override
                     public void onSuccess(Login login, String msg) {
@@ -70,20 +70,20 @@ public class LoginPresenter {
                             //navigation
                             baseActivity.navigate(MainActivity.page);
                         } else {
-                            ToolUtils.showLongToast(login.getMassage(), baseActivity);
+                            ToolUtil.showLongToast(login.getMassage(), baseActivity);
                         }
                     }
 
                     @Override
                     public void onError(String msg) {
                         dialogView.hideDialog();
-                        ToolUtils.showLongToast(msg, baseActivity);
+                        ToolUtil.showLongToast(msg, baseActivity);
                     }
 
                     @Override
                     public void onFail(String msg) {
                         dialogView.hideDialog();
-                        ToolUtils.showLongToast(msg, baseActivity);
+                        ToolUtil.showLongToast(msg, baseActivity);
                     }
                 });
     }

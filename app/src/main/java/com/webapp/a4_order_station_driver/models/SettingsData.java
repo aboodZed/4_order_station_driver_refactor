@@ -5,7 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Settings implements Serializable {
+public class SettingsData implements Serializable {
+
     @SerializedName("facebook_link")
     @Expose
     private String facebook_link;
@@ -94,7 +95,7 @@ public class Settings implements Serializable {
 
     @Override
     public String toString() {
-        return "Settings{" +
+        return "SettingsData{" +
                 "facebook_link='" + facebook_link + '\'' +
                 ", instagram_link='" + instagram_link + '\'' +
                 ", linkedin_link='" + linkedin_link + '\'' +

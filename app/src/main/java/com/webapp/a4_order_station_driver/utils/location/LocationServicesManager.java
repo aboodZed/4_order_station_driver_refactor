@@ -6,7 +6,7 @@ import android.content.IntentSender;
 import android.provider.Settings;
 
 import com.webapp.a4_order_station_driver.R;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
@@ -61,7 +61,7 @@ class LocationServicesManager {
 
     // Get location services the old fashioned way
     protected void openLocationSettings() {
-        ToolUtils.showLongToast(activity.getString(R.string.turn_on_location_services), activity);
+        ToolUtil.showLongToast(activity.getString(R.string.turn_on_location_services), activity);
         activity.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
     }
 }

@@ -14,8 +14,16 @@ import androidx.fragment.app.DialogFragment;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.DialogNewOrderBinding;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity;
+import com.webapp.a4_order_station_driver.feature.order.newPublicOrder.NewPublicOrderFragment;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
+import com.webapp.a4_order_station_driver.models.PublicOrderObject;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
+import com.webapp.a4_order_station_driver.utils.AppController;
+import com.webapp.a4_order_station_driver.utils.NavigateUtil;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
+import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 public class NewPublicOrderDialog extends DialogFragment {
 
@@ -25,9 +33,9 @@ public class NewPublicOrderDialog extends DialogFragment {
     private NewPublicOrderListener listener;
     private PublicOrder publicOrder;
 
-    public static NewPublicOrderDialog newInstance(PublicOrder publicOrder) {
+    public static NewPublicOrderDialog newInstance(int id) {
         Bundle args = new Bundle();
-        args.putSerializable(AppContent.INPUT_ORDER, publicOrder);
+        args.putInt(AppContent.ORDER_Id, id);
         dialog = new NewPublicOrderDialog();
         dialog.setArguments(args);
         return dialog;
@@ -38,13 +46,18 @@ public class NewPublicOrderDialog extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //View view = inflater.inflate(R.layout.dialog_new_order, container, false);
         binding = DialogNewOrderBinding.inflate(getLayoutInflater());
-        data();
+        getData(getArguments().getInt(AppContent.ORDER_Id, -1));
         click();
         return binding.getRoot();
     }
 
     private void click() {
-        binding.btnView.setOnClickListener(view -> listener.viewNewOrder(publicOrder));
+        binding.btnView.setOnClickListener(view -> {
+            new NavigateUtil().openOrder(getContext(), publicOrder
+                    , NewPublicOrderFragment.page, true);
+            listener.allowLoadNewOrder();
+        });
+        //listener.viewNewOrder(publicOrder)
         binding.btnCancel.setOnClickListener(view -> dismiss());
     }
 
@@ -77,17 +90,44 @@ public class NewPublicOrderDialog extends DialogFragment {
         this.listener = listener;
     }
 
-    private void data() {
-        if (getArguments() != null) {
-            publicOrder = (PublicOrder) getArguments().getSerializable(AppContent.INPUT_ORDER);
-            binding.tvFrom.setText(publicOrder.getStore_name());
-            binding.tvTo.setText(publicOrder.getClient().getName());
-            binding.tvPickupLocation.setText(publicOrder.getStore_address());
-            binding.tvDestLocation.setText(publicOrder.getDestination_address());
+    private void getData(int id) {
+        if (id != -1) {
+            new APIUtil<PublicOrderObject>(getActivity()).getData(AppController.getInstance()
+                    .getApi().getPublicOrder(id), new RequestListener<PublicOrderObject>() {
+                @Override
+                public void onSuccess(PublicOrderObject publicOrderObject, String msg) {
+                    NewPublicOrderDialog.this.publicOrder = publicOrderObject.getPublicOrder();
+                    data();
+                }
+
+                @Override
+                public void onError(String msg) {
+                    ToolUtil.showLongToast(msg, getActivity());
+                    listener.allowLoadNewOrder();
+                    dismiss();
+                }
+
+                @Override
+                public void onFail(String msg) {
+                    ToolUtil.showLongToast(msg, getActivity());
+                    listener.allowLoadNewOrder();
+                    dismiss();
+                }
+            });
+        } else {
+            listener.allowLoadNewOrder();
+            dismiss();
         }
     }
 
+    private void data() {
+        binding.tvFrom.setText(publicOrder.getStore_name());
+        binding.tvTo.setText(publicOrder.getClient().getName());
+        binding.tvPickupLocation.setText(publicOrder.getStore_address());
+        binding.tvDestLocation.setText(publicOrder.getDestination_address());
+    }
+
     public interface NewPublicOrderListener {
-        void viewNewOrder(PublicOrder publicOrder);
+        void allowLoadNewOrder();
     }
 }

@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.utils.PermissionUtil;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -140,7 +140,7 @@ public class LocationManager {
     }
 
     public void fetchAutomaticLocation() {
-        //ToolUtils.showLongToast(activity.getString(R.string.location_services_on), activity);
+        //ToolUtil.showLongToast(activity.getString(R.string.location_services_on), activity);
         locationFetched = false;
         try {
             locationChecker.postDelayed(locationCheckTask, MILLISECONDS_BEFORE_FAILURE);
@@ -179,7 +179,7 @@ public class LocationManager {
     }
 
     private void onLocationFetchFail() {
-        ToolUtils.showLongToast(activity.getString(R.string.auto_location_fail), activity);
+        ToolUtil.showLongToast(activity.getString(R.string.auto_location_fail), activity);
     }
 
     public void cleanUp() {

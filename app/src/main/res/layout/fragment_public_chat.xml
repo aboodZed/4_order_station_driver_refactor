@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".utils.dialogs.PublicChatFragment">
+    tools:context=".feature.order.publicOrderView.PublicOrderViewFragment">
 
-    <RelativeLayout
+    <!--<RelativeLayout
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,13 +30,14 @@
             android:layout_centerHorizontal="true"
             android:src="@drawable/logo" />
 
-    </RelativeLayout>
+    </RelativeLayout>-->
+
+    <!--android:layout_below="@id/rl_top"-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_top"
         android:layout_margin="@dimen/small_margin"
         android:background="@drawable/dark_button"
         android:padding="@dimen/small_padding">
@@ -45,7 +46,6 @@
             android:id="@+id/tv_order_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="#1234343"
             android:textColor="@color/white"
             android:textSize="@dimen/medium_text"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -98,7 +98,6 @@
             android:id="@+id/tv_order_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى"
             android:textColor="@color/gray"
             android:textSize="@dimen/small_text"
             app:layout_constraintEnd_toEndOf="parent"

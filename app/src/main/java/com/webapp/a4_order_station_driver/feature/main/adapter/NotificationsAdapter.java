@@ -1,6 +1,5 @@
 package com.webapp.a4_order_station_driver.feature.main.adapter;
 
-import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -10,19 +9,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.ItemNotificationBinding;
-import com.webapp.a4_order_station_driver.feature.main.MainActivity;
+import com.webapp.a4_order_station_driver.feature.order.newOrderStation.NewOrderStationFragment;
+import com.webapp.a4_order_station_driver.feature.order.newPublicOrder.NewPublicOrderFragment;
+import com.webapp.a4_order_station_driver.feature.order.orderStationView.OrderStationViewFragment;
+import com.webapp.a4_order_station_driver.feature.order.publicOrderView.PublicOrderViewFragment;
 import com.webapp.a4_order_station_driver.models.Notification;
 import com.webapp.a4_order_station_driver.models.OrderStation;
-import com.webapp.a4_order_station_driver.models.PublicArrays;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
+import com.webapp.a4_order_station_driver.models.PublicOrderObject;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
-import com.webapp.a4_order_station_driver.utils.dialogs.PublicChatFragment;
+import com.webapp.a4_order_station_driver.utils.NavigateUtil;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
-import com.webapp.a4_order_station_driver.utils.view.Tracking;
 
 import java.util.ArrayList;
 
@@ -30,17 +31,13 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     private ArrayList<Notification> notifications;
     private BaseActivity baseActivity;
-    private Activity activity;
     private FragmentManager fragmentManager;
-    private Tracking tracking;
 
-    public NotificationsAdapter(ArrayList<Notification> notifications, BaseActivity baseActivity,
-                                Activity activity, FragmentManager fragmentManager, Tracking tracking) {
+    public NotificationsAdapter(ArrayList<Notification> notifications
+            , BaseActivity baseActivity, FragmentManager fragmentManager) {
         this.notifications = notifications;
         this.fragmentManager = fragmentManager;
         this.baseActivity = baseActivity;
-        this.activity = activity;
-        this.tracking = tracking;
     }
 
     @NonNull
@@ -53,7 +50,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     @Override
     public void onBindViewHolder(@NonNull NotificationHolder holder, int position) {
-        holder.setData(notifications.get(position), baseActivity, activity, fragmentManager, tracking);
+        holder.setData(notifications.get(position), baseActivity, fragmentManager);
     }
 
     public void addItem(Notification notification) {
@@ -79,9 +76,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         private int id;
         private String type = "";
         private BaseActivity baseActivity;
-        private Activity activity;
         private FragmentManager fragmentManager;
-        private Tracking tracking;
 
         public NotificationHolder(ItemNotificationBinding binding) {
             super(binding.getRoot());
@@ -93,12 +88,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             binding.llNotification.setOnClickListener(view -> openOrder());
         }
 
-        private void setData(Notification data, BaseActivity baseActivity, Activity activity
-                , FragmentManager fragmentManager, Tracking tracking) {
-            this.tracking = tracking;
+        private void setData(Notification data, BaseActivity baseActivity, FragmentManager fragmentManager) {
             this.baseActivity = baseActivity;
             this.fragmentManager = fragmentManager;
-            this.activity = activity;
 
             if (data.getData().getType() != null) {
                 this.type = data.getData().getType();
@@ -110,96 +102,106 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             }
 
             if (id == 0) {
-                binding.tvCoName.setText(activity.getString(R.string.admin_message));
+                binding.tvCoName.setText(baseActivity.getString(R.string.admin_message));
             } else {
                 binding.tvCoName.setText(id + "");
             }
-            binding.tvDatetime.setText(ToolUtils.getTime(data.getCreated_at()) + " "
-                    + ToolUtils.getDate(data.getCreated_at()));
+            binding.tvDatetime.setText((ToolUtil.getTime(data.getCreated_at())
+                    + " " + ToolUtil.getDate(data.getCreated_at())));
             binding.tvMessage.setText(data.getData().getMsg());
         }
 
         public void openOrder() {
             if (id != 0) {
                 if (!type.equals(AppContent.TYPE_ORDER_PUBLIC)) {
-                    WaitDialogFragment.newInstance().show(fragmentManager, "");
-                    new APIUtils<OrderStation>(activity).getData(AppController
-                                    .getInstance().getApi().getOrderById(id)
-                            , new RequestListener<OrderStation>() {
+                    openOrderStation();
+                } else {
+                    openPublicOrder();
+                }
+            }
+        }
+
+        private void openOrderStation() {
+            WaitDialogFragment.newInstance().show(fragmentManager, "");
+            new APIUtil<OrderStation>(baseActivity).getData(AppController
+                            .getInstance().getApi().getOrderById(id)
+                    , new RequestListener<OrderStation>() {
+                        @Override
+                        public void onSuccess(OrderStation orderStation, String msg) {
+                            WaitDialogFragment.newInstance().dismiss();
+                            //MainActivity.setId(orderStation);
+                            if (orderStation.getStatus().equals(AppContent.READY_STATUS)) {
+                                new NavigateUtil().openOrder(baseActivity, orderStation, NewOrderStationFragment.page, true);
+                                //baseActivity.navigate(6);
+                            } else if (orderStation.getDriver_id() != null) {
+                                if (orderStation.getDriver_id().equals(AppController.getInstance()
+                                        .getAppSettingsPreferences().getLogin().getUser().getId() + "")) {
+                                    new NavigateUtil().openOrder(baseActivity, orderStation, OrderStationViewFragment.page, true);
+                                    //baseActivity.navigate(7);
+                                } else {
+                                    ToolUtil.showLongToast(baseActivity.getString(R.string.can_not_open), baseActivity);
+                                }
+                            } else {
+                                ToolUtil.showLongToast(baseActivity.getString(R.string.can_not_open), baseActivity);
+                            }
+                        }
+
+                        @Override
+                        public void onError(String msg) {
+                            ToolUtil.showLongToast(msg, baseActivity);
+                            WaitDialogFragment.newInstance().dismiss();
+                        }
+
+                        @Override
+                        public void onFail(String msg) {
+                            ToolUtil.showLongToast(msg, baseActivity);
+                            WaitDialogFragment.newInstance().dismiss();
+                        }
+                    });
+        }
+
+        private void openPublicOrder() {
+            WaitDialogFragment.newInstance().show(fragmentManager, "");
+
+            new APIUtil<PublicOrderObject>(baseActivity)
+                    .getData(AppController.getInstance().getApi().getPublicOrder(id)
+                            , new RequestListener<PublicOrderObject>() {
                                 @Override
-                                public void onSuccess(OrderStation orderStation, String msg) {
-                                    WaitDialogFragment.newInstance().dismiss();
-                                    MainActivity.setId(orderStation);
-                                    if (orderStation.getStatus().equals(AppContent.READY_STATUS)) {
-                                        baseActivity.navigate(6);
-                                    } else if (orderStation.getDriver_id() != null) {
-                                        if (orderStation.getDriver_id().equals(AppController.getInstance()
-                                                .getAppSettingsPreferences().getLogin().getUser().getId() + "")) {
-                                            baseActivity.navigate(7);
-                                        } else {
-                                            ToolUtils.showLongToast(activity.getString(R.string.can_not_open), activity);
-                                        }
+                                public void onSuccess(PublicOrderObject publicOrderObject, String msg) {
+                                    if (publicOrderObject.getPublicOrder().getStatus().equals(AppContent.PENDING_STATUS)
+                                            || publicOrderObject.getPublicOrder().getDriver_id() == null) {
+
+                                        new NavigateUtil().openOrder(baseActivity, publicOrderObject.getPublicOrder()
+                                                , NewPublicOrderFragment.page, true);
+
+                                                /*MainActivity.setPublicOrder(publicOrderObject.getPublicOrder());
+                                                baseActivity.navigate(10);*/
+
+                                    } else if (publicOrderObject.getPublicOrder().getDriver_id()
+                                            .equals(String.valueOf(AppController.getInstance()
+                                                    .getAppSettingsPreferences().getLogin().getUser().getId()))) {
+
+                                        new NavigateUtil().openOrder(baseActivity, publicOrderObject.getPublicOrder()
+                                                , PublicOrderViewFragment.page, true);
                                     } else {
-                                        ToolUtils.showLongToast(activity.getString(R.string.can_not_open), activity);
+                                        ToolUtil.showLongToast(baseActivity.getString(R.string.can_not_open), baseActivity);
                                     }
+
+                                    WaitDialogFragment.newInstance().dismiss();
                                 }
 
                                 @Override
                                 public void onError(String msg) {
-                                    ToolUtils.showLongToast(msg, activity);
+                                    ToolUtil.showLongToast(msg, baseActivity);
                                     WaitDialogFragment.newInstance().dismiss();
                                 }
 
                                 @Override
                                 public void onFail(String msg) {
-                                    ToolUtils.showLongToast(msg, activity);
+                                    ToolUtil.showLongToast(msg, baseActivity);
                                     WaitDialogFragment.newInstance().dismiss();
                                 }
                             });
-
-                } else {
-                    WaitDialogFragment.newInstance().show(fragmentManager, "");
-
-                    new APIUtils<PublicArrays>(activity)
-                            .getData(AppController.getInstance().getApi().getPublicOrder(id)
-                                    , new RequestListener<PublicArrays>() {
-                                        @Override
-                                        public void onSuccess(PublicArrays publicArrays, String msg) {
-                                            if (publicArrays.getPublicOrder().getStatus().equals(AppContent.PENDING_STATUS)
-                                                    || publicArrays.getPublicOrder().getDriver_id() == null) {
-
-                                                MainActivity.setPublicOrder(publicArrays.getPublicOrder());
-                                                baseActivity.navigate(10);
-
-                                            } else if (publicArrays.getPublicOrder().getDriver_id()
-                                                    .equals(String.valueOf(AppController.getInstance()
-                                                            .getAppSettingsPreferences().getLogin().getUser().getId()))) {
-
-                                                PublicChatFragment publicChatFragment = PublicChatFragment
-                                                        .newInstance(publicArrays.getPublicOrder(), baseActivity, tracking);
-                                                publicChatFragment.show(fragmentManager, "");
-
-                                            } else {
-                                                ToolUtils.showLongToast(activity.getString(R.string.can_not_open), activity);
-                                            }
-
-                                            WaitDialogFragment.newInstance().dismiss();
-                                        }
-
-                                        @Override
-                                        public void onError(String msg) {
-                                            ToolUtils.showLongToast(msg, activity);
-                                            WaitDialogFragment.newInstance().dismiss();
-                                        }
-
-                                        @Override
-                                        public void onFail(String msg) {
-                                            ToolUtils.showLongToast(msg, activity);
-                                            WaitDialogFragment.newInstance().dismiss();
-                                        }
-                                    });
-                }
-            }
         }
     }
 }

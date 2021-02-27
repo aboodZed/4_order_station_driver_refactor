@@ -8,7 +8,7 @@ import com.webapp.a4_order_station_driver.feature.register.RegisterActivity;
 import com.webapp.a4_order_station_driver.feature.reset.ResetPasswordActivity;
 import com.webapp.a4_order_station_driver.models.Login;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.NavigateUtils;
+import com.webapp.a4_order_station_driver.utils.NavigateUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.CountryFragment;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
@@ -81,13 +81,13 @@ public class LoginActivity extends BaseActivity implements DialogView<Login> {
     public void navigate(int page) {
         switch (page) {
             case MainActivity.page:
-                new NavigateUtils().activityIntent(this, MainActivity.class, false);
+                new NavigateUtil().activityIntent(this, MainActivity.class, false);
                 break;
             case RegisterActivity.page:
-                new NavigateUtils().activityIntent(this, RegisterActivity.class, false);
+                new NavigateUtil().activityIntent(this, RegisterActivity.class, false);
                 break;
             case ResetPasswordActivity.page:
-                new NavigateUtils().activityIntent(this, ResetPasswordActivity.class, false);
+                new NavigateUtil().activityIntent(this, ResetPasswordActivity.class, false);
                 break;
         }
     }

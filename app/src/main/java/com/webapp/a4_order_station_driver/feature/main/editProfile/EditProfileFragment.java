@@ -20,7 +20,7 @@ import com.webapp.a4_order_station_driver.models.User;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.PermissionUtil;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.ItemSelectImageDialogFragment;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
@@ -71,12 +71,12 @@ public class EditProfileFragment extends Fragment implements DialogView<User> {
     //functions
     private void data() {
         User user = AppController.getInstance().getAppSettingsPreferences().getLogin().getUser();
-        ToolUtils.loadImage(getContext(), binding.pbWaitAvater, user.getAvatar_url(), binding.ivDriverAvatar);
-        ToolUtils.loadImage(getContext(), binding.pbWaitIdPic, user.getId_pic_url(), binding.ivIdPic);
-        ToolUtils.loadImage(getContext(), binding.pbWaitYourLicense, user.getDrive_license_url(), binding.ivYourLicense);
-        ToolUtils.loadImage(getContext(), binding.pbWaitYourVehicle, user.getVehicle_pic_url(), binding.ivYourVehicle);
-        ToolUtils.loadImage(getContext(), binding.pbWaitVehicleLicense, user.getVehicle_license_url(), binding.ivVehicleLicense);
-        ToolUtils.loadImage(getContext(), binding.pbWaitInsuranceLicense, user.getInsurance_license_url(), binding.ivInsuranceLicense);
+        ToolUtil.loadImage(getContext(), binding.pbWaitAvater, user.getAvatar_url(), binding.ivDriverAvatar);
+        ToolUtil.loadImage(getContext(), binding.pbWaitIdPic, user.getId_pic_url(), binding.ivIdPic);
+        ToolUtil.loadImage(getContext(), binding.pbWaitYourLicense, user.getDrive_license_url(), binding.ivYourLicense);
+        ToolUtil.loadImage(getContext(), binding.pbWaitYourVehicle, user.getVehicle_pic_url(), binding.ivYourVehicle);
+        ToolUtil.loadImage(getContext(), binding.pbWaitVehicleLicense, user.getVehicle_license_url(), binding.ivVehicleLicense);
+        ToolUtil.loadImage(getContext(), binding.pbWaitInsuranceLicense, user.getInsurance_license_url(), binding.ivInsuranceLicense);
         binding.etEnterEmail.setText(user.getEmail());
         binding.etEnterPhone.setText(user.getMobile());
         binding.etEnterAddress.setText(user.getAddress());

@@ -3,17 +3,10 @@ package com.webapp.a4_order_station_driver.utils;
 import android.app.Activity;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 import java.util.HashMap;
-import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class NotificationUtil {
 
@@ -26,7 +19,7 @@ public class NotificationUtil {
         map.put("type", type);
         Log.e(NotificationUtil.class.getName(), "map" + map.toString());
 
-        new APIUtils<Message>(activity).getData(AppController.getInstance().getApi()
+        new APIUtil<Message>(activity).getData(AppController.getInstance().getApi()
                 .sendMessageNotification(map), new RequestListener<Message>() {
             @Override
             public void onSuccess(Message message, String msg) {

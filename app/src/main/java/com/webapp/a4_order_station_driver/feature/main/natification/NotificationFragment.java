@@ -9,25 +9,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentNotificationBinding;
 import com.webapp.a4_order_station_driver.feature.main.adapter.NotificationsAdapter;
-import com.webapp.a4_order_station_driver.models.Arrays;
-import com.webapp.a4_order_station_driver.models.Notification;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
-import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.models.NotificationList;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
-import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
-import com.webapp.a4_order_station_driver.utils.view.Tracking;
+import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 
-import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class NotificationFragment extends Fragment {
+public class NotificationFragment extends Fragment implements DialogView<NotificationList> {
 
     public static final int page = 208;
 
@@ -35,15 +23,13 @@ public class NotificationFragment extends Fragment {
 
     private NotificationsAdapter notificationsAdapter;
     private BaseActivity baseActivity;
-    private Tracking tracking;
 
-    public NotificationFragment(BaseActivity baseActivity, Tracking tracking) {
+    public NotificationFragment(BaseActivity baseActivity) {
         this.baseActivity = baseActivity;
-        this.tracking = tracking;
     }
 
-    public static NotificationFragment newInstance(BaseActivity baseActivity, Tracking tracking) {
-        NotificationFragment fragment = new NotificationFragment(baseActivity, tracking);
+    public static NotificationFragment newInstance(BaseActivity baseActivity) {
+        NotificationFragment fragment = new NotificationFragment(baseActivity);
         return fragment;
     }
 
@@ -57,43 +43,25 @@ public class NotificationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //View v = inflater.inflate(R.layout.fragment_notification, container, false);
         binding = FragmentNotificationBinding.inflate(getLayoutInflater());
+        new NotificationPresenter(baseActivity, this);
         return binding.getRoot();
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        setData();
-    }
-
-    private void setData() {
-        new APIUtils<Arrays>(getActivity()).getData(AppController.getInstance()
-                .getApi().getNotifications(), new RequestListener<Arrays>() {
-            @Override
-            public void onSuccess(Arrays arrays, String msg) {
-                initRecycleView(arrays.getNotifications());
-                binding.avi.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onError(String msg) {
-                ToolUtils.showLongToast(msg, getActivity());
-                binding.avi.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFail(String msg) {
-                ToolUtils.showLongToast(msg, getActivity());
-                binding.avi.setVisibility(View.GONE);
-            }
-        });
-    }
-
-    public void initRecycleView(ArrayList<Notification> notifications) {
-        notificationsAdapter = new NotificationsAdapter(notifications, baseActivity
-                , getActivity(), getChildFragmentManager(), tracking);
+    public void setData(NotificationList notifications) {
+        notificationsAdapter = new NotificationsAdapter(notifications.getNotifications(), baseActivity, getChildFragmentManager());
         binding.rvNotification.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvNotification.setItemAnimator(new DefaultItemAnimator());
         binding.rvNotification.setAdapter(notificationsAdapter);
+    }
+
+    @Override
+    public void showDialog(String s) {
+        binding.avi.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideDialog() {
+        binding.avi.setVisibility(View.GONE);
     }
 }

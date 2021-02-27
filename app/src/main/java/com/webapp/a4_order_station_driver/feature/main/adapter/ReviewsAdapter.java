@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.webapp.a4_order_station_driver.databinding.ItemRatingBinding;
 import com.webapp.a4_order_station_driver.models.RatingData;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 
 import java.util.ArrayList;
 
@@ -61,13 +61,13 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewHo
         }
 
         public void setData(RatingData review) {
-            ToolUtils.loadImage(activity, binding.pbWaitAvater, review.getUser().getAvatar_url(), binding.ivUserImage);
+            ToolUtil.loadImage(activity, binding.pbWaitAvater, review.getUser().getAvatar_url(), binding.ivUserImage);
             binding.tvUserName.setText(review.getUser().getName());
             binding.tvReviewText.setText(review.getReview());
             float rate = Float.parseFloat(review.getRate());
             binding.rbReview.setRating(rate);
-            binding.tvDatetime.setText(ToolUtils.getTime(review.getCreated_timestamp()) + " "
-                    + ToolUtils.getDate(review.getCreated_timestamp()));
+            binding.tvDatetime.setText(ToolUtil.getTime(review.getCreated_timestamp()) + " "
+                    + ToolUtil.getDate(review.getCreated_timestamp()));
         }
     }
 }

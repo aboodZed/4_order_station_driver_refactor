@@ -18,7 +18,7 @@ import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
 import com.webapp.a4_order_station_driver.feature.register.one.RegisterStep_1;
 import com.webapp.a4_order_station_driver.feature.register.two.RegisterStep_2;
 import com.webapp.a4_order_station_driver.utils.AppContent;
-import com.webapp.a4_order_station_driver.utils.NavigateUtils;
+import com.webapp.a4_order_station_driver.utils.NavigateUtil;
 import com.webapp.a4_order_station_driver.utils.PermissionUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 
@@ -80,17 +80,17 @@ public class RegisterActivity extends BaseActivity {
         switch (page) {
             case RegisterStep_1.page:
                 binding.tvPage.setText("1/2");
-                new NavigateUtils().replaceFragment(getSupportFragmentManager(), registerStep1, R.id.fragment_container);
+                new NavigateUtil().replaceFragment(getSupportFragmentManager(), registerStep1, R.id.fragment_container);
                 break;
             case RegisterStep_2.page:
                 binding.tvPage.setText("2/2");
-                new NavigateUtils().replaceFragment(getSupportFragmentManager(), registerStep2, R.id.fragment_container);
+                new NavigateUtil().replaceFragment(getSupportFragmentManager(), registerStep2, R.id.fragment_container);
                 break;
             case MainActivity.page:
-                new NavigateUtils().activityIntent(this, MainActivity.class, false);
+                new NavigateUtil().activityIntent(this, MainActivity.class, false);
                 break;
             case LoginActivity.page:
-                new NavigateUtils().activityIntent(this, LoginActivity.class, false);
+                new NavigateUtil().activityIntent(this, LoginActivity.class, false);
                 break;
         }
     }

@@ -13,8 +13,11 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.gms.maps.model.LatLng;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.feature.main.MainActivity;
+import com.webapp.a4_order_station_driver.feature.main.hame.HomeFragment;
+import com.webapp.a4_order_station_driver.feature.order.OrderActivity;
+import com.webapp.a4_order_station_driver.models.Order;
 
-public class NavigateUtils {
+public class NavigateUtil {
 
     public void replaceFragment(FragmentManager fragmentManager, Fragment fragment, int layout) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -29,14 +32,6 @@ public class NavigateUtils {
         from.startActivity(intent);
     }
 
-    public void openNotification(Context from, String message) {
-        Intent intent = new Intent(from, MainActivity.class);
-        //intent.putExtra(AppContent.PAGE, HomeFragment.page);
-        intent.putExtra(AppContent.FIREBASE_MESSAGE, message);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        from.startActivity(intent);
-    }
-
     public void activityIntentWithPage(Context from, Class to, boolean back, int pageNum) {
         Intent intent = new Intent(from, to);
         intent.putExtra(AppContent.PAGE, pageNum);
@@ -45,18 +40,27 @@ public class NavigateUtils {
         from.startActivity(intent);
     }
 
-    /*public static void openOrder(Context from, long order_id, boolean back) {
+    public void openNotification(Context from, String message) {
+        Intent intent = new Intent(from, MainActivity.class);
+        intent.putExtra(AppContent.PAGE, HomeFragment.page);
+        intent.putExtra(AppContent.FIREBASE_MESSAGE, message);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        from.startActivity(intent);
+    }
+
+    public void openOrder(Context from, Order order, int page, boolean back) {
         Intent intent = new Intent(from, OrderActivity.class);
-        intent.putExtra(AppContent.ORDER_Id, order_id);
+        intent.putExtra(AppContent.PAGE, page);
+        intent.putExtra(AppContent.ORDER_OBJECT, order);
         if (!back) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         }
         from.startActivity(intent);
-    }*/
+    }
 
     public void setLocation(Activity activity, LatLng location) {
         String format = "geo:0,0?q=" + location.latitude
-                + "," + location.longitude + "( Location title)";
+                + "," + location.longitude + "( GPSLocation title)";
         Uri uri = Uri.parse(format);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

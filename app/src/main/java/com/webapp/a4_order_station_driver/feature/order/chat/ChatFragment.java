@@ -1,4 +1,4 @@
-package com.webapp.a4_order_station_driver.utils.dialogs;
+package com.webapp.a4_order_station_driver.feature.order.chat;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -25,12 +26,14 @@ import com.webapp.a4_order_station_driver.models.OrderStation;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.NotificationUtil;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.adapter.ChatAdapter;
 
 import java.util.ArrayList;
 
-public class ChatFragment extends DialogFragment {
+public class ChatFragment extends Fragment {
+
+    public final static int page = 505;
 
     public static boolean isOpenChat;
 
@@ -44,7 +47,7 @@ public class ChatFragment extends DialogFragment {
     public static ChatFragment newInstance(OrderStation order) {
         ChatFragment fragment = new ChatFragment();
         Bundle args = new Bundle();
-        args.putSerializable(AppContent.INPUT_ORDER, order);
+        args.putSerializable(AppContent.ORDER_OBJECT, order);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,9 +55,9 @@ public class ChatFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.dialog);
+        //setStyle(DialogFragment.STYLE_NORMAL, R.style.dialog);
         if (getArguments() != null) {
-            this.order = (OrderStation) getArguments().get(AppContent.INPUT_ORDER);
+            this.order = (OrderStation) getArguments().get(AppContent.ORDER_OBJECT);
         }
     }
 
@@ -68,7 +71,7 @@ public class ChatFragment extends DialogFragment {
         return binding.getRoot();
     }
 
-    @Override
+   /* @Override
     public void onResume() {
         ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -83,7 +86,7 @@ public class ChatFragment extends DialogFragment {
                 return true;
             } else return false;
         });
-    }
+    }*/
 
     @Override
     public void onStart() {
@@ -100,7 +103,7 @@ public class ChatFragment extends DialogFragment {
     //functions
 
     private void click() {
-        binding.ivBack.setOnClickListener(view -> dismiss());
+       // binding.ivBack.setOnClickListener(view -> dismiss());
         binding.ivUploadMessage.setOnClickListener(view -> sendMessage());
     }
 
@@ -151,7 +154,7 @@ public class ChatFragment extends DialogFragment {
 
     //send message
     private void sendMessage() {
-        if (ToolUtils.checkTheInternet()) {
+        if (ToolUtil.checkTheInternet()) {
             if (!binding.etMessage.getText().toString().equals("")) {
                 ChatMessage chatMessage = new ChatMessage();
                 chatMessage.setText(binding.etMessage.getText().toString());
@@ -161,14 +164,14 @@ public class ChatFragment extends DialogFragment {
                 chatMessage.setTime(System.currentTimeMillis() / 1000);
                 String key = db.push().getKey();
                 db.child(order.getId() + "").child(key).setValue(chatMessage);
-                ToolUtils.hideSoftKeyboard(getActivity(), binding.etMessage);
+                ToolUtil.hideSoftKeyboard(getActivity(), binding.etMessage);
                 binding.etMessage.setText("");
                 NotificationUtil.sendMessageNotification(getActivity(), order.getInvoice_number()
                         , order.getId() + "", order.getUser().getId() + ""
-                        , "4station");
+                        , AppContent.TYPE_ORDER_4STATION);
             }
         } else {
-            ToolUtils.showLongToast(getString(R.string.no_connection), getActivity());
+            ToolUtil.showLongToast(getString(R.string.no_connection), getActivity());
         }
     }
 }

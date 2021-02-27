@@ -6,11 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PublicOrder implements Serializable {
-
-    @SerializedName("id")
-    @Expose
-    private int id;
+public class PublicOrder extends Order implements Serializable {
 
     @SerializedName("place_id")
     @Expose
@@ -23,10 +19,6 @@ public class PublicOrder implements Serializable {
     @SerializedName("invoice_number")
     @Expose
     private String invoice_number;
-
-    @SerializedName("status")
-    @Expose
-    private String status;
 
     @SerializedName("purchase_invoice_value")
     @Expose
@@ -136,10 +128,6 @@ public class PublicOrder implements Serializable {
         return client_paid_invoice;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public String getPlace_id() {
         return place_id;
     }
@@ -150,10 +138,6 @@ public class PublicOrder implements Serializable {
 
     public String getInvoice_number() {
         return invoice_number;
-    }
-
-    public String getStatus() {
-        return status;
     }
 
     public String getPurchase_invoice_value() {
@@ -260,11 +244,9 @@ public class PublicOrder implements Serializable {
     @Override
     public String toString() {
         return "PublicOrder{" +
-                "id=" + id +
                 ", place_id='" + place_id + '\'' +
                 ", store_name='" + store_name + '\'' +
                 ", invoice_number='" + invoice_number + '\'' +
-                ", status='" + status + '\'' +
                 ", purchase_invoice_value='" + purchase_invoice_value + '\'' +
                 ", delivery_cost='" + delivery_cost + '\'' +
                 ", tax='" + tax + '\'' +

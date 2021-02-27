@@ -14,12 +14,15 @@ import androidx.fragment.app.DialogFragment;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentCompletePayDialogBinding;
 import com.webapp.a4_order_station_driver.feature.main.orders.OrdersFragment;
+import com.webapp.a4_order_station_driver.feature.main.orders.station.OrderStationFragment;
+import com.webapp.a4_order_station_driver.feature.main.wallets.OrderStationWalletFragment;
 import com.webapp.a4_order_station_driver.feature.main.wallets.WalletFragment;
+import com.webapp.a4_order_station_driver.feature.order.publicOrderView.PublicOrderViewFragment;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.formatter.DecimalFormatterManager;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
@@ -86,27 +89,27 @@ public class CompletePayDialog extends DialogFragment {
     public void delivered() {
             WaitDialogFragment.newInstance().show(getFragmentManager(), "");
 
-            new APIUtils<Message>(getActivity()).getData(AppController.getInstance()
+            new APIUtil<Message>(getActivity()).getData(AppController.getInstance()
                             .getApi().deliveredPublicOrder(publicOrder.getId())
                     , new RequestListener<Message>() {
                         @Override
                         public void onSuccess(Message message, String msg) {
-                            PublicChatFragment.s = 0;
-                            OrdersFragment.viewPagerPage = 0;
-                            WalletFragment.viewPagerPage = 0;
-                            listener.wayToCustomer();
+                            PublicOrderViewFragment.s = 0;
+                            OrdersFragment.viewPagerPage = OrderStationFragment.viewPagerPage;
+                            WalletFragment.viewPagerPage = OrderStationWalletFragment.viewPagerPage;
+                            listener.updatePublicOrder();
                             dismiss();
                         }
 
                         @Override
                         public void onError(String msg) {
-                            ToolUtils.showLongToast(msg, getActivity());
+                            ToolUtil.showLongToast(msg, getActivity());
                             WaitDialogFragment.newInstance().dismiss();
                         }
 
                         @Override
                         public void onFail(String msg) {
-                            ToolUtils.showLongToast(msg, getActivity());
+                            ToolUtil.showLongToast(msg, getActivity());
                             WaitDialogFragment.newInstance().dismiss();
                         }
                     });
@@ -114,7 +117,7 @@ public class CompletePayDialog extends DialogFragment {
 
     private void setData() {
         binding.tvDetials.setText(getString(R.string.price_bill) + " = " + DecimalFormatterManager.getFormatterInstance()
-                .format(PublicChatFragment.s) + " " +
+                .format(PublicOrderViewFragment.s) + " " +
                 AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code()
                 + "\n" + getString(R.string.delivery_price) + " = " + DecimalFormatterManager.getFormatterInstance()
                 .format(Double.parseDouble(publicOrder.getDelivery_cost())) + " " +
@@ -124,7 +127,7 @@ public class CompletePayDialog extends DialogFragment {
                 AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code()
                 + "\n ---------------------\n"
                 + getString(R.string.total) + " = " + DecimalFormatterManager.getFormatterInstance()
-                .format((PublicChatFragment.s) + Double.parseDouble(publicOrder.getDelivery_cost())
+                .format((PublicOrderViewFragment.s) + Double.parseDouble(publicOrder.getDelivery_cost())
                         + Double.parseDouble(publicOrder.getTax())) + " " +
                 AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code());
     }

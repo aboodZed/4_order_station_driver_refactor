@@ -13,7 +13,7 @@ import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentShowLocationBinding;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
 import com.webapp.a4_order_station_driver.utils.AppContent;
-import com.webapp.a4_order_station_driver.utils.NavigateUtils;
+import com.webapp.a4_order_station_driver.utils.NavigateUtil;
 
 public class ShowLocationDialog extends DialogFragment {
 
@@ -24,7 +24,7 @@ public class ShowLocationDialog extends DialogFragment {
     public static ShowLocationDialog newInstance(PublicOrder order) {
         ShowLocationDialog fragment = new ShowLocationDialog();
         Bundle args = new Bundle();
-        args.putSerializable(AppContent.INPUT_ORDER, order);
+        args.putSerializable(AppContent.ORDER_OBJECT, order);
         fragment.setArguments(args);
         return fragment;
     }
@@ -35,7 +35,7 @@ public class ShowLocationDialog extends DialogFragment {
         //View view = inflater.inflate(R.layout.fragment_show_location, container, false);
         binding = FragmentShowLocationBinding.inflate(getLayoutInflater());
         if (getArguments() != null) {
-            order = (PublicOrder) getArguments().getSerializable(AppContent.INPUT_ORDER);
+            order = (PublicOrder) getArguments().getSerializable(AppContent.ORDER_OBJECT);
             binding.tvStoreName.setText(order.getStore_name());
             binding.tvCustomerAddress.setText(order.getDestination_address());
         }
@@ -45,11 +45,11 @@ public class ShowLocationDialog extends DialogFragment {
 
     private void click() {
         binding.clStoreLocation.setOnClickListener(view -> {
-            new NavigateUtils().setLocation(getActivity()
+            new NavigateUtil().setLocation(getActivity()
                     , new LatLng(Double.parseDouble(order.getStore_lat())
                             , Double.parseDouble(order.getStore_lng())));
         });
-        binding.clCustomerLocation.setOnClickListener(view ->new NavigateUtils().setLocation(getActivity()
+        binding.clCustomerLocation.setOnClickListener(view ->new NavigateUtil().setLocation(getActivity()
                 , new LatLng(Double.parseDouble(order.getDestination_lat())
                         , Double.parseDouble(order.getDestination_lng()))));
     }

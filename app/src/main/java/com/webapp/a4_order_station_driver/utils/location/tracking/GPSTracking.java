@@ -1,4 +1,4 @@
-package com.webapp.a4_order_station_driver.utils.location;
+package com.webapp.a4_order_station_driver.utils.location.tracking;
 
 import android.Manifest;
 import android.content.Context;
@@ -14,12 +14,10 @@ import androidx.core.app.ActivityCompat;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.MyLocation;
-import com.webapp.a4_order_station_driver.models.OrderStation;
-import com.webapp.a4_order_station_driver.models.PublicOrder;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
 import com.webapp.a4_order_station_driver.utils.AppController;
 
 import java.util.HashMap;
@@ -31,11 +29,11 @@ import retrofit2.Response;
 public class GPSTracking {
 
     private Context context;
-    private OrderStation order;
-    private PublicOrder publicOrder;
+    //private OrderStation order;
+    //private PublicOrder publicOrder;
     private LocationManager lm;
     private LocationListener locationListener;
-    public static GPSTracking gpsTracking;
+    //public static GPSTracking gpsTracking;
     private static GPSTracking myGpsTracking;
 
     public GPSTracking(Context context) {
@@ -43,7 +41,7 @@ public class GPSTracking {
         this.context = context;
     }
 
-    public GPSTracking(Context context, OrderStation order) {
+    /*public GPSTracking(Context context, OrderStation order) {
         lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         this.context = context;
         this.order = order;
@@ -53,7 +51,7 @@ public class GPSTracking {
         lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         this.context = context;
         this.publicOrder = publicOrder;
-    }
+    }*/
 
     public static GPSTracking getInstance(Context context) {
         if (myGpsTracking == null) {
@@ -62,7 +60,7 @@ public class GPSTracking {
         return myGpsTracking;
     }
 
-    public static GPSTracking getInstance(Context context, OrderStation order) {
+   /* public static GPSTracking getInstance(Context context, OrderStation order) {
         if (gpsTracking == null) {
             gpsTracking = new GPSTracking(context, order);
         }
@@ -74,14 +72,17 @@ public class GPSTracking {
             gpsTracking = new GPSTracking(context, publicOrder);
         }
         return gpsTracking;
-    }
+    }*/
 
     public void startMyGPSTracking() {
         MyLocation myLocation = new MyLocation();
         DatabaseReference db = FirebaseDatabase.getInstance().getReference("delivery_app_tracking")
                 .child(AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getId() + "");
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(context, "Unable to get location.", Toast.LENGTH_SHORT).show();
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(context, R.string.unable_location, Toast.LENGTH_SHORT).show();
             return;
         }
         locationListener = new LocationListener() {
@@ -100,7 +101,7 @@ public class GPSTracking {
                     myLocation.setCountry_id(AppController.getInstance().getAppSettingsPreferences().getCountry().getId());
                     if (AppController.getInstance().getAppSettingsPreferences().getLogin()
                             .getUser().getIs_online().equals(MainActivity.online)) {
-                        if (gpsTracking == null) {
+                        if (AppController.getInstance().getAppSettingsPreferences().getTrackingOrder() == null) {
                             myLocation.setStatus("online");
                         } else {
                             myLocation.setStatus("busy");
@@ -145,11 +146,14 @@ public class GPSTracking {
         };
         lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
     }
-
+/*
     public void startGPSTracking() {
         final DatabaseReference db;
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(context, "Unable to get location.", Toast.LENGTH_SHORT).show();
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(context, R.string.unable_location, Toast.LENGTH_SHORT).show();
             return;
         }
         if (publicOrder != null) {
@@ -157,11 +161,11 @@ public class GPSTracking {
         } else {
             db = FirebaseDatabase.getInstance().getReference("Tracking").child(order.getId() + "");
         }
-        com.webapp.a4_order_station_driver.models.Location userlocation = new com.webapp.a4_order_station_driver.models.Location();
+        com.webapp.a4_order_station_driver.models.GPSLocation userlocation = new com.webapp.a4_order_station_driver.models.GPSLocation();
 
         locationListener = new LocationListener() {
             @Override
-            public void onLocationChanged(Location location) {
+            public void onLocationChanged(GPSLocation location) {
                 // Got last known location. In some rare situations this can be null.
                 if (location != null) {
                     userlocation.setLat(location.getLatitude());
@@ -196,7 +200,7 @@ public class GPSTracking {
             this.lm.removeUpdates(this.locationListener);
         gpsTracking = null;
         AppController.getInstance().getAppSettingsPreferences().removeOrder();
-    }
+    }*/
 
     public void removeMyUpdates() {
         if (this.locationListener != null)

@@ -12,13 +12,16 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentBillDailogBinding;
 import com.webapp.a4_order_station_driver.feature.main.orders.OrdersFragment;
+import com.webapp.a4_order_station_driver.feature.main.orders.station.OrderStationFragment;
+import com.webapp.a4_order_station_driver.feature.main.wallets.OrderStationWalletFragment;
 import com.webapp.a4_order_station_driver.feature.main.wallets.WalletFragment;
+import com.webapp.a4_order_station_driver.feature.order.publicOrderView.PublicOrderViewFragment;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 public class BillDialog extends BottomSheetDialogFragment {
@@ -34,7 +37,7 @@ public class BillDialog extends BottomSheetDialogFragment {
         }
         fragment = new BillDialog();
         Bundle args = new Bundle();
-        args.putSerializable(AppContent.INPUT_ORDER, order);
+        args.putSerializable(AppContent.ORDER_OBJECT, order);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,7 +53,7 @@ public class BillDialog extends BottomSheetDialogFragment {
 
     private void data() {
         if (getArguments() != null) {
-            publicOrder = (PublicOrder) getArguments().get(AppContent.INPUT_ORDER);
+            publicOrder = (PublicOrder) getArguments().get(AppContent.ORDER_OBJECT);
             if (publicOrder.getStatus().equals(AppContent.TO_STORE_STATUS)) {
                 binding.tvDelivery.setVisibility(View.INVISIBLE);
                 binding.scOnWay.setClickable(false);
@@ -97,7 +100,7 @@ public class BillDialog extends BottomSheetDialogFragment {
     }
 
     public void addPrice() {
-        if (PublicChatFragment.s == 0) {
+        if (PublicOrderViewFragment.s == 0) {
             dismiss();
             AddBillDialog addBillDialog = AddBillDialog.newInstance(publicOrder, getString(R.string.enter_bill_price));
             addBillDialog.show(getFragmentManager(), "");
@@ -112,19 +115,19 @@ public class BillDialog extends BottomSheetDialogFragment {
         if (AppController.getInstance().getAppSettingsPreferences()
                 .getPayType().equals(AppContent.ON_DELIVERY_STATUS)) {
             CompletePayDialog.newInstance(publicOrder, listener)
-                    .show(getFragmentManager(), "");
+                    .show(getChildFragmentManager(), "");
         } else {
-            WaitDialogFragment.newInstance().show(getFragmentManager(), "");
-            new APIUtils<Message>(getActivity())
+            WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
+            new APIUtil<Message>(getActivity())
                     .getData(AppController.getInstance().getApi()
                                     .deliveredPublicOrder(publicOrder.getId())
                             , new RequestListener<Message>() {
                                 @Override
                                 public void onSuccess(Message message, String msg) {
-                                    PublicChatFragment.s = 0;
-                                    OrdersFragment.viewPagerPage = 0;
-                                    WalletFragment.viewPagerPage = 0;
-                                    listener.wayToCustomer();
+                                    PublicOrderViewFragment.s = 0;
+                                    OrdersFragment.viewPagerPage = OrderStationFragment.viewPagerPage;
+                                    WalletFragment.viewPagerPage = OrderStationWalletFragment.viewPagerPage;
+                                    listener.updatePublicOrder();
                                 }
 
                                 @Override
@@ -143,13 +146,13 @@ public class BillDialog extends BottomSheetDialogFragment {
 
     public void onWay() {
         if (binding.scOnWay.isChecked()) {
-            WaitDialogFragment.newInstance().show(getFragmentManager(), "");
-            new APIUtils<Message>(getActivity()).getData(AppController.getInstance()
+            WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
+            new APIUtil<Message>(getActivity()).getData(AppController.getInstance()
                             .getApi().changeToONTheWay(publicOrder.getId())
                     , new RequestListener<Message>() {
                         @Override
                         public void onSuccess(Message message, String msg) {
-                            listener.wayToCustomer();
+                            listener.updatePublicOrder();
                         }
 
                         @Override
@@ -171,16 +174,16 @@ public class BillDialog extends BottomSheetDialogFragment {
                 .setMessage(getString(R.string.cancel_massage))
                 .setPositiveButton(R.string.yes, (dialogInterface, i) -> {
                     WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
-                    new APIUtils<Message>(getActivity()).getData(AppController
+                    new APIUtil<Message>(getActivity()).getData(AppController
                                     .getInstance().getApi().cancelOrder(publicOrder.getId())
                             , new RequestListener<Message>() {
                                 @Override
                                 public void onSuccess(Message message, String msg) {
-                                    PublicChatFragment.s = 0;
-                                    OrdersFragment.viewPagerPage = 0;
-                                    WalletFragment.viewPagerPage = 0;
-                                    ToolUtils.showLongToast(message.getMassage(), getActivity());
-                                    listener.wayToCustomer();
+                                    PublicOrderViewFragment.s = 0;
+                                    OrdersFragment.viewPagerPage = OrderStationFragment.viewPagerPage;
+                                    WalletFragment.viewPagerPage = OrderStationWalletFragment.viewPagerPage;
+                                    ToolUtil.showLongToast(message.getMassage(), getActivity());
+                                    listener.updatePublicOrder();
                                 }
 
                                 @Override
@@ -201,7 +204,7 @@ public class BillDialog extends BottomSheetDialogFragment {
     }
 
     private void showError(String msg) {
-        ToolUtils.showLongToast(msg, getActivity());
+        ToolUtil.showLongToast(msg, getActivity());
         WaitDialogFragment.newInstance().dismiss();
     }
 
@@ -210,6 +213,6 @@ public class BillDialog extends BottomSheetDialogFragment {
     }
 
     public interface Listener {
-        void wayToCustomer();
+        void updatePublicOrder();
     }
 }                                                                                                                                     

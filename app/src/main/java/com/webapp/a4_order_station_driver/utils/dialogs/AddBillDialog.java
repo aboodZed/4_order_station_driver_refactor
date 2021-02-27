@@ -11,12 +11,13 @@ import android.view.WindowManager;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentAddBillDialogBinding;
+import com.webapp.a4_order_station_driver.feature.order.publicOrderView.PublicOrderViewFragment;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
@@ -29,7 +30,7 @@ public class AddBillDialog extends BottomSheetDialogFragment implements DialogVi
     public static AddBillDialog newInstance(PublicOrder publicOrder, String s) {
         AddBillDialog fragment = new AddBillDialog();
         Bundle args = new Bundle();
-        args.putSerializable(AppContent.INPUT_ORDER, publicOrder);
+        args.putSerializable(AppContent.ORDER_OBJECT, publicOrder);
         args.putString(ENTER, s);
         fragment.setArguments(args);
         return fragment;
@@ -50,12 +51,12 @@ public class AddBillDialog extends BottomSheetDialogFragment implements DialogVi
 
     private void data() {
         if (getArguments() != null) {
-            publicOrder = (PublicOrder) getArguments().get(AppContent.INPUT_ORDER);
+            publicOrder = (PublicOrder) getArguments().get(AppContent.ORDER_OBJECT);
             String m = getArguments().getString(ENTER);
             binding.tvEnter.setText(m);
             binding.tvMessage.setText(m);
-            if (PublicChatFragment.s != 0 && m.equals(getString(R.string.show_bill))) {
-                binding.etEnterPrice.setText(PublicChatFragment.s + "");
+            if (PublicOrderViewFragment.s != 0 && m.equals(getString(R.string.show_bill))) {
+                binding.etEnterPrice.setText(PublicOrderViewFragment.s + "");
                 binding.etEnterPrice.setFocusable(false);
                 binding.btnSend.setVisibility(View.GONE);
             }
@@ -87,8 +88,8 @@ public class AddBillDialog extends BottomSheetDialogFragment implements DialogVi
 
         double price = Double.parseDouble(binding.etEnterPrice.getText().toString().trim());
 
-        if (PublicChatFragment.s == 0) {
-            PublicChatFragment.s = price;
+        if (PublicOrderViewFragment.s == 0) {
+            PublicOrderViewFragment.s = price;
             dismiss();
             AddBillDialog addBillDialog = AddBillDialog
                     .newInstance(publicOrder, getString(R.string.re_enter_bill_price));
@@ -99,12 +100,12 @@ public class AddBillDialog extends BottomSheetDialogFragment implements DialogVi
     }
 
     private void uploadBill(double price) {
-        if (PublicChatFragment.s != price) {
+        if (PublicOrderViewFragment.s != price) {
             binding.etEnterPrice.setError(getString(R.string.not_match));
             return;
         }
         showDialog("");
-        new APIUtils<Message>(getActivity())
+        new APIUtil<Message>(getActivity())
                 .getData(AppController.getInstance().getApi()
                                 .sendInvoiceValue(publicOrder.getId(), price)
                         , new RequestListener<Message>() {
@@ -115,13 +116,13 @@ public class AddBillDialog extends BottomSheetDialogFragment implements DialogVi
 
                             @Override
                             public void onError(String msg) {
-                                ToolUtils.showLongToast(msg, getActivity());
+                                ToolUtil.showLongToast(msg, getActivity());
                                 hideDialog();
                             }
 
                             @Override
                             public void onFail(String msg) {
-                                ToolUtils.showLongToast(msg, getActivity());
+                                ToolUtil.showLongToast(msg, getActivity());
                                 hideDialog();
                             }
                         });

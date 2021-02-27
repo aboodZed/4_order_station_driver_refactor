@@ -9,9 +9,9 @@ import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.models.Login;
 import com.webapp.a4_order_station_driver.models.User;
 import com.webapp.a4_order_station_driver.services.firebase.GenerateFCMService;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
@@ -32,7 +32,7 @@ public class RegisterStep_2Presenter {
 
         for (int i = 0; i < saveImage.length; i++) {
             if (!saveImage[i]) {
-                ToolUtils.showLongToast(baseActivity.getString(R.string.fill_photos), baseActivity);
+                ToolUtil.showLongToast(baseActivity.getString(R.string.fill_photos), baseActivity);
                 return;
             }
         }
@@ -52,7 +52,7 @@ public class RegisterStep_2Presenter {
 
     public void finishStep_2(User user) {
         dialogView.showDialog("");
-        new APIUtils<User>(baseActivity).getData(AppController.getInstance().getApi().signUp2(user),
+        new APIUtil<User>(baseActivity).getData(AppController.getInstance().getApi().signUp2(user),
                 new RequestListener<User>() {
                     @Override
                     public void onSuccess(User user, String msg) {
@@ -72,13 +72,13 @@ public class RegisterStep_2Presenter {
                     @Override
                     public void onError(String msg) {
                         dialogView.hideDialog();
-                        ToolUtils.showLongToast(msg, baseActivity);
+                        ToolUtil.showLongToast(msg, baseActivity);
                     }
 
                     @Override
                     public void onFail(String msg) {
                         dialogView.hideDialog();
-                        ToolUtils.showLongToast(msg, baseActivity);
+                        ToolUtil.showLongToast(msg, baseActivity);
                     }
                 });
     }

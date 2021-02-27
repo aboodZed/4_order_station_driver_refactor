@@ -10,7 +10,7 @@ import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
 import com.webapp.a4_order_station_driver.feature.reset.one.ResetStep1;
 import com.webapp.a4_order_station_driver.feature.reset.three.ResetStep3;
 import com.webapp.a4_order_station_driver.feature.reset.two.ResetStep2;
-import com.webapp.a4_order_station_driver.utils.NavigateUtils;
+import com.webapp.a4_order_station_driver.utils.NavigateUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 
 public class ResetPasswordActivity extends BaseActivity {
@@ -66,25 +66,25 @@ public class ResetPasswordActivity extends BaseActivity {
         switch (page) {
             case ResetStep1.page:
                 resetStep1 = ResetStep1.newInstance(this);
-                new NavigateUtils().replaceFragment(getSupportFragmentManager()
+                new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , resetStep1, R.id.fragment_container);
                 break;
             case ResetStep2.page:
                 resetStep2 = ResetStep2.newInstance(this);
                 resetStep2.setData(resetStep1.getData());
-                new NavigateUtils().replaceFragment(getSupportFragmentManager()
+                new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , resetStep2, R.id.fragment_container);
                 break;
             case ResetStep3.page:
                 resetStep3 = ResetStep3.newInstance(this);
-                new NavigateUtils().replaceFragment(getSupportFragmentManager()
+                new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , resetStep3, R.id.fragment_container);
                 break;
             case MainActivity.page:
-                new NavigateUtils().activityIntent(this, MainActivity.class, false);
+                new NavigateUtil().activityIntent(this, MainActivity.class, false);
                 break;
             case LoginActivity.page:
-                new NavigateUtils().activityIntent(this, LoginActivity.class, false);
+                new NavigateUtil().activityIntent(this, LoginActivity.class, false);
                 break;
         }
     }

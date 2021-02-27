@@ -16,16 +16,17 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.feature.main.MainActivity;
+import com.webapp.a4_order_station_driver.feature.order.publicOrderView.PublicOrderViewFragment;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.dialogs.ChatFragment;
-import com.webapp.a4_order_station_driver.utils.dialogs.PublicChatFragment;
-import com.webapp.a4_order_station_driver.utils.location.GPSTracking;
+import com.webapp.a4_order_station_driver.feature.order.chat.ChatFragment;
+import com.webapp.a4_order_station_driver.utils.location.tracking.GPSTracking;
+import com.webapp.a4_order_station_driver.utils.location.tracking.OrderGPSTracking;
 
 import org.json.JSONObject;
 
 import java.util.Map;
 
-import static com.webapp.a4_order_station_driver.utils.ToolUtils.changeFcm;
+import static com.webapp.a4_order_station_driver.utils.ToolUtil.changeFcm;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -78,16 +79,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             } else if (body.getString("status") != null) {
                 if (body.getString("status").equals("new_message")
-                        && PublicChatFragment.isOpenPublicChat) {
+                        && PublicOrderViewFragment.isOpenPublicChat) {
 
                 } else if (body.getString("status").equals("new_message")
                         && ChatFragment.isOpenChat) {
 
                 } else if (body.getString("status").equals("cancelled")) {
                     sendNotification(body.getString("msg"), -1, body.getString("type"), "");
-                    if (GPSTracking.gpsTracking != null) {
+                    /*if (GPSTracking.gpsTracking != null) {
                         GPSTracking.gpsTracking.removeUpdates();
-                    }
+                    }*/
+                    new OrderGPSTracking(this,null).removeUpdates();
                     Intent intent = new Intent(this, MainActivity.class);
                     intent.putExtra("order_id", -1);
                     intent.putExtra("type", body.getString("type"));

@@ -1,6 +1,6 @@
 package com.webapp.a4_order_station_driver.models;
 
-public class MyLocation extends Location {
+public class MyLocation extends GPSLocation {
 
     private int driver_id;
     private String status;

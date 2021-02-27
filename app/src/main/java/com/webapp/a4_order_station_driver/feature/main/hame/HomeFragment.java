@@ -18,7 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.webapp.a4_order_station_driver.databinding.FragmentHomeBinding;
 import com.webapp.a4_order_station_driver.feature.main.MainActivity;
-import com.webapp.a4_order_station_driver.utils.location.GPSTracking;
+import com.webapp.a4_order_station_driver.utils.location.tracking.GPSTracking;
 import com.webapp.a4_order_station_driver.utils.location.LocationManager;
 
 import static android.app.Activity.RESULT_OK;

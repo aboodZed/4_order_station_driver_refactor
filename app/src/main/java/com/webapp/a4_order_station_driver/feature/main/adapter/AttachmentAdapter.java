@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.webapp.a4_order_station_driver.databinding.ItemAttachmentBinding;
 import com.webapp.a4_order_station_driver.models.Attachment;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.ImageFragment;
 
 import java.util.ArrayList;
@@ -59,11 +59,11 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
         }
 
         private void setData(Attachment attachment) {
-            ToolUtils.loadImage(activity, binding.pbWaitImage, attachment.getImage_url(), binding.ivImage);
+            ToolUtil.loadImage(activity, binding.pbWaitImage, attachment.getImage_url(), binding.ivImage);
         }
 
         public void openImage() {
-            ImageFragment.newInstance(ToolUtils.getBitmapFromImageView(binding.ivImage))
+            ImageFragment.newInstance(ToolUtil.getBitmapFromImageView(binding.ivImage))
                     .show(fragmentManager, "");
         }
     }

@@ -6,19 +6,14 @@ import android.widget.EditText;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
 import com.webapp.a4_order_station_driver.models.Message;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
-import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 import java.util.HashMap;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ResetStep3Presenter {
 
@@ -63,7 +58,7 @@ public class ResetStep3Presenter {
     private void saveNewPassword(HashMap<String, String> hashMap) {
         dialogView.showDialog("");
 
-        new APIUtils<Message>(baseActivity).getData(AppController.getInstance().getApi()
+        new APIUtil<Message>(baseActivity).getData(AppController.getInstance().getApi()
                 .resetPassword(hashMap), new RequestListener<Message>() {
             @Override
             public void onSuccess(Message message, String msg) {
@@ -75,34 +70,34 @@ public class ResetStep3Presenter {
             @Override
             public void onError(String msg) {
                 dialogView.hideDialog();
-                ToolUtils.showLongToast(msg, baseActivity);
+                ToolUtil.showLongToast(msg, baseActivity);
             }
 
             @Override
             public void onFail(String msg) {
                 dialogView.hideDialog();
-                ToolUtils.showLongToast(msg, baseActivity);
+                ToolUtil.showLongToast(msg, baseActivity);
             }
         });
-        /*if (ToolUtils.checkTheInternet()) {
+        /*if (ToolUtil.checkTheInternet()) {
             WaitDialogFragment.newInstance().show(getFragmentManager(), "");
             AppController.getInstance().getApi().resetPassword(hashMap).enqueue(new Callback<Message>() {
                 @Override
                 public void onResponse(Call<Message> call, Response<Message> response) {
                     WaitDialogFragment.newInstance().dismiss();
                     if (response.isSuccessful()) {
-                        ToolUtils.showLongToast(response.body().getMassage(), getActivity());
+                        ToolUtil.showLongToast(response.body().getMassage(), getActivity());
                         AppController.getInstance().getAppSettingsPreferences().setPassword(hashMap.get("password"));
                         baseActivity.navigate(LoginActivity.page);
                     } else {
-                        ToolUtils.showError(getActivity(), response.errorBody());
+                        ToolUtil.showError(getActivity(), response.errorBody());
                     }
                 }
 
                 @Override
                 public void onFailure(Call<Message> call, Throwable t) {
                     t.printStackTrace();
-                    ToolUtils.showLongToast(getString(R.string.error), getActivity());
+                    ToolUtil.showLongToast(getString(R.string.error), getActivity());
                     WaitDialogFragment.newInstance().dismiss();
                 }
             });

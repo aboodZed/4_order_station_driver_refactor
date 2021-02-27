@@ -142,4 +142,5 @@
     <string name="choose_country">أختر دولتك</string>
     <string name="admin_message">رسالة إدارية</string>
     <string name="re_write_code">الكود المدخل خطأ الرجاء أعد المحاولة</string>
+    <string name="unable_location">Unable to get location.</string>
 </resources>

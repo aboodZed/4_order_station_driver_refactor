@@ -11,9 +11,9 @@ import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.feature.register.two.RegisterStep_2;
 import com.webapp.a4_order_station_driver.models.Login;
 import com.webapp.a4_order_station_driver.models.User;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
@@ -40,7 +40,7 @@ public class RegisterStep_1Presenter {
         String address = etEnterAddress.getText().toString().trim();
         int phone_length = AppController.getInstance().getAppSettingsPreferences().getCountry().getPhone_length();
         if (!saveImage) {
-            ToolUtils.showLongToast(baseActivity.getString(R.string.fill_photos), baseActivity);
+            ToolUtil.showLongToast(baseActivity.getString(R.string.fill_photos), baseActivity);
             return;
         }
         if (TextUtils.isEmpty(name)) {
@@ -92,7 +92,7 @@ public class RegisterStep_1Presenter {
             return;
         }
 
-        User user = new User(name, ToolUtils.bitmapToBase64(ToolUtils.getBitmapFromImageView(ivEnterImage)),
+        User user = new User(name, ToolUtil.bitmapToBase64(ToolUtil.getBitmapFromImageView(ivEnterImage)),
                 AppController.getInstance().getAppSettingsPreferences()
                         .getCountry().getPhone_code() + mobile, email, address,
                 "delivery_driver", password, confirmPassword, AppController.getInstance()
@@ -105,7 +105,7 @@ public class RegisterStep_1Presenter {
     private void onNextStep_1(User user) {
         dialogView.showDialog("");
 
-        new APIUtils<Login>(baseActivity).getData(AppController.getInstance().getApi().SignUp(user)
+        new APIUtil<Login>(baseActivity).getData(AppController.getInstance().getApi().SignUp(user)
                 , new RequestListener<Login>() {
                     @Override
                     public void onSuccess(Login login, String msg) {
@@ -120,13 +120,13 @@ public class RegisterStep_1Presenter {
                     @Override
                     public void onError(String msg) {
                         dialogView.hideDialog();
-                        ToolUtils.showLongToast(msg, baseActivity);
+                        ToolUtil.showLongToast(msg, baseActivity);
                     }
 
                     @Override
                     public void onFail(String msg) {
                         dialogView.hideDialog();
-                        ToolUtils.showLongToast(msg, baseActivity);
+                        ToolUtil.showLongToast(msg, baseActivity);
                     }
                 });
     }

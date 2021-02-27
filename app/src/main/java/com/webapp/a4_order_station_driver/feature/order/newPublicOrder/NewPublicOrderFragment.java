@@ -1,4 +1,4 @@
-package com.webapp.a4_order_station_driver.feature.main.newOrders;
+package com.webapp.a4_order_station_driver.feature.order.newPublicOrder;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,25 +25,23 @@ import com.webapp.a4_order_station_driver.databinding.FragmentNewPublicOrderBind
 import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.main.adapter.AttachmentAdapter;
 import com.webapp.a4_order_station_driver.feature.main.hame.HomeFragment;
-import com.webapp.a4_order_station_driver.feature.main.orders.OrdersFragment;
-import com.webapp.a4_order_station_driver.feature.main.wallets.WalletFragment;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
+import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.formatter.DecimalFormatterManager;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
-import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
+import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.location.LocationManager;
-import com.webapp.a4_order_station_driver.utils.view.Tracking;
 
 import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
 
-public class NewPublicOrderFragment extends Fragment implements OnMapReadyCallback, LocationManager.Listener {
+public class NewPublicOrderFragment extends Fragment implements OnMapReadyCallback, LocationManager.Listener, DialogView<Message> {
+
+    public final static int page = 502;
 
     private FragmentNewPublicOrderBinding binding;
 
@@ -51,21 +49,20 @@ public class NewPublicOrderFragment extends Fragment implements OnMapReadyCallba
     private GoogleMap googleMap;
     private LocationManager locationManager;
     private boolean denialLock;
-    private Listener listener;
     private BaseActivity baseActivity;
     private PublicOrder publicOrder;
-    private Tracking tracking;
     private ArrayList<LatLng> points = new ArrayList<>();
-    PolylineOptions lineOptions = null;
+    private PolylineOptions lineOptions = null;
+    private NewPublicOrderPresenter presenter;
 
-    public NewPublicOrderFragment(BaseActivity baseActivity, Tracking tracking) {
+    public NewPublicOrderFragment(BaseActivity baseActivity) {
         this.baseActivity = baseActivity;
-        this.tracking = tracking;
     }
 
-    public static NewPublicOrderFragment newInstance(BaseActivity baseActivity, Tracking tracking) {
-        NewPublicOrderFragment fragment = new NewPublicOrderFragment(baseActivity, tracking);
+    public static NewPublicOrderFragment newInstance(BaseActivity baseActivity, PublicOrder publicOrder) {
+        NewPublicOrderFragment fragment = new NewPublicOrderFragment(baseActivity);
         Bundle args = new Bundle();
+        args.putSerializable(AppContent.ORDER_OBJECT, publicOrder);
         fragment.setArguments(args);
         return fragment;
     }
@@ -81,46 +78,22 @@ public class NewPublicOrderFragment extends Fragment implements OnMapReadyCallba
         binding = FragmentNewPublicOrderBinding.inflate(getLayoutInflater());
         binding.mapView.onCreate(savedInstanceState);
         binding.mapView.getMapAsync(this);
-
+        //location Manager
         locationManager = new LocationManager(this, getActivity(), this);
+        //presenter
+        presenter = new NewPublicOrderPresenter(baseActivity, this);
         click();
         return binding.getRoot();
     }
 
     private void click() {
         binding.btnAccept.setOnClickListener(view -> accept());
-        binding.btnReject.setOnClickListener(view -> baseActivity.navigate(HomeFragment.page));
+        binding.btnReject.setOnClickListener(view -> baseActivity.onBackPressed());
     }
 
     public void accept() {
         if (active) {
-            WaitDialogFragment.newInstance().show(getFragmentManager(), "");
-            new APIUtils<Message>(getActivity()).getData(AppController.getInstance()
-                    .getApi().pickupPublicOrder(publicOrder.getId()), new RequestListener<Message>() {
-                @Override
-                public void onSuccess(Message message, String msg) {
-                    WaitDialogFragment.newInstance().dismiss();
-                    AppController.getInstance().getAppSettingsPreferences()
-                            .setTrackingPublicOrder(publicOrder);
-                    tracking.startGPSTracking();
-                    ToolUtils.showLongToast(getString(R.string.closeApp), getActivity());
-                    OrdersFragment.viewPagerPage = 1;
-                    WalletFragment.viewPagerPage = 1;
-                    baseActivity.navigate(OrdersFragment.page);
-                }
-
-                @Override
-                public void onError(String msg) {
-                    ToolUtils.showLongToast(msg, getActivity());
-                    WaitDialogFragment.newInstance().dismiss();
-                }
-
-                @Override
-                public void onFail(String msg) {
-                    ToolUtils.showLongToast(msg, getActivity());
-                    WaitDialogFragment.newInstance().dismiss();
-                }
-            });
+            presenter.accept(publicOrder);
         }
     }
 
@@ -175,16 +148,16 @@ public class NewPublicOrderFragment extends Fragment implements OnMapReadyCallba
     public void onLocationFound(double latitude, double longitude) {
         if (!MainActivity.isLoadingNewOrder) {
             //zoomToLocation(new LatLng(latitude, longitude));
-            listener.setDataInNewPublicOrder();
+            //listener.setDataInNewPublicOrder();
         }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
-
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.getUiSettings().setAllGesturesEnabled(true);
+        data();
     }
 
     @Override
@@ -228,27 +201,24 @@ public class NewPublicOrderFragment extends Fragment implements OnMapReadyCallba
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
-    public void setListener(Listener listener) {
-        this.listener = listener;
-    }
-
-    public void setData(PublicOrder publicOrder) {
+    public void data() {
         String currency = AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code();
+        publicOrder = (PublicOrder) requireArguments().getSerializable(AppContent.ORDER_OBJECT);
 
-        this.publicOrder = publicOrder;
+        assert publicOrder != null;
         binding.tvOrderDetails.setText(publicOrder.getNote());
-        binding.tvId.setText(getString(R.string.order) + "#" + publicOrder.getInvoice_number());
+        binding.tvId.setText((getString(R.string.order) + "#" + publicOrder.getInvoice_number()));
         binding.tvStoreName.setText(publicOrder.getStore_name());
-        binding.tvDeliveryPrice.setText(DecimalFormatterManager.getFormatterInstance()
-                .format(Double.parseDouble(publicOrder.getDelivery_cost())) + " " + currency);
-        binding.tvTaxPrice.setText(DecimalFormatterManager.getFormatterInstance()
-                .format(Double.parseDouble(publicOrder.getTax())) + " " + currency);
-        binding.tvOrderDues.setText(DecimalFormatterManager.getFormatterInstance()
-                .format(Double.parseDouble(publicOrder.getTotal())) + " " + currency);
-        binding.tvAppDues.setText(DecimalFormatterManager.getFormatterInstance()
-                .format(Double.parseDouble(publicOrder.getApp_revenue())) + " " + currency);
-        binding.tvDriverDues.setText(DecimalFormatterManager.getFormatterInstance()
-                .format(Double.parseDouble(publicOrder.getDriver_revenue())) + " " + currency);
+        binding.tvDeliveryPrice.setText((DecimalFormatterManager.getFormatterInstance()
+                .format(Double.parseDouble(publicOrder.getDelivery_cost())) + " " + currency));
+        binding.tvTaxPrice.setText((DecimalFormatterManager.getFormatterInstance()
+                .format(Double.parseDouble(publicOrder.getTax())) + " " + currency));
+        binding.tvOrderDues.setText((DecimalFormatterManager.getFormatterInstance()
+                .format(Double.parseDouble(publicOrder.getTotal())) + " " + currency));
+        binding.tvAppDues.setText((DecimalFormatterManager.getFormatterInstance()
+                .format(Double.parseDouble(publicOrder.getApp_revenue())) + " " + currency));
+        binding.tvDriverDues.setText((DecimalFormatterManager.getFormatterInstance()
+                .format(Double.parseDouble(publicOrder.getDriver_revenue())) + " " + currency));
         points.add(new LatLng(Double.parseDouble(this.publicOrder.getStore_lat())
                 , Double.parseDouble(this.publicOrder.getStore_lng())));
         points.add(new LatLng(Double.parseDouble(this.publicOrder.getDestination_lat())
@@ -279,7 +249,17 @@ public class NewPublicOrderFragment extends Fragment implements OnMapReadyCallba
         binding.rvAttachments.setAdapter(adapter);
     }
 
-    public interface Listener {
-        void setDataInNewPublicOrder();
+    @Override
+    public void setData(Message message) {
+    }
+
+    @Override
+    public void showDialog(String s) {
+        WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
+    }
+
+    @Override
+    public void hideDialog() {
+        WaitDialogFragment.newInstance().dismiss();
     }
 }

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class Rating {
+public class RatingList {
 
     @SerializedName("current_page")
     @Expose
@@ -153,7 +153,7 @@ public class Rating {
 
     @Override
     public String toString() {
-        return "Rating{" +
+        return "RatingList{" +
                 "current_page=" + current_page +
                 ", data=" + data +
                 ", first_page_url='" + first_page_url + '\'' +

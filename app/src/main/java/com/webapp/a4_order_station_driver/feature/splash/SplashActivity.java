@@ -7,7 +7,7 @@ import android.view.WindowManager;
 import com.webapp.a4_order_station_driver.databinding.ActivitySplachBinding;
 import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
-import com.webapp.a4_order_station_driver.utils.NavigateUtils;
+import com.webapp.a4_order_station_driver.utils.NavigateUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 
 public class SplashActivity extends BaseActivity {
@@ -27,18 +27,18 @@ public class SplashActivity extends BaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
                 , WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         //presenter
-        presenter = new SplashPresenter(this, this);
+        presenter = new SplashPresenter(this);
     }
 
     @Override
     public void navigate(int page) {
         switch (page) {
             case MainActivity.page:
-                new NavigateUtils().activityIntent(this
+                new NavigateUtil().activityIntent(this
                         , MainActivity.class, false);
                 break;
             case LoginActivity.page:
-                new NavigateUtils().activityIntent(this
+                new NavigateUtil().activityIntent(this
                         , LoginActivity.class, false);
                 break;
         }

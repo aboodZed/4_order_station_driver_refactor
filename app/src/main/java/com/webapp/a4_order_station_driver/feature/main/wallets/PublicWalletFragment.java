@@ -13,15 +13,17 @@ import com.webapp.a4_order_station_driver.databinding.FragmentPublicWalletBindin
 import com.webapp.a4_order_station_driver.feature.main.adapter.PublicWalletAdapter;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
 import com.webapp.a4_order_station_driver.models.PublicWallet;
-import com.webapp.a4_order_station_driver.utils.APIUtils;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtils;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.formatter.DecimalFormatterManager;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 import java.util.ArrayList;
 
 public class PublicWalletFragment extends Fragment {
+
+    public static final int viewPagerPage = 1;
 
     private FragmentPublicWalletBinding binding;
 
@@ -44,7 +46,7 @@ public class PublicWalletFragment extends Fragment {
     }
 
     private void getData() {
-        new APIUtils<PublicWallet>(getActivity()).getData(AppController.getInstance()
+        new APIUtil<PublicWallet>(getActivity()).getData(AppController.getInstance()
                 .getApi().getPublicWallet(), new RequestListener<PublicWallet>() {
             @Override
             public void onSuccess(PublicWallet publicWallet, String msg) {
@@ -54,13 +56,13 @@ public class PublicWalletFragment extends Fragment {
 
             @Override
             public void onError(String msg) {
-                ToolUtils.showLongToast(msg, getActivity());
+                ToolUtil.showLongToast(msg, getActivity());
                 binding.avi.setVisibility(View.GONE);
             }
 
             @Override
             public void onFail(String msg) {
-                ToolUtils.showLongToast(msg, getActivity());
+                ToolUtil.showLongToast(msg, getActivity());
                 binding.avi.setVisibility(View.GONE);
             }
         });
