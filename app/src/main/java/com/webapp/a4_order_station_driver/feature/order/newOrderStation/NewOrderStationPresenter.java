@@ -8,6 +8,7 @@ import com.webapp.a4_order_station_driver.feature.main.wallets.WalletFragment;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.OrderStation;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
+import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
@@ -32,8 +33,11 @@ public class NewOrderStationPresenter {
             @Override
             public void onSuccess(Message message, String msg) {
                 dialogView.hideDialog();
-                AppController.getInstance().getAppSettingsPreferences().setTrackingOrder(orderStation);
-                new OrderGPSTracking(baseActivity, orderStation).startGPSTracking();
+
+                AppController.getInstance().getAppSettingsPreferences()
+                        .setTrackingOrder(orderStation, AppContent.TYPE_ORDER_4STATION);
+                OrderGPSTracking.newInstance(baseActivity).startGPSTracking();
+
                 ToolUtil.showLongToast(baseActivity.getString(R.string.closeApp), baseActivity);
                 OrdersFragment.viewPagerPage = OrderStationFragment.viewPagerPage;
                 WalletFragment.viewPagerPage = OrderStationWalletFragment.viewPagerPage;

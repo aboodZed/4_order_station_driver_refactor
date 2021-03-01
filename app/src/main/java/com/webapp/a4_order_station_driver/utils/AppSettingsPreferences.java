@@ -88,7 +88,8 @@ public class AppSettingsPreferences {
         return pref.getString(KEY_USER_PASSWORD, "");
     }
 
-    public void setTrackingOrder(Order order) {
+    public void setTrackingOrder(Order order, String type) {
+        order.setType(type);
         Gson gson = new Gson();
         String json = gson.toJson(order);
         editor.putString(TRACKING_ORDER, json);

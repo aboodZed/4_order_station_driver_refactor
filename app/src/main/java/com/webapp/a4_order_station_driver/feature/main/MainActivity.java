@@ -20,14 +20,20 @@ import com.webapp.a4_order_station_driver.feature.main.rate.RatingFragment;
 import com.webapp.a4_order_station_driver.feature.main.wallets.OrderStationWalletFragment;
 import com.webapp.a4_order_station_driver.feature.main.wallets.PublicWalletFragment;
 import com.webapp.a4_order_station_driver.feature.main.wallets.WalletFragment;
+import com.webapp.a4_order_station_driver.feature.order.chat.ChatFragment;
 import com.webapp.a4_order_station_driver.feature.order.newPublicOrder.NewPublicOrderFragment;
 import com.webapp.a4_order_station_driver.feature.order.orderStationView.OrderStationViewFragment;
+import com.webapp.a4_order_station_driver.feature.order.publicOrderView.PublicOrderViewFragment;
+import com.webapp.a4_order_station_driver.models.Order;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.NavigateUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.NewOrderStationDialog;
 import com.webapp.a4_order_station_driver.utils.dialogs.NewPublicOrderDialog;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends BaseActivity {
 
@@ -37,14 +43,6 @@ public class MainActivity extends BaseActivity {
     public static final String offline = "0";
 
     private ActivityMainBinding binding;
-
-    private HomeFragment homeFragment;
-    private NotificationFragment notificationFragment;
-    private OrdersFragment ordersFragment;
-    private RatingFragment ratingFragment;
-    private WalletFragment walletFragment;
-    private ProfileFragment profileFragment;
-    private EditProfileFragment editProfileFragment;
 
     /*private static OrderStation orderStation;
     private static PublicOrder publicOrder;*/
@@ -96,13 +94,49 @@ public class MainActivity extends BaseActivity {
         //dialog
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            navigate(bundle.getInt(AppContent.PAGE));
-           /* try {
+            try {
+                String message = (String) bundle.get(AppContent.FIREBASE_MESSAGE);
+                JSONObject body = new JSONObject(message).getJSONObject(AppContent.FIREBASE_DATA);
+
                 int id;
-                String type;
-                String jSON = (String) bundle.get("message");
-                if (jSON != null) {
-                    JSONObject body = new JSONObject(jSON).getJSONObject("data");
+                String msg = body.getString(AppContent.FIREBASE_MSG);
+                String type = body.getString(AppContent.FIREBASE_TYPE);
+                String status = body.getString(AppContent.FIREBASE_STATUS);
+
+                switch (type) {
+                    case AppContent.TYPE_ORDER_4STATION:
+                        id = body.getInt(AppContent.ORDER_Id);
+                        break;
+                    case AppContent.TYPE_ORDER_PUBLIC:
+                        id = body.getInt(AppContent.PUBLIC_ORDER_Id);
+                        break;
+                    default:
+                        id = -1;
+                }
+
+                if (msg.contains(AppContent.NEW_ORDER)) {
+                    if (!isLoadingNewOrder) {
+                        createNewOrder(id, type);
+                    }
+                } else if (type.equals(AppContent.TYPE_ORDER_PUBLIC)
+                        || type.equals(AppContent.TYPE_ORDER_4STATION)) {
+                    navigate(OrdersFragment.page);
+                    if (status != null) {
+                        if (status.equals(AppContent.NEW_MESSAGE)) {
+                            if (type.equals(AppContent.TYPE_ORDER_PUBLIC)) {
+                                new NavigateUtil().openOrder(this, new Order(id, type), PublicOrderViewFragment.page, true);
+                            } else {
+                                new NavigateUtil().openOrder(this, new Order(id, type), ChatFragment.page, true);
+                            }
+                        }
+                    }
+                } else if (type.contains(AppContent.WALLET)) {
+                    navigate(WalletFragment.page);
+                } else {
+                    navigate(bundle.getInt(AppContent.PAGE));
+                }
+
+                /*if (jSON != null) {
                     if (body.getString("msg").contains("new order")) {
                         type = body.getString("type");
                         if (type.equals("public")) {
@@ -141,7 +175,7 @@ public class MainActivity extends BaseActivity {
                             String s = getIntent().getExtras().getString("status");
                             navigate(OrdersFragment.page);
                             if (s.equals("new_message")) {
-                                /*PublicOrderViewFragment publicChatFragment = PublicOrderViewFragment
+                                PublicOrderViewFragment publicChatFragment = PublicOrderViewFragment
                                         .newInstance(publicOrder, this, this);
                                 publicChatFragment.show(getSupportFragmentManager(), "");
                             }
@@ -158,12 +192,12 @@ public class MainActivity extends BaseActivity {
                             navigate(HomeFragment.page);
                         }
                     }
-                }
-            } catch (JSONException e) {
+                }*/
+            } catch (Exception e) {
                 e.printStackTrace();
                 isLoadingNewOrder = false;
-                navigate(HomeFragment.page);
-            }*/
+                navigate(bundle.getInt(AppContent.PAGE));
+            }
         } else {
             navigate(HomeFragment.page);
         }
@@ -184,35 +218,35 @@ public class MainActivity extends BaseActivity {
 
         switch (page) {
             case HomeFragment.page://1
-                homeFragment = HomeFragment.newInstance();
+                HomeFragment homeFragment = HomeFragment.newInstance();
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , homeFragment, R.id.fragment_container);
                 binding.ivIcHome.setBackgroundResource(R.drawable.ic_home_blue);
                 binding.tvTextHome.setTextColor(getResources().getColor(R.color.colorPrimary));
                 break;
             case WalletFragment.page://2
-                walletFragment = WalletFragment.newInstance();
+                WalletFragment walletFragment = WalletFragment.newInstance();
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , walletFragment, R.id.fragment_container);
                 binding.ivIcWallet.setBackgroundResource(R.drawable.ic_wallet_blue);
                 binding.tvTextWallet.setTextColor(getResources().getColor(R.color.colorPrimary));
                 break;
             case OrdersFragment.page://3
-                ordersFragment = OrdersFragment.newInstance(this);
+                OrdersFragment ordersFragment = OrdersFragment.newInstance(this);
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , ordersFragment, R.id.fragment_container);
                 binding.ivIcOrders.setBackgroundResource(R.drawable.ic_orders_blue);
                 binding.tvTextOrders.setTextColor(getResources().getColor(R.color.colorPrimary));
                 break;
             case ProfileFragment.page://4
-                profileFragment = ProfileFragment.newInstance(this);
+                ProfileFragment profileFragment = ProfileFragment.newInstance(this);
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , profileFragment, R.id.fragment_container);
                 binding.ivIcProfile.setBackgroundResource(R.drawable.ic_profile_blue);
                 binding.tvTextProfile.setTextColor(getResources().getColor(R.color.colorPrimary));
                 break;
             case RatingFragment.page://5
-                ratingFragment = RatingFragment.newInstance();
+                RatingFragment ratingFragment = RatingFragment.newInstance();
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , ratingFragment, R.id.fragment_container);
                 binding.ivIcRating.setBackgroundResource(R.drawable.ic_rating_blue);
@@ -231,12 +265,12 @@ public class MainActivity extends BaseActivity {
                         , orderViewFragment, R.id.fragment_container);
                 break;*/
             case NotificationFragment.page://8
-                notificationFragment = NotificationFragment.newInstance(this);
+                NotificationFragment notificationFragment = NotificationFragment.newInstance(this);
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , notificationFragment, R.id.fragment_container);
                 break;
             case EditProfileFragment.page://9
-                editProfileFragment = EditProfileFragment.newInstance();
+                EditProfileFragment editProfileFragment = EditProfileFragment.newInstance(this);
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , editProfileFragment, R.id.fragment_container);
                 break;

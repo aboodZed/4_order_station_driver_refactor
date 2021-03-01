@@ -32,7 +32,6 @@
         android:id="@+id/btn_second"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fragment_container"
         android:layout_margin="@dimen/medium_margin"
         android:background="@drawable/blue_button"
         android:textAllCaps="false"
@@ -44,7 +43,6 @@
         android:id="@+id/btn_third"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fragment_container"
         android:layout_margin="@dimen/medium_margin"
         android:background="@drawable/blue_button"
         android:textAllCaps="false"
@@ -56,12 +54,22 @@
         android:id="@+id/btn_fourth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fragment_container"
         android:layout_margin="@dimen/medium_margin"
         android:background="@drawable/blue_button"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/medium_text"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/btn_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/blue_button"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/medium_text"
+        android:text="@string/refresh"
         android:visibility="gone"/>
 
 </LinearLayout>

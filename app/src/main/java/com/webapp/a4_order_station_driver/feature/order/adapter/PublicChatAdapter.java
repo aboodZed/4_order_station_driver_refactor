@@ -1,4 +1,4 @@
-package com.webapp.a4_order_station_driver.utils.dialogs.adapter;
+package com.webapp.a4_order_station_driver.feature.order.adapter;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
@@ -19,6 +19,7 @@ import com.bumptech.glide.request.target.Target;
 import com.webapp.a4_order_station_driver.databinding.ItemLeftPublicChatBinding;
 import com.webapp.a4_order_station_driver.databinding.ItemRightPublicChatBinding;
 import com.webapp.a4_order_station_driver.models.PublicChatMessage;
+import com.webapp.a4_order_station_driver.utils.APIImageUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.ImageFragment;
@@ -117,7 +118,7 @@ public class PublicChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         public void open() {
-            ImageFragment.newInstance(ToolUtil.getBitmapFromImageView(binding.image)).show(fragmentManager, "");
+            ImageFragment.newInstance(APIImageUtil.getBitmapFromImageView(binding.image)).show(fragmentManager, "");
         }
     }
 
@@ -167,7 +168,7 @@ public class PublicChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         public void open() {
-            ImageFragment.newInstance(ToolUtil.getBitmapFromImageView(binding.image)).show(fragmentManager, "");
+            ImageFragment.newInstance(APIImageUtil.getBitmapFromImageView(binding.image)).show(fragmentManager, "");
         }
     }
 }

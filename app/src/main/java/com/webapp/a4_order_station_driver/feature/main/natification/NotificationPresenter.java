@@ -21,6 +21,7 @@ class NotificationPresenter {
     }
 
     private void getData() {
+        dialogView.showDialog("");
         new APIUtil<NotificationList>(activity).getData(AppController.getInstance()
                 .getApi().getNotifications(), new RequestListener<NotificationList>() {
             @Override

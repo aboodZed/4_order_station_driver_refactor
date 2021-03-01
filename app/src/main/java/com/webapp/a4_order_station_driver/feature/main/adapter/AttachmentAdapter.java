@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.webapp.a4_order_station_driver.databinding.ItemAttachmentBinding;
 import com.webapp.a4_order_station_driver.models.Attachment;
+import com.webapp.a4_order_station_driver.utils.APIImageUtil;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.ImageFragment;
 
@@ -63,7 +64,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
         }
 
         public void openImage() {
-            ImageFragment.newInstance(ToolUtil.getBitmapFromImageView(binding.ivImage))
+            ImageFragment.newInstance(APIImageUtil.getBitmapFromImageView(binding.ivImage))
                     .show(fragmentManager, "");
         }
     }

@@ -10,6 +10,8 @@ public interface AppContent {
     //navigation
     String PAGE = "page";
     String ORDER_Id = "order_id";
+    String PUBLIC_ORDER_Id = "public_order_id";
+
     String ORDER_OBJECT = "order_object";
 
     //request from camera or gallery for register
@@ -50,16 +52,26 @@ public interface AppContent {
     //order type
     String TYPE_ORDER_PUBLIC = "public";
     String TYPE_ORDER_4STATION = "4station";
+    String WALLET = "wallet";
 
     //FIREBASE
     String FIREBASE_MESSAGE = "message";
+    String FIREBASE_DATA = "data";
     String FIREBASE_TYPE = "type";
     String FIREBASE_MSG = "msg";
     String FIREBASE_STATUS = "status";
     String FIREBASE_CHAT_INSTANCE = "Chat";
     String FIREBASE_PUBLIC_STORE_CHAT_INSTANCE = "PublicStoreChat";
+    //FIREBASE DATA
+    String DRIVER_APPROVED = "driver_approved";
+    String REJECT = "reject";
+    String NEW_MESSAGE = "new_message";
+    String IN_WAY_TO_STORE = "in_the_way_to_store";
+    String NEW_ORDER = "new order";
+
     //TRACKING
     String PUBLIC_TRACKING_INSTANCE = "PublicTracking";
     String TRACKING_INSTANCE = "Tracking";
+
 }
 

@@ -56,7 +56,7 @@ public class OrderStationViewPresenter {
                 /*if (tracking != null) {
                     tracking.endGPSTracking();
                 }*/
-                new OrderGPSTracking(baseActivity, orderStation).removeUpdates();
+                OrderGPSTracking.newInstance(baseActivity).removeUpdates();
                 dialogView.hideDialog();
                 baseActivity.navigate(HomeFragment.page);
             }

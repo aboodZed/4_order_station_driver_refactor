@@ -11,34 +11,53 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentEditProfileBinding;
 import com.webapp.a4_order_station_driver.models.User;
+import com.webapp.a4_order_station_driver.utils.APIImageUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.PermissionUtil;
+import com.webapp.a4_order_station_driver.utils.Photo.PhotoTakerManager;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.ItemSelectImageDialogFragment;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
+import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
+import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 import static android.app.Activity.RESULT_OK;
 
-public class EditProfileFragment extends Fragment implements DialogView<User> {
+public class EditProfileFragment extends Fragment implements DialogView<User>, RequestListener<Bitmap> {
 
     public static final int page = 209;
 
     private FragmentEditProfileBinding binding;
     private EditProfilePresenter presenter;
-    private ItemSelectImageDialogFragment itemSelectImageDialogFragment
-            = ItemSelectImageDialogFragment.newInstance();
+    private ItemSelectImageDialogFragment itemSelectImageDialogFragment;
+    private PhotoTakerManager photoTakerManager;
+    private BaseActivity baseActivity;
 
-    public static EditProfileFragment newInstance() {
-        EditProfileFragment fragment = new EditProfileFragment();
-        return fragment;
+    private String[] images = new String[6];
+    private int process_image;
+
+    protected static final int AVATAR = 0;
+    protected static final int VEHICLE_IMAGE = 5;
+    protected static final int VEHICLE_LICENSE = 3;
+    protected static final int VEHICLE_INSURANCE = 1;
+    protected static final int IDENTITY = 4;
+    protected static final int YOUR_LICENSE = 2;
+
+    public EditProfileFragment(BaseActivity baseActivity) {
+        this.baseActivity = baseActivity;
+    }
+
+    public static EditProfileFragment newInstance(BaseActivity baseActivity) {
+        return new EditProfileFragment(baseActivity);
     }
 
     @Override
@@ -46,26 +65,40 @@ public class EditProfileFragment extends Fragment implements DialogView<User> {
                              Bundle savedInstanceState) {
         //View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
         binding = FragmentEditProfileBinding.inflate(getLayoutInflater());
-        presenter = new EditProfilePresenter(getActivity(), this);
+        photoTakerManager = new PhotoTakerManager(this);
+        presenter = new EditProfilePresenter(baseActivity, this, photoTakerManager);
         data();
         click();
         return binding.getRoot();
     }
 
     private void click() {
-        binding.ivEditDriverAvatar.setOnClickListener(view ->
-                request(AppContent.REQUEST_IMAGE_AVATAR_UPLOAD, AppContent.REQUEST_IMAGE_AVATAR_CAMERA));
-        binding.ivEditIdPic.setOnClickListener(view ->
-                request(AppContent.REQUEST_IMAGE_IDENTITY_UPLOAD, AppContent.REQUEST_IMAGE_IDENTITY_CAMERA));
-        binding.ivEditYourVehicle.setOnClickListener(view ->
-                request(AppContent.REQUEST_IMAGE_VEHICLE_UPLOAD, AppContent.REQUEST_IMAGE_VEHICLE_CAMERA));
-        binding.ivEditInsuranceLicense.setOnClickListener(view ->
-                request(AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_UPLOAD, AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_CAMERA));
-        binding.ivEditVehicleLicense.setOnClickListener(view ->
-                request(AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_UPLOAD, AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_CAMERA));
-        binding.ivEditYourLicense.setOnClickListener(view ->
-                request(AppContent.REQUEST_IMAGE_YOUR_LICENSE_UPLOAD, AppContent.REQUEST_IMAGE_YOUR_LICENSE_CAMERA));
-        binding.btnOk.setOnClickListener(view -> presenter.validInput(binding));
+        binding.ivEditDriverAvatar.setOnClickListener(view -> {
+            request(AppContent.REQUEST_IMAGE_AVATAR_UPLOAD, AppContent.REQUEST_IMAGE_AVATAR_CAMERA);
+            process_image = AVATAR;
+        });
+        binding.ivEditIdPic.setOnClickListener(view -> {
+            request(AppContent.REQUEST_IMAGE_IDENTITY_UPLOAD, AppContent.REQUEST_IMAGE_IDENTITY_CAMERA);
+            process_image = IDENTITY;
+        });
+        binding.ivEditYourVehicle.setOnClickListener(view -> {
+            request(AppContent.REQUEST_IMAGE_VEHICLE_UPLOAD, AppContent.REQUEST_IMAGE_VEHICLE_CAMERA);
+            process_image = VEHICLE_IMAGE;
+        });
+        binding.ivEditInsuranceLicense.setOnClickListener(view -> {
+            request(AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_UPLOAD, AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_CAMERA);
+            process_image = VEHICLE_INSURANCE;
+        });
+        binding.ivEditVehicleLicense.setOnClickListener(view -> {
+            request(AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_UPLOAD, AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_CAMERA);
+            process_image = VEHICLE_LICENSE;
+        });
+        binding.ivEditYourLicense.setOnClickListener(view -> {
+            request(AppContent.REQUEST_IMAGE_YOUR_LICENSE_UPLOAD, AppContent.REQUEST_IMAGE_YOUR_LICENSE_CAMERA);
+            process_image = YOUR_LICENSE;
+        });
+
+        binding.btnOk.setOnClickListener(view -> presenter.validInput(binding, images));
     }
 
     //functions
@@ -87,149 +120,36 @@ public class EditProfileFragment extends Fragment implements DialogView<User> {
     }
 
     private void request(int request_upload, int request_camera) {
+        itemSelectImageDialogFragment = ItemSelectImageDialogFragment.newInstance();
         itemSelectImageDialogFragment.setListener(new ItemSelectImageDialogFragment.Listener() {
             @Override
             public void onGalleryClicked() {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoTakerManager.galleryRequest(requireActivity(), request_upload);
+                /*Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, request_upload);
+                startActivityForResult(photoPickerIntent, request_upload);*/
             }
 
             @Override
             public void onCameraClicked() {
-                Intent photoPickerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(photoPickerIntent, request_camera);
+                photoTakerManager.cameraRequest(requireActivity(), request_camera);
+                /*Intent photoPickerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(photoPickerIntent, request_camera);*/
             }
         });
-        itemSelectImageDialogFragment.show(getFragmentManager(), "");
+        itemSelectImageDialogFragment.show(getChildFragmentManager(), "");
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        presenter.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && null != data) {
-            if (requestCode == AppContent.REQUEST_IMAGE_AVATAR_UPLOAD) {
-                try {
-                    //code
-                    Uri uri = data.getData();
-                    binding.ivDriverAvatar.setImageURI(uri);
-                    //code
-                } catch (OutOfMemoryError error) {
-                    error.printStackTrace();
-                    Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-                }
-            } else if (requestCode == AppContent.REQUEST_IMAGE_AVATAR_CAMERA) {
-                try {
-                    //code
-                    Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                    binding.ivDriverAvatar.setImageBitmap(bitmap);
-                    //code
-                } catch (OutOfMemoryError error) {
-                    error.printStackTrace();
-                    Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-                }
-            } else if (requestCode == AppContent.REQUEST_IMAGE_VEHICLE_UPLOAD) {
-                try {
-                    //code
-                    Uri uri = data.getData();
-                    binding.ivYourVehicle.setImageURI(uri);
-                    //code
-                } catch (OutOfMemoryError error) {
-                    error.printStackTrace();
-                    Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-                }
-            } else if (requestCode == AppContent.REQUEST_IMAGE_VEHICLE_CAMERA) {
-                try {
-                    //code
-                    Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                    binding.ivYourVehicle.setImageBitmap(bitmap);
-                    //code
-                } catch (OutOfMemoryError error) {
-                    error.printStackTrace();
-                    Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-                }
-            } else if (requestCode == AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_UPLOAD) {
-                try {
-                    //code
-                    Uri uri = data.getData();
-                    binding.ivVehicleLicense.setImageURI(uri);
-                    //code
-                } catch (OutOfMemoryError error) {
-                    error.printStackTrace();
-                    Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-                }
-            } else if (requestCode == AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_CAMERA) {
-                try {
-                    //code
-                    Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                    binding.ivVehicleLicense.setImageBitmap(imageBitmap);
-                    //code
-                } catch (OutOfMemoryError error) {
-                    error.printStackTrace();
-                    Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-                }
-            } else if (requestCode == AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_UPLOAD) {
-                try {
-                    //code
-                    Uri uri = data.getData();
-                    binding.ivInsuranceLicense.setImageURI(uri);
-                    //code
-                } catch (OutOfMemoryError error) {
-                    error.printStackTrace();
-                    Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-                }
-            } else if (requestCode == AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_CAMERA) {
-                try {
-                    //code
-                    Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                    binding.ivInsuranceLicense.setImageBitmap(imageBitmap);
-                    //code
-                } catch (OutOfMemoryError error) {
-                    error.printStackTrace();
-                    Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-                }
-            } else if (requestCode == AppContent.REQUEST_IMAGE_IDENTITY_UPLOAD) {
-                try {
-                    //code
-                    Uri uri = data.getData();
-                    binding.ivIdPic.setImageURI(uri);
-                    //code
-                } catch (OutOfMemoryError error) {
-                    error.printStackTrace();
-                    Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-                }
-            } else if (requestCode == AppContent.REQUEST_IMAGE_IDENTITY_CAMERA) {
-                try {
-                    //code
-                    Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                    binding.ivIdPic.setImageBitmap(imageBitmap);
-                    //code
-                } catch (OutOfMemoryError error) {
-                    error.printStackTrace();
-                    Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-                }
-            } else if (requestCode == AppContent.REQUEST_IMAGE_YOUR_LICENSE_UPLOAD) {
-                try {
-                    //code
-                    Uri uri = data.getData();
-                    binding.ivYourLicense.setImageURI(uri);
-                    //code
-                } catch (OutOfMemoryError error) {
-                    error.printStackTrace();
-                    Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-                }
-            } else if (requestCode == AppContent.REQUEST_IMAGE_YOUR_LICENSE_CAMERA) {
-                try {
-                    //code
-                    Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                    binding.ivYourLicense.setImageBitmap(imageBitmap);
-                    //code
-                } catch (OutOfMemoryError error) {
-                    error.printStackTrace();
-                    Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        presenter.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
@@ -239,11 +159,51 @@ public class EditProfileFragment extends Fragment implements DialogView<User> {
 
     @Override
     public void showDialog(String s) {
-        WaitDialogFragment.newInstance().show(getFragmentManager(), "");
+        WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
     }
 
     @Override
     public void hideDialog() {
         WaitDialogFragment.newInstance().dismiss();
+    }
+
+    @Override
+    public void onSuccess(Bitmap bitmap, String msg) {
+        switch (process_image) {
+            case AVATAR:
+                binding.ivDriverAvatar.setImageBitmap(bitmap);
+                images[AVATAR] = APIImageUtil.bitmapToBase64(bitmap);
+                break;
+            case VEHICLE_IMAGE:
+                binding.ivYourVehicle.setImageBitmap(bitmap);
+                images[VEHICLE_IMAGE] = APIImageUtil.bitmapToBase64(bitmap);
+                break;
+            case VEHICLE_LICENSE:
+                binding.ivVehicleLicense.setImageBitmap(bitmap);
+                images[VEHICLE_LICENSE] = APIImageUtil.bitmapToBase64(bitmap);
+                break;
+            case VEHICLE_INSURANCE:
+                binding.ivInsuranceLicense.setImageBitmap(bitmap);
+                images[VEHICLE_INSURANCE] = APIImageUtil.bitmapToBase64(bitmap);
+                break;
+            case IDENTITY:
+                binding.ivIdPic.setImageBitmap(bitmap);
+                images[IDENTITY] = APIImageUtil.bitmapToBase64(bitmap);
+                break;
+            case YOUR_LICENSE:
+                binding.ivYourLicense.setImageBitmap(bitmap);
+                images[YOUR_LICENSE] = APIImageUtil.bitmapToBase64(bitmap);
+                break;
+        }
+    }
+
+    @Override
+    public void onError(String msg) {
+
+    }
+
+    @Override
+    public void onFail(String msg) {
+
     }
 }

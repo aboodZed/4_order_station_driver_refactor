@@ -39,8 +39,7 @@ class SplashPresenter {
 
     private void checkOrderProcess() {
         if (AppController.getInstance().getAppSettingsPreferences().getTrackingOrder() != null) {
-            new OrderGPSTracking(baseActivity, AppController.getInstance()
-                    .getAppSettingsPreferences().getTrackingOrder()).startGPSTracking();
+            OrderGPSTracking.newInstance(baseActivity).startGPSTracking();
             /*GPSTracking gpsTracking = GPSTracking.getInstance(activity, AppController.getInstance()
                     .getAppSettingsPreferences().getTrackingOrder());
             gpsTracking.startGPSTracking();*/

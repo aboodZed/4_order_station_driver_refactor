@@ -22,15 +22,20 @@ import com.webapp.a4_order_station_driver.utils.AppController;
 
 public class OrderGPSTracking {
 
-    private Order order;
     private Context context;
     private LocationManager lm;
     private LocationListener locationListener;
+    private static OrderGPSTracking tracking;
 
-    public OrderGPSTracking(Context context, Order order) {
+    public static OrderGPSTracking newInstance(Context context) {
+        if (tracking == null)
+            tracking = new OrderGPSTracking(context);
+        return tracking;
+    }
+
+    private OrderGPSTracking(Context context) {
         lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         this.context = context;
-        this.order = order;
     }
 
     public void startGPSTracking() {
@@ -42,6 +47,7 @@ public class OrderGPSTracking {
             Toast.makeText(context, R.string.unable_location, Toast.LENGTH_SHORT).show();
             return;
         }
+        Order order = AppController.getInstance().getAppSettingsPreferences().getTrackingOrder();
         if (order.getType().equals(AppContent.TYPE_ORDER_PUBLIC)) {
             db = FirebaseDatabase.getInstance().getReference(AppContent.PUBLIC_TRACKING_INSTANCE).child(order.getId() + "");
         } else {
@@ -82,8 +88,10 @@ public class OrderGPSTracking {
     }
 
     public void removeUpdates() {
-        if (this.locationListener != null)
+        if (this.locationListener != null) {
             this.lm.removeUpdates(this.locationListener);
-        AppController.getInstance().getAppSettingsPreferences().removeOrder();
+            tracking = null;
+            AppController.getInstance().getAppSettingsPreferences().removeOrder();
+        }
     }
 }

@@ -1,18 +1,22 @@
-package com.webapp.a4_order_station_driver.feature.main.editProfile;
+package com.webapp.a4_order_station_driver.feature.register.two;
 
+import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Patterns;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.webapp.a4_order_station_driver.R;
-import com.webapp.a4_order_station_driver.databinding.FragmentEditProfileBinding;
-import com.webapp.a4_order_station_driver.feature.main.profile.ProfileFragment;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.models.Login;
 import com.webapp.a4_order_station_driver.models.User;
+import com.webapp.a4_order_station_driver.services.firebase.GenerateFCMService;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
+import com.webapp.a4_order_station_driver.utils.PermissionUtil;
 import com.webapp.a4_order_station_driver.utils.Photo.PhotoTakerManager;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
@@ -21,88 +25,79 @@ import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 import static android.app.Activity.RESULT_OK;
 
-class EditProfilePresenter {
+public class RegisterStepTwoPresenter {
 
     private BaseActivity baseActivity;
     private DialogView<User> dialogView;
     private PhotoTakerManager photoTakerManager;
 
-    public EditProfilePresenter(BaseActivity baseActivity, DialogView<User> dialogView, PhotoTakerManager photoTakerManager) {
+    public RegisterStepTwoPresenter(BaseActivity baseActivity
+            , DialogView<User> dialogView, PhotoTakerManager photoTakerManager) {
         this.baseActivity = baseActivity;
         this.dialogView = dialogView;
         this.photoTakerManager = photoTakerManager;
     }
 
-    public void validInput(FragmentEditProfileBinding binding, String[] images) {
+    public void validInput( String images[], EditText etVehiclePlate, EditText etVehicleType) {
+        String plate = etVehiclePlate.getText().toString().trim();
+        String type = etVehicleType.getText().toString().trim();
 
-        String email = binding.etEnterEmail.getText().toString().trim();
-        String mobile = binding.etEnterPhone.getText().toString().trim();
-        String address = binding.etEnterAddress.getText().toString().trim();
+        for (int i = 0; i < images.length; i++) {
+            if (TextUtils.isEmpty(images[i])) {
+                ToolUtil.showLongToast(baseActivity.getString(R.string.fill_photos), baseActivity);
+                return;
+            }
+        }
+        if (TextUtils.isEmpty(type)) {
+            etVehicleType.setError(baseActivity.getString(R.string.empty_error));
+            return;
+        }
+        if (TextUtils.isEmpty(plate)) {
+            etVehiclePlate.setError(baseActivity.getString(R.string.empty_error));
+            return;
+        }
 
-        if (TextUtils.isEmpty(email)) {
-            binding.etEnterEmail.setError(baseActivity.getString(R.string.empty_error));
-            return;
-        }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.etEnterEmail.setError(baseActivity.getString(R.string.un_match_pattern));
-            return;
-        }
-        if (TextUtils.isEmpty(mobile)) {
-            binding.etEnterPhone.setError(baseActivity.getString(R.string.empty_error));
-            return;
-        }
-        if (TextUtils.isEmpty(address)) {
-            binding.etEnterAddress.setError(baseActivity.getString(R.string.empty_error));
-            return;
-        }
-        User user = new User(
-                images[EditProfileFragment.AVATAR], images[EditProfileFragment.VEHICLE_INSURANCE],
-                images[EditProfileFragment.YOUR_LICENSE], images[EditProfileFragment.VEHICLE_LICENSE]
-                , images[EditProfileFragment.IDENTITY], images[EditProfileFragment.VEHICLE_IMAGE],
-                /*APIImageUtil.bitmapToBase64(APIImageUtil.getBitmapFromImageView(binding.ivDriverAvatar)),
-                APIImageUtil.bitmapToBase64(APIImageUtil.getBitmapFromImageView(binding.ivInsuranceLicense)),
-                APIImageUtil.bitmapToBase64(APIImageUtil.getBitmapFromImageView(binding.ivYourLicense)),
-                APIImageUtil.bitmapToBase64(APIImageUtil.getBitmapFromImageView(binding.ivVehicleLicense)),
-                APIImageUtil.bitmapToBase64(APIImageUtil.getBitmapFromImageView(binding.ivIdPic)),
-                APIImageUtil.bitmapToBase64(APIImageUtil.getBitmapFromImageView(binding.ivYourVehicle)),*/
-                AppController.getInstance().getAppSettingsPreferences().getPassword(),
-                AppController.getInstance().getAppSettingsPreferences().getPassword(),
-                mobile, email, address);
-        upload(user);
+        User user = new User(images[0], images[1], images[2], images[3], images[4], plate, type);
+
+        finishStepTwo(user);
     }
 
-    private void upload(User user) {
+    public void finishStepTwo(User user) {
         dialogView.showDialog("");
-        new APIUtil<User>(baseActivity)
-                .getData(AppController.getInstance().getApi().updateProfile(user),
-                        new RequestListener<User>() {
-                            @Override
-                            public void onSuccess(User user, String msg) {
-                                Login login = AppController.getInstance().getAppSettingsPreferences().getLogin();
-                                login.setUser(user);
-                                AppController.getInstance().getAppSettingsPreferences().setLogin(login);
-                                dialogView.hideDialog();
-                                baseActivity.navigate(ProfileFragment.page);
-                            }
+        new APIUtil<User>(baseActivity).getData(AppController.getInstance().getApi().signUp2(user),
+                new RequestListener<User>() {
+                    @Override
+                    public void onSuccess(User user, String msg) {
+                        dialogView.hideDialog();
+                        //update user
+                        Login login = AppController.getInstance().getAppSettingsPreferences().getLogin();
+                        login.setUser(user);
+                        AppController.getInstance().getAppSettingsPreferences().setLogin(login);
+                        AppController.getInstance().getAppSettingsPreferences().setIsLogin(true);
+                        //service
+                        Intent service = new Intent(baseActivity, GenerateFCMService.class);
+                        baseActivity.startService(service);
 
-                            @Override
-                            public void onError(String msg) {
-                                ToolUtil.showLongToast(msg, baseActivity);
-                                dialogView.hideDialog();
-                            }
+                        baseActivity.navigate(MainActivity.page);
+                    }
 
-                            @Override
-                            public void onFail(String msg) {
-                                ToolUtil.showLongToast(msg, baseActivity);
-                                dialogView.hideDialog();
-                            }
-                        });
+                    @Override
+                    public void onError(String msg) {
+                        dialogView.hideDialog();
+                        ToolUtil.showLongToast(msg, baseActivity);
+                    }
+
+                    @Override
+                    public void onFail(String msg) {
+                        dialogView.hideDialog();
+                        ToolUtil.showLongToast(msg, baseActivity);
+                    }
+                });
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case AppContent.REQUEST_IMAGE_AVATAR_UPLOAD:
                 case AppContent.REQUEST_IMAGE_VEHICLE_UPLOAD:
                 case AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_UPLOAD:
                 case AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_UPLOAD:
@@ -110,7 +105,6 @@ class EditProfilePresenter {
                 case AppContent.REQUEST_IMAGE_YOUR_LICENSE_UPLOAD:
                     photoTakerManager.processGalleryPhoto(baseActivity, data);
                     break;
-                case AppContent.REQUEST_IMAGE_AVATAR_CAMERA:
                 case AppContent.REQUEST_IMAGE_VEHICLE_CAMERA:
                 case AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_CAMERA:
                 case AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_CAMERA:
@@ -118,34 +112,15 @@ class EditProfilePresenter {
                 case AppContent.REQUEST_IMAGE_YOUR_LICENSE_CAMERA:
                     photoTakerManager.processCameraPhoto(baseActivity);
                     break;
+
             }
-
-
-            /*// if (requestCode == AppContent.REQUEST_IMAGE_AVATAR_UPLOAD) {
+            /*//if (requestCode == AppContent.REQUEST_IMAGE_VEHICLE_UPLOAD) {
             try {
                 //code
                 Uri uri = data.getData();
-                binding.ivDriverAvatar.setImageURI(uri);
-                //code
-            } catch (OutOfMemoryError error) {
-                error.printStackTrace();
-                Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-            }
-            //} else if (requestCode == AppContent.REQUEST_IMAGE_AVATAR_CAMERA) {
-            try {
-                //code
-                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                binding.ivDriverAvatar.setImageBitmap(bitmap);
-                //code
-            } catch (OutOfMemoryError error) {
-                error.printStackTrace();
-                Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-            }
-            //} else if (requestCode == AppContent.REQUEST_IMAGE_VEHICLE_UPLOAD) {
-            try {
-                //code
-                Uri uri = data.getData();
-                binding.ivYourVehicle.setImageURI(uri);
+                binding.ivVehicle.setImageURI(uri);
+                images[0] = ToolUtil.bitmapToBase64(ToolUtil.getBitmapFromImageView(binding.ivVehicle));
+                saveImage[0] = true;
                 //code
             } catch (OutOfMemoryError error) {
                 error.printStackTrace();
@@ -154,8 +129,10 @@ class EditProfilePresenter {
             //} else if (requestCode == AppContent.REQUEST_IMAGE_VEHICLE_CAMERA) {
             try {
                 //code
-                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                binding.ivYourVehicle.setImageBitmap(bitmap);
+                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+                binding.ivVehicle.setImageBitmap(imageBitmap);
+                images[0] = ToolUtil.bitmapToBase64(imageBitmap);
+                saveImage[0] = true;
                 //code
             } catch (OutOfMemoryError error) {
                 error.printStackTrace();
@@ -166,6 +143,8 @@ class EditProfilePresenter {
                 //code
                 Uri uri = data.getData();
                 binding.ivVehicleLicense.setImageURI(uri);
+                images[1] = ToolUtil.bitmapToBase64(ToolUtil.getBitmapFromImageView(binding.ivVehicleLicense));
+                saveImage[1] = true;
                 //code
             } catch (OutOfMemoryError error) {
                 error.printStackTrace();
@@ -176,6 +155,9 @@ class EditProfilePresenter {
                 //code
                 Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
                 binding.ivVehicleLicense.setImageBitmap(imageBitmap);
+                images[1] = ToolUtil.bitmapToBase64(imageBitmap);
+                saveImage[1] = true;
+
                 //code
             } catch (OutOfMemoryError error) {
                 error.printStackTrace();
@@ -185,7 +167,9 @@ class EditProfilePresenter {
             try {
                 //code
                 Uri uri = data.getData();
-                binding.ivInsuranceLicense.setImageURI(uri);
+                binding.ivVehicleInsurance.setImageURI(uri);
+                images[2] = ToolUtil.bitmapToBase64(ToolUtil.getBitmapFromImageView(binding.ivVehicleInsurance));
+                saveImage[2] = true;
                 //code
             } catch (OutOfMemoryError error) {
                 error.printStackTrace();
@@ -195,7 +179,9 @@ class EditProfilePresenter {
             try {
                 //code
                 Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                binding.ivInsuranceLicense.setImageBitmap(imageBitmap);
+                binding.ivVehicleInsurance.setImageBitmap(imageBitmap);
+                images[2] = ToolUtil.bitmapToBase64(imageBitmap);
+                saveImage[2] = true;
                 //code
             } catch (OutOfMemoryError error) {
                 error.printStackTrace();
@@ -205,7 +191,9 @@ class EditProfilePresenter {
             try {
                 //code
                 Uri uri = data.getData();
-                binding.ivIdPic.setImageURI(uri);
+                binding.ivIdentity.setImageURI(uri);
+                images[3] = ToolUtil.bitmapToBase64(ToolUtil.getBitmapFromImageView(binding.ivIdentity));
+                saveImage[3] = true;
                 //code
             } catch (OutOfMemoryError error) {
                 error.printStackTrace();
@@ -215,45 +203,39 @@ class EditProfilePresenter {
             try {
                 //code
                 Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                binding.ivIdPic.setImageBitmap(imageBitmap);
+                binding.ivIdentity.setImageBitmap(imageBitmap);
+                images[3] = ToolUtil.bitmapToBase64(imageBitmap);
+                saveImage[3] = true;
                 //code
             } catch (OutOfMemoryError error) {
                 error.printStackTrace();
                 Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
             }
-            // } else if (requestCode == AppContent.REQUEST_IMAGE_YOUR_LICENSE_UPLOAD) {
+            //} else if (requestCode == AppContent.REQUEST_IMAGE_YOUR_LICENSE_UPLOAD) {
             try {
                 //code
                 Uri uri = data.getData();
                 binding.ivYourLicense.setImageURI(uri);
+                images[4] = ToolUtil.bitmapToBase64(ToolUtil.getBitmapFromImageView(binding.ivYourLicense));
+                saveImage[4] = true;
                 //code
             } catch (OutOfMemoryError error) {
                 error.printStackTrace();
                 Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
             }
-            // } else if (requestCode == AppContent.REQUEST_IMAGE_YOUR_LICENSE_CAMERA) {
+        } else if (requestCode == AppContent.REQUEST_IMAGE_YOUR_LICENSE_CAMERA) {
             try {
                 //code
                 Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
                 binding.ivYourLicense.setImageBitmap(imageBitmap);
+                images[4] = ToolUtil.bitmapToBase64(imageBitmap);
+                saveImage[4] = true;
                 //code
             } catch (OutOfMemoryError error) {
                 error.printStackTrace();
                 Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
             }
         }*/
-        }
-    }
-
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            switch (requestCode) {
-                case AppContent.REQUEST_PERMISSIONS_R_W_STORAGE_CAMERA:
-                    ToolUtil.showLongToast(baseActivity.getString(R.string.permission_garnted), baseActivity);
-                    break;
-            }
-        } else {
-            ToolUtil.showLongToast(baseActivity.getString(R.string.permission_denial), baseActivity);
         }
     }
 }

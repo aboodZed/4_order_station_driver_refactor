@@ -52,6 +52,9 @@ public class CountryFragment extends DialogFragment {
         binding.btnSecond.setOnClickListener(view -> egypt());
         binding.btnThird.setOnClickListener(view -> morocco());
         binding.btnFourth.setOnClickListener(view -> tunisia());
+        binding.btnRefresh.setOnClickListener(view -> {
+            data();
+        });
     }
 
     private void data() {
@@ -61,18 +64,21 @@ public class CountryFragment extends DialogFragment {
             @Override
             public void onSuccess(CountryList countries, String msg) {
                 WaitDialogFragment.newInstance().dismiss();
+                binding.btnRefresh.setVisibility(View.GONE);
                 CountryFragment.this.countries = countries.getCountries();
                 setData();
             }
 
             @Override
             public void onError(String msg) {
+                binding.btnRefresh.setVisibility(View.VISIBLE);
                 WaitDialogFragment.newInstance().dismiss();
                 ToolUtil.showLongToast(msg, getActivity());
             }
 
             @Override
             public void onFail(String msg) {
+                binding.btnRefresh.setVisibility(View.VISIBLE);
                 WaitDialogFragment.newInstance().dismiss();
                 ToolUtil.showLongToast(msg, getActivity());
             }

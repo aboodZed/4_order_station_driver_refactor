@@ -30,9 +30,15 @@ public class LoginActivity extends BaseActivity implements DialogView<Login> {
         //presenter
         presenter = new LoginPresenter(this, this);
         //view
-        showCountries();
+        data();
+        //showCountries();
         //on click
         click();
+    }
+
+    private void data() {
+        binding.tvCode.setText(AppController.getInstance()
+                .getAppSettingsPreferences().getCountry().getPhone_code());
     }
 
     private void click() {
@@ -42,18 +48,20 @@ public class LoginActivity extends BaseActivity implements DialogView<Login> {
     }
 
     private void showCountries() {
+
+
         countryFragment = CountryFragment.newInstance();
         countryFragment.show(getSupportFragmentManager(), "");
         countryFragment.setCountryListener(() -> {
             binding.tvCode.setText(AppController.getInstance()
                     .getAppSettingsPreferences().getCountry().getPhone_code());
-            /*if (AppController.getInstance().getAppSettingsPreferences().getLogin() != null) {
-                if (AppController.getInstance().getAppSettingsPreferences().getLogin().getUser()
-                        .getCountry_id() != AppController.getInstance().getAppSettingsPreferences()
-                        .getCountry().getId()) {
-                    goToSignUp();
-                }
-            }*/
+        /*if (AppController.getInstance().getAppSettingsPreferences().getLogin() != null) {
+            if (AppController.getInstance().getAppSettingsPreferences().getLogin().getUser()
+                    .getCountry_id() != AppController.getInstance().getAppSettingsPreferences()
+                    .getCountry().getId()) {
+                goToSignUp();
+            }
+        }*/
         });
     }
 

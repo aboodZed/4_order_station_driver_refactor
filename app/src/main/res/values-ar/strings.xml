@@ -142,5 +142,8 @@
     <string name="choose_country">أختر دولتك</string>
     <string name="admin_message">رسالة إدارية</string>
     <string name="re_write_code">الكود المدخل خطأ الرجاء أعد المحاولة</string>
-    <string name="unable_location">Unable to get location.</string>
+    <string name="unable_location">لا يمكن تحديد موقعك</string>
+    <string name="refresh">تحديث</string>
+    <string name="error_in_process_the_photo">حدث خطأ في معالجة الصورة</string>
+    <string name="error_in_input">خطأ في عملية الإدخال, حاول مرة أخرى</string>
 </resources>

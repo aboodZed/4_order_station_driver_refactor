@@ -1,4 +1,4 @@
-package com.webapp.a4_order_station_driver.utils.dialogs.adapter;
+package com.webapp.a4_order_station_driver.feature.order.adapter;
 
 import android.app.Activity;
 import android.util.Log;

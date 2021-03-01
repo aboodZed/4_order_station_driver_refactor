@@ -15,8 +15,8 @@ import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.ActivityRegisterBinding;
 import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
-import com.webapp.a4_order_station_driver.feature.register.one.RegisterStep_1;
-import com.webapp.a4_order_station_driver.feature.register.two.RegisterStep_2;
+import com.webapp.a4_order_station_driver.feature.register.one.RegisterStepOneFragment;
+import com.webapp.a4_order_station_driver.feature.register.two.RegisterStepTwoFragment;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.NavigateUtil;
 import com.webapp.a4_order_station_driver.utils.PermissionUtil;
@@ -28,8 +28,9 @@ public class RegisterActivity extends BaseActivity {
 
     private ActivityRegisterBinding binding;
 
-    private RegisterStep_1 registerStep1;
-    private RegisterStep_2 registerStep2;
+    private RegisterStepOneFragment registerStep1;
+    private RegisterStepTwoFragment registerStep2;
+    private RegisterPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,19 +38,20 @@ public class RegisterActivity extends BaseActivity {
         super.setRootView(binding.getRoot());
         super.onCreate(savedInstanceState);
         //view
+        presenter = new RegisterPresenter(this);
         initFragment();
         click();
     }
 
     //functions
     private void initFragment() {
-        registerStep1 = RegisterStep_1.newInstance(this);
-        registerStep2 = RegisterStep_2.newInstance(this);
+        registerStep1 = RegisterStepOneFragment.newInstance(this);
+        registerStep2 = RegisterStepTwoFragment.newInstance(this);
         if (!PermissionUtil.isPermissionGranted(MediaStore.ACTION_IMAGE_CAPTURE, this)) {
             PermissionUtil.requestPermission(this, Manifest.permission.CAMERA
                     , AppContent.REQUEST_PERMISSIONS_R_W_STORAGE_CAMERA);
         }
-        navigate(RegisterStep_1.page);
+        navigate(RegisterStepOneFragment.page);
     }
 
 
@@ -60,7 +62,7 @@ public class RegisterActivity extends BaseActivity {
 
     //clicks
     public void next() {
-        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof RegisterStep_1) {
+        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof RegisterStepOneFragment) {
             registerStep1.signUp();
         } else {
             registerStep2.signUp();
@@ -68,8 +70,8 @@ public class RegisterActivity extends BaseActivity {
     }
 
     public void back() {
-        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof RegisterStep_2) {
-            navigate(RegisterStep_1.page);
+        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof RegisterStepTwoFragment) {
+            navigate(RegisterStepOneFragment.page);
         } else {
             navigate(LoginActivity.page);
         }
@@ -78,11 +80,11 @@ public class RegisterActivity extends BaseActivity {
     @Override
     public void navigate(int page) {
         switch (page) {
-            case RegisterStep_1.page:
+            case RegisterStepOneFragment.page:
                 binding.tvPage.setText("1/2");
                 new NavigateUtil().replaceFragment(getSupportFragmentManager(), registerStep1, R.id.fragment_container);
                 break;
-            case RegisterStep_2.page:
+            case RegisterStepTwoFragment.page:
                 binding.tvPage.setText("2/2");
                 new NavigateUtil().replaceFragment(getSupportFragmentManager(), registerStep2, R.id.fragment_container);
                 break;
@@ -102,22 +104,13 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        presenter.onRequestPermissionsResult(requestCode, permissions, grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case AppContent.REQUEST_PERMISSIONS_R_W_STORAGE_CAMERA:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, R.string.permission_garnted, Toast.LENGTH_SHORT).show();
-                } else
-                    Toast.makeText(this, R.string.permission_denial, Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        presenter.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
-        final Fragment fragmentInFrame = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (fragmentInFrame instanceof RegisterStep_2) {
-            fragmentInFrame.onActivityResult(requestCode, resultCode, data);
-        }
     }
 }

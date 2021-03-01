@@ -1,14 +1,15 @@
 package com.webapp.a4_order_station_driver.feature.register.one;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -16,33 +17,36 @@ import com.webapp.a4_order_station_driver.databinding.FragmentRegisterStep1Bindi
 import com.webapp.a4_order_station_driver.models.Login;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.PhotoTakerManager;
+import com.webapp.a4_order_station_driver.utils.PermissionUtil;
+import com.webapp.a4_order_station_driver.utils.Photo.PhotoTakerManager;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.ItemSelectImageDialogFragment;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
+import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 import static android.app.Activity.RESULT_OK;
-import static com.webapp.a4_order_station_driver.utils.AppContent.REQUEST_STUDIO;
 
-public class RegisterStep_1 extends Fragment implements PhotoTakerManager.PhotoListener, DialogView<Login> {
+public class RegisterStepOneFragment extends Fragment implements RequestListener<Bitmap>, DialogView<Login> {
 
     public static final int page = 301;
 
     private FragmentRegisterStep1Binding binding;
 
     private boolean saveImage;
+    private ItemSelectImageDialogFragment itemSelectImageDialogFragment;
+    private RegisterStepOnePresenter presenter;
+    private Bitmap bitmap;
     private PhotoTakerManager photoTakerManager;
-    private ItemSelectImageDialogFragment itemSelectImageDialogFragment = ItemSelectImageDialogFragment.newInstance();
-    private RegisterStep_1Presenter presenter;
 
-    public static RegisterStep_1 newInstance(BaseActivity baseActivity) {
-        RegisterStep_1 fragment = new RegisterStep_1(baseActivity);
-        return fragment;
+    public static RegisterStepOneFragment newInstance(BaseActivity baseActivity) {
+        return new RegisterStepOneFragment(baseActivity);
     }
 
-    public RegisterStep_1(BaseActivity baseActivity) {
-        presenter = new RegisterStep_1Presenter(baseActivity, this);
+    public RegisterStepOneFragment(BaseActivity baseActivity) {
+        photoTakerManager = new PhotoTakerManager(this);
+        presenter = new RegisterStepOnePresenter(baseActivity, this, photoTakerManager);
     }
 
     @Override
@@ -53,7 +57,6 @@ public class RegisterStep_1 extends Fragment implements PhotoTakerManager.PhotoL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentRegisterStep1Binding.inflate(getLayoutInflater());
-        photoTakerManager = new PhotoTakerManager(this);
 
         setInformation();
         click();
@@ -77,23 +80,20 @@ public class RegisterStep_1 extends Fragment implements PhotoTakerManager.PhotoL
     public void signUp() {
         presenter.validInput(binding.etEnterName, binding.etEnterEmail, binding.etEnterAddress
                 , binding.etEnterPhone, binding.etEnterPassword, binding.etEnterConfirmPassword
-                , binding.cbAgreeTerms, binding.ivEnterImage, saveImage);
+                , binding.cbAgreeTerms, bitmap, saveImage);
     }
 
     public void enterImage() {
+        itemSelectImageDialogFragment = ItemSelectImageDialogFragment.newInstance();
         itemSelectImageDialogFragment.setListener(new ItemSelectImageDialogFragment.Listener() {
             @Override
             public void onGalleryClicked() {
-                Intent galleryPictureIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                if (galleryPictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
-                    startActivityForResult(galleryPictureIntent, REQUEST_STUDIO);
-                }
+                photoTakerManager.galleryRequest(requireActivity(), AppContent.REQUEST_STUDIO);
             }
 
             @Override
             public void onCameraClicked() {
-                Intent photoPickerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(photoPickerIntent, AppContent.REQUEST_CAMERA);
+                photoTakerManager.cameraRequest(requireActivity(), AppContent.REQUEST_CAMERA);
             }
         });
         itemSelectImageDialogFragment.show(getChildFragmentManager(), "");
@@ -101,9 +101,11 @@ public class RegisterStep_1 extends Fragment implements PhotoTakerManager.PhotoL
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        presenter.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_STUDIO) {
+
+            /*if (requestCode == AppContent.REQUEST_STUDIO) {
+
                 Uri uri = data.getData();
                 binding.ivEnterImage.setImageURI(uri);
                 saveImage = true;
@@ -111,17 +113,13 @@ public class RegisterStep_1 extends Fragment implements PhotoTakerManager.PhotoL
                 Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
                 binding.ivEnterImage.setImageBitmap(imageBitmap);
                 saveImage = true;
-            }
-        }
+            }*/
     }
 
     @Override
-    public void onTakePhotoFailure() {
-
-    }
-
-    @Override
-    public void onTakePhotoSuccess(Bitmap bitmap) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        presenter.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
@@ -137,5 +135,21 @@ public class RegisterStep_1 extends Fragment implements PhotoTakerManager.PhotoL
     @Override
     public void hideDialog() {
         WaitDialogFragment.newInstance().dismiss();
+    }
+
+    @Override
+    public void onSuccess(Bitmap bitmap, String msg) {
+        binding.ivEnterImage.setImageBitmap(bitmap);
+        this.bitmap = bitmap;
+        saveImage = true;
+    }
+
+    @Override
+    public void onError(String msg) {
+    }
+
+    @Override
+    public void onFail(String msg) {
+        ToolUtil.showLongToast(msg, requireActivity());
     }
 }

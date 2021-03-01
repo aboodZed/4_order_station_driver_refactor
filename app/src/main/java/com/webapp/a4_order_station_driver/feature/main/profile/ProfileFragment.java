@@ -23,24 +23,26 @@ import com.webapp.a4_order_station_driver.utils.dialogs.LanguageDialog;
 import com.webapp.a4_order_station_driver.utils.dialogs.PrivacyPolicyFragment;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
+import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 import com.webapp.a4_order_station_driver.utils.location.tracking.GPSTracking;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements DialogView<Message> {
 
     public static final int page = 204;
 
     private FragmentProfileBinding binding;
 
     private BaseActivity baseActivity;
+    private ProfilePresenter presenter;
 
     public ProfileFragment(BaseActivity baseActivity) {
         this.baseActivity = baseActivity;
+        presenter = new ProfilePresenter(baseActivity, this);
     }
 
     public static ProfileFragment newInstance(BaseActivity baseActivity) {
-        ProfileFragment fragment = new ProfileFragment(baseActivity);
-        return fragment;
+        return new ProfileFragment(baseActivity);
     }
 
     @Override
@@ -62,12 +64,12 @@ public class ProfileFragment extends Fragment {
         binding.ivEditProfile.setOnClickListener(view -> editProfile());
         binding.tvContact.setOnClickListener(view -> contact());
         binding.tvLanguage.setOnClickListener(view -> changeLanguage());
-        binding.btnLogout.setOnClickListener(view -> logout());
+        binding.btnLogout.setOnClickListener(view -> presenter.logout());
     }
 
     public void privacy() {
         PrivacyPolicyFragment privacyPolicyFragment = PrivacyPolicyFragment.newInstance();
-        privacyPolicyFragment.show(getFragmentManager(), "");
+        privacyPolicyFragment.show(getChildFragmentManager(), "");
     }
 
     public void editProfile() {
@@ -76,39 +78,14 @@ public class ProfileFragment extends Fragment {
 
     public void contact() {
         ContactFragment contactFragment = ContactFragment.newInstance();
-        contactFragment.show(getFragmentManager(), "");
+        contactFragment.show(getChildFragmentManager(), "");
     }
 
     public void changeLanguage() {
         LanguageDialog languageDialog = new LanguageDialog();
-        languageDialog.show(getFragmentManager(), "");
+        languageDialog.show(getChildFragmentManager(), "");
     }
 
-    public void logout() {
-        WaitDialogFragment.newInstance().show(getFragmentManager(), "");
-        new APIUtil<Message>(getActivity()).getData(AppController.getInstance()
-                .getApi().isOnline(MainActivity.offline), new RequestListener<Message>() {
-            @Override
-            public void onSuccess(Message message, String msg) {
-                AppController.getInstance().getAppSettingsPreferences().setIsLogin(false);
-                GPSTracking.getInstance(getContext()).removeMyUpdates();
-                new NavigateUtil().activityIntent(getActivity(), LoginActivity.class, false);
-                WaitDialogFragment.newInstance().dismiss();
-            }
-
-            @Override
-            public void onError(String msg) {
-                ToolUtil.showLongToast(msg, getActivity());
-                WaitDialogFragment.newInstance().dismiss();
-            }
-
-            @Override
-            public void onFail(String msg) {
-                ToolUtil.showLongToast(msg, getActivity());
-                WaitDialogFragment.newInstance().dismiss();
-            }
-        });
-    }
 
     //functions
     private void data() {
@@ -117,5 +94,20 @@ public class ProfileFragment extends Fragment {
         ToolUtil.loadImage(getContext(), binding.pbWait, user.getAvatar_url(), binding.ivDriverAvatar);
         binding.tvDriverName.setText(user.getName());
         binding.rbUser.setRating(user.getRate());
+    }
+
+    @Override
+    public void setData(Message message) {
+
+    }
+
+    @Override
+    public void showDialog(String s) {
+        WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
+    }
+
+    @Override
+    public void hideDialog() {
+        WaitDialogFragment.newInstance().dismiss();
     }
 }

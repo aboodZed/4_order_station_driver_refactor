@@ -16,6 +16,14 @@ public class Order implements Serializable {
     private String status;
     private String type;
 
+    public Order() {
+    }
+
+    public Order(int id, String type) {
+        this.id = id;
+        this.type = type;
+    }
+
     public int getId() {
         return id;
     }

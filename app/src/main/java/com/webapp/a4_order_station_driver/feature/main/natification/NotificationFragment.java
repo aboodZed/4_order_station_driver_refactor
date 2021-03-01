@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.webapp.a4_order_station_driver.databinding.FragmentNotificationBinding;
 import com.webapp.a4_order_station_driver.feature.main.adapter.NotificationsAdapter;
 import com.webapp.a4_order_station_driver.models.NotificationList;
+import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 
@@ -49,7 +50,7 @@ public class NotificationFragment extends Fragment implements DialogView<Notific
 
     @Override
     public void setData(NotificationList notifications) {
-        notificationsAdapter = new NotificationsAdapter(notifications.getNotifications(), baseActivity, getChildFragmentManager());
+        notificationsAdapter = new NotificationsAdapter(notifications.getNotifications(), baseActivity,this);
         binding.rvNotification.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvNotification.setItemAnimator(new DefaultItemAnimator());
         binding.rvNotification.setAdapter(notificationsAdapter);
@@ -57,11 +58,11 @@ public class NotificationFragment extends Fragment implements DialogView<Notific
 
     @Override
     public void showDialog(String s) {
-        binding.avi.setVisibility(View.VISIBLE);
+        WaitDialogFragment.newInstance().show(getChildFragmentManager(),"");
     }
 
     @Override
     public void hideDialog() {
-        binding.avi.setVisibility(View.GONE);
+        WaitDialogFragment.newInstance().dismiss();
     }
 }

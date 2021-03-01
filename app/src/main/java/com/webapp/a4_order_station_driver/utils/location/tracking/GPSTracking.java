@@ -18,6 +18,7 @@ import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.MyLocation;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
 
 import java.util.HashMap;
@@ -111,11 +112,12 @@ public class GPSTracking {
                     }
                     db.setValue(myLocation);
                     map.put("driver_id", AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getId() + "");
+
                     AppController.getInstance().getApi().updateLocation(map)
                             .enqueue(new Callback<Message>() {
                                 @Override
                                 public void onResponse(Call<Message> call, Response<Message> response) {
-                                    Log.e("trackInServer", myLocation.toString());
+                                    Log.e("MyTracking", myLocation.toString());
                                 }
 
                                 @Override

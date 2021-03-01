@@ -1,15 +1,12 @@
 package com.webapp.a4_order_station_driver.feature.order.chat;
 
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,12 +19,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentChatBinding;
 import com.webapp.a4_order_station_driver.models.ChatMessage;
+import com.webapp.a4_order_station_driver.models.Order;
 import com.webapp.a4_order_station_driver.models.OrderStation;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.NotificationUtil;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
-import com.webapp.a4_order_station_driver.utils.dialogs.adapter.ChatAdapter;
+import com.webapp.a4_order_station_driver.feature.order.adapter.ChatAdapter;
+import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
+import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 import java.util.ArrayList;
 
@@ -41,7 +42,7 @@ public class ChatFragment extends Fragment {
 
     private DatabaseReference db;
     private ArrayList<ChatMessage> messageArrayList;
-    private OrderStation order;
+    private OrderStation orderStation;
     private ChatAdapter chatAdapter;
 
     public static ChatFragment newInstance(OrderStation order) {
@@ -56,17 +57,13 @@ public class ChatFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setStyle(DialogFragment.STYLE_NORMAL, R.style.dialog);
-        if (getArguments() != null) {
-            this.order = (OrderStation) getArguments().get(AppContent.ORDER_OBJECT);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //View v = inflater.inflate(R.layout.fragment_chat, container, false);
         binding = FragmentChatBinding.inflate(getLayoutInflater());
-        setInit();
-        initRecycleView();
+        getOrderData();
         click();
         return binding.getRoot();
     }
@@ -103,13 +100,40 @@ public class ChatFragment extends Fragment {
     //functions
 
     private void click() {
-       // binding.ivBack.setOnClickListener(view -> dismiss());
+        // binding.ivBack.setOnClickListener(view -> dismiss());
         binding.ivUploadMessage.setOnClickListener(view -> sendMessage());
     }
 
-    private void setInit() {
-        db = FirebaseDatabase.getInstance().getReference(AppContent.FIREBASE_CHAT_INSTANCE);
-        getMessages();
+    private void getOrderData() {
+        if (getArguments() != null) {
+            WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
+
+            Order order = (Order) getArguments().get(AppContent.ORDER_OBJECT);
+            new APIUtil<OrderStation>(requireActivity()).getData(AppController
+                            .getInstance().getApi().getOrderById(order.getId())
+                    , new RequestListener<OrderStation>() {
+                        @Override
+                        public void onSuccess(OrderStation orderStation, String msg) {
+                            WaitDialogFragment.newInstance().dismiss();
+                            ChatFragment.this.orderStation = orderStation;
+                            db = FirebaseDatabase.getInstance().getReference(AppContent.FIREBASE_CHAT_INSTANCE);
+                            getMessages();
+                            initRecycleView();
+                        }
+
+                        @Override
+                        public void onError(String msg) {
+                            WaitDialogFragment.newInstance().dismiss();
+                            ToolUtil.showLongToast(msg, requireActivity());
+                        }
+
+                        @Override
+                        public void onFail(String msg) {
+                            WaitDialogFragment.newInstance().dismiss();
+                            ToolUtil.showLongToast(msg, requireActivity());
+                        }
+                    });
+        }
     }
 
     private void initRecycleView() {
@@ -122,7 +146,7 @@ public class ChatFragment extends Fragment {
 
     //get message
     private void getMessages() {
-        db.child(order.getId() + "").addChildEventListener(new ChildEventListener() {
+        db.child(orderStation.getId() + "").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 messageArrayList.add(dataSnapshot.getValue(ChatMessage.class));
@@ -163,11 +187,11 @@ public class ChatFragment extends Fragment {
                 chatMessage.setSender_avatar_url(AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getAvatar_url());
                 chatMessage.setTime(System.currentTimeMillis() / 1000);
                 String key = db.push().getKey();
-                db.child(order.getId() + "").child(key).setValue(chatMessage);
+                db.child(orderStation.getId() + "").child(key).setValue(chatMessage);
                 ToolUtil.hideSoftKeyboard(getActivity(), binding.etMessage);
                 binding.etMessage.setText("");
-                NotificationUtil.sendMessageNotification(getActivity(), order.getInvoice_number()
-                        , order.getId() + "", order.getUser().getId() + ""
+                NotificationUtil.sendMessageNotification(getActivity(), orderStation.getInvoice_number()
+                        , orderStation.getId() + "", orderStation.getUser().getId() + ""
                         , AppContent.TYPE_ORDER_4STATION);
             }
         } else {

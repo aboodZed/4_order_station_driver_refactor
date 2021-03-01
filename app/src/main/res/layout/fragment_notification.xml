@@ -23,13 +23,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.wang.avi.AVLoadingIndicatorView
-        android:id="@+id/avi"
-        style="@style/AVLoadingIndicatorView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        app:indicatorColor="@color/colorAccent"
-        app:indicatorName="BallSpinFadeLoaderIndicator" />
-
 </LinearLayout>

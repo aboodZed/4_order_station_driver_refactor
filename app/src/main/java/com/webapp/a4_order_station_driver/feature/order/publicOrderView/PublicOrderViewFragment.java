@@ -30,22 +30,20 @@ import com.webapp.a4_order_station_driver.feature.main.orders.OrdersFragment;
 import com.webapp.a4_order_station_driver.feature.main.orders.publicO.OrderPublicFragment;
 import com.webapp.a4_order_station_driver.feature.main.wallets.PublicWalletFragment;
 import com.webapp.a4_order_station_driver.feature.main.wallets.WalletFragment;
-import com.webapp.a4_order_station_driver.models.Order;
+import com.webapp.a4_order_station_driver.feature.order.adapter.PublicChatAdapter;
 import com.webapp.a4_order_station_driver.models.PublicChatMessage;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
 import com.webapp.a4_order_station_driver.models.PublicOrderObject;
-import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.NotificationUtil;
 import com.webapp.a4_order_station_driver.utils.PermissionUtil;
-import com.webapp.a4_order_station_driver.utils.PhotoTakerManager;
+import com.webapp.a4_order_station_driver.utils.Photo.PhotoTakerManager;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.BillDialog;
 import com.webapp.a4_order_station_driver.utils.dialogs.ItemSelectImageDialogFragment;
 import com.webapp.a4_order_station_driver.utils.dialogs.ShowLocationDialog;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
-import com.webapp.a4_order_station_driver.utils.dialogs.adapter.PublicChatAdapter;
 import com.webapp.a4_order_station_driver.utils.formatter.DecimalFormatterManager;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
@@ -58,11 +56,9 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
-import static com.webapp.a4_order_station_driver.utils.AppContent.REQUEST_CAMERA;
-import static com.webapp.a4_order_station_driver.utils.AppContent.REQUEST_STUDIO;
 
 public class PublicOrderViewFragment extends Fragment implements
-        PhotoTakerManager.PhotoListener, DialogView<PublicOrderObject> {
+        RequestListener<Bitmap>, DialogView<PublicOrderObject> {
 
     public final static int page = 504;
 
@@ -110,8 +106,9 @@ public class PublicOrderViewFragment extends Fragment implements
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //View view = inflater.inflate(R.layout.fragment_public_chat, container, false);
         binding = FragmentPublicChatBinding.inflate(getLayoutInflater());
+        photoTakerManager = new PhotoTakerManager(this);
         if (getArguments() != null) {
-            presenter = new PublicOrderViewPresenter(baseActivity, this);
+            presenter = new PublicOrderViewPresenter(baseActivity, this, photoTakerManager);
             publicOrder = (PublicOrder) getArguments().getSerializable(AppContent.ORDER_OBJECT);
             presenter.getData(publicOrder);
             click();
@@ -159,17 +156,19 @@ public class PublicOrderViewFragment extends Fragment implements
         itemSelectImageDialogFragment.setListener(new ItemSelectImageDialogFragment.Listener() {
             @Override
             public void onGalleryClicked() {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoTakerManager.galleryRequest(requireActivity(), AppContent.REQUEST_STUDIO);
+                /*Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, REQUEST_STUDIO);
+                startActivityForResult(photoPickerIntent, REQUEST_STUDIO);*/
             }
 
             @Override
             public void onCameraClicked() {
-                Intent intent = photoTakerManager.getPhotoTakingIntent(requireActivity());
+                photoTakerManager.cameraRequest(requireActivity(), AppContent.REQUEST_CAMERA);
+                /*Intent intent = photoTakerManager.getPhotoTakingIntent(requireActivity());
                 if (intent != null) {
                     startActivityForResult(intent, REQUEST_CAMERA);
-                }
+                }*/
             }
         });
         itemSelectImageDialogFragment.show(getChildFragmentManager(), "");
@@ -283,34 +282,55 @@ public class PublicOrderViewFragment extends Fragment implements
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        presenter.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_STUDIO) {
-                try {
-                    //code
-                    if (data != null) {
-                        filePath = data.getData();
-                        uploadImage();
-                    }
-                    //code
-                } catch (OutOfMemoryError error) {
-                    error.printStackTrace();
-                    Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-                    WaitDialogFragment.newInstance().dismiss();
-                }
-            } else if (requestCode == REQUEST_CAMERA) {
-                try {
-                    //code
-                    filePath = photoTakerManager.getCurrentPhotoUri();
-                    photoTakerManager.processTakenPhoto(getActivity());
-                    //code
-                } catch (OutOfMemoryError error) {
-                    error.printStackTrace();
-                    Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-                    WaitDialogFragment.newInstance().dismiss();
-                }
-            }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        presenter.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void setData(PublicOrderObject publicOrderObject) {
+        publicOrder = publicOrderObject.getPublicOrder();
+        data();
+        if (publicOrder.getStatus().equals(AppContent.DELIVERED_STATUS)
+                || publicOrder.getStatus().equals(AppContent.CANCELLED_STATUS)) {
+                    /*if (tracking != null) {
+                        tracking.endGPSTracking();
+                    }*/
+            OrderGPSTracking.newInstance(baseActivity).removeUpdates();
         }
+        if (openBillDialog)
+            openBillDialog();
+    }
+
+    @Override
+    public void showDialog(String s) {
+        WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
+    }
+
+    @Override
+    public void hideDialog() {
+        WaitDialogFragment.newInstance().dismiss();
+    }
+
+    @Override
+    public void onSuccess(Bitmap bitmap, String msg) {
+        filePath = photoTakerManager.getCurrentPhotoUri();
+        uploadImage();
+    }
+
+    @Override
+    public void onError(String msg) {
+
+    }
+
+    @Override
+    public void onFail(String msg) {
+        ToolUtil.showLongToast(msg, requireActivity());
     }
 
     private void uploadImage() {
@@ -336,40 +356,5 @@ public class PublicOrderViewFragment extends Fragment implements
 
                     });
         }
-    }
-
-    @Override
-    public void onTakePhotoFailure() {
-
-    }
-
-    @Override
-    public void onTakePhotoSuccess(Bitmap bitmap) {
-        uploadImage();
-    }
-
-    @Override
-    public void setData(PublicOrderObject publicOrderObject) {
-        publicOrder = publicOrderObject.getPublicOrder();
-        data();
-        if (publicOrder.getStatus().equals(AppContent.DELIVERED_STATUS)
-                || publicOrder.getStatus().equals(AppContent.CANCELLED_STATUS)) {
-                    /*if (tracking != null) {
-                        tracking.endGPSTracking();
-                    }*/
-            new OrderGPSTracking(requireContext(), publicOrder).removeUpdates();
-        }
-        if (openBillDialog)
-            openBillDialog();
-    }
-
-    @Override
-    public void showDialog(String s) {
-        WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
-    }
-
-    @Override
-    public void hideDialog() {
-        WaitDialogFragment.newInstance().dismiss();
     }
 }

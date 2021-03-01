@@ -136,11 +136,7 @@ public class ToolUtil {
         }
     }
 
-    public static Bitmap getBitmapFromImageView(ImageView imageView) {
-        return ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-    }
-
-    public static MultipartBody.Part bitmapToMultipartBodyPart(Activity activity
+    /*public static MultipartBody.Part bitmapToMultipartBodyPart(Activity activity
             , Bitmap bitmap, String name) {
         //create a file to write bitmap data
         int iUniqueId = (int) (System.currentTimeMillis() & 0xfffffff);
@@ -152,7 +148,7 @@ public class ToolUtil {
         }
         //Convert bitmap to byte array
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG*/, bos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG* bos);
         byte[] bitmapdata = bos.toByteArray();
 
         //write the bytes in file
@@ -207,7 +203,7 @@ public class ToolUtil {
         }
         return bodyBuilder.build();
     }
-
+*/
     public static void notificationBuilder(Activity activity, ResetCode resetCode) {
         Notification.Builder builder = new Notification.Builder(activity);
         builder.setContentTitle(AppContent.APP_NAME)
