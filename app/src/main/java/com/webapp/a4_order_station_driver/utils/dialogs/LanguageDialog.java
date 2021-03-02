@@ -13,16 +13,20 @@ import androidx.fragment.app.DialogFragment;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.DialogLanguageBinding;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity;
+import com.webapp.a4_order_station_driver.feature.main.profile.ProfileFragment;
 import com.webapp.a4_order_station_driver.utils.AppController;
+import com.webapp.a4_order_station_driver.utils.NavigateUtil;
 import com.webapp.a4_order_station_driver.utils.language.AppLanguageUtil;
+import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 
 public class LanguageDialog extends DialogFragment {
 
     private DialogLanguageBinding binding;
+    private BaseActivity baseActivity;
 
-    public static LanguageDialog newInstance() {
-        LanguageDialog fragment = new LanguageDialog();
-        return fragment;
+    public LanguageDialog(BaseActivity baseActivity) {
+        this.baseActivity = baseActivity;
     }
 
     @Nullable
@@ -62,13 +66,13 @@ public class LanguageDialog extends DialogFragment {
     public void arabic() {
         AppLanguageUtil.getInstance().setAppLanguage(getContext(), AppLanguageUtil.ARABIC);
         dismiss();
-        getActivity().recreate();
+        new NavigateUtil().activityIntentWithPage(baseActivity, MainActivity.class, false, ProfileFragment.page);
     }
 
     public void english() {
         AppLanguageUtil.getInstance().setAppLanguage(getContext(), AppLanguageUtil.English);
         dismiss();
-        getActivity().recreate();
+        new NavigateUtil().activityIntentWithPage(baseActivity, MainActivity.class, false, ProfileFragment.page);
     }
 
     private void data() {
@@ -76,9 +80,9 @@ public class LanguageDialog extends DialogFragment {
         binding.tvEnglish.setBackgroundResource(R.drawable.dark_gray_button);
         if (AppController.getInstance().getAppSettingsPreferences()
                 .getAppLanguage().equals(AppLanguageUtil.English)) {
-            binding.tvArabic.setBackgroundResource(R.drawable.blue_button);
-        } else {
             binding.tvEnglish.setBackgroundResource(R.drawable.blue_button);
+        } else {
+            binding.tvArabic.setBackgroundResource(R.drawable.blue_button);
         }
     }
 }

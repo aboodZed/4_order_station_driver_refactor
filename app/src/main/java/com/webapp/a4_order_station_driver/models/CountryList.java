@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class CountryList {
 
-    @SerializedName("CountryList")
+    @SerializedName("countries")
     @Expose
     private ArrayList<Country> countries;
 

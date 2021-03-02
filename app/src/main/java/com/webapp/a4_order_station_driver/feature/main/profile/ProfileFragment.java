@@ -82,7 +82,7 @@ public class ProfileFragment extends Fragment implements DialogView<Message> {
     }
 
     public void changeLanguage() {
-        LanguageDialog languageDialog = new LanguageDialog();
+        LanguageDialog languageDialog = new LanguageDialog(baseActivity);
         languageDialog.show(getChildFragmentManager(), "");
     }
 

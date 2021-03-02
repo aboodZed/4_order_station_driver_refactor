@@ -55,8 +55,8 @@ public class AddBillDialog extends BottomSheetDialogFragment implements DialogVi
             String m = getArguments().getString(ENTER);
             binding.tvEnter.setText(m);
             binding.tvMessage.setText(m);
-            if (PublicOrderViewFragment.s != 0 && m.equals(getString(R.string.show_bill))) {
-                binding.etEnterPrice.setText(PublicOrderViewFragment.s + "");
+            if (PublicOrderViewFragment.billPrice != 0 && m.equals(getString(R.string.show_bill))) {
+                binding.etEnterPrice.setText(PublicOrderViewFragment.billPrice + "");
                 binding.etEnterPrice.setFocusable(false);
                 binding.btnSend.setVisibility(View.GONE);
             }
@@ -88,8 +88,8 @@ public class AddBillDialog extends BottomSheetDialogFragment implements DialogVi
 
         double price = Double.parseDouble(binding.etEnterPrice.getText().toString().trim());
 
-        if (PublicOrderViewFragment.s == 0) {
-            PublicOrderViewFragment.s = price;
+        if (PublicOrderViewFragment.billPrice == 0) {
+            PublicOrderViewFragment.billPrice = price;
             dismiss();
             AddBillDialog addBillDialog = AddBillDialog
                     .newInstance(publicOrder, getString(R.string.re_enter_bill_price));
@@ -100,7 +100,7 @@ public class AddBillDialog extends BottomSheetDialogFragment implements DialogVi
     }
 
     private void uploadBill(double price) {
-        if (PublicOrderViewFragment.s != price) {
+        if (PublicOrderViewFragment.billPrice != price) {
             binding.etEnterPrice.setError(getString(R.string.not_match));
             return;
         }

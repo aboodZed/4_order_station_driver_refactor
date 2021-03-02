@@ -76,7 +76,6 @@ class SplashPresenter {
                         public void onError(String msg) {
                             ToolUtil.showLongToast(msg, baseActivity);
                             baseActivity.navigate(LoginActivity.page);
-
                         }
 
                         @Override

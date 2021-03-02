@@ -11,6 +11,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentWalletBinding;
 import com.webapp.a4_order_station_driver.feature.main.adapter.SectionPageAdapter;
+import com.webapp.a4_order_station_driver.feature.main.wallets.publicO.PublicWalletFragment;
+import com.webapp.a4_order_station_driver.feature.main.wallets.station.OrderStationWalletFragment;
 
 public class WalletFragment extends Fragment {
 

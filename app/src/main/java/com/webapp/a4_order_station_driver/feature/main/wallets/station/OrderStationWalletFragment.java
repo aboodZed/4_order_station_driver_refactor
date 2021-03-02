@@ -1,4 +1,4 @@
-package com.webapp.a4_order_station_driver.feature.main.wallets;
+package com.webapp.a4_order_station_driver.feature.main.wallets.station;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,17 +17,19 @@ import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.formatter.DecimalFormatterManager;
+import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 import java.util.ArrayList;
 
-public class OrderStationWalletFragment extends Fragment {
+public class OrderStationWalletFragment extends Fragment implements DialogView<StationWallet> {
 
     public static final int viewPagerPage = 0;
 
     private FragmentOrderStationWalletBinding binding;
 
     private WalletAdapter walletAdapter;
+    private OrderStationWalletPresenter presenter;
 
     public static OrderStationWalletFragment newInstance() {
         OrderStationWalletFragment fragment = new OrderStationWalletFragment();
@@ -40,38 +42,26 @@ public class OrderStationWalletFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // View view = inflater.inflate(R.layout.fragment_order_station_wallet, container, false);
         binding = FragmentOrderStationWalletBinding.inflate(getLayoutInflater());
-        getData();
+        presenter = new OrderStationWalletPresenter(requireActivity(), this);
+        presenter.getData();
         return binding.getRoot();
     }
 
-    private void getData() {
-        new APIUtil<StationWallet>(getActivity()).getData(AppController.getInstance()
-                .getApi().getWalletDetails(), new RequestListener<StationWallet>() {
-            @Override
-            public void onSuccess(StationWallet stationWallet, String msg) {
-                setData(stationWallet);
-                binding.avi.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onError(String msg) {
-                binding.avi.setVisibility(View.GONE);
-                ToolUtil.showLongToast(msg, getActivity());
-            }
-
-            @Override
-            public void onFail(String msg) {
-                binding.avi.setVisibility(View.GONE);
-                ToolUtil.showLongToast(msg, getActivity());
-            }
-        });
+    public void setData(StationWallet stationWallet) {
+        initRecycleView(stationWallet.getOngoings());
+        binding.tvTotalBalance.setText((DecimalFormatterManager.getFormatterInstance()
+                .format(stationWallet.getWallet()) + " " + AppController.getInstance()
+                .getAppSettingsPreferences().getCountry().getCurrency_code()));
     }
 
-    private void setData(StationWallet stationWallet) {
-        initRecycleView(stationWallet.getOngoings());
-        binding.tvTotalBalance.setText(DecimalFormatterManager.getFormatterInstance()
-                .format(stationWallet.getWallet()) + " " + AppController.getInstance()
-                .getAppSettingsPreferences().getCountry().getCurrency_code());
+    @Override
+    public void showDialog(String s) {
+        binding.avi.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideDialog() {
+        binding.avi.setVisibility(View.GONE);
     }
 
     private void initRecycleView(ArrayList<Ongoing> ongoings) {

@@ -15,7 +15,7 @@ import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentCompletePayDialogBinding;
 import com.webapp.a4_order_station_driver.feature.main.orders.OrdersFragment;
 import com.webapp.a4_order_station_driver.feature.main.orders.station.OrderStationFragment;
-import com.webapp.a4_order_station_driver.feature.main.wallets.OrderStationWalletFragment;
+import com.webapp.a4_order_station_driver.feature.main.wallets.station.OrderStationWalletFragment;
 import com.webapp.a4_order_station_driver.feature.main.wallets.WalletFragment;
 import com.webapp.a4_order_station_driver.feature.order.publicOrderView.PublicOrderViewFragment;
 import com.webapp.a4_order_station_driver.models.Message;
@@ -94,7 +94,7 @@ public class CompletePayDialog extends DialogFragment {
                     , new RequestListener<Message>() {
                         @Override
                         public void onSuccess(Message message, String msg) {
-                            PublicOrderViewFragment.s = 0;
+                            PublicOrderViewFragment.billPrice = 0;
                             OrdersFragment.viewPagerPage = OrderStationFragment.viewPagerPage;
                             WalletFragment.viewPagerPage = OrderStationWalletFragment.viewPagerPage;
                             listener.updatePublicOrder();
@@ -116,8 +116,8 @@ public class CompletePayDialog extends DialogFragment {
     }
 
     private void setData() {
-        binding.tvDetials.setText(getString(R.string.price_bill) + " = " + DecimalFormatterManager.getFormatterInstance()
-                .format(PublicOrderViewFragment.s) + " " +
+        binding.tvDetials.setText((getString(R.string.price_bill) + " = " + DecimalFormatterManager.getFormatterInstance()
+                .format(PublicOrderViewFragment.billPrice) + " " +
                 AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code()
                 + "\n" + getString(R.string.delivery_price) + " = " + DecimalFormatterManager.getFormatterInstance()
                 .format(Double.parseDouble(publicOrder.getDelivery_cost())) + " " +
@@ -127,8 +127,8 @@ public class CompletePayDialog extends DialogFragment {
                 AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code()
                 + "\n ---------------------\n"
                 + getString(R.string.total) + " = " + DecimalFormatterManager.getFormatterInstance()
-                .format((PublicOrderViewFragment.s) + Double.parseDouble(publicOrder.getDelivery_cost())
+                .format((PublicOrderViewFragment.billPrice) + Double.parseDouble(publicOrder.getDelivery_cost())
                         + Double.parseDouble(publicOrder.getTax())) + " " +
-                AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code());
+                AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code()));
     }
 }

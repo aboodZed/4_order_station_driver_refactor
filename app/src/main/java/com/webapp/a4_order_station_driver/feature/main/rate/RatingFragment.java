@@ -17,9 +17,10 @@ import com.webapp.a4_order_station_driver.models.RatingObject;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
+import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
-public class RatingFragment extends Fragment {
+public class RatingFragment extends Fragment implements DialogView<RatingObject> {
 
     public static final int page = 205;
 
@@ -29,6 +30,7 @@ public class RatingFragment extends Fragment {
     private String next_page_url;
 
     private boolean loadingMoreItems;
+    private RatingPresenter presenter;
 
     public static RatingFragment newInstance() {
         RatingFragment fragment = new RatingFragment();
@@ -45,38 +47,13 @@ public class RatingFragment extends Fragment {
         //View v = inflater.inflate(R.layout.fragment_rating, container, false);
         binding = FragmentRatingBinding.inflate(getLayoutInflater());
         initRecycleView();
-        getRatings("/api/v1/delivery/ratings");
+        presenter = new RatingPresenter(requireActivity(), this);
+        presenter.getRatings("/api/v1/delivery/ratings");
         return binding.getRoot();
     }
 
     //functions
-    private void getRatings(String url) {
-        binding.avi.setVisibility(View.VISIBLE);
-        new APIUtil<RatingObject>(getActivity()).getData(AppController.getInstance()
-                .getApi().getRating(url), new RequestListener<RatingObject>() {
-            @Override
-            public void onSuccess(RatingObject ratings, String msg) {
-                loadingMoreItems = false;
-                binding.avi.setVisibility(View.GONE);
-                next_page_url = ratings.getRatings().getNext_page_url();
-                reviewsAdapter.addAll(ratings.getRatings().getData());
-            }
 
-            @Override
-            public void onError(String msg) {
-                loadingMoreItems = false;
-                binding.avi.setVisibility(View.GONE);
-                ToolUtil.showLongToast(msg, getActivity());
-            }
-
-            @Override
-            public void onFail(String msg) {
-                loadingMoreItems = false;
-                binding.avi.setVisibility(View.GONE);
-                ToolUtil.showLongToast(msg, getActivity());
-            }
-        });
-    }
 
     private void setRecyclerViewScrollListener() {
         binding.rvRating.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -85,9 +62,7 @@ public class RatingFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 if (!recyclerView.canScrollVertically(1)
                         && !TextUtils.isEmpty(next_page_url) && !loadingMoreItems) {
-                    binding.avi.setVisibility(View.VISIBLE);
-                    loadingMoreItems = true;
-                    getRatings(next_page_url);
+                    presenter.getRatings(next_page_url);
                 }
             }
         });
@@ -99,5 +74,23 @@ public class RatingFragment extends Fragment {
         binding.rvRating.setItemAnimator(new DefaultItemAnimator());
         binding.rvRating.setAdapter(reviewsAdapter);
         setRecyclerViewScrollListener();
+    }
+
+    @Override
+    public void setData(RatingObject ratingObject) {
+        next_page_url = ratingObject.getRatings().getNext_page_url();
+        reviewsAdapter.addAll(ratingObject.getRatings().getData());
+    }
+
+    @Override
+    public void showDialog(String s) {
+        loadingMoreItems = true;
+        binding.avi.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideDialog() {
+        loadingMoreItems = false;
+        binding.avi.setVisibility(View.GONE);
     }
 }

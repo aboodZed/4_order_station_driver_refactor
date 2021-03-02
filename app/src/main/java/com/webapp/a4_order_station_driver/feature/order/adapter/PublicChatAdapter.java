@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.webapp.a4_order_station_driver.databinding.ItemLeftPublicChatBinding;
 import com.webapp.a4_order_station_driver.databinding.ItemRightPublicChatBinding;
+import com.webapp.a4_order_station_driver.models.ChatMessage;
 import com.webapp.a4_order_station_driver.models.PublicChatMessage;
 import com.webapp.a4_order_station_driver.utils.APIImageUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
@@ -32,8 +33,8 @@ public class PublicChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private Activity activity;
     private FragmentManager fragmentManager;
 
-    public PublicChatAdapter(ArrayList<PublicChatMessage> publicChatMessages, Activity activity, FragmentManager fragmentManager) {
-        this.publicChatMessages = publicChatMessages;
+    public PublicChatAdapter(Activity activity, FragmentManager fragmentManager) {
+        this.publicChatMessages = new ArrayList<>();
         this.activity = activity;
         this.fragmentManager = fragmentManager;
     }
@@ -72,6 +73,11 @@ public class PublicChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemCount() {
         return publicChatMessages.size();
+    }
+
+    public void addItem(PublicChatMessage publicChatMessage) {
+        publicChatMessages.add(publicChatMessage);
+        notifyItemInserted(getItemCount() - 1);
     }
 
     public class DriverHolder extends RecyclerView.ViewHolder {

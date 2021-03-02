@@ -3,13 +3,11 @@ package com.webapp.a4_order_station_driver.feature.order.publicOrderView;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,26 +15,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentPublicChatBinding;
 import com.webapp.a4_order_station_driver.feature.main.orders.OrdersFragment;
 import com.webapp.a4_order_station_driver.feature.main.orders.publicO.OrderPublicFragment;
-import com.webapp.a4_order_station_driver.feature.main.wallets.PublicWalletFragment;
+import com.webapp.a4_order_station_driver.feature.main.wallets.publicO.PublicWalletFragment;
 import com.webapp.a4_order_station_driver.feature.main.wallets.WalletFragment;
 import com.webapp.a4_order_station_driver.feature.order.adapter.PublicChatAdapter;
-import com.webapp.a4_order_station_driver.models.PublicChatMessage;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
 import com.webapp.a4_order_station_driver.models.PublicOrderObject;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.NotificationUtil;
 import com.webapp.a4_order_station_driver.utils.PermissionUtil;
 import com.webapp.a4_order_station_driver.utils.Photo.PhotoTakerManager;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
@@ -52,11 +41,6 @@ import com.webapp.a4_order_station_driver.utils.location.tracking.OrderGPSTracki
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.UUID;
-
-import static android.app.Activity.RESULT_OK;
-
 public class PublicOrderViewFragment extends Fragment implements
         RequestListener<Bitmap>, DialogView<PublicOrderObject> {
 
@@ -64,22 +48,17 @@ public class PublicOrderViewFragment extends Fragment implements
 
     private FragmentPublicChatBinding binding;
 
-    private FirebaseStorage storage;
-    private DatabaseReference db;
-    private ArrayList<PublicChatMessage> messageArrayList;
     private PublicOrder publicOrder;
     private PublicChatAdapter publicChatAdapter;
     private ItemSelectImageDialogFragment itemSelectImageDialogFragment
             = ItemSelectImageDialogFragment.newInstance();
-    private Uri filePath;
-    private StorageReference storageReference;
     private PhotoTakerManager photoTakerManager;
     private PublicOrderViewPresenter presenter;
 
     private BillDialog billDialog;
 
     private BaseActivity baseActivity;
-    public static double s = 0;
+    public static double billPrice = 0;
     public static boolean isOpenPublicChat = false;
     private boolean openBillDialog;
 
@@ -108,18 +87,15 @@ public class PublicOrderViewFragment extends Fragment implements
         binding = FragmentPublicChatBinding.inflate(getLayoutInflater());
         photoTakerManager = new PhotoTakerManager(this);
         if (getArguments() != null) {
-            presenter = new PublicOrderViewPresenter(baseActivity, this, photoTakerManager);
             publicOrder = (PublicOrder) getArguments().getSerializable(AppContent.ORDER_OBJECT);
+            presenter = new PublicOrderViewPresenter(baseActivity, binding, publicOrder, this, photoTakerManager);
             presenter.getData(publicOrder);
+
+            initRecycleView();
+            presenter.getMessages(publicChatAdapter);
+            //data();
             click();
         }
-        //data();
-        db = FirebaseDatabase.getInstance().getReference(AppContent.FIREBASE_PUBLIC_STORE_CHAT_INSTANCE);
-        initRecycleView();
-        getMessages();
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
-
         return binding.getRoot();
     }
 
@@ -129,7 +105,7 @@ public class PublicOrderViewFragment extends Fragment implements
             baseActivity.navigate(OrdersFragment.page);
         });*/
 
-        binding.ivUploadMessage.setOnClickListener(view -> sendMessage(""));
+        binding.ivUploadMessage.setOnClickListener(view -> presenter.sendMessage(""));
         binding.ivUploadPhoto.setOnClickListener(view -> uploadPhoto());
         binding.ivTracking.setOnClickListener(view -> showLocation());
         binding.ivMore.setOnClickListener(view -> {
@@ -204,48 +180,15 @@ public class PublicOrderViewFragment extends Fragment implements
 
     private void setPrice() {
         if (publicOrder.getPurchase_invoice_value() != null) {
-            s = Double.parseDouble(publicOrder.getPurchase_invoice_value());
+            billPrice = Double.parseDouble(publicOrder.getPurchase_invoice_value());
         } else {
-            s = 0;
+            billPrice = 0;
         }
-    }
-
-    //get message
-    private void getMessages() {
-        db.child(publicOrder.getId() + "").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                messageArrayList.add(dataSnapshot.getValue(PublicChatMessage.class));
-                publicChatAdapter.notifyDataSetChanged();
-                binding.rvChat.scrollToPosition(messageArrayList.size() - 1);
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
 
     private void initRecycleView() {
-        messageArrayList = new ArrayList<>();
-        publicChatAdapter = new PublicChatAdapter(messageArrayList, getActivity(), getChildFragmentManager());
+        publicChatAdapter = new PublicChatAdapter(getActivity(), getChildFragmentManager());
         binding.rvChat.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvChat.setItemAnimator(new DefaultItemAnimator());
         binding.rvChat.setAdapter(publicChatAdapter);
@@ -256,29 +199,6 @@ public class PublicOrderViewFragment extends Fragment implements
                     , AppContent.REQUEST_PERMISSIONS_R_W_STORAGE_CAMERA);
     }
 
-    //send message
-    private void sendMessage(String avatarPath) {
-        if (ToolUtil.checkTheInternet()) {
-            if (!binding.etMessage.getText().toString().equals("") || !avatarPath.isEmpty()) {
-                PublicChatMessage publicStoreMessage = new PublicChatMessage();
-                publicStoreMessage.setText(binding.etMessage.getText().toString());
-                publicStoreMessage.setSender_name(AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getName());
-                publicStoreMessage.setImageUrl(avatarPath);
-                publicStoreMessage.setSender_id(AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getId());
-                publicStoreMessage.setSender_avatar_url(AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getAvatar_url());
-                publicStoreMessage.setTime(System.currentTimeMillis() / 1000);
-                String key = db.push().getKey();
-                db.child(publicOrder.getId() + "").child(key).setValue(publicStoreMessage);
-                NotificationUtil.sendMessageNotification(getActivity(), publicOrder.getInvoice_number()
-                        , publicOrder.getId() + "", publicOrder.getClient_id() + ""
-                        , AppContent.TYPE_ORDER_PUBLIC);
-            }
-            ToolUtil.hideSoftKeyboard(getActivity(), binding.etMessage);
-            binding.etMessage.setText("");
-        } else {
-            ToolUtil.showLongToast(getString(R.string.no_connection), getActivity());
-        }
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -319,8 +239,7 @@ public class PublicOrderViewFragment extends Fragment implements
 
     @Override
     public void onSuccess(Bitmap bitmap, String msg) {
-        filePath = photoTakerManager.getCurrentPhotoUri();
-        uploadImage();
+       presenter.uploadImage(photoTakerManager.getCurrentPhotoUri());
     }
 
     @Override
@@ -333,28 +252,4 @@ public class PublicOrderViewFragment extends Fragment implements
         ToolUtil.showLongToast(msg, requireActivity());
     }
 
-    private void uploadImage() {
-        if (filePath != null) {
-            WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
-            String avatarPath = "images/" + UUID.randomUUID().toString();
-            StorageReference ref = storageReference.child(avatarPath);
-            ref.putFile(filePath)
-                    .addOnSuccessListener(taskSnapshot -> {
-                        WaitDialogFragment.newInstance().dismiss();
-                        ref.getDownloadUrl().addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                sendMessage(String.valueOf(task.getResult()));
-                            } else {
-                                ToolUtil.showLongToast(getString(R.string.error), getActivity());
-                            }
-                        });
-                    })
-                    .addOnFailureListener(e -> {
-                        WaitDialogFragment.newInstance().dismiss();
-                    })
-                    .addOnProgressListener(taskSnapshot -> {
-
-                    });
-        }
-    }
 }

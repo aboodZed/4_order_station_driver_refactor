@@ -31,7 +31,7 @@ public class LoginActivity extends BaseActivity implements DialogView<Login> {
         presenter = new LoginPresenter(this, this);
         //view
         data();
-        //showCountries();
+        showCountries();
         //on click
         click();
     }

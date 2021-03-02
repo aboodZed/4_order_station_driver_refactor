@@ -13,7 +13,7 @@ import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentBillDailogBinding;
 import com.webapp.a4_order_station_driver.feature.main.orders.OrdersFragment;
 import com.webapp.a4_order_station_driver.feature.main.orders.station.OrderStationFragment;
-import com.webapp.a4_order_station_driver.feature.main.wallets.OrderStationWalletFragment;
+import com.webapp.a4_order_station_driver.feature.main.wallets.station.OrderStationWalletFragment;
 import com.webapp.a4_order_station_driver.feature.main.wallets.WalletFragment;
 import com.webapp.a4_order_station_driver.feature.order.publicOrderView.PublicOrderViewFragment;
 import com.webapp.a4_order_station_driver.models.Message;
@@ -100,14 +100,14 @@ public class BillDialog extends BottomSheetDialogFragment {
     }
 
     public void addPrice() {
-        if (PublicOrderViewFragment.s == 0) {
+        if (PublicOrderViewFragment.billPrice == 0) {
             dismiss();
             AddBillDialog addBillDialog = AddBillDialog.newInstance(publicOrder, getString(R.string.enter_bill_price));
-            addBillDialog.show(getFragmentManager(), "");
+            addBillDialog.show(getChildFragmentManager(), "");
         } else {
             dismiss();
             AddBillDialog addBillDialog = AddBillDialog.newInstance(publicOrder, getString(R.string.show_bill));
-            addBillDialog.show(getFragmentManager(), "");
+            addBillDialog.show(getChildFragmentManager(), "");
         }
     }
 
@@ -124,7 +124,7 @@ public class BillDialog extends BottomSheetDialogFragment {
                             , new RequestListener<Message>() {
                                 @Override
                                 public void onSuccess(Message message, String msg) {
-                                    PublicOrderViewFragment.s = 0;
+                                    PublicOrderViewFragment.billPrice = 0;
                                     OrdersFragment.viewPagerPage = OrderStationFragment.viewPagerPage;
                                     WalletFragment.viewPagerPage = OrderStationWalletFragment.viewPagerPage;
                                     listener.updatePublicOrder();
@@ -179,7 +179,7 @@ public class BillDialog extends BottomSheetDialogFragment {
                             , new RequestListener<Message>() {
                                 @Override
                                 public void onSuccess(Message message, String msg) {
-                                    PublicOrderViewFragment.s = 0;
+                                    PublicOrderViewFragment.billPrice = 0;
                                     OrdersFragment.viewPagerPage = OrderStationFragment.viewPagerPage;
                                     WalletFragment.viewPagerPage = OrderStationWalletFragment.viewPagerPage;
                                     ToolUtil.showLongToast(message.getMassage(), getActivity());

@@ -3,7 +3,7 @@ package com.webapp.a4_order_station_driver.feature.order.newOrderStation;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.feature.main.orders.OrdersFragment;
 import com.webapp.a4_order_station_driver.feature.main.orders.station.OrderStationFragment;
-import com.webapp.a4_order_station_driver.feature.main.wallets.OrderStationWalletFragment;
+import com.webapp.a4_order_station_driver.feature.main.wallets.station.OrderStationWalletFragment;
 import com.webapp.a4_order_station_driver.feature.main.wallets.WalletFragment;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.OrderStation;

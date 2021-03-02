@@ -124,6 +124,6 @@ public interface ApiInterface {
     @POST("delivery/updateDriverLocation")
     Call<Message> updateLocation(@QueryMap HashMap<String, String> params);
 
-    @GET("CountryList-list")
+    @GET("countries-list")
     Call<CountryList> getCountries();
 }

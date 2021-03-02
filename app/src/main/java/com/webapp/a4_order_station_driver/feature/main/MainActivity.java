@@ -17,8 +17,8 @@ import com.webapp.a4_order_station_driver.feature.main.orders.publicO.OrderPubli
 import com.webapp.a4_order_station_driver.feature.main.orders.station.OrderStationFragment;
 import com.webapp.a4_order_station_driver.feature.main.profile.ProfileFragment;
 import com.webapp.a4_order_station_driver.feature.main.rate.RatingFragment;
-import com.webapp.a4_order_station_driver.feature.main.wallets.OrderStationWalletFragment;
-import com.webapp.a4_order_station_driver.feature.main.wallets.PublicWalletFragment;
+import com.webapp.a4_order_station_driver.feature.main.wallets.station.OrderStationWalletFragment;
+import com.webapp.a4_order_station_driver.feature.main.wallets.publicO.PublicWalletFragment;
 import com.webapp.a4_order_station_driver.feature.main.wallets.WalletFragment;
 import com.webapp.a4_order_station_driver.feature.order.chat.ChatFragment;
 import com.webapp.a4_order_station_driver.feature.order.newPublicOrder.NewPublicOrderFragment;
@@ -32,7 +32,6 @@ import com.webapp.a4_order_station_driver.utils.dialogs.NewOrderStationDialog;
 import com.webapp.a4_order_station_driver.utils.dialogs.NewPublicOrderDialog;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends BaseActivity {
@@ -295,8 +294,8 @@ public class MainActivity extends BaseActivity {
                 dialog.dismiss();
                     isLoadingNewOrder = false;
                 }*/
-                dialog.setListener(() -> isLoadingNewOrder = false);
                 dialog.show(getSupportFragmentManager(), "");
+                dialog.setListener(() -> isLoadingNewOrder = false);
             } else {
                 NewPublicOrderDialog dialog = NewPublicOrderDialog.newInstance(id);
                 dialog.show(getSupportFragmentManager(), "");
