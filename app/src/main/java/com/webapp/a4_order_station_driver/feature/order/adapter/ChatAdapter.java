@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.webapp.a4_order_station_driver.databinding.ItemChatLeftBinding;
 import com.webapp.a4_order_station_driver.databinding.ItemChatRightBinding;
 import com.webapp.a4_order_station_driver.models.ChatMessage;
+import com.webapp.a4_order_station_driver.utils.APIImageUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
 
@@ -87,7 +88,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             } catch (Exception e) {
                 Log.e("error", "" + e.getMessage());
             }
-            ToolUtil.loadImage(activity, binding.pbWaitAvater
+            APIImageUtil.loadImage(activity, binding.pbWaitAvater
                     , data.getSender_avatar_url(), binding.ivUserImage);
         }
     }
@@ -108,7 +109,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             } catch (Exception e) {
                 Log.e("error", "" + e.getMessage());
             }
-            ToolUtil.loadImage(activity, binding.pbWaitAvater
+            APIImageUtil.loadImage(activity, binding.pbWaitAvater
                     , data.getSender_avatar_url(), binding.ivUserImage);
         }
     }

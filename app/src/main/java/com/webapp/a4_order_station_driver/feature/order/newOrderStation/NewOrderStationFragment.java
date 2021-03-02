@@ -19,6 +19,7 @@ import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.OrderItem;
 import com.webapp.a4_order_station_driver.models.OrderStation;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
+import com.webapp.a4_order_station_driver.utils.APIImageUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.NavigateUtil;
@@ -115,7 +116,7 @@ public class NewOrderStationFragment extends Fragment implements DialogView<Mess
         binding.tvDatetime.setText((ToolUtil.getTime(orderStation.getOrder_created_timestamp()) + " " +
                 ToolUtil.getDate(orderStation.getOrder_created_timestamp())));
 //shop info
-        ToolUtil.loadImage(getContext(), binding.pbWaitCoImage, orderStation.getShop().getLogo_url(), binding.ivCoImage);
+        APIImageUtil.loadImage(getContext(), binding.pbWaitCoImage, orderStation.getShop().getLogo_url(), binding.ivCoImage);
         if (AppController.getInstance().getAppSettingsPreferences().getAppLanguage().equals("en")) {
             binding.tvCoName.setText(orderStation.getShop().getName_en());
             binding.tvOrderCoName.setText(orderStation.getShop().getName_en());
@@ -128,7 +129,7 @@ public class NewOrderStationFragment extends Fragment implements DialogView<Mess
             binding.tvCoAddress.setText(orderStation.getShop().getAddress_ar());
         }
 //user info
-        ToolUtil.loadImage(getContext(), binding.pbWaitReciverImage
+        APIImageUtil.loadImage(getContext(), binding.pbWaitReciverImage
                 , orderStation.getUser().getAvatar_url(), binding.ivReceiverImage);
         binding.tvReceiverName.setText(orderStation.getUser().getName());
         binding.tvReceiverAddress.setText(orderStation.getUser().getAddress());

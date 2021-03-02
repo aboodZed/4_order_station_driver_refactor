@@ -104,12 +104,12 @@ public class EditProfileFragment extends Fragment implements DialogView<User>, R
     //functions
     private void data() {
         User user = AppController.getInstance().getAppSettingsPreferences().getLogin().getUser();
-        ToolUtil.loadImage(getContext(), binding.pbWaitAvater, user.getAvatar_url(), binding.ivDriverAvatar);
-        ToolUtil.loadImage(getContext(), binding.pbWaitIdPic, user.getId_pic_url(), binding.ivIdPic);
-        ToolUtil.loadImage(getContext(), binding.pbWaitYourLicense, user.getDrive_license_url(), binding.ivYourLicense);
-        ToolUtil.loadImage(getContext(), binding.pbWaitYourVehicle, user.getVehicle_pic_url(), binding.ivYourVehicle);
-        ToolUtil.loadImage(getContext(), binding.pbWaitVehicleLicense, user.getVehicle_license_url(), binding.ivVehicleLicense);
-        ToolUtil.loadImage(getContext(), binding.pbWaitInsuranceLicense, user.getInsurance_license_url(), binding.ivInsuranceLicense);
+        APIImageUtil.loadImage(getContext(), binding.pbWaitAvater, user.getAvatar_url(), binding.ivDriverAvatar);
+        APIImageUtil.loadImage(getContext(), binding.pbWaitIdPic, user.getId_pic_url(), binding.ivIdPic);
+        APIImageUtil.loadImage(getContext(), binding.pbWaitYourLicense, user.getDrive_license_url(), binding.ivYourLicense);
+        APIImageUtil.loadImage(getContext(), binding.pbWaitYourVehicle, user.getVehicle_pic_url(), binding.ivYourVehicle);
+        APIImageUtil.loadImage(getContext(), binding.pbWaitVehicleLicense, user.getVehicle_license_url(), binding.ivVehicleLicense);
+        APIImageUtil.loadImage(getContext(), binding.pbWaitInsuranceLicense, user.getInsurance_license_url(), binding.ivInsuranceLicense);
         binding.etEnterEmail.setText(user.getEmail());
         binding.etEnterPhone.setText(user.getMobile());
         binding.etEnterAddress.setText(user.getAddress());

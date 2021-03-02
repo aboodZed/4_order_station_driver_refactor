@@ -14,6 +14,7 @@ import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.main.editProfile.EditProfileFragment;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.User;
+import com.webapp.a4_order_station_driver.utils.APIImageUtil;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.NavigateUtil;
@@ -91,7 +92,7 @@ public class ProfileFragment extends Fragment implements DialogView<Message> {
     private void data() {
         User user = AppController.getInstance().getAppSettingsPreferences().getLogin().getUser();
         Log.e("usercountryid", user.getCountry_id() + "");
-        ToolUtil.loadImage(getContext(), binding.pbWait, user.getAvatar_url(), binding.ivDriverAvatar);
+        APIImageUtil.loadImage(getContext(), binding.pbWait, user.getAvatar_url(), binding.ivDriverAvatar);
         binding.tvDriverName.setText(user.getName());
         binding.rbUser.setRating(user.getRate());
     }

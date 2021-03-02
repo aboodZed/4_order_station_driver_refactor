@@ -20,6 +20,7 @@ import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.Order;
 import com.webapp.a4_order_station_driver.models.OrderItem;
 import com.webapp.a4_order_station_driver.models.OrderStation;
+import com.webapp.a4_order_station_driver.utils.APIImageUtil;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
@@ -152,7 +153,7 @@ public class OrderStationViewFragment extends Fragment implements DialogView<Ord
         if (!TextUtils.isEmpty(this.orderStation.getType_of_receive()))
             binding.tvReceive.setText(this.orderStation.getType_of_receive());
 //shop info
-        ToolUtil.loadImage(getContext(), binding.pbWaitCoImage, this.orderStation.getShop().getLogo_url(), binding.ivCoImage);
+        APIImageUtil.loadImage(getContext(), binding.pbWaitCoImage, this.orderStation.getShop().getLogo_url(), binding.ivCoImage);
         if (AppController.getInstance().getAppSettingsPreferences().getAppLanguage().equals(AppLanguageUtil.English)) {
             binding.tvCoName.setText(this.orderStation.getShop().getName_en());
             binding.tvOrderCoName.setText(this.orderStation.getShop().getName_en());
@@ -163,7 +164,7 @@ public class OrderStationViewFragment extends Fragment implements DialogView<Ord
             binding.tvOrderCoAddress.setText(this.orderStation.getShop().getAddress_ar());
         }
 //user info
-        ToolUtil.loadImage(getContext(), binding.pbWaitReciverImage
+        APIImageUtil.loadImage(getContext(), binding.pbWaitReciverImage
                 , this.orderStation.getUser().getAvatar_url(), binding.ivReceiverImage);
         binding.tvReceiverName.setText(this.orderStation.getUser().getName());
         //items

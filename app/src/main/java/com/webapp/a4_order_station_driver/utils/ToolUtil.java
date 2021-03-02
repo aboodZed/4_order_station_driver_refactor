@@ -81,129 +81,129 @@ public class ToolUtil {
     }
 
 
-    public static String showError(Activity activity, ResponseBody s) {
+    public static String showError(Context context, ResponseBody s) {
         String message = "";
         try {
             JSONObject jObjError = new JSONObject(s.string());
             message = jObjError.getString(AppContent.FIREBASE_MESSAGE);
         } catch (Exception e) {
-            if (activity != null)
-                message = activity.getString(R.string.error);
+            if (context != null)
+                message = context.getString(R.string.error);
         }
         return message;
     }
 
-    @SuppressLint("CheckResult")
-    public static void loadImage(Context context, ProgressBar progressBar
-            , String url, ImageView imgView) {
-        if (checkTheInternet()) {
-            progressBar.setVisibility(View.VISIBLE);
-            imgView.setClickable(false);
-            Glide.with(context)
-                    .asBitmap()
-                    .load(url)
-                    .placeholder(R.drawable.img_user)
-                    .listener(new RequestListener<Bitmap>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model
-                                , Target<Bitmap> target, boolean isFirstResource) {
-                            return false;
-                        }
+    /*  @SuppressLint("CheckResult")
+      public static void loadImage(Context context, ProgressBar progressBar
+              , String url, ImageView imgView) {
+          if (checkTheInternet()) {
+              progressBar.setVisibility(View.VISIBLE);
+              imgView.setClickable(false);
+              Glide.with(context)
+                      .asBitmap()
+                      .load(url)
+                      .placeholder(R.drawable.img_user)
+                      .listener(new RequestListener<Bitmap>() {
+                          @Override
+                          public boolean onLoadFailed(@Nullable GlideException e, Object model
+                                  , Target<Bitmap> target, boolean isFirstResource) {
+                              return false;
+                          }
 
-                        @Override
-                        public boolean onResourceReady(Bitmap resource, Object model
-                                , Target<Bitmap> target, DataSource dataSource
-                                , boolean isFirstResource) {
-                            return false;
-                        }
-                    })
-                    .into(new CustomTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(@NonNull Bitmap resource
-                                , @Nullable Transition<? super Bitmap> transition) {
-                            imgView.setImageBitmap(resource);
-                            imgView.setClickable(true);
-                            progressBar.setVisibility(View.GONE);
-                        }
+                          @Override
+                          public boolean onResourceReady(Bitmap resource, Object model
+                                  , Target<Bitmap> target, DataSource dataSource
+                                  , boolean isFirstResource) {
+                              return false;
+                          }
+                      })
+                      .into(new CustomTarget<Bitmap>() {
+                          @Override
+                          public void onResourceReady(@NonNull Bitmap resource
+                                  , @Nullable Transition<? super Bitmap> transition) {
+                              imgView.setImageBitmap(resource);
+                              imgView.setClickable(true);
+                              progressBar.setVisibility(View.GONE);
+                          }
 
-                        @Override
-                        public void onLoadCleared(@Nullable Drawable placeholder) {
-                            progressBar.setVisibility(View.GONE);
-                        }
-                    });
-        } else {
-            Toast.makeText(context, R.string.no_connection, Toast.LENGTH_SHORT).show();
-        }
-    }
+                          @Override
+                          public void onLoadCleared(@Nullable Drawable placeholder) {
+                              progressBar.setVisibility(View.GONE);
+                          }
+                      });
+          } else {
+              Toast.makeText(contt, R.string.no_connection, Toast.LENGTH_SHORT).show();
+          }
+      }
 
-    /*public static MultipartBody.Part bitmapToMultipartBodyPart(Activity activity
-            , Bitmap bitmap, String name) {
-        //create a file to write bitmap data
-        int iUniqueId = (int) (System.currentTimeMillis() & 0xfffffff);
-        File file = new File(activity.getCacheDir(), iUniqueId + ".jpg");
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //Convert bitmap to byte array
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG* bos);
-        byte[] bitmapdata = bos.toByteArray();
+      /*public static MultipartBody.Part bitmapToMultipartBodyPart(Activity activity
+              , Bitmap bitmap, String name) {
+          //create a file to write bitmap data
+          int iUniqueId = (int) (System.currentTimeMillis() & 0xfffffff);
+          File file = new File(activity.getCacheDir(), iUniqueId + ".jpg");
+          try {
+              file.createNewFile();
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
+          //Convert bitmap to byte array
+          ByteArrayOutputStream bos = new ByteArrayOutputStream();
+          bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG* bos);
+          byte[] bitmapdata = bos.toByteArray();
 
-        //write the bytes in file
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            fos.write(bitmapdata);
-            fos.flush();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //pass it like this
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        // MultipartBody.Part is used to send also the actual file name
-        return MultipartBody.Part.createFormData(name, file.getName(), requestFile);
-    }
+          //write the bytes in file
+          FileOutputStream fos = null;
+          try {
+              fos = new FileOutputStream(file);
+          } catch (FileNotFoundException e) {
+              e.printStackTrace();
+          }
+          try {
+              fos.write(bitmapdata);
+              fos.flush();
+              fos.close();
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
+          //pass it like this
+          RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+          // MultipartBody.Part is used to send also the actual file name
+          return MultipartBody.Part.createFormData(name, file.getName(), requestFile);
+      }
 
-    public static String bitmapToBase64(Bitmap bitmap) {
-        Bitmap bp = getResizedBitmap(bitmap, 400, 400);
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bp.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-        String s = "data:image/jpeg;base64," + Base64.encodeToString(bos.toByteArray(), Base64.NO_WRAP);
-        return s;
-    }
+      public static String bitmapToBase64(Bitmap bitmap) {
+          Bitmap bp = getResizedBitmap(bitmap, 400, 400);
+          ByteArrayOutputStream bos = new ByteArrayOutputStream();
+          bp.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+          String s = "data:image/jpeg;base64," + Base64.encodeToString(bos.toByteArray(), Base64.NO_WRAP);
+          return s;
+      }
 
-    public static Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
-        Matrix matrix = new Matrix();
-        // RESIZE THE BIT MAP
-        matrix.postScale(scaleWidth, scaleHeight);
-        // RECREATE THE NEW BITMAP
-        Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height,
-                matrix, false);
-        return resizedBitmap;
-    }
+      public static Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
+          int width = bm.getWidth();
+          int height = bm.getHeight();
+          float scaleWidth = ((float) newWidth) / width;
+          float scaleHeight = ((float) newHeight) / height;
+          Matrix matrix = new Matrix();
+          // RESIZE THE BIT MAP
+          matrix.postScale(scaleWidth, scaleHeight);
+          // RECREATE THE NEW BITMAP
+          Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height,
+                  matrix, false);
+          return resizedBitmap;
+      }
 
-    public static RequestBody createBody(HashMap<String, String> hashMap) {
-        FormBody.Builder bodyBuilder = new FormBody.Builder();
-        Iterator it = hashMap.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            bodyBuilder.add((String) pair.getKey(), (String) pair.getValue());
-            it.remove(); // avoids a ConcurrentModificationException
-        }
-        return bodyBuilder.build();
-    }
-*/
+      public static RequestBody createBody(HashMap<String, String> hashMap) {
+          FormBody.Builder bodyBuilder = new FormBody.Builder();
+          Iterator it = hashMap.entrySet().iterator();
+          while (it.hasNext()) {
+              Map.Entry pair = (Map.Entry) it.next();
+              bodyBuilder.add((String) pair.getKey(), (String) pair.getValue());
+              it.remove(); // avoids a ConcurrentModificationException
+          }
+          return bodyBuilder.build();
+      }
+
     public static void notificationBuilder(Activity activity, ResetCode resetCode) {
         Notification.Builder builder = new Notification.Builder(activity);
         builder.setContentTitle(AppContent.APP_NAME)
@@ -230,7 +230,7 @@ public class ToolUtil {
         //notification.defaults = Notification.FLAG_AUTO_CANCEL;
         int iUniqueId = (int) (System.currentTimeMillis() & 0xfffffff);
         notificationManager.notify(iUniqueId, notification);
-    }
+    }*/
 
     public static String getDate(long time) {
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);
@@ -244,23 +244,5 @@ public class ToolUtil {
         cal.setTimeInMillis(time * 1000);
         String date = DateFormat.format("hh:mm", cal).toString();
         return date;
-    }
-
-    public static void changeFcm(String refreshToken) {
-        if (AppController.getInstance().getAppSettingsPreferences().getIsLogin())
-            AppController.getInstance().getApi().fcmToken(refreshToken).enqueue(new Callback<Message>() {
-                @Override
-                public void onResponse(Call<Message> call, Response<Message> response) {
-                    if (response.isSuccessful()) {
-                        assert response.body() != null;
-                        Log.e(getClass().getName() + " : response:", response.body().getMassage());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Message> call, Throwable t) {
-
-                }
-            });
     }
 }

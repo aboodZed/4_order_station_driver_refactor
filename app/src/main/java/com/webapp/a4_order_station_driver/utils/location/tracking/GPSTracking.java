@@ -20,6 +20,7 @@ import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.MyLocation;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
+import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 import java.util.HashMap;
 
@@ -113,7 +114,25 @@ public class GPSTracking {
                     db.setValue(myLocation);
                     map.put("driver_id", AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getId() + "");
 
-                    AppController.getInstance().getApi().updateLocation(map)
+                    new APIUtil<Message>(context).getData(AppController.getInstance().getApi()
+                            .updateLocation(map), new RequestListener<Message>() {
+                        @Override
+                        public void onSuccess(Message message, String msg) {
+                            Log.e(getClass().getName() + " : MyTracking", myLocation.toString());
+                        }
+
+                        @Override
+                        public void onError(String msg) {
+                            Log.e(getClass().getName() + " : trackingError", msg);
+                        }
+
+                        @Override
+                        public void onFail(String msg) {
+                            Log.e(getClass().getName() + " : trackingFail", msg);
+                        }
+                    });
+
+                    /*AppController.getInstance().getApi().updateLocation(map)
                             .enqueue(new Callback<Message>() {
                                 @Override
                                 public void onResponse(Call<Message> call, Response<Message> response) {
@@ -125,7 +144,7 @@ public class GPSTracking {
 
                                 }
                             });
-                    Log.e("trackings", myLocation.toString());
+                    Log.e("trackings", myLocation.toString());*/
                 } else {
                     lm.removeUpdates(locationListener);
                 }

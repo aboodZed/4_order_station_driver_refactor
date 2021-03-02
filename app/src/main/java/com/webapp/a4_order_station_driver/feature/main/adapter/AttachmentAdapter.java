@@ -60,7 +60,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
         }
 
         private void setData(Attachment attachment) {
-            ToolUtil.loadImage(activity, binding.pbWaitImage, attachment.getImage_url(), binding.ivImage);
+            APIImageUtil.loadImage(activity, binding.pbWaitImage, attachment.getImage_url(), binding.ivImage);
         }
 
         public void openImage() {

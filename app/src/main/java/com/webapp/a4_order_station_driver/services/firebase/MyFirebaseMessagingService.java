@@ -6,16 +6,17 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.webapp.a4_order_station_driver.feature.order.chat.ChatFragment;
 import com.webapp.a4_order_station_driver.feature.order.publicOrderView.PublicOrderViewFragment;
+import com.webapp.a4_order_station_driver.models.Message;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.NavigateUtil;
 import com.webapp.a4_order_station_driver.utils.NotificationUtil;
+import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 import org.json.JSONObject;
 
 import java.util.Map;
-
-import static com.webapp.a4_order_station_driver.utils.ToolUtil.changeFcm;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -148,8 +149,25 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(String refreshedToken) {
         super.onNewToken(refreshedToken);
-        if (AppController.getInstance().getAppSettingsPreferences().getIsLogin()) {
-            changeFcm(refreshedToken);
-        }
+        if (AppController.getInstance().getAppSettingsPreferences().getIsLogin())
+            new APIUtil<Message>(this).getData(AppController.getInstance().getApi()
+                    .fcmToken(refreshedToken), new RequestListener<Message>() {
+                @Override
+                public void onSuccess(Message message, String msg) {
+                    Log.e(getClass().getName() + " : ChangeFCMResponse:", message.getMassage());
+                }
+
+                @Override
+                public void onError(String msg) {
+                    Log.e(getClass().getName() + " : ChangeFCMError:", msg);
+
+                }
+
+                @Override
+                public void onFail(String msg) {
+                    Log.e(getClass().getName() + " : ChangeFCMFail:", msg);
+
+                }
+            });
     }
 }

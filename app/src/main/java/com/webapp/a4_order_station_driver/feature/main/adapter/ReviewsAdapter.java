@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.webapp.a4_order_station_driver.databinding.ItemRatingBinding;
 import com.webapp.a4_order_station_driver.models.RatingData;
+import com.webapp.a4_order_station_driver.utils.APIImageUtil;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewHo
         }
 
         public void setData(RatingData review) {
-            ToolUtil.loadImage(activity, binding.pbWaitAvater, review.getUser().getAvatar_url(), binding.ivUserImage);
+            APIImageUtil.loadImage(activity, binding.pbWaitAvater, review.getUser().getAvatar_url(), binding.ivUserImage);
             binding.tvUserName.setText(review.getUser().getName());
             binding.tvReviewText.setText(review.getReview());
             float rate = Float.parseFloat(review.getRate());

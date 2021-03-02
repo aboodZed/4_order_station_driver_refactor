@@ -1,11 +1,29 @@
 package com.webapp.a4_order_station_driver.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.Base64;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
+import com.webapp.a4_order_station_driver.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -16,6 +34,8 @@ import java.io.IOException;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+
+import static com.webapp.a4_order_station_driver.utils.ToolUtil.checkTheInternet;
 
 public class APIImageUtil {
 
@@ -78,5 +98,48 @@ public class APIImageUtil {
         Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height,
                 matrix, false);
         return resizedBitmap;
+    }
+
+    @SuppressLint("CheckResult")
+    public static void loadImage(Context context, ProgressBar progressBar
+            , String url, ImageView imgView) {
+        if (checkTheInternet()) {
+            progressBar.setVisibility(View.VISIBLE);
+            imgView.setClickable(false);
+            Glide.with(context)
+                    .asBitmap()
+                    .load(url)
+                    .placeholder(R.drawable.img_user)
+                    .listener(new RequestListener<Bitmap>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model
+                                , Target<Bitmap> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Bitmap resource, Object model
+                                , Target<Bitmap> target, DataSource dataSource
+                                , boolean isFirstResource) {
+                            return false;
+                        }
+                    })
+                    .into(new CustomTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(@NonNull Bitmap resource
+                                , @Nullable Transition<? super Bitmap> transition) {
+                            imgView.setImageBitmap(resource);
+                            imgView.setClickable(true);
+                            progressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    });
+        } else {
+            Toast.makeText(context, R.string.no_connection, Toast.LENGTH_SHORT).show();
+        }
     }
 }

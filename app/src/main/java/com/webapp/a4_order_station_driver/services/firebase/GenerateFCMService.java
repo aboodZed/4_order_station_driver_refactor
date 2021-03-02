@@ -11,8 +11,10 @@ import androidx.annotation.Nullable;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
-
-import static com.webapp.a4_order_station_driver.utils.ToolUtil.changeFcm;
+import com.webapp.a4_order_station_driver.models.Message;
+import com.webapp.a4_order_station_driver.utils.APIUtil;
+import com.webapp.a4_order_station_driver.utils.AppController;
+import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 public class GenerateFCMService extends Service {
 
@@ -50,7 +52,26 @@ public class GenerateFCMService extends Service {
 
                     // Log and toast
                     stopSelf();
-                    changeFcm(token);
+                    if (AppController.getInstance().getAppSettingsPreferences().getIsLogin())
+                        new APIUtil<Message>(context).getData(AppController.getInstance().getApi()
+                                .fcmToken(token), new RequestListener<Message>() {
+                            @Override
+                            public void onSuccess(Message message, String msg) {
+                                Log.e(getClass().getName() + " : ChangeFCMResponse:", message.getMassage());
+                            }
+
+                            @Override
+                            public void onError(String msg) {
+                                Log.e(getClass().getName() + " : ChangeFCMError:", msg);
+
+                            }
+
+                            @Override
+                            public void onFail(String msg) {
+                                Log.e(getClass().getName() + " : ChangeFCMFail:", msg);
+
+                            }
+                        });
                     Log.e("fcm token", "" + token);
                 });
     }
