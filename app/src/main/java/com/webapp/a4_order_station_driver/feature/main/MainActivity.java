@@ -217,7 +217,7 @@ public class MainActivity extends BaseActivity {
 
         switch (page) {
             case HomeFragment.page://1
-                HomeFragment homeFragment = HomeFragment.newInstance();
+                HomeFragment homeFragment = HomeFragment.newInstance(this);
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , homeFragment, R.id.fragment_container);
                 binding.ivIcHome.setBackgroundResource(R.drawable.ic_home_blue);

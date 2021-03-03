@@ -23,8 +23,6 @@ public class ResetPasswordActivity extends BaseActivity {
     private ResetStep2 resetStep2;
     private ResetStep3 resetStep3;
 
-    private String phoneNumber;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding = ActivityResetPasswordBinding.inflate(getLayoutInflater());

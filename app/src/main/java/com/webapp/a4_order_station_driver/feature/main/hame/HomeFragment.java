@@ -18,6 +18,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.webapp.a4_order_station_driver.databinding.FragmentHomeBinding;
 import com.webapp.a4_order_station_driver.feature.main.MainActivity;
+import com.webapp.a4_order_station_driver.utils.dialogs.UpdateNeighborhoodDialog;
+import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.location.tracking.GPSTracking;
 import com.webapp.a4_order_station_driver.utils.location.LocationManager;
 
@@ -33,10 +35,14 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     private LocationManager locationManager;
     private boolean denialLock;
 
-    public HomeFragment() {}
+    private BaseActivity baseActivity;
 
-    public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
+    public HomeFragment(BaseActivity baseActivity) {
+        this.baseActivity = baseActivity;
+    }
+
+    public static HomeFragment newInstance(BaseActivity baseActivity) {
+        HomeFragment fragment = new HomeFragment(baseActivity);
         return fragment;
     }
 
@@ -64,6 +70,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
 
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.getUiSettings().setAllGesturesEnabled(true);
+
+        checkSelectedNeighborhood();
+    }
+
+    private void checkSelectedNeighborhood() {
+        UpdateNeighborhoodDialog updateNeighborhoodDialog = new UpdateNeighborhoodDialog(baseActivity);
+        updateNeighborhoodDialog.show(getChildFragmentManager(), "");
     }
 
     @Override

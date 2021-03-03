@@ -1,9 +1,7 @@
 package com.webapp.a4_order_station_driver.feature.register.one;
 
-import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,21 +12,25 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.webapp.a4_order_station_driver.databinding.FragmentRegisterStep1Binding;
+import com.webapp.a4_order_station_driver.feature.register.adapter.SpinnerAdapter;
 import com.webapp.a4_order_station_driver.models.Login;
+import com.webapp.a4_order_station_driver.models.Neighborhood;
+import com.webapp.a4_order_station_driver.models.NeighborhoodList;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.PermissionUtil;
 import com.webapp.a4_order_station_driver.utils.Photo.PhotoTakerManager;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.ItemSelectImageDialogFragment;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
+import com.webapp.a4_order_station_driver.utils.language.AppLanguageUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
-import static android.app.Activity.RESULT_OK;
+import java.util.ArrayList;
 
-public class RegisterStepOneFragment extends Fragment implements RequestListener<Bitmap>, DialogView<Login> {
+public class RegisterStepOneFragment extends Fragment implements RequestListener<Bitmap>
+        , DialogView<NeighborhoodList> {
 
     public static final int page = 301;
 
@@ -39,6 +41,7 @@ public class RegisterStepOneFragment extends Fragment implements RequestListener
     private RegisterStepOnePresenter presenter;
     private Bitmap bitmap;
     private PhotoTakerManager photoTakerManager;
+    private SpinnerAdapter spinnerAdapter;
 
     public static RegisterStepOneFragment newInstance(BaseActivity baseActivity) {
         return new RegisterStepOneFragment(baseActivity);
@@ -58,19 +61,29 @@ public class RegisterStepOneFragment extends Fragment implements RequestListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentRegisterStep1Binding.inflate(getLayoutInflater());
 
-        setInformation();
+        data();
         click();
 
         return binding.getRoot();
     }
 
-    private void setInformation() {
+    private void data() {
         binding.tvCode.setText(AppController.getInstance().getAppSettingsPreferences().getCountry().getPhone_code());
-        if (AppController.getInstance().getAppSettingsPreferences().getAppLanguage().equals("en")) {
+        if (AppController.getInstance().getAppSettingsPreferences().getAppLanguage().equals(AppLanguageUtil.English)) {
             binding.etCountry.setText(AppController.getInstance().getAppSettingsPreferences().getCountry().getName_en());
         } else {
             binding.etCountry.setText(AppController.getInstance().getAppSettingsPreferences().getCountry().getName_ar());
         }
+        //presenter.getNeighborhood();
+        //test
+        ArrayList<Neighborhood> neighborhoods = new ArrayList<>();
+        neighborhoods.add(new Neighborhood(1, "غزة"));
+        neighborhoods.add(new Neighborhood(2, "رفح"));
+        neighborhoods.add(new Neighborhood(3, "خانيونس"));
+        NeighborhoodList neighborhoodList = new NeighborhoodList();
+        neighborhoodList.setNeighborhoods(neighborhoods);
+        setData(neighborhoodList);
+        //test
     }
 
     private void click() {
@@ -123,8 +136,9 @@ public class RegisterStepOneFragment extends Fragment implements RequestListener
     }
 
     @Override
-    public void setData(Login login) {
-
+    public void setData(NeighborhoodList neighborhoodList) {
+        spinnerAdapter = new SpinnerAdapter(requireContext(), neighborhoodList.getNeighborhoods());
+        binding.spNeighborhood.setAdapter(spinnerAdapter);
     }
 
     @Override

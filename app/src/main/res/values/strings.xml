@@ -171,4 +171,5 @@
     <string name="refresh">Refresh</string>
     <string name="error_in_process_the_photo">Error happened in the processing the photo</string>
     <string name="error_in_input">Error in the input, try again</string>
+    <string name="neighborhood">Neighborhood</string>
 </resources>

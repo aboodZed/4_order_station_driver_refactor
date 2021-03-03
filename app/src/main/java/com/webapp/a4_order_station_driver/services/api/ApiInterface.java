@@ -3,6 +3,7 @@ package com.webapp.a4_order_station_driver.services.api;
 import com.webapp.a4_order_station_driver.models.CountryList;
 import com.webapp.a4_order_station_driver.models.Login;
 import com.webapp.a4_order_station_driver.models.Message;
+import com.webapp.a4_order_station_driver.models.NeighborhoodList;
 import com.webapp.a4_order_station_driver.models.NotificationList;
 import com.webapp.a4_order_station_driver.models.OrderStation;
 import com.webapp.a4_order_station_driver.models.OrderStationList;
@@ -126,4 +127,7 @@ public interface ApiInterface {
 
     @GET("countries-list")
     Call<CountryList> getCountries();
+
+    @GET("")
+    Call<NeighborhoodList> getNeighborhood();
 }

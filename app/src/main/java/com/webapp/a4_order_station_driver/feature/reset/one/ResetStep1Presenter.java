@@ -25,11 +25,19 @@ public class ResetStep1Presenter {
 
     public void validInput(EditText etEnterPhone) {
         String mobile = etEnterPhone.getText().toString().trim();
+        int phone_length = AppController.getInstance().getAppSettingsPreferences()
+                .getCountry().getPhone_length();
+
         if (TextUtils.isEmpty(mobile)) {
             etEnterPhone.setError(baseActivity.getString(R.string.empty_error));
             return;
         }
-        sendPhone(mobile);
+        if (mobile.length() != phone_length) {
+            etEnterPhone.setError("phone number must be " + phone_length + " digits");
+            return;
+        }
+        sendPhone(AppController.getInstance().getAppSettingsPreferences()
+                .getCountry().getPhone_code() + mobile);
     }
 
 

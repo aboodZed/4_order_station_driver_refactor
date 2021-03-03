@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 
 import com.webapp.a4_order_station_driver.databinding.FragmentResetStep1Binding;
 import com.webapp.a4_order_station_driver.models.ResetCode;
+import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
@@ -28,8 +29,7 @@ public class ResetStep1 extends Fragment implements DialogView<ResetCode> {
     }
 
     public static ResetStep1 newInstance(BaseActivity baseActivity) {
-        ResetStep1 fragment = new ResetStep1(baseActivity);
-        return fragment;
+        return new ResetStep1(baseActivity);
     }
 
     @Override
@@ -43,8 +43,14 @@ public class ResetStep1 extends Fragment implements DialogView<ResetCode> {
         //View v = inflater.inflate(R.layout.fragment_reset_step1, container, false);
         //ButterKnife.bind(this, v);
         //tvCode.setText(AppController.getInstance().getAppSettingsPreferences().getCountry().getPhone_code());
+        data();
         click();
         return binding.getRoot();
+    }
+
+    private void data() {
+        binding.tvCode.setText(AppController.getInstance()
+                .getAppSettingsPreferences().getCountry().getPhone_code());
     }
 
     private void click() {

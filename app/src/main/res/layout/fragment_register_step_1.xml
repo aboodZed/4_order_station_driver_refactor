@@ -14,9 +14,9 @@
         android:background="@drawable/dark_button"
         android:orientation="vertical"
         android:paddingStart="@dimen/medium_padding"
+        android:paddingTop="@dimen/medium_margin"
         android:paddingEnd="@dimen/medium_padding"
-        android:paddingBottom="@dimen/medium_margin"
-        android:paddingTop="@dimen/medium_margin">
+        android:paddingBottom="@dimen/medium_margin">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_enter_image"
@@ -87,16 +87,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginBottom="@dimen/medium_padding">
+            android:layout_marginBottom="@dimen/medium_padding"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tv_code"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:textColor="@color/white"
-                android:textSize="@dimen/medium_text"
-                android:gravity="center"/>
+                android:textSize="@dimen/medium_text" />
 
             <EditText
                 android:id="@+id/et_enter_phone"
@@ -189,13 +189,27 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/medium_padding"
             android:backgroundTint="@color/gray"
+            android:focusable="false"
             android:gravity="start"
             android:inputType="text"
             android:padding="@dimen/small_padding"
             android:singleLine="true"
             android:textColor="@color/white"
-            android:textColorHint="@color/gray"
-            android:focusable="false"/>
+            android:textColorHint="@color/gray" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/neighborhood"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/small_text" />
+
+        <Spinner
+            android:id="@+id/sp_neighborhood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/rate"
+            android:layout_marginBottom="@dimen/medium_padding"/>
 
         <CheckBox
             android:id="@+id/cb_agree_terms"

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.feature.register.two.RegisterStepTwoFragment;
 import com.webapp.a4_order_station_driver.models.Login;
+import com.webapp.a4_order_station_driver.models.NeighborhoodList;
 import com.webapp.a4_order_station_driver.models.User;
 import com.webapp.a4_order_station_driver.utils.APIImageUtil;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
@@ -32,11 +33,11 @@ import static android.app.Activity.RESULT_OK;
 public class RegisterStepOnePresenter {
 
     private BaseActivity baseActivity;
-    private DialogView<Login> dialogView;
+    private DialogView<NeighborhoodList> dialogView;
     private PhotoTakerManager photoTakerManager;
 
     public RegisterStepOnePresenter(BaseActivity baseActivity
-            , DialogView<Login> dialogView, PhotoTakerManager photoTakerManager) {
+            , DialogView<NeighborhoodList> dialogView, PhotoTakerManager photoTakerManager) {
         this.baseActivity = baseActivity;
         this.dialogView = dialogView;
         this.photoTakerManager = photoTakerManager;
@@ -160,6 +161,29 @@ public class RegisterStepOnePresenter {
         }*/
     }
 
+    public void getNeighborhood() {
+        dialogView.showDialog("");
+        new APIUtil<NeighborhoodList>(baseActivity).getData(AppController.getInstance().getApi()
+                .getNeighborhood(), new RequestListener<NeighborhoodList>() {
+            @Override
+            public void onSuccess(NeighborhoodList neighborhoodList, String msg) {
+                dialogView.hideDialog();
+                dialogView.setData(neighborhoodList);
+            }
+
+            @Override
+            public void onError(String msg) {
+                dialogView.hideDialog();
+                ToolUtil.showLongToast(msg, baseActivity);
+            }
+
+            @Override
+            public void onFail(String msg) {
+                dialogView.hideDialog();
+                ToolUtil.showLongToast(msg, baseActivity);
+            }
+        });
+    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
