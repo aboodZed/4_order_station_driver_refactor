@@ -74,15 +74,15 @@ public class RegisterStepOneFragment extends Fragment implements RequestListener
         } else {
             binding.etCountry.setText(AppController.getInstance().getAppSettingsPreferences().getCountry().getName_ar());
         }
-        //presenter.getNeighborhood();
+        presenter.getNeighborhood();
         //test
-        ArrayList<Neighborhood> neighborhoods = new ArrayList<>();
+        /*ArrayList<Neighborhood> neighborhoods = new ArrayList<>();
         neighborhoods.add(new Neighborhood(1, "غزة"));
         neighborhoods.add(new Neighborhood(2, "رفح"));
         neighborhoods.add(new Neighborhood(3, "خانيونس"));
         NeighborhoodList neighborhoodList = new NeighborhoodList();
         neighborhoodList.setNeighborhoods(neighborhoods);
-        setData(neighborhoodList);
+        setData(neighborhoodList);*/
         //test
     }
 
@@ -93,7 +93,8 @@ public class RegisterStepOneFragment extends Fragment implements RequestListener
     public void signUp() {
         presenter.validInput(binding.etEnterName, binding.etEnterEmail, binding.etEnterAddress
                 , binding.etEnterPhone, binding.etEnterPassword, binding.etEnterConfirmPassword
-                , binding.cbAgreeTerms, bitmap, saveImage);
+                , binding.cbAgreeTerms, bitmap, saveImage
+                ,((Neighborhood) binding.spNeighborhood.getSelectedItem()).getId());
     }
 
     public void enterImage() {

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,7 +114,7 @@ public class EditProfileFragment extends Fragment implements DialogView<User>, R
         binding.etEnterEmail.setText(user.getEmail());
         binding.etEnterPhone.setText(user.getMobile());
         binding.etEnterAddress.setText(user.getAddress());
-
+        Log.e(getClass().getName() + " : userData", user.toString());
         if (PermissionUtil.isPermissionGranted(MediaStore.ACTION_IMAGE_CAPTURE, getContext()))
             PermissionUtil.requestPermission(getActivity(), Manifest.permission.CAMERA
                     , AppContent.REQUEST_PERMISSIONS_R_W_STORAGE_CAMERA);

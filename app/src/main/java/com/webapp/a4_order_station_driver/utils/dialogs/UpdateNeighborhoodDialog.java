@@ -64,7 +64,7 @@ public class UpdateNeighborhoodDialog extends DialogFragment {
     private void data() {
         WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
         new APIUtil<NeighborhoodList>(baseActivity).getData(AppController.getInstance().getApi()
-                .getNeighborhood(), new RequestListener<NeighborhoodList>() {
+                .getNeighborhood(0), new RequestListener<NeighborhoodList>() {
             @Override
             public void onSuccess(NeighborhoodList neighborhoodList, String msg) {
                 setData(neighborhoodList);

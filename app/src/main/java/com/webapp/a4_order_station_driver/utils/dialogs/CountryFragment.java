@@ -1,6 +1,7 @@
 package com.webapp.a4_order_station_driver.utils.dialogs;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,11 +51,9 @@ public class CountryFragment extends DialogFragment {
     private void click() {
         binding.btnFirst.setOnClickListener(view -> saudiArabia());
         binding.btnSecond.setOnClickListener(view -> egypt());
-        binding.btnThird.setOnClickListener(view -> morocco());
-        binding.btnFourth.setOnClickListener(view -> tunisia());
-        binding.btnRefresh.setOnClickListener(view -> {
-            data();
-        });
+        binding.btnThird.setOnClickListener(view -> turkey());
+        binding.btnFourth.setOnClickListener(view -> lebanon());
+        binding.btnRefresh.setOnClickListener(view -> data());
     }
 
     private void data() {
@@ -66,6 +65,7 @@ public class CountryFragment extends DialogFragment {
                 WaitDialogFragment.newInstance().dismiss();
                 binding.btnRefresh.setVisibility(View.GONE);
                 CountryFragment.this.countries = countries.getCountries();
+                Log.e(getClass().getName() + " : countries", countries.toString());
                 setData();
             }
 
@@ -158,13 +158,13 @@ public class CountryFragment extends DialogFragment {
         dismiss();
     }
 
-    public void morocco() {
+    public void turkey() {
         AppController.getInstance().getAppSettingsPreferences().setCountry(countries.get(2));
         countryListener.selectedCountry();
         dismiss();
     }
 
-    public void tunisia() {
+    public void lebanon() {
         AppController.getInstance().getAppSettingsPreferences().setCountry(countries.get(3));
         countryListener.selectedCountry();
         dismiss();

@@ -128,6 +128,6 @@ public interface ApiInterface {
     @GET("countries-list")
     Call<CountryList> getCountries();
 
-    @GET("")
-    Call<NeighborhoodList> getNeighborhood();
+    @GET("cities/{id}")
+    Call<NeighborhoodList> getNeighborhood(@Path("id") int id);
 }

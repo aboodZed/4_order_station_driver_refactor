@@ -24,7 +24,7 @@ public class AppLanguageUtil {
     }
 
     public AppLanguageUtil() {
-        appSettingsPreferences = new AppSettingsPreferences(getContext());
+        appSettingsPreferences = AppController.getInstance().getAppSettingsPreferences();
     }
 
     public void setAppFirstRunLng() {

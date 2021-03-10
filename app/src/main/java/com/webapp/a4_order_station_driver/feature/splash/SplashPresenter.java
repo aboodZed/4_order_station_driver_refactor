@@ -66,6 +66,8 @@ class SplashPresenter {
                             login.setUser(user);
                             AppController.getInstance().getAppSettingsPreferences().setLogin(login);
                             //print user token
+                            //Log.e(getClass().getName() + " : userData", user.toString());
+
                             Log.e("usertoken", AppController.getInstance()
                                     .getAppSettingsPreferences().getLogin().getAccess_token());
                             //navigate

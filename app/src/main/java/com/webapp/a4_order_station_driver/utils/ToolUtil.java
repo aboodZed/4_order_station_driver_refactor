@@ -15,6 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Base64;
 import android.util.Log;
@@ -87,8 +88,10 @@ public class ToolUtil {
             JSONObject jObjError = new JSONObject(s.string());
             message = jObjError.getString(AppContent.FIREBASE_MESSAGE);
         } catch (Exception e) {
-            if (context != null)
-                message = context.getString(R.string.error);
+            e.printStackTrace();
+        }
+        if (TextUtils.isEmpty(message) && context != null) {
+            message = context.getString(R.string.error);
         }
         return message;
     }

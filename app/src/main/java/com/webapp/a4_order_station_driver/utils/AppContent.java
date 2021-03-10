@@ -4,7 +4,8 @@ public interface AppContent {
     String APP_NAME = "4 OrderStation Station";
     String INPUT_SETTINGS = "setting";
     String CODE_DETAILS = "codeDetails";
-    String BASE_URL = "https://control.4orderstation.net/api/v2/";
+    String BASE_URL = "https://stationsback.4orderstation.net/api/v2/";
+    //old url = https://control.4orderstation.net/api/v2/
     int waitTimeInWaitFragment = 3000;
 
     //navigation

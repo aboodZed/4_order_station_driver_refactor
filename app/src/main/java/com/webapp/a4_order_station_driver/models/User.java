@@ -127,9 +127,9 @@ public class User implements Serializable {
     @Expose
     private int country_id;
 
-    /*@SerializedName("locale country_id")
+    @SerializedName("city_id")
     @Expose
-    private int locale_country_id;*/
+    private int city_id;
 
     @SerializedName("avatar_url")
     @Expose
@@ -170,7 +170,7 @@ public class User implements Serializable {
 
     public User(String name, String avatar, String mobile, String email,
                 String address, String role, String password,
-                String password_confirmation, int country_id) {
+                String password_confirmation, int country_id ,int city_id) {
         this.name = name;
         this.avatar = avatar;
         this.mobile = mobile;
@@ -180,6 +180,7 @@ public class User implements Serializable {
         this.password = password;
         this.password_confirmation = password_confirmation;
         this.country_id = country_id;
+        this.city_id = city_id;
         content_type = "application/json";
     }
 
@@ -231,6 +232,10 @@ public class User implements Serializable {
 
     public void setCountry_id(int country_id) {
         this.country_id = country_id;
+    }
+
+    public int getCity_id() {
+        return city_id;
     }
 
     public String getName() {

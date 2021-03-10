@@ -45,7 +45,7 @@ public class RegisterStepOnePresenter {
 
     public void validInput(EditText etEnterName, EditText etEnterEmail, EditText etEnterAddress
             , EditText etEnterPhone, EditText etEnterPassword, EditText etEnterConfirmPassword
-            , CheckBox cbAgreeTerms, Bitmap bitmap, boolean saveImage) {
+            , CheckBox cbAgreeTerms, Bitmap bitmap, boolean saveImage, int city_id) {
 
         String name = etEnterName.getText().toString().trim();
         String email = etEnterEmail.getText().toString().trim();
@@ -112,7 +112,7 @@ public class RegisterStepOnePresenter {
                 AppController.getInstance().getAppSettingsPreferences()
                         .getCountry().getPhone_code() + mobile, email, address,
                 "delivery_driver", password, confirmPassword, AppController.getInstance()
-                .getAppSettingsPreferences().getCountry().getId());
+                .getAppSettingsPreferences().getCountry().getId(), city_id);
 
         Log.e("country_id", user.getCountry_id() + "");
         finishStepOne(user);
@@ -164,7 +164,8 @@ public class RegisterStepOnePresenter {
     public void getNeighborhood() {
         dialogView.showDialog("");
         new APIUtil<NeighborhoodList>(baseActivity).getData(AppController.getInstance().getApi()
-                .getNeighborhood(), new RequestListener<NeighborhoodList>() {
+                .getNeighborhood(AppController.getInstance().getAppSettingsPreferences().getCountry().getId())
+                , new RequestListener<NeighborhoodList>() {
             @Override
             public void onSuccess(NeighborhoodList neighborhoodList, String msg) {
                 dialogView.hideDialog();

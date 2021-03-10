@@ -19,7 +19,8 @@
         android:id="@+id/sp_neighborhood"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/rate" />
+        android:padding="@dimen/rate"
+        android:layout_marginBottom="@dimen/medium_padding"/>
 
     <Button
         android:id="@+id/btn_next"

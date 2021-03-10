@@ -30,10 +30,8 @@ public class AppSettingsPreferences {
 
     private SharedPreferences.Editor editor;
 
-    private Context context;
 
     public AppSettingsPreferences(Context context) {
-        this.context = context;
         pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }

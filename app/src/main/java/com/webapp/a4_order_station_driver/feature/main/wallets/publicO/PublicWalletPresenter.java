@@ -1,6 +1,7 @@
 package com.webapp.a4_order_station_driver.feature.main.wallets.publicO;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.webapp.a4_order_station_driver.models.PublicWallet;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
@@ -31,6 +32,7 @@ public class PublicWalletPresenter {
 
             @Override
             public void onError(String msg) {
+                Log.e(getClass().getName() + " : response Error", msg);
                 dialogView.hideDialog();
                 ToolUtil.showLongToast(msg, activity);
             }

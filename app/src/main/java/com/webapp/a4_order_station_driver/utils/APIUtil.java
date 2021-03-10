@@ -7,6 +7,8 @@ import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
+import java.util.Objects;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,8 +30,9 @@ public class APIUtil<T> {
                         if (response.isSuccessful() && response.body() != null) {
                             listener.onSuccess(response.body(), response.message());
                         } else {
-                            listener.onError(ToolUtil.showError(context
-                                    , response.errorBody()));
+                            listener.onError(ToolUtil.showError(context, response.errorBody()));
+                            Log.e(getClass().getName() + " : request Error",
+                                    ToolUtil.showError(context, response.errorBody()));
                         }
                     }
                 }
@@ -38,6 +41,8 @@ public class APIUtil<T> {
                 public void onFailure(Call<T> call, Throwable t) {
                     t.printStackTrace();
                     listener.onFail(t.getLocalizedMessage());
+                    Log.e(getClass().getName() + " : request Failure",
+                            Objects.requireNonNull(t.getLocalizedMessage()));
                 }
             });
         } else {

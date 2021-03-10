@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class NeighborhoodList {
 
-    @SerializedName("neighborhoods")
+    @SerializedName("cities")
     @Expose
     private ArrayList<Neighborhood> neighborhoods;
 
