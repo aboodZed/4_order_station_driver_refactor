@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.webapp.a4_order_station_driver.models.Order;
 import com.webapp.a4_order_station_driver.models.OrderStation;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
+import com.webapp.a4_order_station_driver.utils.language.AppLanguageUtil;
 
 public class AppSettingsPreferences {
 
@@ -51,7 +52,7 @@ public class AppSettingsPreferences {
     }
 
     public String getAppLanguage() {
-        return pref.getString(KEY_APP_LANGUAGE, "en");
+        return pref.getString(KEY_APP_LANGUAGE, AppLanguageUtil.English);
     }
 
     public void setLogin(Login login) {

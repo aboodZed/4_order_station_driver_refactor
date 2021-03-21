@@ -100,7 +100,6 @@ public class MainActivity extends BaseActivity {
                 int id;
                 String msg = body.getString(AppContent.FIREBASE_MSG);
                 String type = body.getString(AppContent.FIREBASE_TYPE);
-                String status = body.getString(AppContent.FIREBASE_STATUS);
 
                 switch (type) {
                     case AppContent.TYPE_ORDER_4STATION:
@@ -113,6 +112,8 @@ public class MainActivity extends BaseActivity {
                         id = -1;
                 }
 
+                checkNavigate(bundle);
+
                 if (msg.contains(AppContent.NEW_ORDER)) {
                     if (!isLoadingNewOrder) {
                         createNewOrder(id, type);
@@ -120,8 +121,8 @@ public class MainActivity extends BaseActivity {
                 } else if (type.equals(AppContent.TYPE_ORDER_PUBLIC)
                         || type.equals(AppContent.TYPE_ORDER_4STATION)) {
                     navigate(OrdersFragment.page);
-                    if (status != null) {
-                        if (status.equals(AppContent.NEW_MESSAGE)) {
+                    if (!body.isNull(AppContent.FIREBASE_STATUS)) {
+                        if (body.getString(AppContent.FIREBASE_STATUS).equals(AppContent.NEW_MESSAGE)) {
                             if (type.equals(AppContent.TYPE_ORDER_PUBLIC)) {
                                 new NavigateUtil().openOrder(this, new Order(id, type), PublicOrderViewFragment.page, true);
                             } else {
@@ -131,8 +132,10 @@ public class MainActivity extends BaseActivity {
                     }
                 } else if (type.contains(AppContent.WALLET)) {
                     navigate(WalletFragment.page);
+                } else if (type.equals(AppContent.RATE)) {
+                    navigate(RatingFragment.page);
                 } else {
-                    navigate(bundle.getInt(AppContent.PAGE));
+                    checkNavigate(bundle);
                 }
 
                 /*if (jSON != null) {
@@ -195,8 +198,16 @@ public class MainActivity extends BaseActivity {
             } catch (Exception e) {
                 e.printStackTrace();
                 isLoadingNewOrder = false;
-                navigate(bundle.getInt(AppContent.PAGE));
+                checkNavigate(bundle);
             }
+        } else {
+            checkNavigate(bundle);
+        }
+    }
+
+    private void checkNavigate(Bundle bundle) {
+        if (bundle != null && bundle.containsKey(AppContent.PAGE)) {
+            navigate(bundle.getInt(AppContent.PAGE));
         } else {
             navigate(HomeFragment.page);
         }

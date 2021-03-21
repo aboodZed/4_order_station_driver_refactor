@@ -53,8 +53,10 @@ public class CountryFragment extends DialogFragment {
         binding.btnSecond.setOnClickListener(view -> egypt());
         binding.btnThird.setOnClickListener(view -> turkey());
         binding.btnFourth.setOnClickListener(view -> lebanon());
+        binding.btnFifth.setOnClickListener(view -> palestine());
         binding.btnRefresh.setOnClickListener(view -> data());
     }
+
 
     private void data() {
         WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
@@ -123,6 +125,15 @@ public class CountryFragment extends DialogFragment {
                 binding.btnFourth.setText(countries.get(3).getName_ar());
             }
         }
+
+        if (countries.size() > 4){
+            binding.btnFifth.setVisibility(View.VISIBLE);
+            if (language){
+                binding.btnFifth.setText(countries.get(4).getName_en());
+            }else {
+                binding.btnFifth.setText(countries.get(4).getName_ar());
+            }
+        }
     }
 
     public void setCountryListener(CountryListener countryListener) {
@@ -138,12 +149,12 @@ public class CountryFragment extends DialogFragment {
         getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
         setCancelable(false);
         super.onResume();
-        getDialog().setOnKeyListener((dialog, keyCode, event) -> {
+        /*getDialog().setOnKeyListener((dialog, keyCode, event) -> {
             if ((keyCode == KeyEvent.KEYCODE_BACK)) {
                 CountryFragment.this.dismiss();
                 return true;
             } else return false;
-        });
+        });*/
     }
 
     public void saudiArabia() {
@@ -166,6 +177,12 @@ public class CountryFragment extends DialogFragment {
 
     public void lebanon() {
         AppController.getInstance().getAppSettingsPreferences().setCountry(countries.get(3));
+        countryListener.selectedCountry();
+        dismiss();
+    }
+
+    private void palestine() {
+        AppController.getInstance().getAppSettingsPreferences().setCountry(countries.get(4));
         countryListener.selectedCountry();
         dismiss();
     }

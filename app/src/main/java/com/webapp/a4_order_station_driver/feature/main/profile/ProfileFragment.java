@@ -8,14 +8,18 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.webapp.a4_order_station_driver.databinding.FragmentProfileBinding;
 import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
 import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.main.editProfile.EditProfileFragment;
 import com.webapp.a4_order_station_driver.models.Message;
+import com.webapp.a4_order_station_driver.models.MyLocation;
 import com.webapp.a4_order_station_driver.models.User;
 import com.webapp.a4_order_station_driver.utils.APIImageUtil;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
+import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.NavigateUtil;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;

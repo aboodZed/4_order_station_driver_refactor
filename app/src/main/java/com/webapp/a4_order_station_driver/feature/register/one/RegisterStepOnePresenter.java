@@ -109,8 +109,8 @@ public class RegisterStepOnePresenter {
         }
 
         User user = new User(name, APIImageUtil.bitmapToBase64(bitmap),
-                AppController.getInstance().getAppSettingsPreferences()
-                        .getCountry().getPhone_code() + mobile, email, address,
+                /*AppController.getInstance().getAppSettingsPreferences()
+                        .getCountry().getPhone_code() +*/ mobile, email, address,
                 "delivery_driver", password, confirmPassword, AppController.getInstance()
                 .getAppSettingsPreferences().getCountry().getId(), city_id);
 

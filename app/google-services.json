@@ -1,49 +1,41 @@
 {
   "project_info": {
-    "project_number": "342130242310",
-    "firebase_url": "https://orderstation-33cc9.firebaseio.com",
-    "project_id": "orderstation-33cc9",
-    "storage_bucket": "orderstation-33cc9.appspot.com"
+    "project_number": "877236599825",
+    "firebase_url": "https://axiomatic-spark-303003-default-rtdb.firebaseio.com",
+    "project_id": "axiomatic-spark-303003",
+    "storage_bucket": "axiomatic-spark-303003.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:342130242310:android:887f8981e1b4262178a487",
+        "mobilesdk_app_id": "1:877236599825:android:24be1cb64c4ebfc314c5b0",
         "android_client_info": {
           "package_name": "com.webapp.a4_order_station_driver"
         }
       },
       "oauth_client": [
         {
-          "client_id": "342130242310-u84mb5bfre1dg54loei6emvr3a839q2s.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.webapp.a4_order_station_driver",
-            "certificate_hash": "342c731b9aefc5a2964ee2686dfd6ff1d0b5f74a"
-          }
-        },
-        {
-          "client_id": "342130242310-r0tu94ojdad3g8k92uop3rcueo19noi9.apps.googleusercontent.com",
+          "client_id": "877236599825-1fuf7gdtd40p0ecfj59hq7b3i1dlu1p8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDvCJ5QVnhzBxf5Nb-YWPuo_DIZSBjd-Io"
+          "current_key": "AIzaSyDuMXLzRCwEBBPSZIis4YYAs89hFRFmwAE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "342130242310-r0tu94ojdad3g8k92uop3rcueo19noi9.apps.googleusercontent.com",
+              "client_id": "877236599825-1fuf7gdtd40p0ecfj59hq7b3i1dlu1p8.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "342130242310-5v8basfmijkgohpj0p6auvln5mgta9m5.apps.googleusercontent.com",
+              "client_id": "877236599825-1hsjfvmf9nrhhv6lphudad7tv1km8gb5.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "ios.com.4OrderStationDriver"
+                "bundle_id": "ios.com.4orderstaion"
               }
             }
           ]

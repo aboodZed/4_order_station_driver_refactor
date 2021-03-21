@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.getUiSettings().setAllGesturesEnabled(true);
 
-        checkSelectedNeighborhood();
+        //checkSelectedNeighborhood();
     }
 
     private void checkSelectedNeighborhood() {

@@ -16,7 +16,7 @@ class OrderPublicPresenter {
     public OrderPublicPresenter(BaseActivity baseActivity, DialogView<PublicOrderListObject> dialogView) {
         this.baseActivity = baseActivity;
         this.dialogView = dialogView;
-        getData("public/order/driver/ordersList");
+        getData("driver-orders-list");
     }
 
     protected void getData(String s) {

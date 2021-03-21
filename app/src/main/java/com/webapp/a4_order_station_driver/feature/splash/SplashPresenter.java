@@ -3,11 +3,24 @@ package com.webapp.a4_order_station_driver.feature.splash;
 import android.app.Activity;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
 import com.webapp.a4_order_station_driver.models.Login;
+import com.webapp.a4_order_station_driver.models.MyLocation;
 import com.webapp.a4_order_station_driver.models.User;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
+import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.language.AppLanguageUtil;
@@ -71,6 +84,14 @@ class SplashPresenter {
                             Log.e("usertoken", AppController.getInstance()
                                     .getAppSettingsPreferences().getLogin().getAccess_token());
                             //navigate
+                            FirebaseFirestore.getInstance().collection(AppContent.FIREBASE_PUBLIC_TRACKING_INSTANCE)
+                                    .document(AppContent.FIREBASE_DATA).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                    String s = value.getString(AppContent.FIREBASE_STATUS);
+
+                                }
+                            });
                             baseActivity.navigate(MainActivity.page);
                         }
 

@@ -19,6 +19,7 @@ import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.MyLocation;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
+import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
@@ -78,8 +79,9 @@ public class GPSTracking {
 
     public void startMyGPSTracking() {
         MyLocation myLocation = new MyLocation();
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference("delivery_app_tracking")
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference(AppContent.FIREBASE_PUBLIC_TRACKING_INSTANCE)
                 .child(AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getId() + "");
+
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -87,6 +89,7 @@ public class GPSTracking {
             Toast.makeText(context, R.string.unable_location, Toast.LENGTH_SHORT).show();
             return;
         }
+
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {

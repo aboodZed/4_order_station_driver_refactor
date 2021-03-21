@@ -1,6 +1,7 @@
 package com.webapp.a4_order_station_driver.feature.order.orderStationView;
 
 import com.webapp.a4_order_station_driver.feature.main.hame.HomeFragment;
+import com.webapp.a4_order_station_driver.feature.main.orders.OrdersFragment;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.Order;
 import com.webapp.a4_order_station_driver.models.OrderStation;
@@ -58,7 +59,7 @@ public class OrderStationViewPresenter {
                 }*/
                 OrderGPSTracking.newInstance(baseActivity).removeUpdates();
                 dialogView.hideDialog();
-                baseActivity.navigate(HomeFragment.page);
+                baseActivity.navigate(OrdersFragment.page);
             }
 
             @Override

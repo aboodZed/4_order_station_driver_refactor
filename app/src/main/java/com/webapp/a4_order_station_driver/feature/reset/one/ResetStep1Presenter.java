@@ -13,6 +13,8 @@ import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
+import java.util.HashMap;
+
 public class ResetStep1Presenter {
 
     private BaseActivity baseActivity;
@@ -36,6 +38,8 @@ public class ResetStep1Presenter {
             etEnterPhone.setError("phone number must be " + phone_length + " digits");
             return;
         }
+        //AppController.getInstance().getAppSettingsPreferences()
+        //                .getCountry().getPhone_code()
         sendPhone(AppController.getInstance().getAppSettingsPreferences()
                 .getCountry().getPhone_code() + mobile);
     }
@@ -44,8 +48,12 @@ public class ResetStep1Presenter {
     private void sendPhone(String mobile) {
         dialogView.showDialog("");
 
+        HashMap<String, String> map = new HashMap<>();
+        map.put("mobile", mobile);
+        map.put("role", "delivery_driver");
+
         new APIUtil<ResetCode>(baseActivity).getData(AppController.getInstance()
-                .getApi().forgetPassword(mobile), new RequestListener<ResetCode>() {
+                .getApi().forgetPassword(map), new RequestListener<ResetCode>() {
             @Override
             public void onSuccess(ResetCode resetCode, String msg) {
                 dialogView.hideDialog();

@@ -14,6 +14,8 @@ import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
+import java.util.HashMap;
+
 public class ResetStep2Presenter {
 
     private BaseActivity baseActivity;
@@ -28,8 +30,12 @@ public class ResetStep2Presenter {
     public void reSend(String mobile) {
         dialogView.showDialog("");
 
+        HashMap<String,String> map = new HashMap<>();
+        map.put("mobile",mobile);
+        map.put("role","delivery_driver");
+
         new APIUtil<ResetCode>(baseActivity).getData(
-                AppController.getInstance().getApi().forgetPassword(mobile),
+                AppController.getInstance().getApi().forgetPassword(map),
                 new RequestListener<ResetCode>() {
                     @Override
                     public void onSuccess(ResetCode resetCode, String msg) {

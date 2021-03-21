@@ -63,16 +63,20 @@ public interface AppContent {
     String FIREBASE_STATUS = "status";
     String FIREBASE_CHAT_INSTANCE = "Chat";
     String FIREBASE_PUBLIC_STORE_CHAT_INSTANCE = "PublicStoreChat";
+    String FIREBASE_PUBLIC_TRACKING_INSTANCE = "delivery_app_tracking";
+    String FIREBASE_PUBLIC_INSTANCE = "delivery_app";
     //FIREBASE DATA
     String DRIVER_APPROVED = "driver_approved";
     String REJECT = "reject";
     String NEW_MESSAGE = "new_message";
     String IN_WAY_TO_STORE = "in_the_way_to_store";
     String NEW_ORDER = "new order";
+    String RATE = "rate";
 
     //TRACKING
     String PUBLIC_TRACKING_INSTANCE = "PublicTracking";
     String TRACKING_INSTANCE = "Tracking";
 
+    String one = "1";
 }
 

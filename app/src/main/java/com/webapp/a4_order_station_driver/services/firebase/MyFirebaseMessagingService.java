@@ -14,6 +14,7 @@ import com.webapp.a4_order_station_driver.utils.NavigateUtil;
 import com.webapp.a4_order_station_driver.utils.NotificationUtil;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -32,7 +33,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             //data
             String msg = body.getString(AppContent.FIREBASE_MSG);
             String type = body.getString(AppContent.FIREBASE_TYPE);
-            String status = body.getString(AppContent.FIREBASE_STATUS);
 
             if (type.equals(AppContent.DRIVER_APPROVED)) {
                 //send notification
@@ -40,7 +40,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             } else if (type.equals(AppContent.REJECT)) {
                 //send notification
                 new NotificationUtil().sendNotification(this, msg, message);
-            } else if (status != null) {
+
+            } else if (!body.isNull(AppContent.FIREBASE_STATUS)) {
+                String status = body.getString(AppContent.FIREBASE_STATUS);
 
                 if (status.equals(AppContent.NEW_MESSAGE) &&
                         (PublicOrderViewFragment.isOpenPublicChat || ChatFragment.isOpenChat)) {
@@ -140,10 +142,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 startActivity(intent);
             }*/
 
-        } catch (Exception e) {
+        } catch (JSONException e) {
             e.printStackTrace();
             Log.e("error", "" + e.getMessage());
         }
+
+        /*
+        remote{moredata=dd, message={"data":{"msg":"new order #000000005","order_no":"000000005",
+        "destination_address":"Ryaid","pickup_address_ar":"غزة","type_of_receive":"home","created_at":1616066071,
+        "title":"new order #000000005","type":"4station","order_id":189,"pickup_address_en":"gaza","country_id":1,"status":"ready"}
+
+        ,"sound":"mySound","icon":"myIcon","title":"4station","body":"new order #000000005","click_action"
+        :"com.webapp.a4_order_station_driver.feture.home.MainActivity"}}
+         */
     }
 
     @Override

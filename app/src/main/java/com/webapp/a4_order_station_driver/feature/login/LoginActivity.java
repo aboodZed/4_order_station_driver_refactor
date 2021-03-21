@@ -30,7 +30,7 @@ public class LoginActivity extends BaseActivity implements DialogView<Login> {
         //presenter
         presenter = new LoginPresenter(this, this);
         //view
-        data();
+        //data();
         showCountries();
         //on click
         click();
@@ -48,8 +48,6 @@ public class LoginActivity extends BaseActivity implements DialogView<Login> {
     }
 
     private void showCountries() {
-
-
         countryFragment = CountryFragment.newInstance();
         countryFragment.show(getSupportFragmentManager(), "");
         countryFragment.setCountryListener(() -> {

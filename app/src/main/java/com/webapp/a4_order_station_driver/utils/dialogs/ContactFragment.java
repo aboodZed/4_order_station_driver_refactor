@@ -56,7 +56,7 @@ public class ContactFragment extends DialogFragment {
         String url = "app-content?country_id=" + AppController.getInstance()
                 .getAppSettingsPreferences().getCountry().getId();
 
-        WaitDialogFragment.newInstance().show(getFragmentManager(), "");
+        WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
         new APIUtil<SettingsObject>(getActivity()).getData(AppController.getInstance().getApi()
                 .getSettings(url), new RequestListener<SettingsObject>() {
             @Override

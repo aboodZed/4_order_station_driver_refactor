@@ -42,7 +42,7 @@ public interface ApiInterface {
     Call<Login> login(@QueryMap HashMap<String, String> params);
 
     @POST("auth/forgetPasswordRequest")
-    Call<ResetCode> forgetPassword(@Query("mobile") String mobile);
+    Call<ResetCode> forgetPassword(@QueryMap HashMap<String, String> params);
 
     @POST("auth/forgetPasswordVerify")
     Call<VerifyCode> verifyCode(@Body ResetCode resetCode);
@@ -113,7 +113,7 @@ public interface ApiInterface {
     @POST("public/order/driver/deliveredOrder")
     Call<Message> deliveredPublicOrder(@Query("order_id") int id);
 
-    @GET("public/order/driver/wallet")
+    @GET("driver-public-wallet")
     Call<PublicWallet> getPublicWallet();
 
     @POST("public/order/driver/cancelOrder")
