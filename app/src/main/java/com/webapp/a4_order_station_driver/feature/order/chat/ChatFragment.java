@@ -45,7 +45,7 @@ public class ChatFragment extends Fragment {
     private OrderStation orderStation;
     private ChatAdapter chatAdapter;
 
-    public static ChatFragment newInstance(OrderStation order) {
+    public static ChatFragment newInstance(Order order) {
         ChatFragment fragment = new ChatFragment();
         Bundle args = new Bundle();
         args.putSerializable(AppContent.ORDER_OBJECT, order);

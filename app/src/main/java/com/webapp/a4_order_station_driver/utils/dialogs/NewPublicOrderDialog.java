@@ -53,6 +53,7 @@ public class NewPublicOrderDialog extends DialogFragment {
 
     private void click() {
         binding.btnView.setOnClickListener(view -> {
+            dismiss();
             new NavigateUtil().openOrder(getContext(), publicOrder
                     , NewPublicOrderFragment.page, true);
             listener.allowLoadNewOrder();
@@ -92,16 +93,19 @@ public class NewPublicOrderDialog extends DialogFragment {
 
     private void getData(int id) {
         if (id != -1) {
+            WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
             new APIUtil<PublicOrderObject>(getActivity()).getData(AppController.getInstance()
                     .getApi().getPublicOrder(id), new RequestListener<PublicOrderObject>() {
                 @Override
                 public void onSuccess(PublicOrderObject publicOrderObject, String msg) {
+                    WaitDialogFragment.newInstance().dismiss();
                     NewPublicOrderDialog.this.publicOrder = publicOrderObject.getPublicOrder();
                     data();
                 }
 
                 @Override
                 public void onError(String msg) {
+                    WaitDialogFragment.newInstance().dismiss();
                     ToolUtil.showLongToast(msg, getActivity());
                     listener.allowLoadNewOrder();
                     dismiss();
@@ -109,6 +113,7 @@ public class NewPublicOrderDialog extends DialogFragment {
 
                 @Override
                 public void onFail(String msg) {
+                    WaitDialogFragment.newInstance().dismiss();
                     ToolUtil.showLongToast(msg, getActivity());
                     listener.allowLoadNewOrder();
                     dismiss();

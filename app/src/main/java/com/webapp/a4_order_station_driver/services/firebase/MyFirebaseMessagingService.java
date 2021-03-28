@@ -44,9 +44,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             } else if (!body.isNull(AppContent.FIREBASE_STATUS)) {
                 String status = body.getString(AppContent.FIREBASE_STATUS);
 
-                if (status.equals(AppContent.NEW_MESSAGE) &&
-                        (PublicOrderViewFragment.isOpenPublicChat || ChatFragment.isOpenChat)) {
-                } else if (status.equals(AppContent.IN_WAY_TO_STORE)) {
+                if (status.equals(AppContent.NEW_MESSAGE) && PublicOrderViewFragment.isOpenPublicChat) { }
+                else if (status.equals(AppContent.NEW_MESSAGE) && ChatFragment.isOpenChat){ }
+
+                else if (status.equals(AppContent.IN_WAY_TO_STORE)) {
                     //send notification
                     new NotificationUtil().sendNotification(this, msg, message);
                     AppController.getInstance().getAppSettingsPreferences()
@@ -59,7 +60,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 new NotificationUtil().sendNotification(this, msg, message);
                 new NavigateUtil().openNotification(this, message);
             }
-            
+
+            /*
+            remote{moredata=dd, message={"data":{"msg":"You have new message in order #000367"
+            ,"public_order_id":367,"title":"4station","type":"public","country_id":5,"status":"new_message"}
+            ,"sound":"mySound","icon":"myIcon","title":"4station","body":"You have new message in order #000367"
+            ,"click_action":"com.webapp.a4_order_station_driver.feture.home.MainActivity"}}
+             */
+
 /*
             if (body.getString("msg").contains("new order")) {
                 if (body.getString("type").equals("4station")) {

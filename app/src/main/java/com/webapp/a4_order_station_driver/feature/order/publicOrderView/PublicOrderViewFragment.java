@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.webapp.a4_order_station_driver.feature.main.orders.publicO.OrderPubli
 import com.webapp.a4_order_station_driver.feature.main.wallets.publicO.PublicWalletFragment;
 import com.webapp.a4_order_station_driver.feature.main.wallets.WalletFragment;
 import com.webapp.a4_order_station_driver.feature.order.adapter.PublicChatAdapter;
+import com.webapp.a4_order_station_driver.models.Order;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
 import com.webapp.a4_order_station_driver.models.PublicOrderObject;
 import com.webapp.a4_order_station_driver.utils.AppContent;
@@ -29,6 +31,7 @@ import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.PermissionUtil;
 import com.webapp.a4_order_station_driver.utils.Photo.PhotoTakerManager;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
+import com.webapp.a4_order_station_driver.utils.dialogs.AddBillDialog;
 import com.webapp.a4_order_station_driver.utils.dialogs.BillDialog;
 import com.webapp.a4_order_station_driver.utils.dialogs.ItemSelectImageDialogFragment;
 import com.webapp.a4_order_station_driver.utils.dialogs.ShowLocationDialog;
@@ -66,7 +69,7 @@ public class PublicOrderViewFragment extends Fragment implements
         this.baseActivity = baseActivity;
     }
 
-    public static PublicOrderViewFragment newInstance(PublicOrder order, BaseActivity baseActivity) {
+    public static PublicOrderViewFragment newInstance(BaseActivity baseActivity, Order order) {
 
         PublicOrderViewFragment fragment = new PublicOrderViewFragment(baseActivity);
         Bundle args = new Bundle();
@@ -87,12 +90,12 @@ public class PublicOrderViewFragment extends Fragment implements
         binding = FragmentPublicChatBinding.inflate(getLayoutInflater());
         photoTakerManager = new PhotoTakerManager(this);
         if (getArguments() != null) {
-            publicOrder = (PublicOrder) getArguments().getSerializable(AppContent.ORDER_OBJECT);
-            presenter = new PublicOrderViewPresenter(baseActivity, binding, publicOrder, this, photoTakerManager);
-            presenter.getData(publicOrder);
+            presenter = new PublicOrderViewPresenter(baseActivity, binding, this, photoTakerManager);
 
+            Order order = (Order) getArguments().getSerializable(AppContent.ORDER_OBJECT);
+            presenter.getData(order);
             initRecycleView();
-            presenter.getMessages(publicChatAdapter);
+            presenter.getMessages(publicChatAdapter, String.valueOf(order.getId()));
             //data();
             click();
         }
@@ -158,11 +161,32 @@ public class PublicOrderViewFragment extends Fragment implements
     private void openBillDialog() {
         billDialog = BillDialog.newInstance(publicOrder);
         billDialog.show(getChildFragmentManager(), "");
-        billDialog.setListener(() -> presenter.getData(publicOrder));
+        billDialog.setListener(new BillDialog.Listener() {
+            @Override
+            public void updatePublicOrder() {
+                billDialog.dismiss();
+                presenter.getData(publicOrder);
+            }
+
+            @Override
+            public void addBill() {
+                AddBillDialog addBillDialog;
+                if (billPrice == 0) {
+                    addBillDialog = AddBillDialog.newInstance(publicOrder,
+                            getString(R.string.enter_bill_price));
+                } else {
+                    addBillDialog = AddBillDialog.newInstance(publicOrder,
+                            getString(R.string.show_bill));
+                }
+                addBillDialog.show(getParentFragmentManager(), "");
+            }
+        });
     }
 
     //functions
     private void data() {
+        binding.tvOrderId.setText((getString(R.string.order) + "#" + publicOrder.getInvoice_number()));
+
         setPrice();
         String currency = AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code();
         binding.tvOrderDetails.setText(publicOrder.getNote());
@@ -184,6 +208,8 @@ public class PublicOrderViewFragment extends Fragment implements
         } else {
             billPrice = 0;
         }
+        Log.e("billPrice:", billPrice + "");
+
     }
 
 
@@ -192,7 +218,6 @@ public class PublicOrderViewFragment extends Fragment implements
         binding.rvChat.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvChat.setItemAnimator(new DefaultItemAnimator());
         binding.rvChat.setAdapter(publicChatAdapter);
-        binding.tvOrderId.setText((getString(R.string.order) + "#" + publicOrder.getInvoice_number()));
 
         if (PermissionUtil.isPermissionGranted(MediaStore.ACTION_IMAGE_CAPTURE, getContext()))
             PermissionUtil.requestPermission(getActivity(), Manifest.permission.CAMERA
@@ -215,7 +240,9 @@ public class PublicOrderViewFragment extends Fragment implements
     @Override
     public void setData(PublicOrderObject publicOrderObject) {
         publicOrder = publicOrderObject.getPublicOrder();
+        Log.e("orderdata", publicOrder.toString());
         data();
+
         if (publicOrder.getStatus().equals(AppContent.DELIVERED_STATUS)
                 || publicOrder.getStatus().equals(AppContent.CANCELLED_STATUS)) {
                     /*if (tracking != null) {
@@ -223,8 +250,10 @@ public class PublicOrderViewFragment extends Fragment implements
                     }*/
             OrderGPSTracking.newInstance(baseActivity).removeUpdates();
         }
-        if (openBillDialog)
+        if (openBillDialog) {
             openBillDialog();
+            openBillDialog = false;
+        }
     }
 
     @Override
@@ -239,7 +268,7 @@ public class PublicOrderViewFragment extends Fragment implements
 
     @Override
     public void onSuccess(Bitmap bitmap, String msg) {
-       presenter.uploadImage(photoTakerManager.getCurrentPhotoUri());
+        presenter.uploadImage(photoTakerManager.getCurrentPhotoUri());
     }
 
     @Override

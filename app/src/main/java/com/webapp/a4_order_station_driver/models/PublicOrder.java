@@ -244,6 +244,7 @@ public class PublicOrder extends Order implements Serializable {
     @Override
     public String toString() {
         return "PublicOrder{" +
+                "id='" + getId() + '\'' +
                 ", place_id='" + place_id + '\'' +
                 ", store_name='" + store_name + '\'' +
                 ", invoice_number='" + invoice_number + '\'' +
@@ -266,6 +267,7 @@ public class PublicOrder extends Order implements Serializable {
                 ", updated_at='" + updated_at + '\'' +
                 ", order_pic='" + order_pic + '\'' +
                 ", order_pic_url='" + order_pic_url + '\'' +
+                ", status='" + getStatus() + '\'' +
                 ", status_translation='" + status_translation + '\'' +
                 ", client=" + client +
                 ", app_revenue='" + app_revenue + '\'' +

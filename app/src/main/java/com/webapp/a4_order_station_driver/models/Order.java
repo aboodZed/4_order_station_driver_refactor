@@ -14,6 +14,7 @@ public class Order implements Serializable {
     @SerializedName("status")
     @Expose
     private String status;
+
     private String type;
 
     public Order() {

@@ -98,28 +98,28 @@ public interface ApiInterface {
     @GET
     Call<PublicOrderListObject> getPublicOrders(@Url String url);
 
-    @GET("public/order/client/order/{id}")
+    @GET("general/order/client/order/{id}")
     Call<PublicOrderObject> getPublicOrder(@Path("id") int id);
 
-    @POST("public/order/driver/pickupOrder")
+    @POST("general/order/driver/pickupOrder")
     Call<Message> pickupPublicOrder(@Query("order_id") int id);
 
-    @POST("public/order/driver/sendInvoiceValue")
+    @POST("general/order/driver/sendInvoiceValue")
     Call<Message> sendInvoiceValue(@Query("order_id") int id, @Query("invoice_value") double value);
 
-    @POST("public/order/driver/changeToOnTheWay")
+    @POST("general/order/driver/changeToOnTheWay")
     Call<Message> changeToONTheWay(@Query("order_id") int id);
 
-    @POST("public/order/driver/deliveredOrder")
+    @POST("general/order/driver/deliveredOrder")
     Call<Message> deliveredPublicOrder(@Query("order_id") int id);
 
     @GET("driver-public-wallet")
     Call<PublicWallet> getPublicWallet();
 
-    @POST("public/order/driver/cancelOrder")
+    @POST("general/order/driver/cancelOrder")
     Call<Message> cancelOrder(@Query("order_id") int id);
 
-    @POST("public/order/client/sendChatNotify")
+    @POST("general/order/client/sendChatNotify")
     Call<Message> sendMessageNotification(@QueryMap HashMap<String, String> params);
 
     @POST("delivery/updateDriverLocation")

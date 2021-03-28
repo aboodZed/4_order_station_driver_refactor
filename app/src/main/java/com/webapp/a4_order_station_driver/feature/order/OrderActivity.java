@@ -1,12 +1,12 @@
 package com.webapp.a4_order_station_driver.feature.order;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.webapp.a4_order_station_driver.R;
@@ -80,15 +80,15 @@ public class OrderActivity extends BaseActivity {
                 break;
             case PublicOrderViewFragment.page: //public order view and chat
                 PublicOrderViewFragment publicChatFragment = PublicOrderViewFragment
-                        .newInstance((PublicOrder) Objects.requireNonNull(getIntent().getExtras())
-                                .getSerializable(AppContent.ORDER_OBJECT), this);
+                        .newInstance(this, (Order) Objects.requireNonNull(getIntent()
+                                .getExtras()).getSerializable(AppContent.ORDER_OBJECT));
 
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , publicChatFragment, R.id.fragment_container);
                 //publicChatFragment.show(getSupportFragmentManager(), "");
                 break;
             case ChatFragment.page: //order station chat
-                ChatFragment chatFragment = ChatFragment.newInstance((OrderStation) Objects
+                ChatFragment chatFragment = ChatFragment.newInstance((Order) Objects
                         .requireNonNull(getIntent().getExtras())
                         .getSerializable(AppContent.ORDER_OBJECT));
 
@@ -114,7 +114,9 @@ public class OrderActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
-        fragment.onActivityResult(requestCode, resultCode, data);
+        Fragment fragment = this.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (fragment instanceof PublicOrderViewFragment) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

@@ -87,7 +87,7 @@ public class CompletePayDialog extends DialogFragment {
     }
 
     public void delivered() {
-            WaitDialogFragment.newInstance().show(getFragmentManager(), "");
+            WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
 
             new APIUtil<Message>(getActivity()).getData(AppController.getInstance()
                             .getApi().deliveredPublicOrder(publicOrder.getId())

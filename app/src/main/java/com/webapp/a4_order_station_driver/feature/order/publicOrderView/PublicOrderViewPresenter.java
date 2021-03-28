@@ -3,6 +3,7 @@ package com.webapp.a4_order_station_driver.feature.order.publicOrderView;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,11 +50,9 @@ public class PublicOrderViewPresenter {
     private FragmentPublicChatBinding binding;
 
     public PublicOrderViewPresenter(BaseActivity baseActivity, FragmentPublicChatBinding binding
-            , PublicOrder publicOrder, DialogView<PublicOrderObject> dialogView
-            , PhotoTakerManager photoTakerManager) {
+            , DialogView<PublicOrderObject> dialogView, PhotoTakerManager photoTakerManager) {
         this.baseActivity = baseActivity;
         this.binding = binding;
-        this.publicOrder = publicOrder;
         this.dialogView = dialogView;
         this.photoTakerManager = photoTakerManager;
 
@@ -69,6 +68,7 @@ public class PublicOrderViewPresenter {
                 .getApi().getPublicOrder(order.getId()), new RequestListener<PublicOrderObject>() {
             @Override
             public void onSuccess(PublicOrderObject publicOrderObject, String msg) {
+                publicOrder = publicOrderObject.getPublicOrder();
                 dialogView.setData(publicOrderObject);
                 dialogView.hideDialog();
             }
@@ -88,12 +88,12 @@ public class PublicOrderViewPresenter {
     }
 
     //get message
-    public void getMessages(PublicChatAdapter publicChatAdapter) {
-        db.child(publicOrder.getId() + "").addChildEventListener(new ChildEventListener() {
+    public void getMessages(PublicChatAdapter publicChatAdapter, String id) {
+        db.child(id).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 publicChatAdapter.addItem(dataSnapshot.getValue(PublicChatMessage.class));
-                binding.rvChat.scrollToPosition(publicChatAdapter.getItemCount());
+                binding.rvChat.scrollToPosition(publicChatAdapter.getItemCount() - 1);
             }
 
             @Override

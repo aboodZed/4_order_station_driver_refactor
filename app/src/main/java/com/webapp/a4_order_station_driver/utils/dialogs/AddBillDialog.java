@@ -56,7 +56,7 @@ public class AddBillDialog extends BottomSheetDialogFragment implements DialogVi
             binding.tvEnter.setText(m);
             binding.tvMessage.setText(m);
             if (PublicOrderViewFragment.billPrice != 0 && m.equals(getString(R.string.show_bill))) {
-                binding.etEnterPrice.setText(PublicOrderViewFragment.billPrice + "");
+                binding.etEnterPrice.setText(String.valueOf(PublicOrderViewFragment.billPrice));
                 binding.etEnterPrice.setFocusable(false);
                 binding.btnSend.setVisibility(View.GONE);
             }
@@ -90,10 +90,9 @@ public class AddBillDialog extends BottomSheetDialogFragment implements DialogVi
 
         if (PublicOrderViewFragment.billPrice == 0) {
             PublicOrderViewFragment.billPrice = price;
-            dismiss();
-            AddBillDialog addBillDialog = AddBillDialog
-                    .newInstance(publicOrder, getString(R.string.re_enter_bill_price));
-            addBillDialog.show(getFragmentManager(), "");
+            binding.tvEnter.setText(getString(R.string.re_enter_bill_price));
+            binding.tvMessage.setText(getString(R.string.re_enter_bill_price));
+            binding.etEnterPrice.setText("");
         } else {
             uploadBill(price);
         }
@@ -137,7 +136,7 @@ public class AddBillDialog extends BottomSheetDialogFragment implements DialogVi
 
     @Override
     public void showDialog(String s) {
-        WaitDialogFragment.newInstance().show(getFragmentManager(), "");
+        WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
     }
 
     @Override

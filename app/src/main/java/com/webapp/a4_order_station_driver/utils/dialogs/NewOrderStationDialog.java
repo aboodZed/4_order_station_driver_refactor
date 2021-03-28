@@ -51,6 +51,7 @@ public class NewOrderStationDialog extends DialogFragment {
 
     private void click() {
         binding.btnView.setOnClickListener(view -> {
+            dismiss();
             new NavigateUtil().openOrder(getContext(), orderStation
                     , NewOrderStationFragment.page, true);
             listener.allowLoadNewOrder();
@@ -90,16 +91,19 @@ public class NewOrderStationDialog extends DialogFragment {
 
     private void getData(int id) {
         if (id != -1) {
+            WaitDialogFragment.newInstance().show(getChildFragmentManager(),"");
             new APIUtil<OrderStation>(getActivity()).getData(AppController.getInstance()
                     .getApi().getOrderById(id), new RequestListener<OrderStation>() {
                 @Override
                 public void onSuccess(OrderStation orderStation, String msg) {
+                    WaitDialogFragment.newInstance().dismiss();
                     NewOrderStationDialog.this.orderStation = orderStation;
                     data();
                 }
 
                 @Override
                 public void onError(String msg) {
+                    WaitDialogFragment.newInstance().dismiss();
                     ToolUtil.showLongToast(msg, getActivity());
                     listener.allowLoadNewOrder();
                     dismiss();
@@ -107,6 +111,7 @@ public class NewOrderStationDialog extends DialogFragment {
 
                 @Override
                 public void onFail(String msg) {
+                    WaitDialogFragment.newInstance().dismiss();
                     ToolUtil.showLongToast(msg, getActivity());
                     listener.allowLoadNewOrder();
                     dismiss();
