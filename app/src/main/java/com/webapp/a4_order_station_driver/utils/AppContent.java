@@ -6,7 +6,6 @@ public interface AppContent {
     String CODE_DETAILS = "codeDetails";
     String BASE_URL = "https://stationsback.4orderstation.net/api/v2/";
     //old url = https://control.4orderstation.net/api/v2/
-    int waitTimeInWaitFragment = 3000;
 
     //navigation
     String PAGE = "page";

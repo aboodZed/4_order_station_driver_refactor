@@ -43,9 +43,14 @@ public class OrderPublicFragment extends Fragment implements DialogView<PublicOr
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //View view = inflater.inflate(R.layout.fragment_public, container, false);
         binding = FragmentPublicBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         initRecycleView();
         presenter = new OrderPublicPresenter(baseActivity, this);
-        return binding.getRoot();
     }
 
     public void initRecycleView() {

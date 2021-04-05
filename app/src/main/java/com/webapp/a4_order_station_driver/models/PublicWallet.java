@@ -54,4 +54,16 @@ public class PublicWallet {
     public ArrayList<PublicOrder> getPublicOrders() {
         return publicOrders;
     }
+
+    @Override
+    public String toString() {
+        return "PublicWallet{" +
+                "total_orders_amount='" + total_orders_amount + '\'' +
+                ", total_driver_revenue=" + total_driver_revenue +
+                ", total_app_revenue=" + total_app_revenue +
+                ", totalClientBills='" + totalClientBills + '\'' +
+                ", publicOrders=" + publicOrders +
+                ", wallet='" + wallet + '\'' +
+                '}';
+    }
 }

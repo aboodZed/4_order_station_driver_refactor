@@ -37,16 +37,26 @@ public class OrderStationFragment extends Fragment implements DialogView<OrderSt
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //View view = inflater.inflate(R.layout.fragment_order_station, container, false);
         binding = FragmentOrderStationBinding.inflate(getLayoutInflater());
-        presenter = new OrderStationPresenter(baseActivity, this);
         return binding.getRoot();
     }
 
     @Override
-    public void setData(OrderStationList orderStationList) {
-        ordersAdapter = new OrderStationAdapter(orderStationList.getOrders(), getActivity(), baseActivity);
+    public void onResume() {
+        super.onResume();
+        initRecycleView();
+        presenter = new OrderStationPresenter(baseActivity, this);
+    }
+
+    private void initRecycleView() {
+        ordersAdapter = new OrderStationAdapter(getActivity(), baseActivity);
         binding.rvOrders.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvOrders.setItemAnimator(new DefaultItemAnimator());
         binding.rvOrders.setAdapter(ordersAdapter);
+    }
+
+    @Override
+    public void setData(OrderStationList orderStationList) {
+        ordersAdapter.addAll(orderStationList.getOrders());
     }
 
     @Override

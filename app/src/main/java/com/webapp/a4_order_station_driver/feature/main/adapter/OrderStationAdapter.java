@@ -24,12 +24,11 @@ import java.util.ArrayList;
 
 public class OrderStationAdapter extends RecyclerView.Adapter<OrderStationAdapter.OrdersHolder> {
 
-    private ArrayList<OrderStation> orders;
+    private ArrayList<OrderStation> orders = new ArrayList<>();
     private FragmentActivity activity;
     private BaseActivity baseActivity;
 
-    public OrderStationAdapter(ArrayList<OrderStation> list, FragmentActivity activity, BaseActivity baseActivity) {
-        this.orders = list;
+    public OrderStationAdapter(FragmentActivity activity, BaseActivity baseActivity) {
         this.activity = activity;
         this.baseActivity = baseActivity;
     }
@@ -51,9 +50,11 @@ public class OrderStationAdapter extends RecyclerView.Adapter<OrderStationAdapte
         return orders.size();
     }
 
-    public void addItem(OrderStation order) {
-        orders.add(order);
-        notifyItemInserted(getItemCount() - 1);
+    public void addAll(ArrayList<OrderStation> arrayList) {
+        if (arrayList != null) {
+            orders.addAll(arrayList);
+            notifyDataSetChanged();
+        }
     }
 
     public class OrdersHolder extends RecyclerView.ViewHolder {

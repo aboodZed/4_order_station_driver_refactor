@@ -50,19 +50,23 @@ public class PublicWalletAdapter extends RecyclerView.Adapter<PublicWalletAdapte
         public void setData(PublicOrder publicOrder) {
             String currency = AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code();
 
-            binding.tvOrderId.setText("#" + publicOrder.getInvoice_number());
-            binding.tvDeliveryPrice.setText(DecimalFormatterManager.getFormatterInstance()
-                    .format(Double.parseDouble(publicOrder.getDelivery_cost())) + " " + currency);
-            binding.tvTaxPrice.setText(DecimalFormatterManager.getFormatterInstance()
-                    .format(Double.parseDouble(publicOrder.getTax())) + " " + currency);
-            binding.tvPriceDeliveryTax.setText(DecimalFormatterManager.getFormatterInstance()
-                    .format(Double.parseDouble(publicOrder.getTotal())) + " " + currency);
-            binding.tvPriceBill.setText(DecimalFormatterManager.getFormatterInstance()
-                    .format(Double.parseDouble(publicOrder.getPurchase_invoice_value())) + " " + currency);
-            binding.tvDelegateDues.setText(DecimalFormatterManager.getFormatterInstance()
-                    .format(Double.parseDouble(publicOrder.getDriver_revenue())) + " " + currency);
-            binding.tvAppDues.setText(DecimalFormatterManager.getFormatterInstance()
-                    .format(Double.parseDouble(publicOrder.getApp_revenue())) + " " + currency);
+            binding.tvOrderId.setText(("#" + publicOrder.getInvoice_number()));
+            binding.tvDeliveryPrice.setText((DecimalFormatterManager.getFormatterInstance()
+                    .format(Double.parseDouble(publicOrder.getDelivery_cost())) + " " + currency));
+            binding.tvTaxPrice.setText((DecimalFormatterManager.getFormatterInstance()
+                    .format(Double.parseDouble(publicOrder.getTax())) + " " + currency));
+            binding.tvPriceDeliveryTax.setText((DecimalFormatterManager.getFormatterInstance()
+                    .format(Double.parseDouble(publicOrder.getTotal())) + " " + currency));
+            if (publicOrder.getPurchase_invoice_value() != null) {
+                binding.tvPriceBill.setText((DecimalFormatterManager.getFormatterInstance()
+                        .format(Double.parseDouble(publicOrder.getPurchase_invoice_value())) + " " + currency));
+            } else {
+                binding.tvPriceBill.setText(("0.00 " + currency));
+            }
+            binding.tvDelegateDues.setText((DecimalFormatterManager.getFormatterInstance()
+                    .format(Double.parseDouble(publicOrder.getDriver_revenue())) + " " + currency));
+            binding.tvAppDues.setText((DecimalFormatterManager.getFormatterInstance()
+                    .format(Double.parseDouble(publicOrder.getApp_revenue())) + " " + currency));
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.webapp.a4_order_station_driver.feature.main.wallets.publicO;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class PublicWalletFragment extends Fragment implements DialogView<PublicW
     }
 
     public void setData(PublicWallet publicWallet) {
+        Log.e("wallet", publicWallet.toString());
         String currency = AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code();
 
         binding.tvTotalBalance.setText((DecimalFormatterManager.getFormatterInstance()

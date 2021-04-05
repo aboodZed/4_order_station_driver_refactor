@@ -174,26 +174,32 @@ public class EditProfileFragment extends Fragment implements DialogView<User>, R
             case AVATAR:
                 binding.ivDriverAvatar.setImageBitmap(bitmap);
                 images[AVATAR] = APIImageUtil.bitmapToBase64(bitmap);
+                binding.pbWaitAvater.setVisibility(View.GONE);
                 break;
             case VEHICLE_IMAGE:
                 binding.ivYourVehicle.setImageBitmap(bitmap);
                 images[VEHICLE_IMAGE] = APIImageUtil.bitmapToBase64(bitmap);
+                binding.pbWaitYourVehicle.setVisibility(View.GONE);
                 break;
             case VEHICLE_LICENSE:
                 binding.ivVehicleLicense.setImageBitmap(bitmap);
                 images[VEHICLE_LICENSE] = APIImageUtil.bitmapToBase64(bitmap);
+                binding.pbWaitVehicleLicense.setVisibility(View.GONE);
                 break;
             case VEHICLE_INSURANCE:
                 binding.ivInsuranceLicense.setImageBitmap(bitmap);
                 images[VEHICLE_INSURANCE] = APIImageUtil.bitmapToBase64(bitmap);
+                binding.pbWaitInsuranceLicense.setVisibility(View.GONE);
                 break;
             case IDENTITY:
                 binding.ivIdPic.setImageBitmap(bitmap);
                 images[IDENTITY] = APIImageUtil.bitmapToBase64(bitmap);
+                binding.pbWaitIdPic.setVisibility(View.GONE);
                 break;
             case YOUR_LICENSE:
                 binding.ivYourLicense.setImageBitmap(bitmap);
                 images[YOUR_LICENSE] = APIImageUtil.bitmapToBase64(bitmap);
+                binding.pbWaitYourLicense.setVisibility(View.GONE);
                 break;
         }
     }

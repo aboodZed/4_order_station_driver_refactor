@@ -84,7 +84,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private void setData(ChatMessage data) {
             binding.tvMessageText.setText(data.getText());
             try {
-                binding.tvMessageTime.setText(dateFormat.format(data.getTime()));
+                binding.tvMessageTime.setText(ToolUtil.getDate(data.getTime()));
             } catch (Exception e) {
                 Log.e("error", "" + e.getMessage());
             }
