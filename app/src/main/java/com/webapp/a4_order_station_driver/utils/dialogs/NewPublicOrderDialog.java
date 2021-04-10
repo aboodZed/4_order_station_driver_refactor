@@ -59,7 +59,11 @@ public class NewPublicOrderDialog extends DialogFragment {
             listener.allowLoadNewOrder();
         });
         //listener.viewNewOrder(publicOrder)
-        binding.btnCancel.setOnClickListener(view -> dismiss());
+        binding.btnCancel.setOnClickListener(view ->
+        {
+            dismiss();
+            listener.cancel();
+        });
     }
 
 
@@ -134,5 +138,7 @@ public class NewPublicOrderDialog extends DialogFragment {
 
     public interface NewPublicOrderListener {
         void allowLoadNewOrder();
+
+        void cancel();
     }
 }

@@ -1,35 +1,78 @@
 {
   "project_info": {
-    "project_number": "694911804373",
-    "firebase_url": "https://order-station-27464-default-rtdb.firebaseio.com",
-    "project_id": "order-station-27464",
-    "storage_bucket": "order-station-27464.appspot.com"
+    "project_number": "876199841719",
+    "firebase_url": "https://orderstation-1156e-default-rtdb.firebaseio.com",
+    "project_id": "orderstation-1156e",
+    "storage_bucket": "orderstation-1156e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:694911804373:android:5c4360acdf27739fc8935c",
+        "mobilesdk_app_id": "1:876199841719:android:92fc4bb9b8e80e6352e232",
         "android_client_info": {
           "package_name": "com.webapp.a4_order_station_driver"
         }
       },
       "oauth_client": [
         {
-          "client_id": "694911804373-hr0f1seehbk9gmvc59buscpbrf2r8f7s.apps.googleusercontent.com",
+          "client_id": "876199841719-ltm3pgqujnu0cd6ti2omhq4v1544h1ji.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA3tvFLymmHStYokOuJgYWMf-zkYmc2ERw"
+          "current_key": "AIzaSyAAGxOxX1gFiPJ0qyKbQjUHJh7ycYZmnL0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "694911804373-hr0f1seehbk9gmvc59buscpbrf2r8f7s.apps.googleusercontent.com",
+              "client_id": "876199841719-ltm3pgqujnu0cd6ti2omhq4v1544h1ji.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "876199841719-3r90s3qthu1jqftv0jjnq8i1aejf7hf0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ios.com.4orderstaion"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876199841719:android:96d540c079e37bda52e232",
+        "android_client_info": {
+          "package_name": "com.webapp.a4_order_station_user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876199841719-ltm3pgqujnu0cd6ti2omhq4v1544h1ji.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAGxOxX1gFiPJ0qyKbQjUHJh7ycYZmnL0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876199841719-ltm3pgqujnu0cd6ti2omhq4v1544h1ji.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "876199841719-3r90s3qthu1jqftv0jjnq8i1aejf7hf0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ios.com.4orderstaion"
+              }
             }
           ]
         }

@@ -90,8 +90,8 @@ public class OrderGPSTracking {
     public void removeUpdates() {
         if (this.locationListener != null) {
             this.lm.removeUpdates(this.locationListener);
-            tracking = null;
-            AppController.getInstance().getAppSettingsPreferences().removeOrder();
         }
+        tracking = null;
+        AppController.getInstance().getAppSettingsPreferences().removeOrder();
     }
 }

@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.webapp.a4_order_station_driver.databinding.ItemPublicOrderBinding;
-import com.webapp.a4_order_station_driver.feature.order.OrderActivity;
 import com.webapp.a4_order_station_driver.feature.order.publicOrderView.PublicOrderViewFragment;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
 import com.webapp.a4_order_station_driver.utils.AppController;

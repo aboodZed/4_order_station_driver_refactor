@@ -58,7 +58,10 @@ public class NewOrderStationDialog extends DialogFragment {
         });
         //listener.viewNewOrder(orderStation)
 
-        binding.btnCancel.setOnClickListener(view -> dismiss());
+        binding.btnCancel.setOnClickListener(view -> {
+            dismiss();
+            listener.cancel();
+        });
     }
 
     @Override
@@ -91,7 +94,7 @@ public class NewOrderStationDialog extends DialogFragment {
 
     private void getData(int id) {
         if (id != -1) {
-            WaitDialogFragment.newInstance().show(getChildFragmentManager(),"");
+            WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
             new APIUtil<OrderStation>(getActivity()).getData(AppController.getInstance()
                     .getApi().getOrderById(id), new RequestListener<OrderStation>() {
                 @Override
@@ -139,5 +142,7 @@ public class NewOrderStationDialog extends DialogFragment {
 
     public interface NewOrderListener {
         void allowLoadNewOrder();
+
+        void cancel();
     }
 }

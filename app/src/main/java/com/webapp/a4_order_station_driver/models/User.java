@@ -2,6 +2,7 @@ package com.webapp.a4_order_station_driver.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.webapp.a4_order_station_driver.utils.AppController;
 
 import java.io.Serializable;
 
@@ -168,6 +169,7 @@ public class User implements Serializable {
     @SerializedName("Content-Type")
     private String content_type;
 
+    //for first step in register
     public User(String name, String avatar, String mobile, String email,
                 String address, String role, String password,
                 String password_confirmation, int country_id ,int city_id) {
@@ -184,6 +186,7 @@ public class User implements Serializable {
         content_type = "application/json";
     }
 
+    //for second step in register
     public User(String vehicle_pic, String vehicle_license, String insurance_license,
                 String id_pic, String drive_license, String vehicle_plate, String vehicle_type) {
         this.insurance_license = insurance_license;
@@ -196,6 +199,7 @@ public class User implements Serializable {
         content_type = "application/json";
     }
 
+    //for update the profile
     public User(String avatar,
                 String insurance_license,
                 String drive_license,
@@ -215,6 +219,8 @@ public class User implements Serializable {
         this.mobile = mobile;
         this.email = email;
         this.address = address;
+        this.country_id = AppController.getInstance().getAppSettingsPreferences().getCountry().getId();
+        this.city_id = AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getCity_id();
         content_type = "application/json";
     }
 

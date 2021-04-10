@@ -306,7 +306,18 @@ public class MainActivity extends BaseActivity {
                     isLoadingNewOrder = false;
                 }*/
                 dialog.show(getSupportFragmentManager(), "");
-                dialog.setListener(() -> isLoadingNewOrder = false);
+                dialog.setListener(new NewOrderStationDialog.NewOrderListener() {
+                    @Override
+                    public void allowLoadNewOrder() {
+                        isLoadingNewOrder = false;
+                    }
+
+                    @Override
+                    public void cancel() {
+                        allowLoadNewOrder();
+                        navigate(HomeFragment.page);
+                    }
+                });
             } else {
                 NewPublicOrderDialog dialog = NewPublicOrderDialog.newInstance(id);
                 dialog.show(getSupportFragmentManager(), "");
@@ -317,7 +328,18 @@ public class MainActivity extends BaseActivity {
                     dialog.dismiss();
                     isLoadingNewOrder = false;
                 }*/
-                dialog.setListener(() -> isLoadingNewOrder = false);
+                dialog.setListener(new NewPublicOrderDialog.NewPublicOrderListener() {
+                    @Override
+                    public void allowLoadNewOrder() {
+                        isLoadingNewOrder = false;
+                    }
+
+                    @Override
+                    public void cancel() {
+                        allowLoadNewOrder();
+                        navigate(HomeFragment.page);
+                    }
+                });
             }
     }
 

@@ -1,23 +1,19 @@
 package com.webapp.a4_order_station_driver.feature.splash;
 
-import android.app.Activity;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.models.Login;
-import com.webapp.a4_order_station_driver.models.MyLocation;
+import com.webapp.a4_order_station_driver.models.Order;
+import com.webapp.a4_order_station_driver.models.OrderStation;
+import com.webapp.a4_order_station_driver.models.PublicOrderObject;
 import com.webapp.a4_order_station_driver.models.User;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
@@ -26,7 +22,6 @@ import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.language.AppLanguageUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
-import com.webapp.a4_order_station_driver.utils.location.tracking.GPSTracking;
 import com.webapp.a4_order_station_driver.utils.location.tracking.OrderGPSTracking;
 
 class SplashPresenter {
@@ -36,9 +31,9 @@ class SplashPresenter {
     public SplashPresenter(BaseActivity baseActivity) {
         this.baseActivity = baseActivity;
         //functions
-        checkUserLogin();
         setLanguage();
         checkOrderProcess();
+        checkUserLogin();
     }
 
     private void setLanguage() {
@@ -51,8 +46,54 @@ class SplashPresenter {
     }
 
     private void checkOrderProcess() {
+        Order order = AppController.getInstance().getAppSettingsPreferences().getTrackingOrder();
+
         if (AppController.getInstance().getAppSettingsPreferences().getTrackingOrder() != null) {
-            OrderGPSTracking.newInstance(baseActivity).startGPSTracking();
+            if (order.getType().equals(AppContent.TYPE_ORDER_4STATION)) {
+                new APIUtil<OrderStation>(baseActivity).getData(AppController.getInstance().getApi()
+                        .getOrderById(order.getId()), new RequestListener<OrderStation>() {
+                    @Override
+                    public void onSuccess(OrderStation orderStation, String msg) {
+                        if (orderStation.getStatus().equals(AppContent.DELIVERED_STATUS)) {
+                            OrderGPSTracking.newInstance(baseActivity).removeUpdates();
+                        } else {
+                            OrderGPSTracking.newInstance(baseActivity).startGPSTracking();
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+
+                    }
+
+                    @Override
+                    public void onFail(String msg) {
+
+                    }
+                });
+            } else {
+                new APIUtil<PublicOrderObject>(baseActivity).getData(AppController.getInstance().getApi()
+                        .getPublicOrder(order.getId()), new RequestListener<PublicOrderObject>() {
+                    @Override
+                    public void onSuccess(PublicOrderObject publicOrderObject, String msg) {
+                        if (publicOrderObject.getPublicOrder().getStatus().equals(AppContent.DELIVERED_STATUS)) {
+                            OrderGPSTracking.newInstance(baseActivity).removeUpdates();
+                        } else {
+                            OrderGPSTracking.newInstance(baseActivity).startGPSTracking();
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+
+                    }
+
+                    @Override
+                    public void onFail(String msg) {
+
+                    }
+                });
+            }
             /*GPSTracking gpsTracking = GPSTracking.getInstance(activity, AppController.getInstance()
                     .getAppSettingsPreferences().getTrackingOrder());
             gpsTracking.startGPSTracking();*/
