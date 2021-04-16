@@ -53,7 +53,7 @@ public class MainActivity extends BaseActivity {
         super.setRootView(binding.getRoot());
         super.onCreate(savedInstanceState);
         presenter = new MainPresenter(this);
-        //data();
+        data();
         click();
     }
 
