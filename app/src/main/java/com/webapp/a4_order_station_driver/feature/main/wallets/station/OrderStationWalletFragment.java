@@ -40,7 +40,6 @@ public class OrderStationWalletFragment extends Fragment implements DialogView<S
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // View view = inflater.inflate(R.layout.fragment_order_station_wallet, container, false);
         binding = FragmentOrderStationWalletBinding.inflate(getLayoutInflater());
         presenter = new OrderStationWalletPresenter(requireActivity(), this);
         presenter.getData();

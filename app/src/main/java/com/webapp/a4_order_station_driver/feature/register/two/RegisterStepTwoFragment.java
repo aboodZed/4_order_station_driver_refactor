@@ -61,7 +61,6 @@ public class RegisterStepTwoFragment extends Fragment implements DialogView<User
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View v = inflater.inflate(R.layout.fragment_register_step_2, container, false);
         binding = FragmentRegisterStep2Binding.inflate(getLayoutInflater());
 
         click();

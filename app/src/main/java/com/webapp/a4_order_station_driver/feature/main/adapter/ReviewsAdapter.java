@@ -67,8 +67,8 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewHo
             binding.tvReviewText.setText(review.getReview());
             float rate = Float.parseFloat(review.getRate());
             binding.rbReview.setRating(rate);
-            binding.tvDatetime.setText(ToolUtil.getTime(review.getCreated_timestamp()) + " "
-                    + ToolUtil.getDate(review.getCreated_timestamp()));
+            binding.tvDatetime.setText((ToolUtil.getTime(review.getCreated_timestamp()) + " "
+                    + ToolUtil.getDate(review.getCreated_timestamp())));
         }
     }
 }

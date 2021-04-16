@@ -58,11 +58,11 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.WalletHold
         }
 
         public void setData(Ongoing ongoing) {
-            binding.tvOrderId.setText("#" + ongoing.getInvoice_number());
+            binding.tvOrderId.setText(("#" + ongoing.getInvoice_number()));
             binding.tvPaymentWay.setText(ongoing.getPayment_type());
-            binding.tvPrice.setText(DecimalFormatterManager.getFormatterInstance()
+            binding.tvPrice.setText((DecimalFormatterManager.getFormatterInstance()
                     .format(ongoing.getTotal()) + " " + AppController.getInstance()
-                    .getAppSettingsPreferences().getCountry().getCurrency_code());
+                    .getAppSettingsPreferences().getCountry().getCurrency_code()));
             if (ongoing.getTotal() < 0) {
                 binding.tvPrice.setBackgroundResource(R.drawable.red_button);
             }

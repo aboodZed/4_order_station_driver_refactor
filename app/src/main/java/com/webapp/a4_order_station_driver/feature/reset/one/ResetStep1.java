@@ -40,9 +40,6 @@ public class ResetStep1 extends Fragment implements DialogView<ResetCode> {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentResetStep1Binding.inflate(getLayoutInflater());
-        //View v = inflater.inflate(R.layout.fragment_reset_step1, container, false);
-        //ButterKnife.bind(this, v);
-        //tvCode.setText(AppController.getInstance().getAppSettingsPreferences().getCountry().getPhone_code());
         data();
         click();
         return binding.getRoot();

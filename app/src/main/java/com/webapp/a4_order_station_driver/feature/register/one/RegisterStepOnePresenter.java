@@ -147,20 +147,6 @@ public class RegisterStepOnePresenter {
                 });
     }
 
-    public void galleryRequest() {
-
-        //baseActivity.startActivityForResult(photoTakerManager.getPhotoGalleryIntent(baseActivity), AppContent.REQUEST_STUDIO);
-    }
-
-    public void cameraRequest() {
-        /*if (!PermissionUtil.isPermissionGranted(Manifest.permission.CAMERA, baseActivity)) {
-            PermissionUtil.requestPermission(baseActivity, Manifest.permission.CAMERA
-                    , AppContent.REQUEST_PERMISSIONS_R_W_STORAGE_CAMERA);
-        } else {
-            baseActivity.startActivityForResult(photoTakerManager.getPhotoCameraIntent(baseActivity), AppContent.REQUEST_CAMERA);
-        }*/
-    }
-
     public void getNeighborhood() {
         dialogView.showDialog("");
         new APIUtil<NeighborhoodList>(baseActivity).getData(AppController.getInstance().getApi()

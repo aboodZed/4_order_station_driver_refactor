@@ -53,13 +53,6 @@ public class LoginActivity extends BaseActivity implements DialogView<Login> {
         countryFragment.setCountryListener(() -> {
             binding.tvCode.setText(AppController.getInstance()
                     .getAppSettingsPreferences().getCountry().getPhone_code());
-        /*if (AppController.getInstance().getAppSettingsPreferences().getLogin() != null) {
-            if (AppController.getInstance().getAppSettingsPreferences().getLogin().getUser()
-                    .getCountry_id() != AppController.getInstance().getAppSettingsPreferences()
-                    .getCountry().getId()) {
-                goToSignUp();
-            }
-        }*/
         });
     }
 

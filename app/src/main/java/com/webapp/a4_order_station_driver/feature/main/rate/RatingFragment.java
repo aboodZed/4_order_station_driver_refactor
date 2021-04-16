@@ -44,7 +44,6 @@ public class RatingFragment extends Fragment implements DialogView<RatingObject>
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View v = inflater.inflate(R.layout.fragment_rating, container, false);
         binding = FragmentRatingBinding.inflate(getLayoutInflater());
         initRecycleView();
         presenter = new RatingPresenter(requireActivity(), this);

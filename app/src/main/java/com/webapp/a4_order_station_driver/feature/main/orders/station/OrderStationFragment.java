@@ -35,7 +35,6 @@ public class OrderStationFragment extends Fragment implements DialogView<OrderSt
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_order_station, container, false);
         binding = FragmentOrderStationBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }

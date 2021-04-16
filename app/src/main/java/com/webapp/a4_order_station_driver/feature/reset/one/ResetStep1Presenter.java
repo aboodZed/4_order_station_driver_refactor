@@ -74,28 +74,5 @@ public class ResetStep1Presenter {
                 ToolUtil.showLongToast(msg, baseActivity);
             }
         });
-        /*AppController.getInstance().getApi().forgetPassword(/*AppController.getInstance()
-                .getAppSettingsPreferences().getCountry().getPhone_code() + mobile)
-                .enqueue(new Callback<ResetCode>() {
-                    @Override
-                    public void onResponse(Call<ResetCode> call, Response<ResetCode> response) {
-                        if (response.isSuccessful()) {
-                            code = response.body().getCode();
-                            //ToolUtil.notificationBuilder(getActivity(), response.body());
-                            WaitDialogFragment.newInstance().dismiss();
-                            baseActivity.navigate(ResetStep2.page);
-                        } else {
-                            ToolUtil.showError(getActivity(), response.errorBody());
-                            WaitDialogFragment.newInstance().dismiss();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResetCode> call, Throwable t) {
-                        t.printStackTrace();
-                        ToolUtil.showLongToast(getString(R.string.error), getActivity());
-                        WaitDialogFragment.newInstance().dismiss();
-                    }
-                });*/
     }
 }

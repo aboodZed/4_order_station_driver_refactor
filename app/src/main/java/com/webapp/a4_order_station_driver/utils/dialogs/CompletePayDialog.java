@@ -50,7 +50,6 @@ public class CompletePayDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_complete_pay_dialog, container, false);
         binding = FragmentCompletePayDialogBinding.inflate(getLayoutInflater());
         data();
         click();

@@ -44,7 +44,6 @@ public class NewPublicOrderDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.dialog_new_order, container, false);
         binding = DialogNewOrderBinding.inflate(getLayoutInflater());
         getData(getArguments().getInt(AppContent.ORDER_Id, -1));
         click();
@@ -58,7 +57,6 @@ public class NewPublicOrderDialog extends DialogFragment {
                     , NewPublicOrderFragment.page, true);
             listener.allowLoadNewOrder();
         });
-        //listener.viewNewOrder(publicOrder)
         binding.btnCancel.setOnClickListener(view ->
         {
             dismiss();

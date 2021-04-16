@@ -45,7 +45,6 @@ public class ContactFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View v = inflater.inflate(R.layout.fragment_contact, container, false);
         binding = FragmentContactBinding.inflate(getLayoutInflater());
         data();
         click();
@@ -115,7 +114,7 @@ public class ContactFragment extends DialogFragment {
 
     public void openSendMessage() {
         SendMessageDialog dialog = SendMessageDialog.newInstance();
-        dialog.show(getFragmentManager(), "");
+        dialog.show(getChildFragmentManager(), "");
     }
 
     public void openEmail() {

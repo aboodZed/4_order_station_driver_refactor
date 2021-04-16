@@ -52,7 +52,6 @@ public class OrderStationViewFragment extends Fragment implements DialogView<Ord
     private OrderItemsAdapter orderItemsAdapter;
     private OrderStation orderStation;
     private OrderStationViewPresenter presenter;
-    //private Listener listener;
 
     public OrderStationViewFragment(BaseActivity baseActivity) {
         this.baseActivity = baseActivity;
@@ -73,14 +72,11 @@ public class OrderStationViewFragment extends Fragment implements DialogView<Ord
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View v = inflater.inflate(R.layout.fragment_order_view, container, false);
         binding = FragmentOrderViewBinding.inflate(getLayoutInflater());
         presenter = new OrderStationViewPresenter(baseActivity, this);
         Order order = (Order) requireArguments().getSerializable(AppContent.ORDER_OBJECT);
         if (order != null)
             presenter.getOrderData(order);
-
-        //listener.setDataInOrderView();
         click();
         return binding.getRoot();
     }
@@ -187,12 +183,4 @@ public class OrderStationViewFragment extends Fragment implements DialogView<Ord
         binding.rvOrderItem.setItemAnimator(new DefaultItemAnimator());
         binding.rvOrderItem.setAdapter(orderItemsAdapter);
     }
-
-    /*public void setListener(Listener listener) {
-        this.listener = listener;
-    }
-
-    public interface Listener {
-        void setDataInOrderView();
-    }*/
 }

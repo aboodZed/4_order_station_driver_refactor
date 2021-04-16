@@ -54,9 +54,6 @@ public class OrderStationViewPresenter {
                 .getApi().deliveryOrder(orderStation.getId()), new RequestListener<Message>() {
             @Override
             public void onSuccess(Message message, String msg) {
-                /*if (tracking != null) {
-                    tracking.endGPSTracking();
-                }*/
                 OrderGPSTracking.newInstance(baseActivity).removeUpdates();
                 dialogView.hideDialog();
                 baseActivity.navigate(OrdersFragment.page);

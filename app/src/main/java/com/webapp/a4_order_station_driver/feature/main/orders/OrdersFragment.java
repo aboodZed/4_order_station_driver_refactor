@@ -34,7 +34,6 @@ public class OrdersFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View v = inflater.inflate(R.layout.fragment_orders, container, false);
         binding = FragmentOrdersBinding.inflate(getLayoutInflater());
         setupViewPager();
         return binding.getRoot();

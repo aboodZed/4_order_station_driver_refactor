@@ -59,13 +59,7 @@ class EditProfilePresenter {
                 images[EditProfileFragment.AVATAR], images[EditProfileFragment.VEHICLE_INSURANCE],
                 images[EditProfileFragment.YOUR_LICENSE], images[EditProfileFragment.VEHICLE_LICENSE]
                 , images[EditProfileFragment.IDENTITY], images[EditProfileFragment.VEHICLE_IMAGE],
-                /*APIImageUtil.bitmapToBase64(APIImageUtil.getBitmapFromImageView(binding.ivDriverAvatar)),
-                APIImageUtil.bitmapToBase64(APIImageUtil.getBitmapFromImageView(binding.ivInsuranceLicense)),
-                APIImageUtil.bitmapToBase64(APIImageUtil.getBitmapFromImageView(binding.ivYourLicense)),
-                APIImageUtil.bitmapToBase64(APIImageUtil.getBitmapFromImageView(binding.ivVehicleLicense)),
-                APIImageUtil.bitmapToBase64(APIImageUtil.getBitmapFromImageView(binding.ivIdPic)),
-                APIImageUtil.bitmapToBase64(APIImageUtil.getBitmapFromImageView(binding.ivYourVehicle)),*/
-                AppController.getInstance().getAppSettingsPreferences().getPassword(),
+          AppController.getInstance().getAppSettingsPreferences().getPassword(),
                 AppController.getInstance().getAppSettingsPreferences().getPassword(),
                 mobile, email, address);
         upload(user);
@@ -119,129 +113,6 @@ class EditProfilePresenter {
                     photoTakerManager.processCameraPhoto(baseActivity);
                     break;
             }
-
-
-            /*// if (requestCode == AppContent.REQUEST_IMAGE_AVATAR_UPLOAD) {
-            try {
-                //code
-                Uri uri = data.getData();
-                binding.ivDriverAvatar.setImageURI(uri);
-                //code
-            } catch (OutOfMemoryError error) {
-                error.printStackTrace();
-                Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-            }
-            //} else if (requestCode == AppContent.REQUEST_IMAGE_AVATAR_CAMERA) {
-            try {
-                //code
-                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                binding.ivDriverAvatar.setImageBitmap(bitmap);
-                //code
-            } catch (OutOfMemoryError error) {
-                error.printStackTrace();
-                Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-            }
-            //} else if (requestCode == AppContent.REQUEST_IMAGE_VEHICLE_UPLOAD) {
-            try {
-                //code
-                Uri uri = data.getData();
-                binding.ivYourVehicle.setImageURI(uri);
-                //code
-            } catch (OutOfMemoryError error) {
-                error.printStackTrace();
-                Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-            }
-            //} else if (requestCode == AppContent.REQUEST_IMAGE_VEHICLE_CAMERA) {
-            try {
-                //code
-                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                binding.ivYourVehicle.setImageBitmap(bitmap);
-                //code
-            } catch (OutOfMemoryError error) {
-                error.printStackTrace();
-                Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-            }
-            //} else if (requestCode == AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_UPLOAD) {
-            try {
-                //code
-                Uri uri = data.getData();
-                binding.ivVehicleLicense.setImageURI(uri);
-                //code
-            } catch (OutOfMemoryError error) {
-                error.printStackTrace();
-                Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-            }
-            //} else if (requestCode == AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_CAMERA) {
-            try {
-                //code
-                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                binding.ivVehicleLicense.setImageBitmap(imageBitmap);
-                //code
-            } catch (OutOfMemoryError error) {
-                error.printStackTrace();
-                Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-            }
-            //} else if (requestCode == AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_UPLOAD) {
-            try {
-                //code
-                Uri uri = data.getData();
-                binding.ivInsuranceLicense.setImageURI(uri);
-                //code
-            } catch (OutOfMemoryError error) {
-                error.printStackTrace();
-                Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-            }
-            //} else if (requestCode == AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_CAMERA) {
-            try {
-                //code
-                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                binding.ivInsuranceLicense.setImageBitmap(imageBitmap);
-                //code
-            } catch (OutOfMemoryError error) {
-                error.printStackTrace();
-                Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-            }
-            //} else if (requestCode == AppContent.REQUEST_IMAGE_IDENTITY_UPLOAD) {
-            try {
-                //code
-                Uri uri = data.getData();
-                binding.ivIdPic.setImageURI(uri);
-                //code
-            } catch (OutOfMemoryError error) {
-                error.printStackTrace();
-                Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-            }
-            //} else if (requestCode == AppContent.REQUEST_IMAGE_IDENTITY_CAMERA) {
-            try {
-                //code
-                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                binding.ivIdPic.setImageBitmap(imageBitmap);
-                //code
-            } catch (OutOfMemoryError error) {
-                error.printStackTrace();
-                Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-            }
-            // } else if (requestCode == AppContent.REQUEST_IMAGE_YOUR_LICENSE_UPLOAD) {
-            try {
-                //code
-                Uri uri = data.getData();
-                binding.ivYourLicense.setImageURI(uri);
-                //code
-            } catch (OutOfMemoryError error) {
-                error.printStackTrace();
-                Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-            }
-            // } else if (requestCode == AppContent.REQUEST_IMAGE_YOUR_LICENSE_CAMERA) {
-            try {
-                //code
-                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                binding.ivYourLicense.setImageBitmap(imageBitmap);
-                //code
-            } catch (OutOfMemoryError error) {
-                error.printStackTrace();
-                Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-            }
-        }*/
         }
     }
 

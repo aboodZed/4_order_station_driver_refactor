@@ -56,7 +56,6 @@ public class ChatFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setStyle(DialogFragment.STYLE_NORMAL, R.style.dialog);
     }
 
     @Override
@@ -67,23 +66,6 @@ public class ChatFragment extends Fragment {
         click();
         return binding.getRoot();
     }
-
-   /* @Override
-    public void onResume() {
-        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        params.height = WindowManager.LayoutParams.MATCH_PARENT;
-        getDialog().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
-        setCancelable(false);
-        super.onResume();
-        getDialog().setOnKeyListener((dialog, keyCode, event) -> {
-            if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-                ChatFragment.this.dismiss();
-                return true;
-            } else return false;
-        });
-    }*/
 
     @Override
     public void onStart() {
@@ -100,7 +82,6 @@ public class ChatFragment extends Fragment {
     //functions
 
     private void click() {
-        // binding.ivBack.setOnClickListener(view -> dismiss());
         binding.ivUploadMessage.setOnClickListener(view -> sendMessage());
     }
 

@@ -41,7 +41,6 @@ public class OrderPublicFragment extends Fragment implements DialogView<PublicOr
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_public, container, false);
         binding = FragmentPublicBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }

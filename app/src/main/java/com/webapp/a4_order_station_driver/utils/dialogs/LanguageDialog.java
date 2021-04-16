@@ -32,7 +32,6 @@ public class LanguageDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.dialog_language, container, false);
         binding = DialogLanguageBinding.inflate(getLayoutInflater());
         data();
         click();

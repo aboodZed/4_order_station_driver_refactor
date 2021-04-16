@@ -32,7 +32,6 @@ public class ShowLocationDialog extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_show_location, container, false);
         binding = FragmentShowLocationBinding.inflate(getLayoutInflater());
         if (getArguments() != null) {
             order = (PublicOrder) getArguments().getSerializable(AppContent.ORDER_OBJECT);

@@ -64,7 +64,6 @@ public class EditProfileFragment extends Fragment implements DialogView<User>, R
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
         binding = FragmentEditProfileBinding.inflate(getLayoutInflater());
         photoTakerManager = new PhotoTakerManager(this);
         presenter = new EditProfilePresenter(baseActivity, this, photoTakerManager);
@@ -126,16 +125,11 @@ public class EditProfileFragment extends Fragment implements DialogView<User>, R
             @Override
             public void onGalleryClicked() {
                 photoTakerManager.galleryRequest(requireActivity(), request_upload);
-                /*Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, request_upload);*/
             }
 
             @Override
             public void onCameraClicked() {
                 photoTakerManager.cameraRequest(requireActivity(), request_camera);
-                /*Intent photoPickerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(photoPickerIntent, request_camera);*/
             }
         });
         itemSelectImageDialogFragment.show(getChildFragmentManager(), "");

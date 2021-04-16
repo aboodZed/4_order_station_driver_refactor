@@ -76,8 +76,6 @@ public class OrderStationAdapter extends RecyclerView.Adapter<OrderStationAdapte
 
         public void setId() {
             new NavigateUtil().openOrder(baseActivity, order, OrderStationViewFragment.page, true);
-            /*MainActivity.setId(order);
-            baseActivity.navigate(7);*/
         }
 
         public void setData(OrderStation order, BaseActivity baseActivity) {

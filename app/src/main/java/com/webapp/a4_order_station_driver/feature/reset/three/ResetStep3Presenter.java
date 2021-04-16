@@ -79,28 +79,5 @@ public class ResetStep3Presenter {
                 ToolUtil.showLongToast(msg, baseActivity);
             }
         });
-        /*if (ToolUtil.checkTheInternet()) {
-            WaitDialogFragment.newInstance().show(getFragmentManager(), "");
-            AppController.getInstance().getApi().resetPassword(hashMap).enqueue(new Callback<Message>() {
-                @Override
-                public void onResponse(Call<Message> call, Response<Message> response) {
-                    WaitDialogFragment.newInstance().dismiss();
-                    if (response.isSuccessful()) {
-                        ToolUtil.showLongToast(response.body().getMassage(), getActivity());
-                        AppController.getInstance().getAppSettingsPreferences().setPassword(hashMap.get("password"));
-                        baseActivity.navigate(LoginActivity.page);
-                    } else {
-                        ToolUtil.showError(getActivity(), response.errorBody());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Message> call, Throwable t) {
-                    t.printStackTrace();
-                    ToolUtil.showLongToast(getString(R.string.error), getActivity());
-                    WaitDialogFragment.newInstance().dismiss();
-                }
-            });
-        }*/
     }
 }

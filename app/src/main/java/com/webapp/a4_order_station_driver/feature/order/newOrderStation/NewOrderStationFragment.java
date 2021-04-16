@@ -41,7 +41,6 @@ public class NewOrderStationFragment extends Fragment implements DialogView<Mess
     private BaseActivity baseActivity;
     private OrderItemsAdapter orderItemsAdapter;
     private OrderStation orderStation;
-    //private Listener listener;
     private NewOrderStationPresenter presenter;
 
     public NewOrderStationFragment(BaseActivity baseActivity) {
@@ -63,10 +62,8 @@ public class NewOrderStationFragment extends Fragment implements DialogView<Mess
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View v = inflater.inflate(R.layout.fragment_new_order, container, false);
         binding = FragmentNewOrderBinding.inflate(getLayoutInflater());
         presenter = new NewOrderStationPresenter(baseActivity, this);
-        //listener.setDataInNewOrder();
         data();
         click();
         return binding.getRoot();
@@ -134,7 +131,6 @@ public class NewOrderStationFragment extends Fragment implements DialogView<Mess
                 , orderStation.getUser().getAvatar_url(), binding.ivReceiverImage);
         binding.tvReceiverName.setText(orderStation.getUser().getName());
         binding.tvReceiverAddress.setText(orderStation.getUser().getAddress());
-        //WaitDialogFragment.newInstance().dismiss();
         initRecycleView(orderStation.getOrder_items());
     }
 
@@ -160,12 +156,4 @@ public class NewOrderStationFragment extends Fragment implements DialogView<Mess
         WaitDialogFragment.newInstance().dismiss();
     }
 
-   /* public void setListener(Listener listener) {
-        this.listener = listener;
-    }
-
-
-    public interface Listener {
-        void setDataInNewOrder();
-    }*/
 }

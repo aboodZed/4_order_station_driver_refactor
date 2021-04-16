@@ -29,7 +29,6 @@ public class WaitDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_wait, container, false);
         binding = FragmentWaitBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }

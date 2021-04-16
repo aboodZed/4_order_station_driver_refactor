@@ -94,18 +94,7 @@ class SplashPresenter {
                     }
                 });
             }
-            /*GPSTracking gpsTracking = GPSTracking.getInstance(activity, AppController.getInstance()
-                    .getAppSettingsPreferences().getTrackingOrder());
-            gpsTracking.startGPSTracking();*/
         }
-      /*  if (AppController.getInstance().getAppSettingsPreferences().getTrackingOrder() != null) {
-            new OrderGPSTracking(baseActivity, AppController.getInstance()
-                    .getAppSettingsPreferences().getTrackingOrder()).startGPSTracking();
-
-            GPSTracking gpsTracking = GPSTracking.getInstance(baseActivity, AppController.getInstance()
-                    .getAppSettingsPreferences().getTrackingPublicOrder());
-            gpsTracking.startGPSTracking();
-        }*/
     }
 
     private void checkUserLogin() {

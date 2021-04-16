@@ -34,7 +34,6 @@ public class ItemSelectImageDialogFragment extends BottomSheetDialogFragment imp
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_item_image_dialog, container, false);
         binding = FragmentItemImageDialogBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }

@@ -68,8 +68,6 @@ public class PublicOrderAdapter extends RecyclerView.Adapter<PublicOrderAdapter.
         public void openChat() {
             new NavigateUtil().openOrder(baseActivity, publicOrder
                     , PublicOrderViewFragment.page, true);
-           /* PublicOrderViewFragment publicChatFragment = PublicOrderViewFragment.newInstance(publicOrder, baseActivity, tracking);
-            publicChatFragment.show(activity.getSupportFragmentManager(), "");*/
         }
 
         public void setData(PublicOrder publicOrder) {

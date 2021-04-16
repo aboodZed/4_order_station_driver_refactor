@@ -86,7 +86,6 @@ public class PublicOrderViewFragment extends Fragment implements
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_public_chat, container, false);
         binding = FragmentPublicChatBinding.inflate(getLayoutInflater());
         photoTakerManager = new PhotoTakerManager(this);
         if (getArguments() != null) {
@@ -104,10 +103,6 @@ public class PublicOrderViewFragment extends Fragment implements
 
 
     private void click() {
-        /*binding.ivBack.setOnClickListener(view -> {
-            baseActivity.navigate(OrdersFragment.page);
-        });*/
-
         binding.ivUploadMessage.setOnClickListener(view -> presenter.sendMessage(""));
         binding.ivUploadPhoto.setOnClickListener(view -> uploadPhoto());
         binding.ivTracking.setOnClickListener(view -> showLocation());
@@ -136,18 +131,11 @@ public class PublicOrderViewFragment extends Fragment implements
             @Override
             public void onGalleryClicked() {
                 photoTakerManager.galleryRequest(requireActivity(), AppContent.REQUEST_STUDIO);
-                /*Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, REQUEST_STUDIO);*/
             }
 
             @Override
             public void onCameraClicked() {
                 photoTakerManager.cameraRequest(requireActivity(), AppContent.REQUEST_CAMERA);
-                /*Intent intent = photoTakerManager.getPhotoTakingIntent(requireActivity());
-                if (intent != null) {
-                    startActivityForResult(intent, REQUEST_CAMERA);
-                }*/
             }
         });
         itemSelectImageDialogFragment.show(getChildFragmentManager(), "");
@@ -245,9 +233,6 @@ public class PublicOrderViewFragment extends Fragment implements
 
         if (publicOrder.getStatus().equals(AppContent.DELIVERED_STATUS)
                 || publicOrder.getStatus().equals(AppContent.CANCELLED_STATUS)) {
-                    /*if (tracking != null) {
-                        tracking.endGPSTracking();
-                    }*/
             OrderGPSTracking.newInstance(baseActivity).removeUpdates();
         }
         if (openBillDialog) {

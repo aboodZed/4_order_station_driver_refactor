@@ -74,7 +74,6 @@ public class NewPublicOrderFragment extends Fragment implements OnMapReadyCallba
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_new_public_order, container, false);
         binding = FragmentNewPublicOrderBinding.inflate(getLayoutInflater());
         binding.mapView.onCreate(savedInstanceState);
         binding.mapView.getMapAsync(this);

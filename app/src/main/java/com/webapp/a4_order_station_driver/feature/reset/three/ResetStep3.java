@@ -41,8 +41,6 @@ public class ResetStep3 extends Fragment implements DialogView<Message> {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentResetStep3Binding.inflate(getLayoutInflater());
-        /*View v = inflater.inflate(R.layout.fragment_reset_step3, container, false);
-        ButterKnife.bind(this, v);*/
         click();
         return binding.getRoot();
     }

@@ -37,7 +37,6 @@ public class SendMessageDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // View view = inflater.inflate(R.layout.fragment_send_message, container, false);
         binding = FragmentSendMessageBinding.inflate(getLayoutInflater());
         click();
         return binding.getRoot();

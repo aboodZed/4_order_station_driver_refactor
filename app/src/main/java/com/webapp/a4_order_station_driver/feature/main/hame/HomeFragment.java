@@ -53,7 +53,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View v = inflater.inflate(R.layout.fragment_home, container, false);
         binding = FragmentHomeBinding.inflate(getLayoutInflater());
 
         binding.mapView.onCreate(savedInstanceState);

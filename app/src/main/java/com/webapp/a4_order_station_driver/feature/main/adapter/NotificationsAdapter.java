@@ -43,7 +43,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     @NonNull
     @Override
     public NotificationHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_notification, parent, false);
         return new NotificationHolder(ItemNotificationBinding.inflate(LayoutInflater
                 .from(parent.getContext()), parent, false));
     }
@@ -174,9 +173,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
                                         new NavigateUtil().openOrder(baseActivity, publicOrderObject.getPublicOrder()
                                                 , NewPublicOrderFragment.page, true);
-
-                                                /*MainActivity.setPublicOrder(publicOrderObject.getPublicOrder());
-                                                baseActivity.navigate(10);*/
 
                                     } else if (publicOrderObject.getPublicOrder().getDriver_id()
                                             .equals(String.valueOf(AppController.getInstance()

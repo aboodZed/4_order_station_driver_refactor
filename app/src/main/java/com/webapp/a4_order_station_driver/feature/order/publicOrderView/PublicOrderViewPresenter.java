@@ -177,31 +177,6 @@ public class PublicOrderViewPresenter {
                     photoTakerManager.processCameraPhoto(baseActivity);
                     break;
             }
-            /*if (requestCode == REQUEST_STUDIO) {
-                try {
-                    //code
-                    if (data != null) {
-                        filePath = data.getData();
-                        uploadImage();
-                    }
-                    //code
-                } catch (OutOfMemoryError error) {
-                    error.printStackTrace();
-                    Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-                    WaitDialogFragment.newInstance().dismiss();
-                }
-            } else if (requestCode == REQUEST_CAMERA) {
-                try {
-                    //code
-                    filePath = photoTakerManager.getCurrentPhotoUri();
-                    photoTakerManager.processTakenPhoto(getActivity());
-                    //code
-                } catch (OutOfMemoryError error) {
-                    error.printStackTrace();
-                    Toast.makeText(getActivity(), R.string.big_image, Toast.LENGTH_SHORT).show();
-                    WaitDialogFragment.newInstance().dismiss();
-                }
-            }*/
         }
     }
 

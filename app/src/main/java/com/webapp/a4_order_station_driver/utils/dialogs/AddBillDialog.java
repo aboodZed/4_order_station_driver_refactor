@@ -38,7 +38,6 @@ public class AddBillDialog extends BottomSheetDialogFragment implements DialogVi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_add_bill_dialog, container, false);
         binding = FragmentAddBillDialogBinding.inflate(getLayoutInflater());
         data();
         click();

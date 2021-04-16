@@ -42,7 +42,6 @@ public class NotificationFragment extends Fragment implements DialogView<Notific
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View v = inflater.inflate(R.layout.fragment_notification, container, false);
         binding = FragmentNotificationBinding.inflate(getLayoutInflater());
         new NotificationPresenter(baseActivity, this);
         return binding.getRoot();

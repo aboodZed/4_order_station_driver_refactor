@@ -42,7 +42,6 @@ public class PublicWalletFragment extends Fragment implements DialogView<PublicW
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_public_wallet, container, false);
         binding = FragmentPublicWalletBinding.inflate(getLayoutInflater());
         presenter = new PublicWalletPresenter(requireActivity(), this);
         presenter.getData();

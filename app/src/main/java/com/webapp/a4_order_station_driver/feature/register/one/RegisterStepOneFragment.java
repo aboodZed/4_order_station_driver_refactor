@@ -75,15 +75,6 @@ public class RegisterStepOneFragment extends Fragment implements RequestListener
             binding.etCountry.setText(AppController.getInstance().getAppSettingsPreferences().getCountry().getName_ar());
         }
         presenter.getNeighborhood();
-        //test
-        /*ArrayList<Neighborhood> neighborhoods = new ArrayList<>();
-        neighborhoods.add(new Neighborhood(1, "غزة"));
-        neighborhoods.add(new Neighborhood(2, "رفح"));
-        neighborhoods.add(new Neighborhood(3, "خانيونس"));
-        NeighborhoodList neighborhoodList = new NeighborhoodList();
-        neighborhoodList.setNeighborhoods(neighborhoods);
-        setData(neighborhoodList);*/
-        //test
     }
 
     private void click() {
@@ -117,17 +108,6 @@ public class RegisterStepOneFragment extends Fragment implements RequestListener
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         presenter.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
-
-            /*if (requestCode == AppContent.REQUEST_STUDIO) {
-
-                Uri uri = data.getData();
-                binding.ivEnterImage.setImageURI(uri);
-                saveImage = true;
-            } else if (requestCode == AppContent.REQUEST_CAMERA) {
-                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                binding.ivEnterImage.setImageBitmap(imageBitmap);
-                saveImage = true;
-            }*/
     }
 
     @Override

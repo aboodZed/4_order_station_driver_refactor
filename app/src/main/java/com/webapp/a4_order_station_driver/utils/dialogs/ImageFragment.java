@@ -30,7 +30,6 @@ public class ImageFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_image, container, false);
         binding = FragmentImageBinding.inflate(getLayoutInflater());
         data();
         return binding.getRoot();

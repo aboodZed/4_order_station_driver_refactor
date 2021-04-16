@@ -43,9 +43,6 @@ public class MainActivity extends BaseActivity {
 
     private ActivityMainBinding binding;
 
-    /*private static OrderStation orderStation;
-    private static PublicOrder publicOrder;*/
-
     private MainPresenter presenter;
 
     public static boolean isLoadingNewOrder;
@@ -56,7 +53,7 @@ public class MainActivity extends BaseActivity {
         super.setRootView(binding.getRoot());
         super.onCreate(savedInstanceState);
         presenter = new MainPresenter(this);
-        data();
+        //data();
         click();
     }
 
@@ -85,11 +82,6 @@ public class MainActivity extends BaseActivity {
                 binding.scAppear.setChecked(true);
             }
         }
-        /*if (AppController.getInstance().getAppSettingsPreferences().getTrackingOrder() != null)
-            publicOrder = AppController.getInstance().getAppSettingsPreferences().getTrackingOrder();
-        if (AppController.getInstance().getAppSettingsPreferences().getTrackingOrder() != null)
-            orderStation = AppController.getInstance().getAppSettingsPreferences().getTrackingOrder();
-*/
         //dialog
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -137,64 +129,6 @@ public class MainActivity extends BaseActivity {
                 } else {
                     checkNavigate(bundle);
                 }
-
-                /*if (jSON != null) {
-                    if (body.getString("msg").contains("new order")) {
-                        type = body.getString("type");
-                        if (type.equals("public")) {
-                            id = body.getInt("public_order_id");
-                            if (!isLoadingNewOrder) {
-                                createNewOrder(id, type);
-                            }
-                        } else if (type.equals("4station")) {
-                            id = body.getInt("order_id");
-                            if (!isLoadingNewOrder) {
-                                createNewOrder(id, type);
-                            }
-                        }
-                        navigate(HomeFragment.page);
-                    } else {
-                        type = body.getString("type");
-                        if (type.equals("public") || type.equals("4station")) {
-                            navigate(OrdersFragment.page);
-                        } else if (type.contains("wallet")) {
-                            navigate(WalletFragment.page);
-                        } else {
-                            navigate(HomeFragment.page);
-                        }
-                    }
-                } else {
-                    if (getIntent().getExtras().getInt("order_id") != -1) {
-                        id = getIntent().getExtras().getInt("order_id");
-                        type = getIntent().getExtras().getString("type");
-                        navigate(HomeFragment.page);
-                        if (!isLoadingNewOrder) {
-                            createNewOrder(id, type);
-                        }
-                    } else {
-                        type = getIntent().getExtras().getString("type");
-                        if (type.equals("public")) {
-                            String s = getIntent().getExtras().getString("status");
-                            navigate(OrdersFragment.page);
-                            if (s.equals("new_message")) {
-                                PublicOrderViewFragment publicChatFragment = PublicOrderViewFragment
-                                        .newInstance(publicOrder, this, this);
-                                publicChatFragment.show(getSupportFragmentManager(), "");
-                            }
-                        } else if (type.equals("4station")) {
-                            String s = getIntent().getExtras().getString("status");
-                            navigate(OrdersFragment.page);
-                            if (s.equals("new_message")) {
-                                ChatFragment chatFragment = ChatFragment.newInstance(orderStation);
-                                chatFragment.show(getSupportFragmentManager(), "");
-                            }
-                        } else if (type.contains("wallet")) {
-                            navigate(WalletFragment.page);
-                        } else {
-                            navigate(HomeFragment.page);
-                        }
-                    }
-                }*/
             } catch (Exception e) {
                 e.printStackTrace();
                 isLoadingNewOrder = false;
@@ -262,18 +196,6 @@ public class MainActivity extends BaseActivity {
                 binding.ivIcRating.setBackgroundResource(R.drawable.ic_rating_blue);
                 binding.tvTextRating.setTextColor(getResources().getColor(R.color.colorPrimary));
                 break;
-            /*case 6://6
-                newOrderFragment = NewOrderStationFragment.newInstance(this, this);
-                newOrderFragment.setListener(this);
-                new NavigateUtil().replaceFragment(getSupportFragmentManager()
-                        , newOrderFragment, R.id.fragment_container);
-                break;
-            case 7://7
-                orderViewFragment = OrderStationViewFragment.newInstance(this, this);
-                orderViewFragment.setListener(this);
-                new NavigateUtil().replaceFragment(getSupportFragmentManager()
-                        , orderViewFragment, R.id.fragment_container);
-                break;*/
             case NotificationFragment.page://8
                 NotificationFragment notificationFragment = NotificationFragment.newInstance(this);
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
@@ -284,12 +206,6 @@ public class MainActivity extends BaseActivity {
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , editProfileFragment, R.id.fragment_container);
                 break;
-           /* case 10://10
-                newPublicOrderFragment = NewPublicOrderFragment.newInstance(this, this);
-                newPublicOrderFragment.setListener(this);
-                new NavigateUtil().replaceFragment(getSupportFragmentManager()
-                        , newPublicOrderFragment, R.id.fragment_container);
-                break;*/
         }
     }
 
@@ -298,13 +214,6 @@ public class MainActivity extends BaseActivity {
         if (type != null)
             if (type.equals(AppContent.TYPE_ORDER_4STATION)) {
                 NewOrderStationDialog dialog = NewOrderStationDialog.newInstance(id);
-                /*@Override
-                public void viewNewOrder(OrderStation order) {
-                        setId(order);
-                navigate(6);
-                dialog.dismiss();
-                    isLoadingNewOrder = false;
-                }*/
                 dialog.show(getSupportFragmentManager(), "");
                 dialog.setListener(new NewOrderStationDialog.NewOrderListener() {
                     @Override
@@ -321,13 +230,6 @@ public class MainActivity extends BaseActivity {
             } else {
                 NewPublicOrderDialog dialog = NewPublicOrderDialog.newInstance(id);
                 dialog.show(getSupportFragmentManager(), "");
-                /*@Override
-                public void viewNewOrder(PublicOrder publicOrder) {
-                    setPublicOrder(publicOrder);
-                    navigate(10);
-                    dialog.dismiss();
-                    isLoadingNewOrder = false;
-                }*/
                 dialog.setListener(new NewPublicOrderDialog.NewPublicOrderListener() {
                     @Override
                     public void allowLoadNewOrder() {
@@ -376,53 +278,4 @@ public class MainActivity extends BaseActivity {
             fragmentInFrame.onActivityResult(requestCode, resultCode, data);
         }
     }
-
-   /* public static void setId(OrderStation o) {
-        orderStation = o;
-        publicOrder = null;
-        isLoadingNewOrder = false;
-    }
-
-    public static void setPublicOrder(PublicOrder o) {
-        orderStation = null;
-        publicOrder = o;
-        isLoadingNewOrder = false;
-    }
-
-    @Override
-    public void setDataInOrderView() {
-        orderViewFragment.setData(orderStation);
-    }
-
-    @Override
-    public void setDataInNewOrder() {
-        newOrderFragment.setData(orderStation);
-    }
-
-    @Override
-    public void setDataInNewPublicOrder() {
-        newPublicOrderFragment.data(publicOrder);
-    }*/
-
-   /* @Override
-    public void startGPSTracking() {
-        if (publicOrder == null) {
-            new OrderGPSTracking(this, orderStation).startGPSTracking();
-            //GPSTracking.getInstance(this, order).startGPSTracking();
-        } else {
-            new OrderGPSTracking(this, publicOrder).startGPSTracking();
-            //GPSTracking.getInstance(this, publicOrder).startGPSTracking();
-        }
-    }
-
-    @Override
-    public void endGPSTracking() {
-        if (publicOrder == null) {
-            //GPSTracking.getInstance(this, orderStation).removeUpdates();
-            new OrderGPSTracking(this, orderStation).removeUpdates();
-        } else {
-            new OrderGPSTracking(this, publicOrder).removeUpdates();
-            //GPSTracking.getInstance(this, publicOrder).removeUpdates();
-        }
-    }*/
 }

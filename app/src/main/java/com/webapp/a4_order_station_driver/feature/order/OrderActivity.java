@@ -85,7 +85,6 @@ public class OrderActivity extends BaseActivity {
 
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , publicChatFragment, R.id.fragment_container);
-                //publicChatFragment.show(getSupportFragmentManager(), "");
                 break;
             case ChatFragment.page: //order station chat
                 ChatFragment chatFragment = ChatFragment.newInstance((Order) Objects
@@ -94,7 +93,6 @@ public class OrderActivity extends BaseActivity {
 
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , chatFragment, R.id.fragment_container);
-                //chatFragment.show(getSupportFragmentManager(), "");
                 break;
             case OrdersFragment.page:
                 new NavigateUtil().activityIntentWithPage(this, MainActivity.class, false, page);

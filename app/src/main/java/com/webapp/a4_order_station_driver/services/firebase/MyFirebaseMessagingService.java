@@ -25,6 +25,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         Log.e("remoteMessage", "remote" + remoteMessage.getData().toString());
+        remote(remoteMessage);
+    }
+
+    private void remote(RemoteMessage remoteMessage){
         try {
             Map<String, String> map = remoteMessage.getData();
             JSONObject mapJSON = new JSONObject(map);
@@ -60,109 +64,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 new NotificationUtil().sendNotification(this, msg, message);
                 new NavigateUtil().openNotification(this, message);
             }
-
-            /*
-            remote{moredata=dd, message={"data":{"msg":"You have new message in order #000367"
-            ,"public_order_id":367,"title":"4station","type":"public","country_id":5,"status":"new_message"}
-            ,"sound":"mySound","icon":"myIcon","title":"4station","body":"You have new message in order #000367"
-            ,"click_action":"com.webapp.a4_order_station_driver.feture.home.MainActivity"}}
-             */
-
-/*
-            if (body.getString("msg").contains("new order")) {
-                if (body.getString("type").equals("4station")) {
-                    sendNotification(body.getString("msg"), body.getInt("order_id")
-                            , body.getString("type"), body.getString("status"));
-
-                    Intent intent = new Intent(this, MainActivity.class);
-                    intent.putExtra("order_id", body.getInt("order_id"));
-                    intent.putExtra("type", body.getString("type"));
-                    intent.putExtra("status", body.getString("status"));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                } else {
-                    sendNotification(body.getString("msg"), body.getInt("public_order_id")
-                            , body.getString("type"), body.getString("status"));
-
-                    Intent intent = new Intent(this, MainActivity.class);
-                    intent.putExtra("order_id", body.getInt("public_order_id"));
-                    intent.putExtra("type", body.getString("type"));
-                    intent.putExtra("status", body.getString("status"));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                }
-            } else if (body.getString("type").equals("driver_approved")) {
-                sendNotification(body.getString("msg"), -1, body.getString("type"), "");
-
-            } else if (body.getString("type").equals("reject")) {
-                sendNotification(body.getString("msg"), -1, body.getString("type"), "");
-
-            } else if (body.getString("type").equals("wallet")) {
-                sendNotification(body.getString("msg"), -1, body.getString("type"), "");
-
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.putExtra("order_id", -1);
-                intent.putExtra("type", body.getString("type"));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-
-            } else if (body.getString("status") != null) {
-                if (body.getString("status").equals("new_message")
-                        && PublicOrderViewFragment.isOpenPublicChat) {
-
-                } else if (body.getString("status").equals("new_message")
-                        && ChatFragment.isOpenChat) {
-
-                } else if (body.getString("status").equals("cancelled")) {
-                    sendNotification(body.getString("msg"), -1, body.getString("type"), "");
-                    /*if (GPSTracking.gpsTracking != null) {
-                        GPSTracking.gpsTracking.removeUpdates();
-                    }
-                    OrderGPSTracking.newInstance(this).removeUpdates();
-                    Intent intent = new Intent(this, MainActivity.class);
-                    intent.putExtra("order_id", -1);
-                    intent.putExtra("type", body.getString("type"));
-                    intent.putExtra("status", body.getString("status"));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-
-                } else if (body.getString("status").equals("in_the_way_to_store")) {
-                    sendNotification(body.getString("msg"), -1, body.getString("type"), "");
-                    AppController.getInstance().getAppSettingsPreferences().setPayType(body.getString("payment_type"));
-
-                } else {
-                    sendNotification(body.getString("msg"), -1, body.getString("type"), body.getString("status"));
-
-                    Intent intent = new Intent(this, MainActivity.class);
-                    intent.putExtra("order_id", -1);
-                    intent.putExtra("type", body.getString("type"));
-                    intent.putExtra("status", body.getString("status"));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                }
-            } else {
-                sendNotification(body.getString("msg"), -1, body.getString("type"), "");
-
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.putExtra("order_id", -1);
-                intent.putExtra("type", body.getString("type"));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }*/
-
         } catch (JSONException e) {
             e.printStackTrace();
             Log.e("error", "" + e.getMessage());
         }
-
-        /*
-        remote{moredata=dd, message={"data":{"msg":"new order #000000005","order_no":"000000005",
-        "destination_address":"Ryaid","pickup_address_ar":"غزة","type_of_receive":"home","created_at":1616066071,
-        "title":"new order #000000005","type":"4station","order_id":189,"pickup_address_en":"gaza","country_id":1,"status":"ready"}
-
-        ,"sound":"mySound","icon":"myIcon","title":"4station","body":"new order #000000005","click_action"
-        :"com.webapp.a4_order_station_driver.feture.home.MainActivity"}}
-         */
     }
 
     @Override

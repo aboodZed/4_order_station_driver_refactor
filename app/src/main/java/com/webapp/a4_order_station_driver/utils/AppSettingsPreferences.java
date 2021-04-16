@@ -19,7 +19,6 @@ public class AppSettingsPreferences {
     public final static String KEY_USER_PASSWORD = "password";
     private static final String USER_SIGN = "UserSign";
     private static final String TRACKING_ORDER = "tracking";
-    //private static final String PUBLIC_TRACKING_ORDER = "publicTracking";
     private static final String COUNTRY = "country";
     private static final String PAY_TYPE = "pay_type";
 
@@ -100,19 +99,6 @@ public class AppSettingsPreferences {
         String json = pref.getString(TRACKING_ORDER, null);
         return gson.fromJson(json, Order.class);
     }
-
-    /*public void setTrackingPublicOrder(PublicOrder publicOrder) {
-        Gson gson = new Gson();
-        String json = gson.toJson(publicOrder);
-        editor.putString(PUBLIC_TRACKING_ORDER, json);
-        editor.apply();
-    }*/
-
-    /*public PublicOrder getTrackingPublicOrder() {
-        Gson gson = new Gson();
-        String json = pref.getString(PUBLIC_TRACKING_ORDER, null);
-        return gson.fromJson(json, PublicOrder.class);
-    }*/
 
     public void removeOrder() {
         editor.remove(TRACKING_ORDER);

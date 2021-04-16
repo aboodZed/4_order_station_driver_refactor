@@ -32,11 +32,8 @@ import retrofit2.Response;
 public class GPSTracking {
 
     private Context context;
-    //private OrderStation order;
-    //private PublicOrder publicOrder;
     private LocationManager lm;
     private LocationListener locationListener;
-    //public static GPSTracking gpsTracking;
     private static GPSTracking myGpsTracking;
 
     public GPSTracking(Context context) {
@@ -44,38 +41,12 @@ public class GPSTracking {
         this.context = context;
     }
 
-    /*public GPSTracking(Context context, OrderStation order) {
-        lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        this.context = context;
-        this.order = order;
-    }
-
-    public GPSTracking(Context context, PublicOrder publicOrder) {
-        lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        this.context = context;
-        this.publicOrder = publicOrder;
-    }*/
-
     public static GPSTracking getInstance(Context context) {
         if (myGpsTracking == null) {
             myGpsTracking = new GPSTracking(context);
         }
         return myGpsTracking;
     }
-
-   /* public static GPSTracking getInstance(Context context, OrderStation order) {
-        if (gpsTracking == null) {
-            gpsTracking = new GPSTracking(context, order);
-        }
-        return gpsTracking;
-    }
-
-    public static GPSTracking getInstance(Context context, PublicOrder publicOrder) {
-        if (gpsTracking == null) {
-            gpsTracking = new GPSTracking(context, publicOrder);
-        }
-        return gpsTracking;
-    }*/
 
     public void startMyGPSTracking() {
         MyLocation myLocation = new MyLocation();
@@ -134,20 +105,6 @@ public class GPSTracking {
                             Log.e(getClass().getName() + " : trackingFail", msg);
                         }
                     });
-
-                    /*AppController.getInstance().getApi().updateLocation(map)
-                            .enqueue(new Callback<Message>() {
-                                @Override
-                                public void onResponse(Call<Message> call, Response<Message> response) {
-                                    Log.e("MyTracking", myLocation.toString());
-                                }
-
-                                @Override
-                                public void onFailure(Call<Message> call, Throwable t) {
-
-                                }
-                            });
-                    Log.e("trackings", myLocation.toString());*/
                 } else {
                     lm.removeUpdates(locationListener);
                 }
@@ -170,61 +127,6 @@ public class GPSTracking {
         };
         lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
     }
-/*
-    public void startGPSTracking() {
-        final DatabaseReference db;
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(context, R.string.unable_location, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (publicOrder != null) {
-            db = FirebaseDatabase.getInstance().getReference("PublicTracking").child(publicOrder.getId() + "");
-        } else {
-            db = FirebaseDatabase.getInstance().getReference("Tracking").child(order.getId() + "");
-        }
-        com.webapp.a4_order_station_driver.models.GPSLocation userlocation = new com.webapp.a4_order_station_driver.models.GPSLocation();
-
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(GPSLocation location) {
-                // Got last known location. In some rare situations this can be null.
-                if (location != null) {
-                    userlocation.setLat(location.getLatitude());
-                    userlocation.setLng(location.getLongitude());
-                    db.setValue(userlocation);
-                    Log.e("trackings", userlocation.toString());
-                } else {
-                    lm.removeUpdates(locationListener);
-                }
-            }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-
-            }
-        };
-        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
-    }
-
-    public void removeUpdates() {
-        if (this.locationListener != null)
-            this.lm.removeUpdates(this.locationListener);
-        gpsTracking = null;
-        AppController.getInstance().getAppSettingsPreferences().removeOrder();
-    }*/
 
     public void removeMyUpdates() {
         if (this.locationListener != null)

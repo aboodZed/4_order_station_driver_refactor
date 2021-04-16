@@ -54,8 +54,6 @@ public class ResetStep2 extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentResetStep2Binding.inflate(getLayoutInflater());
-        /*View v = inflater.inflate(R.layout.fragment_reset_step2, container, false);
-        ButterKnife.bind(this, v);*/
         initListener();
         click();
         return binding.getRoot();

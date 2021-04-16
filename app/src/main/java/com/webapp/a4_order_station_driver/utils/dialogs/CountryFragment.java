@@ -41,7 +41,6 @@ public class CountryFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_country, container, false);
         binding = FragmentCountryBinding.inflate(getLayoutInflater());
         data();
         click();
@@ -149,12 +148,6 @@ public class CountryFragment extends DialogFragment {
         getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
         setCancelable(false);
         super.onResume();
-        /*getDialog().setOnKeyListener((dialog, keyCode, event) -> {
-            if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-                CountryFragment.this.dismiss();
-                return true;
-            } else return false;
-        });*/
     }
 
     public void saudiArabia() {

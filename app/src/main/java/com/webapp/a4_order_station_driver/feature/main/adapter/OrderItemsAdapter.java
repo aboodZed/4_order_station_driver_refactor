@@ -68,9 +68,9 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Or
                 }
             }
             binding.tvItemQnt.setText(orderItem.getQty());
-            binding.tvItemPrice.setText(DecimalFormatterManager.getFormatterInstance()
+            binding.tvItemPrice.setText((DecimalFormatterManager.getFormatterInstance()
                     .format(Double.parseDouble(orderItem.getPrice())) + " " + AppController
-                    .getInstance().getAppSettingsPreferences().getCountry().getCurrency_code());
+                    .getInstance().getAppSettingsPreferences().getCountry().getCurrency_code()));
         }
     }
 }
