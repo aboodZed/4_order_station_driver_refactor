@@ -8,6 +8,7 @@ import com.webapp.a4_order_station_driver.databinding.ActivitySplachBinding;
 import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
 import com.webapp.a4_order_station_driver.utils.NavigateUtil;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 
 public class SplashActivity extends BaseActivity {

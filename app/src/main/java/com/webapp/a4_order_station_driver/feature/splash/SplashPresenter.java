@@ -122,6 +122,7 @@ class SplashPresenter {
 
                                 }
                             });
+                            //ToolUtil.showLongToast("This App not available", baseActivity);
                             baseActivity.navigate(MainActivity.page);
                         }
 

@@ -2,7 +2,6 @@ package com.webapp.a4_order_station_driver.utils.dialogs;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,8 @@ import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentCountryBinding;
@@ -18,6 +19,7 @@ import com.webapp.a4_order_station_driver.models.Country;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
+import com.webapp.a4_order_station_driver.utils.dialogs.adapter.CountryAdapter;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 import java.util.ArrayList;
@@ -48,11 +50,6 @@ public class CountryFragment extends DialogFragment {
     }
 
     private void click() {
-        binding.btnFirst.setOnClickListener(view -> saudiArabia());
-        binding.btnSecond.setOnClickListener(view -> egypt());
-        binding.btnThird.setOnClickListener(view -> turkey());
-        binding.btnFourth.setOnClickListener(view -> lebanon());
-        binding.btnFifth.setOnClickListener(view -> palestine());
         binding.btnRefresh.setOnClickListener(view -> data());
     }
 
@@ -87,52 +84,10 @@ public class CountryFragment extends DialogFragment {
     }
 
     private void setData() {
-        boolean language = AppController.getInstance().getAppSettingsPreferences().getAppLanguage().equals("en");
-        //first
-        if (countries.size() > 0) {
-            binding.btnFirst.setVisibility(View.VISIBLE);
-            if (language) {
-                binding.btnFirst.setText(countries.get(0).getName_en());
-            } else {
-                binding.btnFirst.setText(countries.get(0).getName_ar());
-            }
-        }
-        //second
-        if (countries.size() > 1) {
-            binding.btnSecond.setVisibility(View.VISIBLE);
-            if (language) {
-                binding.btnSecond.setText(countries.get(1).getName_en());
-            } else {
-                binding.btnSecond.setText(countries.get(1).getName_ar());
-            }
-        }
-        //third
-        if (countries.size() > 2) {
-            binding.btnThird.setVisibility(View.VISIBLE);
-            if (language) {
-                binding.btnThird.setText(countries.get(2).getName_en());
-            } else {
-                binding.btnThird.setText(countries.get(2).getName_ar());
-            }
-        }
-        //fourth
-        if (countries.size() > 3) {
-            binding.btnFourth.setVisibility(View.VISIBLE);
-            if (language) {
-                binding.btnFourth.setText(countries.get(3).getName_en());
-            } else {
-                binding.btnFourth.setText(countries.get(3).getName_ar());
-            }
-        }
-
-        if (countries.size() > 4){
-            binding.btnFifth.setVisibility(View.VISIBLE);
-            if (language){
-                binding.btnFifth.setText(countries.get(4).getName_en());
-            }else {
-                binding.btnFifth.setText(countries.get(4).getName_ar());
-            }
-        }
+        CountryAdapter countryAdapter = new CountryAdapter(this, countryListener, countries);
+        binding.rvCountries.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.rvCountries.setItemAnimator(new DefaultItemAnimator());
+        binding.rvCountries.setAdapter(countryAdapter);
     }
 
     public void setCountryListener(CountryListener countryListener) {
@@ -148,36 +103,6 @@ public class CountryFragment extends DialogFragment {
         getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
         setCancelable(false);
         super.onResume();
-    }
-
-    public void saudiArabia() {
-        AppController.getInstance().getAppSettingsPreferences().setCountry(countries.get(0));
-        countryListener.selectedCountry();
-        dismiss();
-    }
-
-    public void egypt() {
-        AppController.getInstance().getAppSettingsPreferences().setCountry(countries.get(1));
-        countryListener.selectedCountry();
-        dismiss();
-    }
-
-    public void turkey() {
-        AppController.getInstance().getAppSettingsPreferences().setCountry(countries.get(2));
-        countryListener.selectedCountry();
-        dismiss();
-    }
-
-    public void lebanon() {
-        AppController.getInstance().getAppSettingsPreferences().setCountry(countries.get(3));
-        countryListener.selectedCountry();
-        dismiss();
-    }
-
-    private void palestine() {
-        AppController.getInstance().getAppSettingsPreferences().setCountry(countries.get(4));
-        countryListener.selectedCountry();
-        dismiss();
     }
 
     public interface CountryListener {

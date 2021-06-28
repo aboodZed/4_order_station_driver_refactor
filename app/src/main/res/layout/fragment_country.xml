@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/black"
     tools:context=".utils.dialogs.CountryFragment"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
@@ -16,67 +15,20 @@
         android:textColor="@color/white"
         android:textSize="@dimen/large_text"
         android:gravity="center"
+        android:layout_marginTop="@dimen/medium_margin"
         android:layout_marginBottom="@dimen/small_margin"/>
 
-    <Button
-        android:id="@+id/btn_first"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_countries"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/medium_margin"
-        android:background="@drawable/blue_button"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/medium_text"
-        android:visibility="gone"/>
+        android:layout_height="wrap_content"/>
 
-    <Button
-        android:id="@+id/btn_second"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/medium_margin"
-        android:background="@drawable/blue_button"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/medium_text"
-        android:visibility="gone"/>
-
-    <Button
-        android:id="@+id/btn_third"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/medium_margin"
-        android:background="@drawable/blue_button"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/medium_text"
-        android:visibility="gone"/>
-
-    <Button
-        android:id="@+id/btn_fourth"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/medium_margin"
-        android:background="@drawable/blue_button"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/medium_text"
-        android:visibility="gone"/>
-
-    <Button
-        android:id="@+id/btn_fifth"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/medium_margin"
-        android:background="@drawable/blue_button"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/medium_text"
-        android:visibility="gone"/>
-
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_refresh"
         android:layout_width="wrap_content"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/medium_margin"
         android:background="@drawable/blue_button"
         android:textAllCaps="false"
         android:textColor="@color/white"
