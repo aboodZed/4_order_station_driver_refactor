@@ -1,5 +1,7 @@
 package com.webapp.a4_order_station_driver.feature.order.orderStationView;
 
+import static com.webapp.a4_order_station_driver.utils.AppContent.PHONE_CALL_CODE;
+
 import android.Manifest;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,35 +14,26 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.database.annotations.NotNull;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentOrderViewBinding;
 import com.webapp.a4_order_station_driver.feature.main.adapter.OrderItemsAdapter;
-import com.webapp.a4_order_station_driver.feature.main.hame.HomeFragment;
-import com.webapp.a4_order_station_driver.models.Message;
+import com.webapp.a4_order_station_driver.feature.order.chat.ChatFragment;
 import com.webapp.a4_order_station_driver.models.Order;
 import com.webapp.a4_order_station_driver.models.OrderItem;
 import com.webapp.a4_order_station_driver.models.OrderStation;
 import com.webapp.a4_order_station_driver.utils.APIImageUtil;
-import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.NavigateUtil;
 import com.webapp.a4_order_station_driver.utils.PermissionUtil;
-import com.webapp.a4_order_station_driver.utils.ToolUtil;
-import com.webapp.a4_order_station_driver.feature.order.chat.ChatFragment;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.formatter.DecimalFormatterManager;
 import com.webapp.a4_order_station_driver.utils.language.AppLanguageUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
-import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
-import com.webapp.a4_order_station_driver.utils.location.tracking.OrderGPSTracking;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-
-import static com.webapp.a4_order_station_driver.utils.AppContent.PHONE_CALL_CODE;
 
 public class OrderStationViewFragment extends Fragment implements DialogView<OrderStation> {
 

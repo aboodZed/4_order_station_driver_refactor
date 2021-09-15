@@ -16,12 +16,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.firebase.database.annotations.NotNull;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentPublicChatBinding;
 import com.webapp.a4_order_station_driver.feature.main.orders.OrdersFragment;
 import com.webapp.a4_order_station_driver.feature.main.orders.publicO.OrderPublicFragment;
-import com.webapp.a4_order_station_driver.feature.main.wallets.publicO.PublicWalletFragment;
 import com.webapp.a4_order_station_driver.feature.main.wallets.WalletFragment;
+import com.webapp.a4_order_station_driver.feature.main.wallets.publicO.PublicWalletFragment;
 import com.webapp.a4_order_station_driver.feature.order.adapter.PublicChatAdapter;
 import com.webapp.a4_order_station_driver.models.Order;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
@@ -41,8 +42,6 @@ import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 import com.webapp.a4_order_station_driver.utils.location.tracking.OrderGPSTracking;
-
-import org.jetbrains.annotations.NotNull;
 
 public class PublicOrderViewFragment extends Fragment implements
         RequestListener<Bitmap>, DialogView<PublicOrderObject> {

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.database.annotations.NotNull;
 import com.poovam.pinedittextfield.PinField;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentResetStep2Binding;
@@ -19,8 +20,6 @@ import com.webapp.a4_order_station_driver.models.ResetCode;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
-
-import org.jetbrains.annotations.NotNull;
 
 public class ResetStep2 extends Fragment
         implements PinField.OnTextCompleteListener, TextWatcher

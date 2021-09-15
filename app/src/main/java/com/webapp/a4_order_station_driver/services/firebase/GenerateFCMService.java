@@ -27,7 +27,7 @@ public class GenerateFCMService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("StartService", "StartService");
-        generateFCMtoken(getApplicationContext());
+        generateFCMToken(getApplicationContext());
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -37,7 +37,7 @@ public class GenerateFCMService extends Service {
         Log.e("onDestroy", "onDestroy");
     }
 
-    public void generateFCMtoken(final Context context) {
+    public void generateFCMToken(final Context context) {
         FirebaseApp.initializeApp(context);
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(task -> {
