@@ -2,6 +2,7 @@ package com.webapp.a4_order_station_driver.feature.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -65,6 +66,7 @@ public class MainActivity extends BaseActivity {
         binding.llProfile.setOnClickListener(view -> navigate(ProfileFragment.page));
         binding.llRating.setOnClickListener(view -> navigate(RatingFragment.page));
         binding.scAppear.setOnClickListener(view -> setOnline());
+       // binding.ivLogo.setOnClickListener(view -> createNewOrder(1,AppContent.TYPE_ORDER_PUBLIC));
     }
 
     public void setOnline() {

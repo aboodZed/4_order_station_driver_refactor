@@ -66,7 +66,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("error", "" + e.getMessage());
+            Log.e(getClass().getName()+ " error", "" + e.getMessage());
         }
     }
 

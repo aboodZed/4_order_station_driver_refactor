@@ -3,20 +3,21 @@ package com.webapp.a4_order_station_driver.feature.main.editProfile;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentEditProfileBinding;
 import com.webapp.a4_order_station_driver.models.User;
 import com.webapp.a4_order_station_driver.utils.APIImageUtil;
@@ -24,14 +25,11 @@ import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.PermissionUtil;
 import com.webapp.a4_order_station_driver.utils.Photo.PhotoTakerManager;
-import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.ItemSelectImageDialogFragment;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
-
-import static android.app.Activity.RESULT_OK;
 
 public class EditProfileFragment extends Fragment implements DialogView<User>, RequestListener<Bitmap> {
 
@@ -137,7 +135,6 @@ public class EditProfileFragment extends Fragment implements DialogView<User>, R
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        presenter.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 

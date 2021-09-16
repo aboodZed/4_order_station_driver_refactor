@@ -29,11 +29,12 @@
                 android:layout_alignParentBottom="true"/>
 
             <ImageView
+                android:id="@+id/iv_logo"
                 android:layout_width="@dimen/margin"
                 android:layout_height="@dimen/large_margin"
+                android:layout_centerInParent="true"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/logo"
-                android:layout_centerInParent="true"/>
+                android:src="@drawable/logo" />
 
             <FrameLayout
                 android:layout_width="wrap_content"

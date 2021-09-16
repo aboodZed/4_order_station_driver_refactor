@@ -8,7 +8,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/activity_main.xml" value="0.38697916666666665" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/dialog_new_order.xml" value="0.38697916666666665" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_country.xml" value="0.38697916666666665" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_home.xml" value="0.38697916666666665" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_new_order.xml" value="0.38697916666666665" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_new_public_order.xml" value="0.38697916666666665" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_order_station.xml" value="0.21875" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_order_station_wallet.xml" value="0.21875" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_orders.xml" value="0.22447916666666667" />

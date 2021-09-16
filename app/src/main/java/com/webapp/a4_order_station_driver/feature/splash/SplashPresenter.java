@@ -115,13 +115,9 @@ class SplashPresenter {
                                     .getAppSettingsPreferences().getLogin().getAccess_token());
                             //navigate
                             FirebaseFirestore.getInstance().collection(AppContent.FIREBASE_PUBLIC_TRACKING_INSTANCE)
-                                    .document(AppContent.FIREBASE_DATA).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                                @Override
-                                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                    String s = value.getString(AppContent.FIREBASE_STATUS);
-
-                                }
-                            });
+                                    .document(AppContent.FIREBASE_DATA).addSnapshotListener((value, error) -> {
+                                        String s = value.getString(AppContent.FIREBASE_STATUS);
+                                    });
                             //ToolUtil.showLongToast("This App not available", baseActivity);
                             baseActivity.navigate(MainActivity.page);
                         }

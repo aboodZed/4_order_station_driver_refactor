@@ -109,6 +109,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     }
 
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

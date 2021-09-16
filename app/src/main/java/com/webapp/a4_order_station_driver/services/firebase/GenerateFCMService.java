@@ -10,7 +10,8 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.installations.FirebaseInstallations;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
@@ -39,7 +40,7 @@ public class GenerateFCMService extends Service {
 
     public void generateFCMToken(final Context context) {
         FirebaseApp.initializeApp(context);
-        FirebaseInstanceId.getInstance().getInstanceId()
+        FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
                         Log.e("Main", "getInstanceId failed", task.getException());
@@ -48,7 +49,7 @@ public class GenerateFCMService extends Service {
                     }
 
                     // Get new Instance ID token
-                    String token = task.getResult().getToken();
+                    String token = task.getResult();
 
                     // Log and toast
                     stopSelf();

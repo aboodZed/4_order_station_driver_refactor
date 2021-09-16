@@ -95,6 +95,7 @@ public class ProfileFragment extends Fragment implements DialogView<Message> {
     private void data() {
         User user = AppController.getInstance().getAppSettingsPreferences().getLogin().getUser();
         Log.e("usercountryid", user.getCountry_id() + "");
+        Log.e("id", user.getId() + "");
         APIImageUtil.loadImage(getContext(), binding.pbWait, user.getAvatar_url(), binding.ivDriverAvatar);
         binding.tvDriverName.setText(user.getName());
         binding.rbUser.setRating(user.getRate());
