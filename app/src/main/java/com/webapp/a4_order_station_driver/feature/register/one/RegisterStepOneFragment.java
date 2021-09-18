@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -43,6 +45,8 @@ public class RegisterStepOneFragment extends Fragment implements RequestListener
     private PhotoTakerManager photoTakerManager;
     private SpinnerAdapter spinnerAdapter;
 
+    private ActivityResultLauncher<Intent> launcher;
+
     public static RegisterStepOneFragment newInstance(BaseActivity baseActivity) {
         return new RegisterStepOneFragment(baseActivity);
     }
@@ -63,8 +67,13 @@ public class RegisterStepOneFragment extends Fragment implements RequestListener
 
         data();
         click();
+        onActivityResulting();
 
         return binding.getRoot();
+    }
+
+    private void onActivityResulting() {
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> presenter.onActivityResult(result.getResultCode(), result.getData()));
     }
 
     private void data() {
@@ -93,27 +102,17 @@ public class RegisterStepOneFragment extends Fragment implements RequestListener
         itemSelectImageDialogFragment.setListener(new ItemSelectImageDialogFragment.Listener() {
             @Override
             public void onGalleryClicked() {
-                photoTakerManager.galleryRequest(requireActivity(), AppContent.REQUEST_STUDIO);
+                presenter.setRequestCode(AppContent.REQUEST_STUDIO);
+                photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
             }
 
             @Override
             public void onCameraClicked() {
-                photoTakerManager.cameraRequest(requireActivity(), AppContent.REQUEST_CAMERA);
+                presenter.setRequestCode(AppContent.REQUEST_CAMERA);
+                photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
             }
         });
         itemSelectImageDialogFragment.show(getChildFragmentManager(), "");
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        presenter.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        presenter.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

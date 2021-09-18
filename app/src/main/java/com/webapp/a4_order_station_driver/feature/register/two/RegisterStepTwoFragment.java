@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -45,6 +47,8 @@ public class RegisterStepTwoFragment extends Fragment implements DialogView<User
     private final int IDENTITY = 3;
     private final int YOUR_LICENSE = 4;
 
+    private ActivityResultLauncher<Intent> launcher;
+
     public RegisterStepTwoFragment(BaseActivity baseActivity) {
         photoTakerManager = new PhotoTakerManager(this);
         presenter = new RegisterStepTwoPresenter(baseActivity, this, photoTakerManager);
@@ -64,7 +68,12 @@ public class RegisterStepTwoFragment extends Fragment implements DialogView<User
         binding = FragmentRegisterStep2Binding.inflate(getLayoutInflater());
 
         click();
+        onActivityResulting();
         return binding.getRoot();
+    }
+
+    private void onActivityResulting() {
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> presenter.onActivityResult(result.getResultCode(), result.getData()));
     }
 
     public void signUp() {
@@ -74,81 +83,101 @@ public class RegisterStepTwoFragment extends Fragment implements DialogView<User
     private void click() {
         binding.ivVehicleUpload.setOnClickListener(view ->
         {
-            photoTakerManager.galleryRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_VEHICLE_UPLOAD);
+            presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_UPLOAD);
+            photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
+            /*photoTakerManager.galleryRequest(requireActivity()
+                    , AppContent.REQUEST_IMAGE_VEHICLE_UPLOAD);*/
             process_image = VEHICLE_IMAGE;
         });
 
         binding.ivVehicleLicenseUpload.setOnClickListener(view ->
         {
-            photoTakerManager.galleryRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_UPLOAD);
+            presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_UPLOAD);
+            photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
+            /*photoTakerManager.galleryRequest(requireActivity()
+                    , AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_UPLOAD);*/
             process_image = VEHICLE_LICENSE;
         });
 
         binding.ivVehicleInsuranceUpload.setOnClickListener(view ->
         {
-            photoTakerManager.galleryRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_UPLOAD);
+            presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_UPLOAD);
+            photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
+            /*photoTakerManager.galleryRequest(requireActivity()
+                    , AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_UPLOAD);*/
             process_image = VEHICLE_INSURANCE;
         });
 
         binding.ivIdentityUpload.setOnClickListener(view ->
         {
-            photoTakerManager.galleryRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_IDENTITY_UPLOAD);
+            presenter.setRequestCode(AppContent.REQUEST_IMAGE_IDENTITY_UPLOAD);
+            photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
+            /*photoTakerManager.galleryRequest(requireActivity()
+                    , AppContent.REQUEST_IMAGE_IDENTITY_UPLOAD);*/
             process_image = IDENTITY;
         });
 
         binding.ivYourLicenseUpload.setOnClickListener(view ->
         {
-            photoTakerManager.galleryRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_YOUR_LICENSE_UPLOAD);
+            presenter.setRequestCode(AppContent.REQUEST_IMAGE_YOUR_LICENSE_UPLOAD);
+            photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
+            /*photoTakerManager.galleryRequest(requireActivity()
+                    , AppContent.REQUEST_IMAGE_YOUR_LICENSE_UPLOAD);*/
             process_image = YOUR_LICENSE;
         });
 
 
         binding.ivVehicleCamera.setOnClickListener(view ->
         {
-            photoTakerManager.cameraRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_VEHICLE_CAMERA);
+            presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_CAMERA);
+            photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
+            /*photoTakerManager.cameraRequest(requireActivity()
+                    , AppContent.REQUEST_IMAGE_VEHICLE_CAMERA);*/
             process_image = VEHICLE_IMAGE;
         });
 
         binding.ivVehicleLicenseCamera.setOnClickListener(view ->
         {
-            photoTakerManager.cameraRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_CAMERA);
+            presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_CAMERA);
+            photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
+            /*photoTakerManager.cameraRequest(requireActivity()
+                    , AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_CAMERA);*/
             process_image = VEHICLE_LICENSE;
         });
 
         binding.ivVehicleInsuranceCamera.setOnClickListener(view ->
         {
-            photoTakerManager.cameraRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_CAMERA);
+            presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_CAMERA);
+            photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
+            /*photoTakerManager.cameraRequest(requireActivity()
+                    , AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_CAMERA);*/
             process_image = VEHICLE_INSURANCE;
         });
 
         binding.ivIdentityCamera.setOnClickListener(view ->
         {
-            photoTakerManager.cameraRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_IDENTITY_CAMERA);
+            presenter.setRequestCode(AppContent.REQUEST_IMAGE_IDENTITY_CAMERA);
+            photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
+            /*photoTakerManager.cameraRequest(requireActivity()
+                    , AppContent.REQUEST_IMAGE_IDENTITY_CAMERA);*/
             process_image = IDENTITY;
         });
 
         binding.ivYourLicenseCamera.setOnClickListener(view ->
         {
-            photoTakerManager.cameraRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_YOUR_LICENSE_CAMERA);
+            presenter.setRequestCode(AppContent.REQUEST_IMAGE_YOUR_LICENSE_CAMERA);
+            photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
+            /*photoTakerManager.cameraRequest(requireActivity()
+                    , AppContent.REQUEST_IMAGE_YOUR_LICENSE_CAMERA);*/
             process_image = YOUR_LICENSE;
         });
     }
-
+/*
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         presenter.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
-    }
+    }*/
 
     @Override
     public void setData(User user) {

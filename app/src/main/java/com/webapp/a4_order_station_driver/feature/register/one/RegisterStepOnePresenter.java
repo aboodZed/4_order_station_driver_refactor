@@ -1,6 +1,8 @@
 package com.webapp.a4_order_station_driver.feature.register.one;
 
-import android.Manifest;
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -9,7 +11,6 @@ import android.util.Log;
 import android.util.Patterns;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.feature.register.two.RegisterStepTwoFragment;
@@ -20,21 +21,18 @@ import com.webapp.a4_order_station_driver.utils.APIImageUtil;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.PermissionUtil;
 import com.webapp.a4_order_station_driver.utils.Photo.PhotoTakerManager;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
-import static android.app.Activity.RESULT_CANCELED;
-import static android.app.Activity.RESULT_OK;
-
 public class RegisterStepOnePresenter {
 
     private BaseActivity baseActivity;
     private DialogView<NeighborhoodList> dialogView;
     private PhotoTakerManager photoTakerManager;
+    private int requestCode;
 
     public RegisterStepOnePresenter(BaseActivity baseActivity
             , DialogView<NeighborhoodList> dialogView, PhotoTakerManager photoTakerManager) {
@@ -172,7 +170,11 @@ public class RegisterStepOnePresenter {
         });
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void setRequestCode(int requestCode) {
+        this.requestCode = requestCode;
+    }
+
+    public void onActivityResult(int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case AppContent.REQUEST_STUDIO:
@@ -186,7 +188,7 @@ public class RegisterStepOnePresenter {
             photoTakerManager.deleteLastTakenPhoto();
         }
     }
-
+/*
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             switch (requestCode) {
@@ -197,5 +199,5 @@ public class RegisterStepOnePresenter {
         } else {
             ToolUtil.showLongToast(baseActivity.getString(R.string.permission_denial), baseActivity);
         }
-    }
+    }*/
 }

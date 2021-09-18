@@ -113,8 +113,8 @@ public class OrderActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Fragment fragment = this.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (fragment instanceof PublicOrderViewFragment) {
+        /*if (fragment instanceof PublicOrderViewFragment) {
             fragment.onActivityResult(requestCode, resultCode, data);
-        }
+        }*/
     }
 }

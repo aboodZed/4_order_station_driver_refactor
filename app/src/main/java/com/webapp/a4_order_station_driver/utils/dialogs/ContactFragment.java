@@ -126,7 +126,7 @@ public class ContactFragment extends DialogFragment {
         if (PermissionUtil.isPermissionGranted(Manifest.permission.CALL_PHONE, getActivity())) {
             new NavigateUtil().makeCall(getActivity(), settings.getMobile());
         } else {
-            PermissionUtil.requestPermissionOnFragment(this, Manifest.permission.CALL_PHONE, PHONE_CALL_CODE);
+            PermissionUtil.requestPermission(getActivity(), Manifest.permission.CALL_PHONE, PHONE_CALL_CODE);
         }
     }
 

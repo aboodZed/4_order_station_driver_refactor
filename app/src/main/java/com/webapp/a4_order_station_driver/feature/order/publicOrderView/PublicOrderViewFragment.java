@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -64,6 +66,8 @@ public class PublicOrderViewFragment extends Fragment implements
     public static boolean isOpenPublicChat = false;
     private boolean openBillDialog;
 
+    private ActivityResultLauncher<Intent> launcher;
+
     public PublicOrderViewFragment(BaseActivity baseActivity) {
         this.baseActivity = baseActivity;
     }
@@ -96,10 +100,14 @@ public class PublicOrderViewFragment extends Fragment implements
             presenter.getMessages(publicChatAdapter, String.valueOf(order.getId()));
             //data();
             click();
+            onActivityResulting();
         }
         return binding.getRoot();
     }
 
+    private void onActivityResulting() {
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> presenter.onActivityResult(result.getResultCode(), result.getData()));
+    }
 
     private void click() {
         binding.ivUploadMessage.setOnClickListener(view -> presenter.sendMessage(""));
@@ -129,12 +137,14 @@ public class PublicOrderViewFragment extends Fragment implements
         itemSelectImageDialogFragment.setListener(new ItemSelectImageDialogFragment.Listener() {
             @Override
             public void onGalleryClicked() {
-                photoTakerManager.galleryRequest(requireActivity(), AppContent.REQUEST_STUDIO);
+                presenter.setRequestCode(AppContent.REQUEST_STUDIO);
+                photoTakerManager.galleryRequestLauncher(requireActivity(), launcher);
             }
 
             @Override
             public void onCameraClicked() {
-                photoTakerManager.cameraRequest(requireActivity(), AppContent.REQUEST_CAMERA);
+                presenter.setRequestCode(AppContent.REQUEST_STUDIO);
+                photoTakerManager.cameraRequestLauncher(requireActivity(), launcher);
             }
         });
         itemSelectImageDialogFragment.show(getChildFragmentManager(), "");
@@ -209,19 +219,6 @@ public class PublicOrderViewFragment extends Fragment implements
         if (PermissionUtil.isPermissionGranted(MediaStore.ACTION_IMAGE_CAPTURE, getContext()))
             PermissionUtil.requestPermission(getActivity(), Manifest.permission.CAMERA
                     , AppContent.REQUEST_PERMISSIONS_R_W_STORAGE_CAMERA);
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        presenter.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        presenter.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

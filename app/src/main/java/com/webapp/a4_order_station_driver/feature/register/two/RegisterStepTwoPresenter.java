@@ -1,12 +1,10 @@
 package com.webapp.a4_order_station_driver.feature.register.two;
 
-import android.Manifest;
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.feature.main.MainActivity;
@@ -16,20 +14,18 @@ import com.webapp.a4_order_station_driver.services.firebase.GenerateFCMService;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.PermissionUtil;
 import com.webapp.a4_order_station_driver.utils.Photo.PhotoTakerManager;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
-import static android.app.Activity.RESULT_OK;
-
 public class RegisterStepTwoPresenter {
 
     private BaseActivity baseActivity;
     private DialogView<User> dialogView;
     private PhotoTakerManager photoTakerManager;
+    private int requestCode;
 
     public RegisterStepTwoPresenter(BaseActivity baseActivity
             , DialogView<User> dialogView, PhotoTakerManager photoTakerManager) {
@@ -95,7 +91,11 @@ public class RegisterStepTwoPresenter {
                 });
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void setRequestCode(int requestCode) {
+        this.requestCode = requestCode;
+    }
+
+    public void onActivityResult(int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case AppContent.REQUEST_IMAGE_VEHICLE_UPLOAD:

@@ -14,8 +14,10 @@ import android.os.HandlerThread;
 import android.provider.MediaStore;
 import android.widget.ImageView;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.FragmentActivity;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.utils.APIImageUtil;
@@ -33,7 +35,8 @@ public class PhotoTakerManager {
 
     private RequestListener<Bitmap> listener;
     private Handler backgroundHandler;
-    private @Nullable Uri currentPhotoUri;
+    private @Nullable
+    Uri currentPhotoUri;
     private File currentPhotoFile;
 
     public PhotoTakerManager(RequestListener<Bitmap> listener) {
@@ -155,6 +158,19 @@ public class PhotoTakerManager {
 
     private static Bitmap resizeImage(Bitmap bitmap) {
         return Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.5)
-                , (int)(bitmap.getHeight() * 0.5), true);
+                , (int) (bitmap.getHeight() * 0.5), true);
+    }
+
+    public void galleryRequestLauncher(Activity activity, ActivityResultLauncher<Intent> launcher) {
+        launcher.launch(getPhotoGalleryIntent(activity));
+    }
+
+    public void cameraRequestLauncher(FragmentActivity activity, ActivityResultLauncher<Intent> launcher) {
+        if (!PermissionUtil.isPermissionGranted(Manifest.permission.CAMERA, activity)) {
+            PermissionUtil.requestPermission(activity, Manifest.permission.CAMERA
+                    , AppContent.REQUEST_PERMISSIONS_R_W_STORAGE_CAMERA);
+        } else {
+            launcher.launch(getPhotoCameraIntent(activity));
+        }
     }
 }

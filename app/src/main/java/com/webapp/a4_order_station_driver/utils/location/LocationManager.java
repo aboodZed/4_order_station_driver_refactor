@@ -132,11 +132,7 @@ public class LocationManager {
     }
 
     private void requestLocationPermission() {
-        if (fragment == null) {
-            PermissionUtil.requestPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION, LOCATION_PERMISSION_REQUEST_CODE);
-        } else {
-            PermissionUtil.requestPermissionOnFragment(fragment, Manifest.permission.ACCESS_FINE_LOCATION, LOCATION_PERMISSION_REQUEST_CODE);
-        }
+        PermissionUtil.requestPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION, LOCATION_PERMISSION_REQUEST_CODE);
     }
 
     public void fetchAutomaticLocation() {

@@ -26,6 +26,7 @@ class EditProfilePresenter {
     private BaseActivity baseActivity;
     private DialogView<User> dialogView;
     private PhotoTakerManager photoTakerManager;
+    private int requestCode;
 
     public EditProfilePresenter(BaseActivity baseActivity, DialogView<User> dialogView, PhotoTakerManager photoTakerManager) {
         this.baseActivity = baseActivity;
@@ -59,7 +60,7 @@ class EditProfilePresenter {
                 images[EditProfileFragment.AVATAR], images[EditProfileFragment.VEHICLE_INSURANCE],
                 images[EditProfileFragment.YOUR_LICENSE], images[EditProfileFragment.VEHICLE_LICENSE]
                 , images[EditProfileFragment.IDENTITY], images[EditProfileFragment.VEHICLE_IMAGE],
-          AppController.getInstance().getAppSettingsPreferences().getPassword(),
+                AppController.getInstance().getAppSettingsPreferences().getPassword(),
                 AppController.getInstance().getAppSettingsPreferences().getPassword(),
                 mobile, email, address);
         upload(user);
@@ -93,7 +94,11 @@ class EditProfilePresenter {
                         });
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void setRequestCode(int requestCode) {
+        this.requestCode = requestCode;
+    }
+
+    public void onActivityResult(int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case AppContent.REQUEST_IMAGE_AVATAR_UPLOAD:

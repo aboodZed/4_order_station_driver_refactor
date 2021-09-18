@@ -49,6 +49,8 @@ public class PublicOrderViewPresenter {
     private PublicOrder publicOrder;
     private FragmentPublicChatBinding binding;
 
+    private int requestCode;
+
     public PublicOrderViewPresenter(BaseActivity baseActivity, FragmentPublicChatBinding binding
             , DialogView<PublicOrderObject> dialogView, PhotoTakerManager photoTakerManager) {
         this.baseActivity = baseActivity;
@@ -167,7 +169,11 @@ public class PublicOrderViewPresenter {
         }
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void setRequestCode(int requestCode) {
+        this.requestCode = requestCode;
+    }
+
+    public void onActivityResult(int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case AppContent.REQUEST_STUDIO:
@@ -177,18 +183,6 @@ public class PublicOrderViewPresenter {
                     photoTakerManager.processCameraPhoto(baseActivity);
                     break;
             }
-        }
-    }
-
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            switch (requestCode) {
-                case AppContent.REQUEST_PERMISSIONS_R_W_STORAGE_CAMERA:
-                    ToolUtil.showLongToast(baseActivity.getString(R.string.permission_garnted), baseActivity);
-                    break;
-            }
-        } else {
-            ToolUtil.showLongToast(baseActivity.getString(R.string.permission_denial), baseActivity);
         }
     }
 }

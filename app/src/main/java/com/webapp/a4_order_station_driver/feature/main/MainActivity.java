@@ -274,10 +274,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        final Fragment fragmentInFrame = getSupportFragmentManager()
+       /* final Fragment fragmentInFrame = getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_container);
         if (fragmentInFrame instanceof EditProfileFragment) {
             fragmentInFrame.onActivityResult(requestCode, resultCode, data);
-        }
+        }*/
     }
 }

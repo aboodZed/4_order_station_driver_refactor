@@ -81,7 +81,7 @@
     <Button
         android:id="@+id/btn_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/medium_padding"
         android:background="@drawable/blue_button"
         android:text="@string/view"
@@ -92,7 +92,7 @@
     <Button
         android:id="@+id/btn_cancel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/dark_gray_button"
         android:text="@string/cancel"
         android:textAllCaps="false"

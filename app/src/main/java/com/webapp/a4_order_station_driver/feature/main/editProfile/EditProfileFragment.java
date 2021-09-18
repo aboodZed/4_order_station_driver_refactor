@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -51,6 +51,8 @@ public class EditProfileFragment extends Fragment implements DialogView<User>, R
     protected static final int IDENTITY = 4;
     protected static final int YOUR_LICENSE = 2;
 
+    private ActivityResultLauncher<Intent> launcher;
+
     public EditProfileFragment(BaseActivity baseActivity) {
         this.baseActivity = baseActivity;
     }
@@ -67,6 +69,8 @@ public class EditProfileFragment extends Fragment implements DialogView<User>, R
         presenter = new EditProfilePresenter(baseActivity, this, photoTakerManager);
         data();
         click();
+        onActivityResulting();
+
         return binding.getRoot();
     }
 
@@ -117,31 +121,26 @@ public class EditProfileFragment extends Fragment implements DialogView<User>, R
                     , AppContent.REQUEST_PERMISSIONS_R_W_STORAGE_CAMERA);
     }
 
+    private void onActivityResulting() {
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> presenter.onActivityResult(result.getResultCode(), result.getData()));
+    }
+
     private void request(int request_upload, int request_camera) {
         itemSelectImageDialogFragment = ItemSelectImageDialogFragment.newInstance();
         itemSelectImageDialogFragment.setListener(new ItemSelectImageDialogFragment.Listener() {
             @Override
             public void onGalleryClicked() {
-                photoTakerManager.galleryRequest(requireActivity(), request_upload);
+                presenter.setRequestCode(request_upload);
+                photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
             }
 
             @Override
             public void onCameraClicked() {
-                photoTakerManager.cameraRequest(requireActivity(), request_camera);
+                presenter.setRequestCode(request_camera);
+                photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
             }
         });
         itemSelectImageDialogFragment.show(getChildFragmentManager(), "");
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        presenter.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

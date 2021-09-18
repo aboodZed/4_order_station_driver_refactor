@@ -89,7 +89,7 @@ public class OrderStationViewFragment extends Fragment implements DialogView<Ord
         if (PermissionUtil.isPermissionGranted(Manifest.permission.CALL_PHONE, getActivity())) {
             new NavigateUtil().makeCall(requireActivity(), orderStation.getShop().getMobile());
         } else {
-            PermissionUtil.requestPermissionOnFragment(this, Manifest.permission.CALL_PHONE, PHONE_CALL_CODE);
+            PermissionUtil.requestPermission(getActivity(), Manifest.permission.CALL_PHONE, PHONE_CALL_CODE);
         }
     }
 
@@ -97,7 +97,7 @@ public class OrderStationViewFragment extends Fragment implements DialogView<Ord
         if (PermissionUtil.isPermissionGranted(Manifest.permission.CALL_PHONE, getActivity())) {
             new NavigateUtil().makeCall(requireActivity(), orderStation.getUser().getMobile());
         } else {
-            PermissionUtil.requestPermissionOnFragment(this, Manifest.permission.CALL_PHONE, PHONE_CALL_CODE);
+            PermissionUtil.requestPermission(getActivity(), Manifest.permission.CALL_PHONE, PHONE_CALL_CODE);
         }
     }
 
