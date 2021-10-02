@@ -2,18 +2,14 @@ package com.webapp.a4_order_station_driver.feature.splash;
 
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
 import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.models.Login;
 import com.webapp.a4_order_station_driver.models.Order;
 import com.webapp.a4_order_station_driver.models.OrderStation;
 import com.webapp.a4_order_station_driver.models.PublicOrderObject;
+import com.webapp.a4_order_station_driver.models.ResultUser;
 import com.webapp.a4_order_station_driver.models.User;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
@@ -100,25 +96,24 @@ class SplashPresenter {
     private void checkUserLogin() {
         if (AppController.getInstance().getAppSettingsPreferences().getIsLogin()) {
 
-            new APIUtil<User>(baseActivity).getData(AppController.getInstance().getApi().getUserData()
-                    , new RequestListener<User>() {
+            new APIUtil<ResultUser>(baseActivity).getData(AppController.getInstance().getApi().getUserData()
+                    , new RequestListener<ResultUser>() {
                         @Override
-                        public void onSuccess(User user, String msg) {
+                        public void onSuccess(ResultUser result, String msg) {
                             //update user
                             Login login = AppController.getInstance().getAppSettingsPreferences().getLogin();
-                            login.setUser(user);
+                            login.setUser(result.getUser());
                             AppController.getInstance().getAppSettingsPreferences().setLogin(login);
                             //print user token
-                            //Log.e(getClass().getName() + " : userData", user.toString());
+                            Log.e(getClass().getName() + " : userData", result.getUser().toString());
 
                             Log.e("usertoken", AppController.getInstance()
                                     .getAppSettingsPreferences().getLogin().getAccess_token());
                             //navigate
                             FirebaseFirestore.getInstance().collection(AppContent.FIREBASE_PUBLIC_TRACKING_INSTANCE)
                                     .document(AppContent.FIREBASE_DATA).addSnapshotListener((value, error) -> {
-                                        String s = value.getString(AppContent.FIREBASE_STATUS);
-                                    });
-                            //ToolUtil.showLongToast("This App not available", baseActivity);
+                                String s = value.getString(AppContent.FIREBASE_STATUS);
+                            });
                             baseActivity.navigate(MainActivity.page);
                         }
 
@@ -134,6 +129,38 @@ class SplashPresenter {
                             baseActivity.navigate(LoginActivity.page);
                         }
                     });
+
+            /*
+            public void onSuccess(User user, String msg) {
+                            //update user
+                            Login login = AppController.getInstance().getAppSettingsPreferences().getLogin();
+                            login.setUser(user);
+                            AppController.getInstance().getAppSettingsPreferences().setLogin(login);
+                            //print user token
+                            Log.e(getClass().getName() + " : userData", user.toString());
+
+                            Log.e("usertoken", AppController.getInstance()
+                                    .getAppSettingsPreferences().getLogin().getAccess_token());
+                            //navigate
+                            FirebaseFirestore.getInstance().collection(AppContent.FIREBASE_PUBLIC_TRACKING_INSTANCE)
+                                    .document(AppContent.FIREBASE_DATA).addSnapshotListener((value, error) -> {
+                                        String s = value.getString(AppContent.FIREBASE_STATUS);
+                                    });
+                            baseActivity.navigate(MainActivity.page);
+                        }
+
+                        @Override
+                        public void onError(String msg) {
+                            ToolUtil.showLongToast(msg, baseActivity);
+                            baseActivity.navigate(LoginActivity.page);
+                        }
+
+                        @Override
+                        public void onFail(String msg) {
+                            ToolUtil.showLongToast(msg, baseActivity);
+                            baseActivity.navigate(LoginActivity.page);
+                        }
+             */
 
         } else {
             baseActivity.navigate(LoginActivity.page);

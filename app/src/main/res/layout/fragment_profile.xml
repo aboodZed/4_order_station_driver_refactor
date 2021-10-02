@@ -139,7 +139,7 @@
         android:background="@drawable/blue_button"
         android:text="@string/logout"
         android:textAllCaps="false"
-        android:textSize="@dimen/text"
+        android:textSize="@dimen/medium_text"
         android:textColor="@color/white"
         android:layout_marginBottom="@dimen/medium_padding"
         android:layout_marginTop="@dimen/large_text"/>

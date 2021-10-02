@@ -120,7 +120,7 @@
             android:background="@drawable/blue_button"
             android:text="@string/login"
             android:textAllCaps="false"
-            android:textSize="@dimen/small_text"
+            android:textSize="@dimen/medium_text"
             android:textColor="@color/white"
             android:layout_marginBottom="@dimen/medium_padding"/>
 
@@ -129,7 +129,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/dark_button"
-            android:textSize="@dimen/small_text"
+            android:textSize="@dimen/medium_text"
             android:text="@string/sign_up"
             android:textColor="@color/white"
             android:textAllCaps="false"/>

@@ -13,7 +13,8 @@ import com.webapp.a4_order_station_driver.models.PublicOrderObject;
 import com.webapp.a4_order_station_driver.models.PublicWallet;
 import com.webapp.a4_order_station_driver.models.RatingObject;
 import com.webapp.a4_order_station_driver.models.ResetCode;
-import com.webapp.a4_order_station_driver.models.SettingsObject;
+import com.webapp.a4_order_station_driver.models.ResultSettings;
+import com.webapp.a4_order_station_driver.models.ResultUser;
 import com.webapp.a4_order_station_driver.models.ShopObject;
 import com.webapp.a4_order_station_driver.models.StationWallet;
 import com.webapp.a4_order_station_driver.models.User;
@@ -54,7 +55,7 @@ public interface ApiInterface {
     Call<Message> isOnline(@Query("is_online") String isOnline);
 
     @GET("auth/user")
-    Call<User> getUserData();
+    Call<ResultUser> getUserData();
 
     @POST("auth/updateProfile")
     Call<User> updateProfile(@Body User user);
@@ -87,7 +88,7 @@ public interface ApiInterface {
     Call<Message> sendMessage(@QueryMap HashMap<String, String> params);
 
     @GET
-    Call<SettingsObject> getSettings(@Url String url);
+    Call<ResultSettings> getSettings(@Url String url);
 
     @GET("clientPrivacy")
     Call<Privacy> getPrivacy();

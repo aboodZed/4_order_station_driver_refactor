@@ -1,5 +1,7 @@
 package com.webapp.a4_order_station_driver.utils.dialogs;
 
+import static com.webapp.a4_order_station_driver.utils.AppContent.PHONE_CALL_CODE;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,16 +18,14 @@ import androidx.fragment.app.DialogFragment;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentContactBinding;
-import com.webapp.a4_order_station_driver.models.SettingsObject;
+import com.webapp.a4_order_station_driver.models.ResultSettings;
 import com.webapp.a4_order_station_driver.models.SettingsData;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.NavigateUtil;
+import com.webapp.a4_order_station_driver.utils.PermissionUtil;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
-import com.webapp.a4_order_station_driver.utils.PermissionUtil;
-
-import static com.webapp.a4_order_station_driver.utils.AppContent.PHONE_CALL_CODE;
 
 public class ContactFragment extends DialogFragment {
 
@@ -56,11 +56,11 @@ public class ContactFragment extends DialogFragment {
                 .getAppSettingsPreferences().getCountry().getId();
 
         WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
-        new APIUtil<SettingsObject>(getActivity()).getData(AppController.getInstance().getApi()
-                .getSettings(url), new RequestListener<SettingsObject>() {
+        new APIUtil<ResultSettings>(getActivity()).getData(AppController.getInstance().getApi()
+                .getSettings(url), new RequestListener<ResultSettings>() {
             @Override
-            public void onSuccess(SettingsObject settings, String msg) {
-                ContactFragment.this.settings = settings.getSettings();
+            public void onSuccess(ResultSettings result, String msg) {
+                ContactFragment.this.settings = result.getSettingsData();
                 setDate();
                 WaitDialogFragment.newInstance().dismiss();
             }

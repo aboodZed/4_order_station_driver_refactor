@@ -469,7 +469,7 @@
             android:text="@string/done"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="@dimen/small_text" />
+            android:textSize="@dimen/medium_text" />
 
     </LinearLayout>
 </RelativeLayout>

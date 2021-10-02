@@ -89,7 +89,7 @@
             android:text="@string/confirm"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="@dimen/small_text" />
+            android:textSize="@dimen/medium_text" />
     </LinearLayout>
 
 </FrameLayout>

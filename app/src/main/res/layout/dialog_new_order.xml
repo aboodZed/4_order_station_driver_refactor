@@ -87,7 +87,7 @@
         android:text="@string/view"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="@dimen/small_text" />
+        android:textSize="@dimen/medium_text" />
 
     <Button
         android:id="@+id/btn_cancel"
@@ -97,5 +97,5 @@
         android:text="@string/cancel"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="@dimen/small_text" />
+        android:textSize="@dimen/medium_text" />
 </LinearLayout>

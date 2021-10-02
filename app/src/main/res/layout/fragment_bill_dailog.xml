@@ -99,7 +99,8 @@
             android:text="@string/cancel"
             android:layout_marginTop="@dimen/medium_margin"
             android:background="@drawable/blue_button"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="@dimen/medium_text"/>
 
     </LinearLayout>
 

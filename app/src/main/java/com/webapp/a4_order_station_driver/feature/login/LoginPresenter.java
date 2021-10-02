@@ -1,6 +1,7 @@
 package com.webapp.a4_order_station_driver.feature.login;
 
 import android.content.Intent;
+import android.util.Log;
 import android.widget.EditText;
 
 import com.webapp.a4_order_station_driver.R;
@@ -61,6 +62,7 @@ public class LoginPresenter {
                     public void onSuccess(Login login, String msg) {
                         dialogView.hideDialog();
                         if (login != null && login.getSuccess()) {
+                            Log.e("sharedPreferences",login.toString());
                             AppController.getInstance().getAppSettingsPreferences().setLogin(login);
                             AppController.getInstance().getAppSettingsPreferences().setIsLogin(true);
                             AppController.getInstance().getAppSettingsPreferences().setPassword(map.get("password"));

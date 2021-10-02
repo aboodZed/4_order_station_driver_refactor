@@ -69,12 +69,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/fragment_container"
-                android:layout_margin="@dimen/medium_margin"
+                android:layout_marginStart="@dimen/medium_margin"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_marginEnd="@dimen/medium_margin"
+                android:layout_marginBottom="@dimen/medium_margin"
                 android:background="@drawable/blue_button"
                 android:text="@string/next"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="@dimen/small_text" />
+                android:textSize="@dimen/medium_text" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

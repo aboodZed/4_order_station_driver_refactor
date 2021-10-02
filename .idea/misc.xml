@@ -8,22 +8,60 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/activity_login.xml" value="0.22447916666666667" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/activity_main.xml" value="0.38697916666666665" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/activity_order.xml" value="0.38697916666666665" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/activity_register.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/activity_reset_password.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/dialog_language.xml" value="0.22447916666666667" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/dialog_new_order.xml" value="0.38697916666666665" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/dialog_update_neighborhood.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_add_bill_dialog.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_bill_dailog.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_chat.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_complete_pay_dialog.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_contact.xml" value="0.22447916666666667" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_country.xml" value="0.38697916666666665" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_edit_profile.xml" value="0.22447916666666667" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_home.xml" value="0.38697916666666665" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_image.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_item_image_dialog.xml" value="0.22447916666666667" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_new_order.xml" value="0.38697916666666665" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_new_public_order.xml" value="0.38697916666666665" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_notification.xml" value="0.22447916666666667" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_order_station.xml" value="0.21875" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_order_station_wallet.xml" value="0.21875" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_order_view.xml" value="0.22447916666666667" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_orders.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_privacy_policy.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_profile.xml" value="0.22447916666666667" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_public.xml" value="0.21875" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_public_chat.xml" value="0.22447916666666667" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_public_wallet.xml" value="0.21875" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_rating.xml" value="0.21875" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_register_step_1.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_register_step_2.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_reset_step1.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_reset_step2.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_reset_step3.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_send_message.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_show_location.xml" value="0.22447916666666667" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_wait.xml" value="0.21875" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/fragment_wallet.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/item_attachment.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/item_balance.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/item_chat_left.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/item_chat_right.xml" value="0.22447916666666667" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/item_country.xml" value="0.38697916666666665" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/item_left_public_chat.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/item_notification.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/item_order.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/item_order_items.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/item_public_order.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/item_public_wallet.xml" value="0.22447916666666667" />
         <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/item_rating.xml" value="0.21875" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/item_right_public_chat.xml" value="0.22447916666666667" />
+        <entry key="..\:/android Studio Projects/4_order_station_driver-master/app/src/main/res/layout/item_spinner.xml" value="0.22447916666666667" />
       </map>
     </option>
   </component>

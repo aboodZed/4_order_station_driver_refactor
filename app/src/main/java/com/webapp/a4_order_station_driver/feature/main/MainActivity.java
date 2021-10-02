@@ -2,6 +2,7 @@ package com.webapp.a4_order_station_driver.feature.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;

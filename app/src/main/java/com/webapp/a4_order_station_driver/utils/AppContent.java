@@ -5,7 +5,8 @@ public interface AppContent {
     String INPUT_SETTINGS = "setting";
     String CODE_DETAILS = "codeDetails";
 
-    String BASE_URL = "http://4orderstation.com/api/v2/";
+    String BASE_URL = "http://www.4order.net/api/v2/";
+    //forth String BASE_URL = "http://4orderstation.com/api/v2/";
     //third String BASE_URL = "https://live.4orderstation.net/api/v2/";
     //second url String BASE_URL = "https://stationsback.4orderstation.net/api/v2/";
     //first url String BASE_URL = https://control.4orderstation.net/api/v2/
