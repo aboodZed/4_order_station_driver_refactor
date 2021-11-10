@@ -51,13 +51,13 @@ public class RegisterActivity extends BaseActivity {
             PermissionUtil.requestPermission(this, Manifest.permission.CAMERA
                     , AppContent.REQUEST_PERMISSIONS_R_W_STORAGE_CAMERA);
         }
-        navigate(RegisterStepOneFragment.page);
+        navigate(RegisterStepTwoFragment.page);
     }
 
 
     private void click() {
-        binding.btnNext.setOnClickListener(view -> next());
-        binding.ivBack.setOnClickListener(view -> back());
+        //binding.btnNext.setOnClickListener(view -> next());
+        //binding.ivBack.setOnClickListener(view -> back());
     }
 
     //clicks
@@ -81,11 +81,9 @@ public class RegisterActivity extends BaseActivity {
     public void navigate(int page) {
         switch (page) {
             case RegisterStepOneFragment.page:
-                binding.tvPage.setText("1/2");
                 new NavigateUtil().replaceFragment(getSupportFragmentManager(), registerStep1, R.id.fragment_container);
                 break;
             case RegisterStepTwoFragment.page:
-                binding.tvPage.setText("2/2");
                 new NavigateUtil().replaceFragment(getSupportFragmentManager(), registerStep2, R.id.fragment_container);
                 break;
             case MainActivity.page:

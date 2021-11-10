@@ -28,16 +28,13 @@ public class ResetPasswordActivity extends BaseActivity {
         binding = ActivityResetPasswordBinding.inflate(getLayoutInflater());
         super.setRootView(binding.getRoot());
         super.onCreate(savedInstanceState);
-        //full screen
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-                , WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         //view
         initFragments();
         click();
     }
 
     private void click() {
-        binding.ivBack.setOnClickListener(view -> back());
+        //binding.ivBack.setOnClickListener(view -> back());
     }
 
     //Clicks
@@ -69,7 +66,7 @@ public class ResetPasswordActivity extends BaseActivity {
                 break;
             case ResetStep2.page:
                 resetStep2 = ResetStep2.newInstance(this);
-                resetStep2.setData(resetStep1.getData());
+                //resetStep2.setData(resetStep1.getData());
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , resetStep2, R.id.fragment_container);
                 break;

@@ -4,25 +4,25 @@
     <!-- TODO: Remove or change this placeholder text -->
     <!--register step 1-->
     <string name="upload_image">Upload your photo</string>
-    <string name="full_name">Full name</string>
+    <string name="user_name">User name</string>
     <string name="type_full_name">Type your full Name</string>
-    <string name="email">Email</string>
+    <string name="email">Email address</string>
     <string name="type_email">Type your Email</string>
     <string name="phone">Phone number</string>
-    <string name="type_phone">Type your phone number</string>
+    <string name="type_phone">5×× ××× ×××</string>
     <string name="address">Address</string>
     <string name="type_address">Type your Address</string>
     <string name="password">Password</string>
-    <string name="type_password">Type your Password</string>
-    <string name="confirm_password">Confirm Password</string>
-    <string name="type_confirm_paswword">Type your confirm Password</string>
-    <string name="agree_terms">I agree to the following Terms and Conditions</string>
+    <string name="type_password">Please enter your new password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="type_confirm_password">confirm password</string>
+    <string name="agree_terms">I agree to the following</string>
     <!--login-->
-    <string name="forget">Forget?</string>
-    <string name="login">Log In</string>
+    <string name="forget">Forget Password?</string>
+    <string name="login">Login</string>
     <string name="sign_up">Sign up</string>
     <!--register main-->
-    <string name="create_account">Create an account</string>
+    <string name="create_account">New Account</string>
     <string name="next">Next</string>
     <!--register step 2-->
     <string name="your_vehicle">Your Vehicle</string>
@@ -30,16 +30,17 @@
     <string name="vehicle_Inc">Vehicle Insurance</string>
     <string name="your_id">Your Identity</string>
     <string name="vehicle_type">Vehicle Type</string>
-    <string name="enter_vehicle_type">Enter Type of your Vehicle type</string>
+    <string name="enter_vehicle_type">Vehicle type</string>
     <string name="vehicle_plate">Vehicle Plate</string>
-    <string name="enter_vehicle_plate">Enter Vehicle plate</string>
-    <string name="forget_password">Forgot Password</string>
+    <string name="enter_vehicle_plate">Vehicle plate number</string>
+    <string name="forget_password">Forgot password</string>
     <string name="forget_string">Please enter your Phone number. To receive a code to create a new password</string>
-    <string name="send">Send</string>
-    <string name="phone_verification">Phone Verification</string>
-    <string name="verife_string">Enter your OTP code here</string>
+    <string name="send">Send code</string>
+    <string name="phone_verification">Phone verification</string>
+    <string name="verify_string">Please enter the code sent to you via sms
+on the number</string>
     <string name="resend">Resend a new code in </string>
-    <string name="password_reset">Password reset</string>
+    <string name="password_reset">Reset password</string>
     <string name="confirm">Confirm</string>
     <string name="home">Home</string>
     <string name="wallet">Wallet</string>
@@ -172,4 +173,14 @@
     <string name="error_in_process_the_photo">Error happened in the processing the photo</string>
     <string name="error_in_input">Error in the input, try again</string>
     <string name="neighborhood">Neighborhood</string>
+    <string name="sign_in">Sign In</string>
+    <string name="welcome">Welcome to 4 Order Station</string>
+    <string name="create">Create</string>
+    <string name="register">Register</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="car_information">"Car Information "</string>
+    <string name="have_account">Do You Have An Account?</string>
+    <string name="terms_and_conditions"><u>Terms and Conditions</u></string>
+    <string name="confirm_code">confirmation code</string>
+    <string name="resend_code">Resend code</string>
 </resources>

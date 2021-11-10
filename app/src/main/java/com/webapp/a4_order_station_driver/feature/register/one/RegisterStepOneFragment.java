@@ -9,13 +9,10 @@ import android.view.ViewGroup;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.webapp.a4_order_station_driver.databinding.FragmentRegisterStep1Binding;
 import com.webapp.a4_order_station_driver.feature.register.adapter.SpinnerAdapter;
-import com.webapp.a4_order_station_driver.models.Login;
 import com.webapp.a4_order_station_driver.models.Neighborhood;
 import com.webapp.a4_order_station_driver.models.NeighborhoodList;
 import com.webapp.a4_order_station_driver.utils.AppContent;
@@ -28,8 +25,6 @@ import com.webapp.a4_order_station_driver.utils.language.AppLanguageUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
-
-import java.util.ArrayList;
 
 public class RegisterStepOneFragment extends Fragment implements RequestListener<Bitmap>
         , DialogView<NeighborhoodList> {
@@ -65,7 +60,7 @@ public class RegisterStepOneFragment extends Fragment implements RequestListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentRegisterStep1Binding.inflate(getLayoutInflater());
 
-        data();
+        //data();
         click();
         onActivityResulting();
 
@@ -73,15 +68,16 @@ public class RegisterStepOneFragment extends Fragment implements RequestListener
     }
 
     private void onActivityResulting() {
-        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> presenter.onActivityResult(result.getResultCode(), result.getData()));
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult()
+                , result -> presenter.onActivityResult(result.getResultCode(), result.getData()));
     }
 
     private void data() {
         binding.tvCode.setText(AppController.getInstance().getAppSettingsPreferences().getCountry().getPhone_code());
         if (AppController.getInstance().getAppSettingsPreferences().getAppLanguage().equals(AppLanguageUtil.English)) {
-            binding.etCountry.setText(AppController.getInstance().getAppSettingsPreferences().getCountry().getName_en());
+            //binding.etCountry.setText(AppController.getInstance().getAppSettingsPreferences().getCountry().getName_en());
         } else {
-            binding.etCountry.setText(AppController.getInstance().getAppSettingsPreferences().getCountry().getName_ar());
+            //binding.etCountry.setText(AppController.getInstance().getAppSettingsPreferences().getCountry().getName_ar());
         }
         presenter.getNeighborhood();
     }
@@ -93,7 +89,7 @@ public class RegisterStepOneFragment extends Fragment implements RequestListener
     public void signUp() {
         presenter.validInput(binding.etEnterName, binding.etEnterEmail, binding.etEnterAddress
                 , binding.etEnterPhone, binding.etEnterPassword, binding.etEnterConfirmPassword
-                , binding.cbAgreeTerms, bitmap, saveImage
+                , bitmap, saveImage
                 ,((Neighborhood) binding.spNeighborhood.getSelectedItem()).getId());
     }
 

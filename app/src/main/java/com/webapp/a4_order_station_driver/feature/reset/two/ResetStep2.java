@@ -68,8 +68,8 @@ public class ResetStep2 extends Fragment
         binding.lfCode.setOnTextCompleteListener(this);
         binding.lfCode.addTextChangedListener(this);
         binding.lfCode.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        binding.btnResend.setVisibility(View.INVISIBLE);
-        countDownTimer = new CountDownTimer(30000, 1000) {
+         /*binding.btnResend.setVisibility(View.INVISIBLE);
+       countDownTimer = new CountDownTimer(30000, 1000) {
             public void onTick(long millisUntilFinished) {
                 binding.tvResendText.setText(getString(R.string.resend) + " " + (millisUntilFinished / 1000) + " sec");
             }
@@ -77,7 +77,7 @@ public class ResetStep2 extends Fragment
             public void onFinish() {
                 binding.btnResend.setVisibility(View.VISIBLE);
             }
-        }.start();
+        }.start();*/
     }
 
     @Override

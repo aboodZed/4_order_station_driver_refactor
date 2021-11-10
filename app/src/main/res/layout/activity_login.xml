@@ -4,134 +4,158 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".feature.login.LoginActivity">
+    tools:context=".feature.login.LoginActivity"
+    android:background="@drawable/back"
+    android:padding="@dimen/xlarge_padding">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-350dp"
-        android:background="@drawable/background_splach" />
+        android:id="@+id/imageView3"
+        android:layout_width="@dimen/logo_width"
+        android:layout_height="@dimen/logo_height"
+        android:layout_gravity="center"
+        android:src="@drawable/logo"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <LinearLayout
+        android:id="@+id/linearLayout7"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="-200dp"
-        android:background="@drawable/grade_invers" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/white_button"
+        android:padding="@dimen/large_padding">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_in"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:textSize="@dimen/title_text"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/medium_margin"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/welcome"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/medium_margin"/>
+
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/medium_margin">
+
+            <TextView
+                android:id="@+id/tv_code"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:background="@drawable/country_code_text_view"
+                android:textSize="@dimen/medium_text"
+                android:layout_marginEnd="@dimen/rate"/>
+
+            <EditText
+                android:id="@+id/et_enter_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:background="@drawable/custom_edit_text"
+                android:inputType="phone"
+                android:textSize="@dimen/medium_text"
+                android:padding="@dimen/large_padding"
+                android:hint="@string/phone"/>
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_enter_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:background="@drawable/edit_text"
+            android:layout_marginBottom="@dimen/medium_margin"
+            android:hint="@string/password"
+            android:textSize="@dimen/medium_text"
+            android:padding="@dimen/large_padding" />
+
+        <TextView
+            android:id="@+id/tv_forget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/forget"
+            android:textAllCaps="false"
+            android:layout_gravity="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/medium_text"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_arabic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/arabic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout7"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:drawableStart="@drawable/web"
+        android:drawablePadding="@dimen/small_padding"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/medium_padding"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="@dimen/logo_width"
-            android:layout_height="@dimen/logo_height"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/margin"
-            android:layout_marginTop="@dimen/large_margin"
-            android:src="@drawable/logo" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/phone"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/small_text" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginBottom="@dimen/medium_padding">
-
-            <TextView
-                android:id="@+id/tv_code"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textColor="@color/white"
-                android:textSize="@dimen/medium_text"
-                android:gravity="center"/>
-
-            <EditText
-                android:id="@+id/et_enter_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/gray"
-                android:gravity="start"
-                android:hint="@string/type_phone"
-                android:inputType="phone"
-                android:padding="@dimen/small_padding"
-                android:singleLine="true"
-                android:textColor="@color/white"
-                android:textColorHint="@color/gray" />
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/password"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/small_text" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/large_padding"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/et_enter_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/gray"
-                android:gravity="start"
-                android:hint="@string/type_password"
-                android:inputType="textPassword"
-                android:padding="@dimen/small_padding"
-                android:singleLine="true"
-                android:textColor="@color/white"
-                android:textColorHint="@color/gray" />
-
-            <TextView
-                android:id="@+id/tv_forget"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/dark_button"
-                android:text="@string/forget"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp"
-                android:layout_alignParentEnd="true"/>
-        </RelativeLayout>
+        android:padding="@dimen/large_padding">
 
         <Button
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/medium_margin"
             android:background="@drawable/blue_button"
             android:text="@string/login"
-            android:textAllCaps="false"
-            android:textSize="@dimen/medium_text"
             android:textColor="@color/white"
-            android:layout_marginBottom="@dimen/medium_padding"/>
+            android:textSize="@dimen/medium_text" />
 
-        <Button
+        <LinearLayout
             android:id="@+id/btn_sign_up"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/dark_button"
-            android:textSize="@dimen/medium_text"
-            android:text="@string/sign_up"
-            android:textColor="@color/white"
-            android:textAllCaps="false"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create"
+                android:textColor="@color/hint"
+                android:textSize="@dimen/medium_text"
+                android:layout_marginEnd="@dimen/rate"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_account"
+                android:textColor="@color/red"
+                android:textSize="@dimen/medium_text" />
+
+        </LinearLayout>
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

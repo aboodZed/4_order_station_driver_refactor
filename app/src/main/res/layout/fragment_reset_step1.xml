@@ -3,30 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".feature.reset.one.ResetStep1">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/large_padding"
-        android:layout_marginTop="@dimen/margin"
-        android:layout_marginEnd="@dimen/large_padding"
-        android:background="@drawable/dark_button"
+        android:background="@drawable/white_button"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingTop="@dimen/small_margin"
-        android:paddingBottom="@dimen/small_margin"
-        android:paddingStart="@dimen/medium_padding"
-        android:paddingEnd="@dimen/medium_padding">
+        android:padding="@dimen/large_padding">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/small_margin"
             android:text="@string/forget_password"
-            android:textColor="@color/white"
             android:textSize="@dimen/large_text"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textAllCaps="true"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,54 +29,48 @@
             android:layout_margin="@dimen/small_margin"
             android:gravity="center"
             android:text="@string/forget_string"
-            android:textColor="@color/white"
-            android:textSize="@dimen/small_text" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="@string/phone"
-            android:textColor="@color/gray"
             android:textSize="@dimen/small_text" />
 
         <LinearLayout
+            android:id="@+id/linearLayout5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/medium_margin">
 
             <TextView
                 android:id="@+id/tv_code"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:textColor="@color/white"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:background="@drawable/country_code_text_view"
                 android:textSize="@dimen/medium_text"
-                android:gravity="center"/>
+                android:layout_marginEnd="@dimen/rate"/>
 
             <EditText
                 android:id="@+id/et_enter_phone"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/gray"
-                android:gravity="start"
-                android:hint="@string/type_phone"
+                android:layout_weight="8"
+                android:background="@drawable/custom_edit_text"
                 android:inputType="phone"
-                android:singleLine="true"
-                android:textColor="@color/white"
-                android:textColorHint="@color/gray" />
-        </LinearLayout>
+                android:textSize="@dimen/medium_text"
+                android:padding="@dimen/large_padding"
+                android:hint="@string/type_phone"
+                />
 
-        <Button
-            android:id="@+id/btn_send"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/fragment_container"
-            android:layout_marginTop="@dimen/medium_margin"
-            android:background="@drawable/blue_button"
-            android:text="@string/send"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/medium_text" />
+        </LinearLayout>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/blue_button"
+        android:text="@string/send"
+        android:layout_gravity="bottom"
+        android:textColor="@color/white"
+        android:textSize="@dimen/medium_text" />
 
 </FrameLayout>

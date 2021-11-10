@@ -2,34 +2,26 @@ package com.webapp.a4_order_station_driver.feature.register.two;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentRegisterStep2Binding;
 import com.webapp.a4_order_station_driver.models.User;
 import com.webapp.a4_order_station_driver.utils.APIImageUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.Photo.PhotoTakerManager;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
+import com.webapp.a4_order_station_driver.utils.dialogs.ItemSelectImageDialogFragment;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
-
-import java.util.Objects;
-
-import static android.app.Activity.RESULT_OK;
 
 public class RegisterStepTwoFragment extends Fragment implements DialogView<User>, RequestListener<Bitmap> {
 
@@ -37,6 +29,7 @@ public class RegisterStepTwoFragment extends Fragment implements DialogView<User
 
     private FragmentRegisterStep2Binding binding;
     private RegisterStepTwoPresenter presenter;
+    private ItemSelectImageDialogFragment itemSelectImageDialogFragment;
     private PhotoTakerManager photoTakerManager;
     private String[] images = new String[5];
     private int process_image;
@@ -81,12 +74,110 @@ public class RegisterStepTwoFragment extends Fragment implements DialogView<User
     }
 
     private void click() {
+        binding.ivVehicle.setOnClickListener(view -> {
+            itemSelectImageDialogFragment = ItemSelectImageDialogFragment.newInstance();
+            itemSelectImageDialogFragment.setListener(new ItemSelectImageDialogFragment.Listener() {
+                @Override
+                public void onGalleryClicked() {
+                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_UPLOAD);
+                    photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
+                    process_image = VEHICLE_IMAGE;
+                }
+
+                @Override
+                public void onCameraClicked() {
+                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_CAMERA);
+                    photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
+                    process_image = VEHICLE_IMAGE;
+                }
+            });
+            itemSelectImageDialogFragment.show(getChildFragmentManager(), "");
+        });
+
+        binding.ivVehicleLicense.setOnClickListener(view -> {
+            itemSelectImageDialogFragment = ItemSelectImageDialogFragment.newInstance();
+            itemSelectImageDialogFragment.setListener(new ItemSelectImageDialogFragment.Listener() {
+                @Override
+                public void onGalleryClicked() {
+                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_UPLOAD);
+                    photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
+                    process_image = VEHICLE_LICENSE;
+                }
+
+                @Override
+                public void onCameraClicked() {
+                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_CAMERA);
+                    photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
+                    process_image = VEHICLE_LICENSE;
+                }
+            });
+            itemSelectImageDialogFragment.show(getChildFragmentManager(), "");
+        });
+
+        binding.ivVehicleInsurance.setOnClickListener(view -> {
+            itemSelectImageDialogFragment = ItemSelectImageDialogFragment.newInstance();
+            itemSelectImageDialogFragment.setListener(new ItemSelectImageDialogFragment.Listener() {
+                @Override
+                public void onGalleryClicked() {
+                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_UPLOAD);
+                    photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
+                    process_image = VEHICLE_INSURANCE;
+                }
+
+                @Override
+                public void onCameraClicked() {
+                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_CAMERA);
+                    photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
+                    process_image = VEHICLE_INSURANCE;
+                }
+            });
+            itemSelectImageDialogFragment.show(getChildFragmentManager(), "");
+        });
+
+        binding.ivIdentity.setOnClickListener(view -> {
+            itemSelectImageDialogFragment = ItemSelectImageDialogFragment.newInstance();
+            itemSelectImageDialogFragment.setListener(new ItemSelectImageDialogFragment.Listener() {
+                @Override
+                public void onGalleryClicked() {
+                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_IDENTITY_UPLOAD);
+                    photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
+                    process_image = IDENTITY;
+                }
+
+                @Override
+                public void onCameraClicked() {
+                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_IDENTITY_CAMERA);
+                    photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
+                    process_image = IDENTITY;
+                }
+            });
+            itemSelectImageDialogFragment.show(getChildFragmentManager(), "");
+        });
+
+        binding.ivYourLicense.setOnClickListener(view -> {
+            itemSelectImageDialogFragment = ItemSelectImageDialogFragment.newInstance();
+            itemSelectImageDialogFragment.setListener(new ItemSelectImageDialogFragment.Listener() {
+                @Override
+                public void onGalleryClicked() {
+                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_YOUR_LICENSE_UPLOAD);
+                    photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
+                    process_image = YOUR_LICENSE;
+                }
+
+                @Override
+                public void onCameraClicked() {
+                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_YOUR_LICENSE_CAMERA);
+                    photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
+                    process_image = YOUR_LICENSE;
+                }
+            });
+            itemSelectImageDialogFragment.show(getChildFragmentManager(), "");
+        });
+        /*
         binding.ivVehicleUpload.setOnClickListener(view ->
         {
             presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_UPLOAD);
             photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
-            /*photoTakerManager.galleryRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_VEHICLE_UPLOAD);*/
             process_image = VEHICLE_IMAGE;
         });
 
@@ -94,8 +185,6 @@ public class RegisterStepTwoFragment extends Fragment implements DialogView<User
         {
             presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_UPLOAD);
             photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
-            /*photoTakerManager.galleryRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_UPLOAD);*/
             process_image = VEHICLE_LICENSE;
         });
 
@@ -103,8 +192,6 @@ public class RegisterStepTwoFragment extends Fragment implements DialogView<User
         {
             presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_UPLOAD);
             photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
-            /*photoTakerManager.galleryRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_UPLOAD);*/
             process_image = VEHICLE_INSURANCE;
         });
 
@@ -112,8 +199,6 @@ public class RegisterStepTwoFragment extends Fragment implements DialogView<User
         {
             presenter.setRequestCode(AppContent.REQUEST_IMAGE_IDENTITY_UPLOAD);
             photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
-            /*photoTakerManager.galleryRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_IDENTITY_UPLOAD);*/
             process_image = IDENTITY;
         });
 
@@ -121,8 +206,6 @@ public class RegisterStepTwoFragment extends Fragment implements DialogView<User
         {
             presenter.setRequestCode(AppContent.REQUEST_IMAGE_YOUR_LICENSE_UPLOAD);
             photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
-            /*photoTakerManager.galleryRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_YOUR_LICENSE_UPLOAD);*/
             process_image = YOUR_LICENSE;
         });
 
@@ -131,8 +214,6 @@ public class RegisterStepTwoFragment extends Fragment implements DialogView<User
         {
             presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_CAMERA);
             photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
-            /*photoTakerManager.cameraRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_VEHICLE_CAMERA);*/
             process_image = VEHICLE_IMAGE;
         });
 
@@ -140,8 +221,6 @@ public class RegisterStepTwoFragment extends Fragment implements DialogView<User
         {
             presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_CAMERA);
             photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
-            /*photoTakerManager.cameraRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_CAMERA);*/
             process_image = VEHICLE_LICENSE;
         });
 
@@ -149,8 +228,6 @@ public class RegisterStepTwoFragment extends Fragment implements DialogView<User
         {
             presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_CAMERA);
             photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
-            /*photoTakerManager.cameraRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_CAMERA);*/
             process_image = VEHICLE_INSURANCE;
         });
 
@@ -158,8 +235,6 @@ public class RegisterStepTwoFragment extends Fragment implements DialogView<User
         {
             presenter.setRequestCode(AppContent.REQUEST_IMAGE_IDENTITY_CAMERA);
             photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
-            /*photoTakerManager.cameraRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_IDENTITY_CAMERA);*/
             process_image = IDENTITY;
         });
 
@@ -167,10 +242,10 @@ public class RegisterStepTwoFragment extends Fragment implements DialogView<User
         {
             presenter.setRequestCode(AppContent.REQUEST_IMAGE_YOUR_LICENSE_CAMERA);
             photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
-            /*photoTakerManager.cameraRequest(requireActivity()
-                    , AppContent.REQUEST_IMAGE_YOUR_LICENSE_CAMERA);*/
             process_image = YOUR_LICENSE;
         });
+
+         */
     }
 /*
     @Override

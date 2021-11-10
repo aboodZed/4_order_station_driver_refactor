@@ -43,7 +43,7 @@ public class RegisterStepOnePresenter {
 
     public void validInput(EditText etEnterName, EditText etEnterEmail, EditText etEnterAddress
             , EditText etEnterPhone, EditText etEnterPassword, EditText etEnterConfirmPassword
-            , CheckBox cbAgreeTerms, Bitmap bitmap, boolean saveImage, int city_id) {
+            , Bitmap bitmap, boolean saveImage, int city_id) {
 
         String name = etEnterName.getText().toString().trim();
         String email = etEnterEmail.getText().toString().trim();
@@ -101,10 +101,10 @@ public class RegisterStepOnePresenter {
             etEnterConfirmPassword.setError(baseActivity.getString(R.string.match_error));
             return;
         }
-        if (!cbAgreeTerms.isChecked()) {
+       /* if (!cbAgreeTerms.isChecked()) {
             cbAgreeTerms.setError(baseActivity.getString(R.string.check_box));
             return;
-        }
+        }*/
 
         User user = new User(name, APIImageUtil.bitmapToBase64(bitmap),
                 /*AppController.getInstance().getAppSettingsPreferences()

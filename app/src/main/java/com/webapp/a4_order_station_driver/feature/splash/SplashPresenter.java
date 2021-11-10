@@ -5,6 +5,9 @@ import android.util.Log;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
 import com.webapp.a4_order_station_driver.feature.main.MainActivity;
+import com.webapp.a4_order_station_driver.feature.reset.ResetPasswordActivity;
+import com.webapp.a4_order_station_driver.feature.reset.three.ResetStep3;
+import com.webapp.a4_order_station_driver.feature.reset.two.ResetStep2;
 import com.webapp.a4_order_station_driver.models.Login;
 import com.webapp.a4_order_station_driver.models.Order;
 import com.webapp.a4_order_station_driver.models.OrderStation;
@@ -14,6 +17,7 @@ import com.webapp.a4_order_station_driver.models.User;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
+import com.webapp.a4_order_station_driver.utils.NavigateUtil;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.language.AppLanguageUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
@@ -27,9 +31,10 @@ class SplashPresenter {
     public SplashPresenter(BaseActivity baseActivity) {
         this.baseActivity = baseActivity;
         //functions
-        setLanguage();
+        /* setLanguage();
         checkOrderProcess();
-        checkUserLogin();
+        checkUserLogin();*/
+        new NavigateUtil().activityIntent(baseActivity, ResetPasswordActivity.class,true);
     }
 
     private void setLanguage() {

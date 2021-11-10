@@ -1,6 +1,7 @@
 package com.webapp.a4_order_station_driver.feature.login;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.webapp.a4_order_station_driver.databinding.ActivityLoginBinding;
 import com.webapp.a4_order_station_driver.feature.main.MainActivity;
@@ -11,6 +12,7 @@ import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.NavigateUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.CountryFragment;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
+import com.webapp.a4_order_station_driver.utils.language.AppLanguageUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 
@@ -19,6 +21,7 @@ public class LoginActivity extends BaseActivity implements DialogView<Login> {
     public static final int page = 100;
 
     private ActivityLoginBinding binding;
+
     private LoginPresenter presenter;
     private CountryFragment countryFragment;
 
@@ -38,21 +41,25 @@ public class LoginActivity extends BaseActivity implements DialogView<Login> {
 
     private void data() {
         binding.tvCode.setText(AppController.getInstance()
-                .getAppSettingsPreferences().getCountry().getPhone_code());
+             .getAppSettingsPreferences().getCountry().getPhone_code());
     }
 
     private void click() {
         binding.btnLogin.setOnClickListener(view -> presenter.checkInput(binding.etEnterPhone, binding.etEnterPassword));
         binding.tvForget.setOnClickListener(view -> navigate(ResetPasswordActivity.page));
         binding.btnSignUp.setOnClickListener(view -> navigate(RegisterActivity.page));
+        binding.tvArabic.setOnClickListener(view -> {
+            AppLanguageUtil.getInstance().setAppLanguage(LoginActivity.this, AppLanguageUtil.ARABIC);
+            recreate();
+        });
     }
 
     private void showCountries() {
         countryFragment = CountryFragment.newInstance();
         countryFragment.show(getSupportFragmentManager(), "");
         countryFragment.setCountryListener(() -> {
-            binding.tvCode.setText(AppController.getInstance()
-                    .getAppSettingsPreferences().getCountry().getPhone_code());
+          binding.tvCode.setText(AppController.getInstance()
+                   .getAppSettingsPreferences().getCountry().getPhone_code());
         });
     }
 

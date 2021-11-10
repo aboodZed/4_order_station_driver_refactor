@@ -8,24 +8,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/large_padding"
-        android:layout_marginTop="@dimen/margin"
-        android:layout_marginEnd="@dimen/large_padding"
-        android:background="@drawable/dark_button"
+        android:background="@drawable/white_button"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingTop="@dimen/small_margin"
-        android:paddingBottom="@dimen/small_margin"
-        android:paddingStart="@dimen/medium_padding"
-        android:paddingEnd="@dimen/medium_padding">
+        android:padding="@dimen/medium_padding">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/small_margin"
             android:text="@string/password_reset"
-            android:textColor="@color/white"
             android:textSize="@dimen/large_text"
+            android:textAllCaps="true"
             android:textStyle="bold" />
 
         <TextView
@@ -34,16 +28,16 @@
             android:layout_margin="@dimen/small_margin"
             android:gravity="center"
             android:text="@string/type_password"
-            android:textColor="@color/white"
             android:textSize="@dimen/small_text" />
 
-        <TextView
+        <!--<TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/password"
             android:textColor="@color/gray"
             android:textSize="@dimen/small_text"
             android:layout_gravity="start"/>
+
 
         <EditText
             android:id="@+id/et_enter_password"
@@ -58,6 +52,7 @@
             android:textColor="@color/white"
             android:textColorHint="@color/gray" />
 
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,6 +61,7 @@
             android:textSize="@dimen/small_text"
             android:layout_gravity="start"/>
 
+
         <EditText
             android:id="@+id/et_enter_confirm_password"
             android:layout_width="match_parent"
@@ -73,23 +69,47 @@
             android:layout_marginBottom="@dimen/medium_padding"
             android:backgroundTint="@color/gray"
             android:gravity="start"
-            android:hint="@string/type_confirm_paswword"
+            android:hint="@string/type_confirm_password"
             android:inputType="textPassword"
             android:singleLine="true"
             android:textColor="@color/white"
             android:textColorHint="@color/gray" />
+             -->
 
-        <Button
-            android:id="@+id/btn_confirm"
+        <EditText
+            android:id="@+id/et_enter_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/fragment_container"
-            android:layout_marginTop="@dimen/medium_margin"
-            android:background="@drawable/blue_button"
-            android:text="@string/confirm"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/medium_text" />
+            android:inputType="textPassword"
+            android:background="@drawable/edit_text"
+            android:layout_marginBottom="@dimen/medium_margin"
+            android:hint="@string/password"
+            android:textSize="@dimen/medium_text"
+            android:padding="@dimen/large_padding" />
+
+        <EditText
+            android:id="@+id/et_enter_confirm_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:background="@drawable/edit_text"
+            android:layout_marginBottom="@dimen/medium_margin"
+            android:hint="@string/type_confirm_password"
+            android:textSize="@dimen/medium_text"
+            android:padding="@dimen/large_padding" />
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_container"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:background="@drawable/blue_button"
+        android:text="@string/confirm"
+        android:layout_gravity="bottom"
+        android:textColor="@color/white"
+        android:textSize="@dimen/medium_text" />
 
 </FrameLayout>
