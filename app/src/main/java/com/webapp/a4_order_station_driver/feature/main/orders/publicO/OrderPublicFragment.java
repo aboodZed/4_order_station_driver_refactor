@@ -1,5 +1,6 @@
 package com.webapp.a4_order_station_driver.feature.main.orders.publicO;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -26,16 +27,16 @@ public class OrderPublicFragment extends Fragment implements DialogView<PublicOr
     private FragmentPublicBinding binding;
 
     private PublicOrderAdapter publicOrderAdapter;
-    private BaseActivity baseActivity;
+    private Activity baseActivity;
     private boolean loadingMoreItems;
     private PublicOrderList orderList;
     private OrderPublicPresenter presenter;
 
-    public OrderPublicFragment(BaseActivity baseActivity) {
+    public OrderPublicFragment(Activity baseActivity) {
         this.baseActivity = baseActivity;
     }
 
-    public static OrderPublicFragment newInstance(BaseActivity baseActivity) {
+    public static OrderPublicFragment newInstance(Activity baseActivity) {
         return new OrderPublicFragment(baseActivity);
     }
 

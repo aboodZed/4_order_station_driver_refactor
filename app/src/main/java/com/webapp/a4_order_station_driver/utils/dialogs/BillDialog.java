@@ -47,7 +47,7 @@ public class BillDialog extends BottomSheetDialogFragment {
     }
 
     private void data() {
-        if (getArguments() != null) {
+        /*if (getArguments() != null) {
             publicOrder = (PublicOrder) getArguments().get(AppContent.ORDER_OBJECT);
             if (publicOrder.getStatus().equals(AppContent.TO_STORE_STATUS)) {
                 binding.tvDelivery.setVisibility(View.INVISIBLE);
@@ -67,17 +67,17 @@ public class BillDialog extends BottomSheetDialogFragment {
                     binding.tvDelivery.setVisibility(View.VISIBLE);
                 }
             }
-        }
+        }*/
     }
 
     private void click() {
-        binding.tvAddBill.setOnClickListener(view -> {
+        /*binding.tvAddBill.setOnClickListener(view -> {
             dismiss();
             listener.addBill();
         });
         binding.tvDelivery.setOnClickListener(view -> delivery());
         binding.scOnWay.setOnClickListener(view -> onWay());
-        binding.btnCancel.setOnClickListener(view -> cancelOrder());
+        binding.btnCancel.setOnClickListener(view -> cancelOrder());*/
     }
 
     @Override
@@ -98,7 +98,7 @@ public class BillDialog extends BottomSheetDialogFragment {
     }
 
     public void onWay() {
-        if (binding.scOnWay.isChecked()) {
+       /* if (binding.scOnWay.isChecked()) {
             WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
             new APIUtil<Message>(getActivity()).getData(AppController.getInstance()
                             .getApi().changeToONTheWay(publicOrder.getId())
@@ -118,7 +118,7 @@ public class BillDialog extends BottomSheetDialogFragment {
                             showError(msg);
                         }
                     });
-        }
+        }*/
     }
 
     public void delivery() {

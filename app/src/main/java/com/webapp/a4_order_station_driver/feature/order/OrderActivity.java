@@ -44,7 +44,7 @@ public class OrderActivity extends BaseActivity {
     }
 
     private void click() {
-        binding.ivBack.setOnClickListener(view -> onBackPressed());
+        //binding.ivBack.setOnClickListener(view -> onBackPressed());
     }
 
     private void setData() {

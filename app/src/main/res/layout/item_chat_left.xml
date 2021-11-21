@@ -18,8 +18,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_user_image"
-            android:layout_width="@dimen/large_margin"
-            android:layout_height="@dimen/large_margin"
+            android:layout_width="@dimen/medium_avatar"
+            android:layout_height="@dimen/medium_avatar"
             android:src="@drawable/camera" />
 
     </FrameLayout>
@@ -35,13 +35,18 @@
             android:id="@+id/tv_message_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black" />
+            android:textColor="@color/white"
+            android:padding="@dimen/medium_padding"
+            android:textSize="@dimen/medium_text"
+            android:text="@string/agree_terms"
+            android:background="@drawable/blue_sky_button"/>
 
         <TextView
             android:id="@+id/tv_message_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/gray"
+            android:textSize="@dimen/small_text"
+            android:text="01:00 PM"
             android:layout_marginTop="@dimen/small_padding"
             android:layout_gravity="end"/>
     </LinearLayout>

@@ -49,7 +49,7 @@ public class AddBillDialog extends BottomSheetDialogFragment implements DialogVi
     }
 
     private void data() {
-        if (getArguments() != null) {
+        /*if (getArguments() != null) {
             publicOrder = (PublicOrder) getArguments().get(AppContent.ORDER_OBJECT);
             String m = getArguments().getString(ENTER);
             binding.tvEnter.setText(m);
@@ -59,7 +59,7 @@ public class AddBillDialog extends BottomSheetDialogFragment implements DialogVi
                 binding.etEnterPrice.setFocusable(false);
                 binding.btnSend.setVisibility(View.GONE);
             }
-        }
+        }*/
     }
 
     @Override
@@ -80,7 +80,7 @@ public class AddBillDialog extends BottomSheetDialogFragment implements DialogVi
     }
 
     public void send() {
-        if (TextUtils.isEmpty(binding.etEnterPrice.getText())) {
+       /* if (TextUtils.isEmpty(binding.etEnterPrice.getText())) {
             binding.etEnterPrice.setError(getString(R.string.empty_error));
             return;
         }
@@ -94,7 +94,7 @@ public class AddBillDialog extends BottomSheetDialogFragment implements DialogVi
             binding.etEnterPrice.setText("");
         } else {
             uploadBill(price);
-        }
+        }*/
     }
 
     private void uploadBill(double price) {

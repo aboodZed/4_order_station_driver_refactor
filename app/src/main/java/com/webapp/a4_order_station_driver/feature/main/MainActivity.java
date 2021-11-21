@@ -2,23 +2,21 @@ package com.webapp.a4_order_station_driver.feature.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.ActivityMainBinding;
+import com.webapp.a4_order_station_driver.feature.data.DataActivity;
 import com.webapp.a4_order_station_driver.feature.main.editProfile.EditProfileFragment;
-import com.webapp.a4_order_station_driver.feature.main.hame.HomeFragment;
-import com.webapp.a4_order_station_driver.feature.main.natification.NotificationFragment;
+import com.webapp.a4_order_station_driver.feature.main.home.HomeFragment;
+import com.webapp.a4_order_station_driver.feature.data.natification.NotificationFragment;
 import com.webapp.a4_order_station_driver.feature.main.orders.OrdersFragment;
 import com.webapp.a4_order_station_driver.feature.main.orders.publicO.OrderPublicFragment;
 import com.webapp.a4_order_station_driver.feature.main.orders.station.OrderStationFragment;
 import com.webapp.a4_order_station_driver.feature.main.profile.ProfileFragment;
-import com.webapp.a4_order_station_driver.feature.main.rate.RatingFragment;
+import com.webapp.a4_order_station_driver.feature.data.rate.RatingFragment;
 import com.webapp.a4_order_station_driver.feature.main.wallets.station.OrderStationWalletFragment;
 import com.webapp.a4_order_station_driver.feature.main.wallets.publicO.PublicWalletFragment;
 import com.webapp.a4_order_station_driver.feature.main.wallets.WalletFragment;
@@ -152,11 +150,11 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void navigate(int page) {
-        binding.ivIcHome.setBackgroundResource(R.drawable.ic_home);
-        binding.ivIcWallet.setBackgroundResource(R.drawable.ic_wallet);
-        binding.ivIcOrders.setBackgroundResource(R.drawable.ic_orders);
-        binding.ivIcProfile.setBackgroundResource(R.drawable.ic_profile);
-        binding.ivIcRating.setBackgroundResource(R.drawable.ic_rating);
+        binding.ivIcHome.setBackgroundResource(R.drawable.ic_home_active);
+        binding.ivIcWallet.setBackgroundResource(R.drawable.ic_wallet_inactive);
+        binding.ivIcOrders.setBackgroundResource(R.drawable.ic_order_inactive);
+        binding.ivIcProfile.setBackgroundResource(R.drawable.ic_profile_inactive);
+        binding.ivIcRating.setBackgroundResource(R.drawable.ic_rating_active);
         binding.tvTextHome.setTextColor(getResources().getColor(R.color.white));
         binding.tvTextWallet.setTextColor(getResources().getColor(R.color.white));
         binding.tvTextOrders.setTextColor(getResources().getColor(R.color.white));
@@ -165,49 +163,43 @@ public class MainActivity extends BaseActivity {
 
         switch (page) {
             case HomeFragment.page://1
-                HomeFragment homeFragment = HomeFragment.newInstance(this);
+                HomeFragment homeFragment = HomeFragment.newInstance();
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , homeFragment, R.id.fragment_container);
-                binding.ivIcHome.setBackgroundResource(R.drawable.ic_home_blue);
+                binding.ivIcHome.setBackgroundResource(R.drawable.ic_home_active);
                 binding.tvTextHome.setTextColor(getResources().getColor(R.color.colorPrimary));
                 break;
             case WalletFragment.page://2
                 WalletFragment walletFragment = WalletFragment.newInstance();
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , walletFragment, R.id.fragment_container);
-                binding.ivIcWallet.setBackgroundResource(R.drawable.ic_wallet_blue);
+                binding.ivIcWallet.setBackgroundResource(R.drawable.ic_wallet_inactive);
                 binding.tvTextWallet.setTextColor(getResources().getColor(R.color.colorPrimary));
                 break;
             case OrdersFragment.page://3
                 OrdersFragment ordersFragment = OrdersFragment.newInstance(this);
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , ordersFragment, R.id.fragment_container);
-                binding.ivIcOrders.setBackgroundResource(R.drawable.ic_orders_blue);
+                binding.ivIcOrders.setBackgroundResource(R.drawable.ic_order_inactive);
                 binding.tvTextOrders.setTextColor(getResources().getColor(R.color.colorPrimary));
                 break;
             case ProfileFragment.page://4
                 ProfileFragment profileFragment = ProfileFragment.newInstance(this);
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , profileFragment, R.id.fragment_container);
-                binding.ivIcProfile.setBackgroundResource(R.drawable.ic_profile_blue);
+                binding.ivIcProfile.setBackgroundResource(R.drawable.ic_profile_inactive);
                 binding.tvTextProfile.setTextColor(getResources().getColor(R.color.colorPrimary));
                 break;
-            case RatingFragment.page://5
-                RatingFragment ratingFragment = RatingFragment.newInstance();
-                new NavigateUtil().replaceFragment(getSupportFragmentManager()
-                        , ratingFragment, R.id.fragment_container);
-                binding.ivIcRating.setBackgroundResource(R.drawable.ic_rating_blue);
-                binding.tvTextRating.setTextColor(getResources().getColor(R.color.colorPrimary));
-                break;
             case NotificationFragment.page://8
-                NotificationFragment notificationFragment = NotificationFragment.newInstance(this);
-                new NavigateUtil().replaceFragment(getSupportFragmentManager()
-                        , notificationFragment, R.id.fragment_container);
+                new NavigateUtil().activityIntentWithPage(this, DataActivity.class,true, NotificationFragment.page);
                 break;
             case EditProfileFragment.page://9
                 EditProfileFragment editProfileFragment = EditProfileFragment.newInstance(this);
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , editProfileFragment, R.id.fragment_container);
+                break;
+            case RatingFragment.page:
+                new NavigateUtil().activityIntentWithPage(this, DataActivity.class,true, RatingFragment.page);
                 break;
         }
     }

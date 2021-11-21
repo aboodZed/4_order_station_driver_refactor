@@ -1,5 +1,6 @@
 package com.webapp.a4_order_station_driver.feature.main.orders.station;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,14 +23,14 @@ public class OrderStationFragment extends Fragment implements DialogView<OrderSt
     private FragmentOrderStationBinding binding;
 
     private OrderStationAdapter ordersAdapter;
-    private BaseActivity baseActivity;
+    private Activity baseActivity;
     private OrderStationPresenter presenter;
 
-    public OrderStationFragment(BaseActivity baseActivity) {
+    public OrderStationFragment(Activity baseActivity) {
         this.baseActivity = baseActivity;
     }
 
-    public static OrderStationFragment newInstance(BaseActivity baseActivity) {
+    public static OrderStationFragment newInstance(Activity baseActivity) {
         return new OrderStationFragment(baseActivity);
     }
 

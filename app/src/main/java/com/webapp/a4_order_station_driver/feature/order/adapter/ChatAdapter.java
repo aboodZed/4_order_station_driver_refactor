@@ -88,8 +88,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             } catch (Exception e) {
                 Log.e("error", "" + e.getMessage());
             }
-            APIImageUtil.loadImage(activity, binding.pbWaitAvater
-                    , data.getSender_avatar_url(), binding.ivUserImage);
         }
     }
 

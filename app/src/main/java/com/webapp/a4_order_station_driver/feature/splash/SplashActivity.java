@@ -7,6 +7,7 @@ import android.view.WindowManager;
 import com.webapp.a4_order_station_driver.databinding.ActivitySplachBinding;
 import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity2;
 import com.webapp.a4_order_station_driver.feature.register.RegisterActivity;
 import com.webapp.a4_order_station_driver.utils.NavigateUtil;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
@@ -37,7 +38,7 @@ public class SplashActivity extends BaseActivity {
         switch (page) {
             case MainActivity.page:
                 new NavigateUtil().activityIntent(this
-                        , MainActivity.class, false);
+                        , MainActivity2.class, false);
                 break;
             case LoginActivity.page:
                 new NavigateUtil().activityIntent(this

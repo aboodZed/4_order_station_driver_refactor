@@ -1,43 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/white"
     android:paddingStart="@dimen/medium_padding"
     android:paddingEnd="@dimen/medium_padding"
-    tools:context=".feature.main.natification.NotificationFragment">
+    android:orientation="vertical"
+    android:paddingTop="@dimen/alpha"
+    tools:context=".feature.data.natification.NotificationFragment">
 
     <TextView
-        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/orders"
-        android:textColor="@color/white"
-        android:textSize="@dimen/large_text"
-        android:textStyle="bold" />
+        android:text="@string/in_progress"
+        android:textColor="@color/black"
+        android:textSize="@dimen/medium_text"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/large_margin"/>
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_balance_in_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_title"
-        android:orientation="vertical">
+        android:layout_margin="@dimen/medium_padding"
+        tools:listitem="@layout/item_balance"/>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tl_tabs"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/others"
+        android:textColor="@color/black"
+        android:textSize="@dimen/medium_text"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/medium_margin"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_balance_others"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/medium_padding"
+        tools:listitem="@layout/item_balance"/>
+
+    <ProgressBar
+        android:id="@+id/avi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+    <!--
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorColor="@color/red"
-            app:tabSelectedTextColor="@color/red"
-            app:tabTextAppearance="@style/customTabText"
-            app:tabTextColor="@color/white"/>
+            android:layout_below="@id/tv_title"
+            android:orientation=tical">
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/vp_tabs"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tl_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabIndicatorColor="@color/red"
+                app:tabSelectedTextColor="@color/red"
+                app:tabTextAppearance="@style/customTabText"
+                app:tabTextColor="@color/white"/>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/vp_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </LinearLayout>
-</RelativeLayout>
+     -->
+</LinearLayout>

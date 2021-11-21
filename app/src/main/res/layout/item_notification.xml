@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/dark_button"
+    android:background="@drawable/dark_gray_button"
     android:orientation="vertical"
     android:id="@+id/ll_notification"
     android:padding="@dimen/medium_padding"
@@ -28,22 +28,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:text="11:23 23/5/2020"
-            android:textColor="@color/gray"
+            android:textColor="@color/colorAccent"
             android:textSize="@dimen/text" />
     </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/gray"
-        android:layout_marginBottom="@dimen/small_padding"
-        android:layout_marginTop="@dimen/small_padding" />
 
     <TextView
         android:id="@+id/tv_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
         android:text="we are here write any text to display so if you see it ust smile and keep do your job!"
-        android:textColor="@color/gray"
         android:textSize="@dimen/text" />
 </LinearLayout>

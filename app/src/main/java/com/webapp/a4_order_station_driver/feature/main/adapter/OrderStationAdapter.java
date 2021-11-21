@@ -1,5 +1,6 @@
 package com.webapp.a4_order_station_driver.feature.main.adapter;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -26,9 +27,9 @@ public class OrderStationAdapter extends RecyclerView.Adapter<OrderStationAdapte
 
     private ArrayList<OrderStation> orders = new ArrayList<>();
     private FragmentActivity activity;
-    private BaseActivity baseActivity;
+    private Activity baseActivity;
 
-    public OrderStationAdapter(FragmentActivity activity, BaseActivity baseActivity) {
+    public OrderStationAdapter(FragmentActivity activity, Activity baseActivity) {
         this.activity = activity;
         this.baseActivity = baseActivity;
     }
@@ -62,7 +63,7 @@ public class OrderStationAdapter extends RecyclerView.Adapter<OrderStationAdapte
         private ItemOrderBinding binding;
 
         private OrderStation order;
-        private BaseActivity baseActivity;
+        private Activity baseActivity;
 
         public OrdersHolder(ItemOrderBinding binding) {
             super(binding.getRoot());
@@ -78,7 +79,7 @@ public class OrderStationAdapter extends RecyclerView.Adapter<OrderStationAdapte
             new NavigateUtil().openOrder(baseActivity, order, OrderStationViewFragment.page, true);
         }
 
-        public void setData(OrderStation order, BaseActivity baseActivity) {
+        public void setData(OrderStation order, Activity baseActivity) {
             this.baseActivity = baseActivity;
             this.order = order;
             binding.tvTime.setText(ToolUtil.getTime(order.getOrder_created_timestamp()));

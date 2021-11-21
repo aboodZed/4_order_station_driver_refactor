@@ -23,10 +23,11 @@
                 android:id="@+id/sc_appear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/green_button"
                 android:theme="@style/SwitchThemeOverlay"
-                android:layout_alignParentBottom="true"/>
+                android:checked="true"/>
 
             <ImageView
                 android:id="@+id/iv_logo"
@@ -93,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
-                android:background="@drawable/ic_home" />
+                android:background="@drawable/ic_home_active" />
 
             <TextView
                 android:id="@+id/tv_text_home"
@@ -117,7 +118,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
-                android:background="@drawable/ic_wallet" />
+                android:background="@drawable/ic_wallet_inactive" />
 
             <TextView
                 android:id="@+id/tv_text_wallet"
@@ -141,7 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
-                android:background="@drawable/ic_orders" />
+                android:background="@drawable/ic_order_inactive" />
 
             <TextView
                 android:id="@+id/tv_text_orders"
@@ -165,7 +166,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
-                android:background="@drawable/ic_profile" />
+                android:background="@drawable/ic_profile_inactive" />
 
             <TextView
                 android:id="@+id/tv_text_profile"
@@ -189,7 +190,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
-                android:background="@drawable/ic_rating" />
+                android:background="@drawable/ic_rating_active" />
 
             <TextView
                 android:id="@+id/tv_text_rating"

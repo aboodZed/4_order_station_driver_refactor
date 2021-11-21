@@ -31,10 +31,9 @@ class SplashPresenter {
     public SplashPresenter(BaseActivity baseActivity) {
         this.baseActivity = baseActivity;
         //functions
-        /* setLanguage();
+        setLanguage();
         checkOrderProcess();
-        checkUserLogin();*/
-        new NavigateUtil().activityIntent(baseActivity, ResetPasswordActivity.class,true);
+        checkUserLogin();
     }
 
     private void setLanguage() {

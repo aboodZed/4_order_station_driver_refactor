@@ -19,7 +19,8 @@
         <item name="colorSwitchThumbNormal">@color/red</item>
 
         <!-- inactive track color (30% transparency) -->
-        <item name="android:colorForeground">@color/green</item>
+        <item name="android:colorForeground">@color/red</item>
+
     </style>
 
     <!-- Dialog ************************************************** -->

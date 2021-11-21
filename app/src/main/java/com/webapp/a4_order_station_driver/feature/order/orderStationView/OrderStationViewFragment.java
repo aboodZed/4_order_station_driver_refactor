@@ -103,7 +103,7 @@ public class OrderStationViewFragment extends Fragment implements DialogView<Ord
 
     @Override
     public void setData(OrderStation orderStation) {
-        String currency = AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code();
+        /*String currency = AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code();
         this.orderStation = orderStation;
 
         if (this.orderStation.getStatus().equals(AppContent.DELIVERED_STATUS)) {
@@ -117,21 +117,21 @@ public class OrderStationViewFragment extends Fragment implements DialogView<Ord
         }
         binding.tvOrderId.setText((getString(R.string.order) + "#" + this.orderStation.getInvoice_number()));
         if (!TextUtils.isEmpty(this.orderStation.getSub_total_1()))
-            binding.tvSubTotalBefore.setText((DecimalFormatterManager.getFormatterInstance()
+            binding.tv_time.setText((DecimalFormatterManager.getFormatterInstance()
                     .format(Double.parseDouble(this.orderStation.getSub_total_1())) + " " + currency));
         if (!TextUtils.isEmpty(this.orderStation.getDiscount()))
             if (Integer.parseInt(this.orderStation.getDiscount()) <= 0) {
-                binding.tvDiscount.setText((DecimalFormatterManager.getFormatterInstance()
+                binding.tv_delivery_fees.setText((DecimalFormatterManager.getFormatterInstance()
                         .format(Double.parseDouble(this.orderStation.getDiscount())) + " " + currency));
             } else {
-                binding.tvDiscount.setText(("-" + DecimalFormatterManager.getFormatterInstance()
+                binding.tv_delivery_fees.setText(("-" + DecimalFormatterManager.getFormatterInstance()
                         .format(Double.parseDouble(this.orderStation.getDiscount())) + " " + currency));
             }
         if (!TextUtils.isEmpty(this.orderStation.getSub_total_2()))
             binding.tvSubTotalAfter.setText((DecimalFormatterManager.getFormatterInstance()
                     .format(Double.parseDouble(this.orderStation.getSub_total_2())) + " " + currency));
         if (!TextUtils.isEmpty(this.orderStation.getTax()))
-            binding.tvTaxes.setText((DecimalFormatterManager.getFormatterInstance()
+            binding.tv_vat.setText((DecimalFormatterManager.getFormatterInstance()
                     .format(Double.parseDouble(this.orderStation.getTax())) + " " + currency));
         if (!TextUtils.isEmpty(this.orderStation.getDelivery()))
             binding.tvDelivery.setText((DecimalFormatterManager.getFormatterInstance()
@@ -157,7 +157,7 @@ public class OrderStationViewFragment extends Fragment implements DialogView<Ord
                 , this.orderStation.getUser().getAvatar_url(), binding.ivReceiverImage);
         binding.tvReceiverName.setText(this.orderStation.getUser().getName());
         //items
-        initRecycleView(orderStation.getOrder_items());
+        initRecycleView(orderStation.getOrder_items());*/
     }
 
     @Override

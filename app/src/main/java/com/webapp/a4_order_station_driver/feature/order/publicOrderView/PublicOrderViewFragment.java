@@ -110,13 +110,13 @@ public class PublicOrderViewFragment extends Fragment implements
     }
 
     private void click() {
-        binding.ivUploadMessage.setOnClickListener(view -> presenter.sendMessage(""));
+        /*binding.ivUploadMessage.setOnClickListener(view -> presenter.sendMessage(""));
         binding.ivUploadPhoto.setOnClickListener(view -> uploadPhoto());
         binding.ivTracking.setOnClickListener(view -> showLocation());
         binding.ivMore.setOnClickListener(view -> {
             presenter.getData(publicOrder);
             openBillDialog = true;
-        });
+        });*/
     }
 
     @Override
@@ -182,7 +182,7 @@ public class PublicOrderViewFragment extends Fragment implements
 
     //functions
     private void data() {
-        binding.tvOrderId.setText((getString(R.string.order) + "#" + publicOrder.getInvoice_number()));
+       /* binding.tvOrderId.setText((getString(R.string.order) + "#" + publicOrder.getInvoice_number()));
 
         setPrice();
         String currency = AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code();
@@ -196,7 +196,7 @@ public class PublicOrderViewFragment extends Fragment implements
             binding.ivMore.setVisibility(View.GONE);
             binding.ivTracking.setVisibility(View.GONE);
             binding.llBottom.setVisibility(View.GONE);
-        }
+        }*/
     }
 
     private void setPrice() {

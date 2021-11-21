@@ -35,16 +35,18 @@ public class WalletFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentWalletBinding.inflate(getLayoutInflater());
-        setupViewPager(binding.vpTabs);
+        //setupViewPager(binding.vpTabs);
         return binding.getRoot();
     }
 
     private void setupViewPager(ViewPager viewPager) {
+        /*
         SectionPageAdapter sectionPageAdapter = new SectionPageAdapter(getChildFragmentManager());
         sectionPageAdapter.addFragment(OrderStationWalletFragment.newInstance(), getString(R.string.order_station));
         sectionPageAdapter.addFragment(PublicWalletFragment.newInstance(), getString(R.string.public_order));
         viewPager.setAdapter(sectionPageAdapter);
         binding.tlTabs.setupWithViewPager(binding.vpTabs);
         viewPager.setCurrentItem(viewPagerPage);
+        */
     }
 }

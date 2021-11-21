@@ -8,53 +8,74 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/dark_button"
+        android:background="@drawable/white_button"
         android:gravity="bottom"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="@dimen/xlarge_padding">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_invoice_large"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/small_margin"/>
 
         <TextView
-            android:id="@+id/tv_message"
             android:layout_width="wrap_content"
             android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/medium_margin"
-            android:textColor="@color/white"
-            android:textSize="@dimen/medium_text"
+            android:textColor="@color/black"
+            android:textAllCaps="true"
+            android:text="@string/insert_the_invoice"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_enter"
             android:layout_width="wrap_content"
-            android:layout_gravity="start"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
+            android:text="@string/enter_invoice"
             android:textSize="@dimen/medium_text" />
 
-        <EditText
-            android:id="@+id/et_enter_price"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/medium_padding"
-            android:backgroundTint="@color/gray"
-            android:gravity="start"
-            android:hint="@string/enter_bill_price"
-            android:inputType="number"
-            android:padding="@dimen/medium_padding"
-            android:singleLine="true"
-            android:textColor="@color/white"
-            android:textColorHint="@color/gray" />
+            android:layout_marginTop="@dimen/large_margin">
+
+            <EditText
+                android:id="@+id/et_enter_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text"
+                android:padding="@dimen/large_padding"
+                android:textColor="@color/white"
+                android:hint="@string/zero" />
+
+            <TextView
+                android:id="@+id/iv_upload_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="@dimen/small_padding"
+                android:gravity="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/large_text"
+                android:layout_marginEnd="@dimen/small_margin"
+                android:text="SR"
+                android:layout_gravity="end"/>
+
+        </FrameLayout>
 
         <Button
             android:id="@+id/btn_send"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/blue_button"
             android:text="@string/send"
-            android:textAllCaps="false"
             android:textSize="@dimen/medium_text"
             android:textColor="@color/white"
-            android:layout_marginBottom="@dimen/medium_padding"/>
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/medium_margin" />
 
     </LinearLayout>
 </FrameLayout>

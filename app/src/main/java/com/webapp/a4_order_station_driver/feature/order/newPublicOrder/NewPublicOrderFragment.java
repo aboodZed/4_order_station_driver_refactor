@@ -1,5 +1,7 @@
 package com.webapp.a4_order_station_driver.feature.order.newPublicOrder;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -24,7 +26,6 @@ import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentNewPublicOrderBinding;
 import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.main.adapter.AttachmentAdapter;
-import com.webapp.a4_order_station_driver.feature.main.hame.HomeFragment;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
 import com.webapp.a4_order_station_driver.utils.AppContent;
@@ -36,8 +37,6 @@ import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.location.LocationManager;
 
 import java.util.ArrayList;
-
-import static android.app.Activity.RESULT_OK;
 
 public class NewPublicOrderFragment extends Fragment implements OnMapReadyCallback, LocationManager.Listener, DialogView<Message> {
 
@@ -75,8 +74,8 @@ public class NewPublicOrderFragment extends Fragment implements OnMapReadyCallba
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentNewPublicOrderBinding.inflate(getLayoutInflater());
-        binding.mapView.onCreate(savedInstanceState);
-        binding.mapView.getMapAsync(this);
+        /*binding.mapView.onCreate(savedInstanceState);
+        binding.mapView.getMapAsync(this);*/
         //location Manager
         locationManager = new LocationManager(this, getActivity(), this);
         //presenter
@@ -99,7 +98,7 @@ public class NewPublicOrderFragment extends Fragment implements OnMapReadyCallba
     @Override
     public void onResume() {
         super.onResume();
-        binding.mapView.onResume();
+        //binding.mapView.onResume();
 
         // Run this here instead of onCreate() to cover the case where they return from turning on location
         if (!denialLock) {
@@ -110,32 +109,32 @@ public class NewPublicOrderFragment extends Fragment implements OnMapReadyCallba
     @Override
     public void onStart() {
         super.onStart();
-        binding.mapView.onStart();
+        //binding.mapView.onStart();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        binding.mapView.onPause();
+        //binding.mapView.onPause();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        binding.mapView.onStop();
+        //binding.mapView.onStop();
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        binding.mapView.onLowMemory();
+        //binding.mapView.onLowMemory();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        binding.mapView.onDestroy();
-        locationManager.cleanUp();
+        //binding.mapView.onDestroy();
+        //locationManager.cleanUp();
     }
 
     @Override
@@ -201,7 +200,7 @@ public class NewPublicOrderFragment extends Fragment implements OnMapReadyCallba
     }
 
     public void data() {
-        String currency = AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code();
+        /*String currency = AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code();
         publicOrder = (PublicOrder) requireArguments().getSerializable(AppContent.ORDER_OBJECT);
 
         assert publicOrder != null;
@@ -228,7 +227,7 @@ public class NewPublicOrderFragment extends Fragment implements OnMapReadyCallba
         }
         setLine();
         setAttachment();
-        active = true;
+        active = true;*/
     }
 
     public void setLine() {

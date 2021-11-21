@@ -1,5 +1,6 @@
 package com.webapp.a4_order_station_driver.feature.main.adapter;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -19,9 +20,9 @@ import java.util.ArrayList;
 public class PublicOrderAdapter extends RecyclerView.Adapter<PublicOrderAdapter.PubicOrderHolder> {
 
     private ArrayList<PublicOrder> publicOrders = new ArrayList<>();
-    private BaseActivity baseActivity;
+    private Activity baseActivity;
 
-    public PublicOrderAdapter(BaseActivity baseActivity) {
+    public PublicOrderAdapter(Activity baseActivity) {
         this.baseActivity = baseActivity;
     }
 

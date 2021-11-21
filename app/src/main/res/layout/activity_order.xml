@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".feature.order.OrderActivity">
 
-    <RelativeLayout
+   <!-- <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/top"
@@ -28,7 +28,30 @@
             android:layout_centerHorizontal="true"
             android:src="@drawable/logo" />
 
-    </RelativeLayout>
+    </RelativeLayout> -->
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/top_bar"
+        android:padding="@dimen/xlarge_padding">
+
+        <TextView
+            android:id="@+id/tv_page_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/order_details"
+            android:textColor="@color/white"
+            android:textSize="@dimen/large_text"
+            android:layout_gravity="center"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back"/>
+
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/fragment_container"

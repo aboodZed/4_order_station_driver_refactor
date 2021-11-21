@@ -1,7 +1,6 @@
 package com.webapp.a4_order_station_driver.feature.order.newOrderStation;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,23 +9,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentNewOrderBinding;
 import com.webapp.a4_order_station_driver.feature.main.adapter.OrderItemsAdapter;
-import com.webapp.a4_order_station_driver.feature.main.hame.HomeFragment;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.OrderItem;
 import com.webapp.a4_order_station_driver.models.OrderStation;
-import com.webapp.a4_order_station_driver.models.PublicOrder;
-import com.webapp.a4_order_station_driver.utils.APIImageUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
-import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.NavigateUtil;
-import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
-import com.webapp.a4_order_station_driver.utils.formatter.DecimalFormatterManager;
-import com.webapp.a4_order_station_driver.utils.language.AppLanguageUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 
@@ -73,16 +62,16 @@ public class NewOrderStationFragment extends Fragment implements DialogView<Mess
         binding.btnAccept.setOnClickListener(view -> presenter.accept(orderStation));
         binding.btnReject.setOnClickListener(view -> baseActivity.onBackPressed());
 
-        binding.ivLocationShop.setOnClickListener(view -> new NavigateUtil().setLocation(getActivity()
+        /*binding.ivLocationShop.setOnClickListener(view -> new NavigateUtil().setLocation(getActivity()
                 , new LatLng(orderStation.getShop().getLat(), orderStation.getShop().getLng())));
 
         binding.ivLocationClient.setOnClickListener(view -> new NavigateUtil().setLocation(getActivity()
-                , new LatLng(orderStation.getDestination_lat(), orderStation.getDestination_lng())));
+                , new LatLng(orderStation.getDestination_lat(), orderStation.getDestination_lng())));*/
     }
 
     //function
     public void data() {
-        String currency = AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code();
+       /* String currency = AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code();
         orderStation = (OrderStation) requireArguments().getSerializable(AppContent.ORDER_OBJECT);
 
         binding.tvOrderId.setText((getString(R.string.order) + "#" + orderStation.getInvoice_number()));
@@ -132,6 +121,7 @@ public class NewOrderStationFragment extends Fragment implements DialogView<Mess
         binding.tvReceiverName.setText(orderStation.getUser().getName());
         binding.tvReceiverAddress.setText(orderStation.getUser().getAddress());
         initRecycleView(orderStation.getOrder_items());
+        */
     }
 
     private void initRecycleView(ArrayList<OrderItem> orderItems) {

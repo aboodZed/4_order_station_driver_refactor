@@ -1,5 +1,7 @@
 package com.webapp.a4_order_station_driver.feature.main.orders.publicO;
 
+import android.app.Activity;
+
 import com.webapp.a4_order_station_driver.models.PublicOrderListObject;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
@@ -10,10 +12,10 @@ import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 class OrderPublicPresenter {
 
-    private BaseActivity baseActivity;
+    private Activity baseActivity;
     private DialogView<PublicOrderListObject> dialogView;
 
-    public OrderPublicPresenter(BaseActivity baseActivity, DialogView<PublicOrderListObject> dialogView) {
+    public OrderPublicPresenter(Activity baseActivity, DialogView<PublicOrderListObject> dialogView) {
         this.baseActivity = baseActivity;
         this.dialogView = dialogView;
         getData("driver-orders-list");

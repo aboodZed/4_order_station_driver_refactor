@@ -35,7 +35,7 @@
     <string name="enter_vehicle_plate">Vehicle plate number</string>
     <string name="forget_password">Forgot password</string>
     <string name="forget_string">Please enter your Phone number. To receive a code to create a new password</string>
-    <string name="send">Send code</string>
+    <string name="send">Send</string>
     <string name="phone_verification">Phone verification</string>
     <string name="verify_string">Please enter the code sent to you via sms
 on the number</string>
@@ -64,14 +64,14 @@ on the number</string>
     <string name="total">Total</string>
     <string name="receive">Receive</string>
     <string name="done">Done</string>
-    <string name="privacy_policy">Privacy Policy</string>
+    <string name="privacy_policy">Privacy &amp; Policy</string>
     <string name="balance">Balance</string>
     <string name="ongoing">Ongoing</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="contact_us">Contact us</string>
     <string name="language">Language</string>
     <string name="logout">Log Out</string>
-    <string name="follow">Follow us on</string>
+    <string name="follow">Follow us</string>
     <string name="your_massage">Your message</string>
     <string name="arabic">اللغة العربية</string>
     <string name="english">English</string>
@@ -183,4 +183,40 @@ on the number</string>
     <string name="terms_and_conditions"><u>Terms and Conditions</u></string>
     <string name="confirm_code">confirmation code</string>
     <string name="resend_code">Resend code</string>
+    <string name="total_rate">Total Rate</string>
+    <string name="contact_form">Contact Form</string>
+    <string name="title">Message title</string>
+    <string name="type">type...</string>
+    <string name="unread">Unread</string>
+    <string name="read">Read</string>
+    <string name="time">Time</string>
+    <string name="vat">Vat</string>
+    <string name="delivery_fees">Delivery Fees</string>
+    <string name="more_details"><u>More details -></u></string>
+    <string name="more_detail">More Details</string>
+    <string name="store_address">Store Address</string>
+    <string name="client_address">Client Address</string>
+    <string name="insert_the_invoice">Insert The Invoice</string>
+    <string name="order_delivery">Order Delivery</string>
+    <string name="enter_invoice">Please Enter The Invoice Value</string>
+    <string name="send_code">Send Code</string>
+    <string name="zero">0.00</string>
+    <string name="attachments">Attachments</string>
+    <string name="sub_price">Sub Price</string>
+    <string name="change_password_text">When change password, you must enter your old password and then continue</string>
+    <string name="new_password">New Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+
+    <string name="status">Status</string>
+    <string name="your_balance">Your Balance</string>
+    <string name="history">History</string>
+    <string name="order_type">Type:</string>
+    <string name="order_payment">Payment by:</string>
+    <string name="in_progress">In Progress</string>
+    <string name="others">Others</string>
+    <string name="change_password">Change Password</string>
+    <string name="area">Area</string>
 </resources>

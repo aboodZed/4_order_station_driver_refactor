@@ -4,7 +4,9 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/small_padding"
     android:layout_marginBottom="@dimen/medium_padding"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/large_padding"
+    android:background="@drawable/dark_gray_button">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -21,8 +23,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/iv_user_image"
-                    android:layout_width="@dimen/small_avatar"
-                    android:layout_height="@dimen/small_avatar"
+                    android:layout_width="@dimen/medium_avatar"
+                    android:layout_height="@dimen/medium_avatar"
                     android:background="@drawable/camera" />
 
                 <ProgressBar
@@ -43,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mike smithson"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text" />
 
                 <RatingBar
@@ -61,8 +63,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="@dimen/small_padding"
-            android:text="1:35 | 20/10/2020"
-            android:textColor="@color/gray"
             android:textSize="@dimen/small_text" />
     </FrameLayout>
 
@@ -72,6 +72,5 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/small_padding"
         android:text="here weare write a story for this user"
-        android:textColor="@color/gray"
         android:textSize="@dimen/small_text" />
 </LinearLayout>

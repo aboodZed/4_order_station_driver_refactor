@@ -62,13 +62,13 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewHo
         }
 
         public void setData(RatingData review) {
-            APIImageUtil.loadImage(activity, binding.pbWaitAvater, review.getUser().getAvatar_url(), binding.ivUserImage);
+            /*APIImageUtil.loadImage(activity, binding.pbWaitAvater, review.getUser().getAvatar_url(), binding.ivUserImage);
             binding.tvUserName.setText(review.getUser().getName());
             binding.tvReviewText.setText(review.getReview());
             float rate = Float.parseFloat(review.getRate());
             binding.rbReview.setRating(rate);
             binding.tvDatetime.setText((ToolUtil.getTime(review.getCreated_timestamp()) + " "
-                    + ToolUtil.getDate(review.getCreated_timestamp())));
+                    + ToolUtil.getDate(review.getCreated_timestamp())));*/
         }
     }
 }

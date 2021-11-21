@@ -4,18 +4,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/black"
     android:padding="@dimen/medium_padding"
     android:orientation="vertical"
-    tools:context=".feature.main.natification.NotificationFragment">
+    tools:context=".feature.data.natification.NotificationFragment">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/small_margin"
-        android:text="@string/notification"
-        android:textColor="@color/white"
-        android:textSize="@dimen/large_text"
+        android:text="@string/unread"
+        android:textColor="@color/black"
+        android:textSize="@dimen/medium_text"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_notification_unread"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:text="@string/read"
+        android:textColor="@color/black"
+        android:textSize="@dimen/medium_text"
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView

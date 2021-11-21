@@ -1,5 +1,6 @@
 package com.webapp.a4_order_station_driver.utils.dialogs;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,9 +24,9 @@ import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 public class LanguageDialog extends DialogFragment {
 
     private DialogLanguageBinding binding;
-    private BaseActivity baseActivity;
+    private Activity baseActivity;
 
-    public LanguageDialog(BaseActivity baseActivity) {
+    public LanguageDialog(Activity baseActivity) {
         this.baseActivity = baseActivity;
     }
 

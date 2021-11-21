@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
     tools:context=".feature.order.chat.ChatFragment">
 
    <!-- <RelativeLayout
@@ -38,35 +37,49 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/ll_bottom"
-        android:padding="@dimen/medium_padding"/>
+        android:padding="@dimen/medium_padding" />
     
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/button"
         android:layout_alignParentBottom="true"
         android:padding="@dimen/medium_padding">
 
-        <EditText
-            android:id="@+id/et_message"
+        <FrameLayout
             android:layout_width="0dp"
-            android:layout_weight="9"
             android:layout_height="wrap_content"
-            android:background="@drawable/chat_edit_text"
-            android:padding="@dimen/small_margin"
-            android:textColor="@color/white"
-            android:textColorHint="@color/gray"
-            android:hint="@string/your_massage"
-            android:layout_marginEnd="@dimen/small_padding"/>
+            android:layout_weight="9"
+            android:layout_marginEnd="@dimen/small_margin">
+
+            <EditText
+                android:id="@+id/et_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text"
+                android:padding="@dimen/large_padding"
+                android:textColor="@color/white"
+                android:hint="@string/type" />
+
+            <ImageView
+                android:id="@+id/iv_upload_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="@dimen/small_padding"
+                android:layout_marginEnd="@dimen/small_margin"
+                android:src="@drawable/ic_camera"
+                android:layout_gravity="end"/>
+
+        </FrameLayout>
+
 
         <ImageView
             android:id="@+id/iv_upload_message"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_upload_message"/>
+            android:src="@drawable/ic_send"/>
 
     </LinearLayout>
     
