@@ -454,9 +454,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/gray_button"
                     android:orientation="horizontal"
-                    android:padding="@dimen/medium_padding"
-                    android:background="@drawable/gray_button">
+                    android:padding="@dimen/medium_padding">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -486,9 +486,9 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="0.5dp"
-                            android:layout_marginTop="@dimen/medium_margin"
-                            android:layout_marginBottom="@dimen/medium_margin"
-                            android:background="@drawable/dash_line" />
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginBottom="@dimen/small_margin"
+                            android:background="@drawable/divider" />
 
                         <TextView
                             android:id="@+id/tv_to"
@@ -529,15 +529,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/medium_text"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textSize="@dimen/large_text"/>
 
                         <TextView
                             android:id="@+id/tv_order_co_address"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/gray"
-                            android:textSize="@dimen/small_text" />
+                            android:layout_height="wrap_content" />
 
                         <View
                             android:layout_width="match_parent"
@@ -548,38 +546,34 @@
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/small_margin">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
-                                android:text="Ordered items"
-                                android:textColor="@color/gray"
-                                android:textSize="@dimen/small_text" />
+                                android:text="@string/order_items" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
-                                android:text="Qnt."
-                                android:textColor="@color/gray"
-                                android:textSize="@dimen/small_text" />
+                                android:text="@string/quantity" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
-                                android:text="Amount"
-                                android:textColor="@color/gray"
-                                android:textSize="@dimen/small_text" />
+                                android:text="@string/amount" />
 
                         </RelativeLayout>
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_order_item"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            tools:listitem="@layout/item_order_items"/>
 
                         <View
                             android:layout_width="match_parent"
@@ -599,18 +593,15 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="end"
-                                android:text="@string/delivery"
-                                android:textSize="@dimen/small_text" />
+                                android:text="@string/delivery" />
 
                             <TextView
                                 android:id="@+id/tv_delivery"
-                                android:layout_width="@dimen/large_image"
+                                android:layout_width="@dimen/logo_height"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/large_text"
                                 android:gravity="end"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/small_text"
-                                android:textStyle="bold" />
+                                android:textColor="@color/black" />
 
                         </LinearLayout>
 
@@ -625,18 +616,15 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="end"
-                                android:text="@string/time"
-                                android:textSize="@dimen/small_text" />
+                                android:text="@string/time" />
 
                             <TextView
                                 android:id="@+id/tv_time"
-                                android:layout_width="@dimen/large_image"
+                                android:layout_width="@dimen/logo_height"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/large_text"
                                 android:gravity="end"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/small_text"
-                                android:textStyle="bold" />
+                                android:textColor="@color/black" />
 
                         </LinearLayout>
 
@@ -651,18 +639,15 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="end"
-                                android:text="@string/sub_total"
-                                android:textSize="@dimen/small_text" />
+                                android:text="@string/sub_total" />
 
                             <TextView
                                 android:id="@+id/tv_sub_total_after"
-                                android:layout_width="@dimen/large_image"
+                                android:layout_width="@dimen/logo_height"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/large_text"
                                 android:gravity="end"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/small_text"
-                                android:textStyle="bold" />
+                                android:textColor="@color/black" />
 
                         </LinearLayout>
 
@@ -677,18 +662,15 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="end"
-                                android:text="@string/vat"
-                                android:textSize="@dimen/small_text" />
+                                android:text="@string/vat" />
 
                             <TextView
                                 android:id="@+id/tv_vat"
-                                android:layout_width="@dimen/large_image"
+                                android:layout_width="@dimen/logo_height"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/large_text"
                                 android:gravity="end"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/small_text"
-                                android:textStyle="bold" />
+                                android:textColor="@color/black" />
 
                         </LinearLayout>
 
@@ -703,18 +685,15 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="end"
-                                android:text="@string/delivery_fees"
-                                android:textSize="@dimen/small_text" />
+                                android:text="@string/delivery_fees" />
 
                             <TextView
                                 android:id="@+id/tv_delivery_fees"
-                                android:layout_width="@dimen/large_image"
+                                android:layout_width="@dimen/logo_height"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/large_text"
                                 android:gravity="end"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/small_text"
-                                android:textStyle="bold" />
+                                android:textColor="@color/black" />
 
                         </LinearLayout>
 
@@ -729,19 +708,18 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="end"
+                                android:textSize="@dimen/fab_margin"
                                 android:text="@string/total"
-                                android:textColor="@color/colorAccent"
-                                android:textSize="@dimen/medium_text" />
+                                android:textColor="@color/colorAccent" />
 
                             <TextView
                                 android:id="@+id/tv_total"
-                                android:layout_width="@dimen/large_image"
+                                android:layout_width="@dimen/logo_height"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/large_text"
                                 android:gravity="end"
-                                android:textColor="@color/colorAccent"
-                                android:textSize="@dimen/medium_text"
-                                android:textStyle="bold" />
+                                android:textSize="@dimen/fab_margin"
+                                android:textColor="@color/colorAccent" />
 
                         </LinearLayout>
 
@@ -755,18 +733,15 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="end"
-                                android:text="@string/receive"
-                                android:textSize="@dimen/small_text" />
+                                android:text="@string/receive" />
 
                             <TextView
                                 android:id="@+id/tv_receive"
-                                android:layout_width="@dimen/large_image"
+                                android:layout_width="@dimen/logo_height"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/large_text"
                                 android:gravity="end"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/small_text"
-                                android:textStyle="bold" />
+                                android:textColor="@color/black" />
 
                         </LinearLayout>
 

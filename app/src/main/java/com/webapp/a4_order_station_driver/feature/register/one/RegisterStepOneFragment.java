@@ -13,8 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.webapp.a4_order_station_driver.databinding.FragmentRegisterStep1Binding;
 import com.webapp.a4_order_station_driver.feature.register.adapter.SpinnerAdapter;
-import com.webapp.a4_order_station_driver.models.Neighborhood;
-import com.webapp.a4_order_station_driver.models.NeighborhoodList;
+import com.webapp.a4_order_station_driver.models.City;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.Photo.PhotoTakerManager;
@@ -26,17 +25,17 @@ import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
+import java.util.ArrayList;
+
 public class RegisterStepOneFragment extends Fragment implements RequestListener<Bitmap>
-        , DialogView<NeighborhoodList> {
+        , DialogView<ArrayList<City>> {
 
     public static final int page = 301;
 
     private FragmentRegisterStep1Binding binding;
 
-    private boolean saveImage;
     private ItemSelectImageDialogFragment itemSelectImageDialogFragment;
     private RegisterStepOnePresenter presenter;
-    private Bitmap bitmap;
     private PhotoTakerManager photoTakerManager;
     private SpinnerAdapter spinnerAdapter;
 
@@ -60,7 +59,7 @@ public class RegisterStepOneFragment extends Fragment implements RequestListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentRegisterStep1Binding.inflate(getLayoutInflater());
 
-        //data();
+        data();
         click();
         onActivityResulting();
 
@@ -73,24 +72,24 @@ public class RegisterStepOneFragment extends Fragment implements RequestListener
     }
 
     private void data() {
-        binding.tvCode.setText(AppController.getInstance().getAppSettingsPreferences().getCountry().getPhone_code());
-        if (AppController.getInstance().getAppSettingsPreferences().getAppLanguage().equals(AppLanguageUtil.English)) {
-            //binding.etCountry.setText(AppController.getInstance().getAppSettingsPreferences().getCountry().getName_en());
+        binding.tvCode.setText(AppController.getInstance().getAppSettingsPreferences().getSettings().getData().getPhone_code());
+        /*if (AppController.getInstance().getAppSettingsPreferences().getAppLanguage().equals(AppLanguageUtil.English)) {
+            binding.etCountry.setText(AppController.getInstance().getAppSettingsPreferences().getCountry().getName_en());
         } else {
-            //binding.etCountry.setText(AppController.getInstance().getAppSettingsPreferences().getCountry().getName_ar());
-        }
-        presenter.getNeighborhood();
+            binding.etCountry.setText(AppController.getInstance().getAppSettingsPreferences().getCountry().getName_ar());
+        }*/
+        presenter.getCities();
     }
 
     private void click() {
         binding.ivEnterImage.setOnClickListener(view -> enterImage());
+        binding.btnNext.setOnClickListener(view -> signUp());
     }
 
-    public void signUp() {
+    private void signUp() {
         presenter.validInput(binding.etEnterName, binding.etEnterEmail, binding.etEnterAddress
                 , binding.etEnterPhone, binding.etEnterPassword, binding.etEnterConfirmPassword
-                , bitmap, saveImage
-                ,((Neighborhood) binding.spNeighborhood.getSelectedItem()).getId());
+                ,((City) binding.spNeighborhood.getSelectedItem()).getId());
     }
 
     public void enterImage() {
@@ -112,8 +111,8 @@ public class RegisterStepOneFragment extends Fragment implements RequestListener
     }
 
     @Override
-    public void setData(NeighborhoodList neighborhoodList) {
-        spinnerAdapter = new SpinnerAdapter(requireContext(), neighborhoodList.getNeighborhoods());
+    public void setData(ArrayList<City> result) {
+        spinnerAdapter = new SpinnerAdapter(requireContext(), result);
         binding.spNeighborhood.setAdapter(spinnerAdapter);
     }
 
@@ -130,8 +129,7 @@ public class RegisterStepOneFragment extends Fragment implements RequestListener
     @Override
     public void onSuccess(Bitmap bitmap, String msg) {
         binding.ivEnterImage.setImageBitmap(bitmap);
-        this.bitmap = bitmap;
-        saveImage = true;
+        presenter.uploadImage(bitmap);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.webapp.a4_order_station_driver.feature.main.adapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -11,15 +12,18 @@ import com.webapp.a4_order_station_driver.databinding.ItemBalanceBinding;
 import com.webapp.a4_order_station_driver.models.Ongoing;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.formatter.DecimalFormatterManager;
+import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 
 import java.util.ArrayList;
 
 public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.WalletHolder> {
 
     private ArrayList<Ongoing> ongoings;
+    private BaseActivity baseActivity;
 
-    public WalletAdapter(ArrayList<Ongoing> ongoings) {
+    public WalletAdapter(ArrayList<Ongoing> ongoings, BaseActivity baseActivity) {
         this.ongoings = ongoings;
+        this.baseActivity = baseActivity;
     }
 
     @NonNull
@@ -60,11 +64,13 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.WalletHold
         public void setData(Ongoing ongoing) {
             binding.tvOrderId.setText(("#" + ongoing.getInvoice_number()));
             binding.tvPaymentWay.setText(ongoing.getPayment_type());
-            binding.tvPrice.setText((DecimalFormatterManager.getFormatterInstance()
-                    .format(ongoing.getTotal()) + " " + AppController.getInstance()
-                    .getAppSettingsPreferences().getCountry().getCurrency_code()));
+            binding.tvPrice.setText((DecimalFormatterManager
+                    .getFormatterInstance().format(ongoing.getTotal())));
+            binding.tvCurrency.setText(AppController.getInstance()
+                    .getAppSettingsPreferences().getUser().getCountry().getCurrency_code());
             if (ongoing.getTotal() < 0) {
-                binding.tvPrice.setBackgroundResource(R.drawable.red_button);
+                binding.tvPrice.setTextColor(baseActivity.getColor(R.color.red));
+                binding.tvCurrency.setTextColor(baseActivity.getColor(R.color.red));
             }
         }
     }

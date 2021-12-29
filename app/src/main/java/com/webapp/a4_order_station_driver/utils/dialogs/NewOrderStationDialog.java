@@ -1,5 +1,6 @@
 package com.webapp.a4_order_station_driver.utils.dialogs;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -15,14 +16,16 @@ import androidx.fragment.app.DialogFragment;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.DialogNewOrderBinding;
 import com.webapp.a4_order_station_driver.feature.order.newOrderStation.NewOrderStationFragment;
+import com.webapp.a4_order_station_driver.models.Result;
 import com.webapp.a4_order_station_driver.models.OrderStation;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.NavigateUtil;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
-import com.webapp.a4_order_station_driver.utils.language.AppLanguageUtil;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
+
+import java.util.Objects;
 
 public class NewOrderStationDialog extends DialogFragment {
 
@@ -48,7 +51,10 @@ public class NewOrderStationDialog extends DialogFragment {
         return binding.getRoot();
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void click() {
+        binding.llBackground.setBackground(Objects.requireNonNull(getDialog()).getContext()
+                .getDrawable(R.drawable.back_new_4order_station));
         binding.btnView.setOnClickListener(view -> {
             dismiss();
             new NavigateUtil().openOrder(getContext(), orderStation
@@ -71,9 +77,11 @@ public class NewOrderStationDialog extends DialogFragment {
     @Override
     public void onResume() {
         ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
-        params.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
+        params.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.8);
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        getDialog().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.transparent);
+        getDialog().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN
+                , WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getDialog().getWindow().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER);
         getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
         setCancelable(false);
@@ -93,12 +101,12 @@ public class NewOrderStationDialog extends DialogFragment {
     private void getData(int id) {
         if (id != -1) {
             WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
-            new APIUtil<OrderStation>(getActivity()).getData(AppController.getInstance()
-                    .getApi().getOrderById(id), new RequestListener<OrderStation>() {
+            new APIUtil<Result<OrderStation>>(getActivity()).getData(AppController.getInstance()
+                    .getApi().getOrderById(id), new RequestListener<Result<OrderStation>>() {
                 @Override
-                public void onSuccess(OrderStation orderStation, String msg) {
+                public void onSuccess(Result<OrderStation> result, String msg) {
                     WaitDialogFragment.newInstance().dismiss();
-                    NewOrderStationDialog.this.orderStation = orderStation;
+                    orderStation = result.getData();
                     data();
                 }
 
@@ -125,17 +133,11 @@ public class NewOrderStationDialog extends DialogFragment {
     }
 
     private void data() {
-        if (AppController.getInstance().getAppSettingsPreferences()
-                .getAppLanguage().equals(AppLanguageUtil.English)) {
+        binding.tvPickupLocation.setText(orderStation.getStore().getAddress());
+        binding.tvFrom.setText(orderStation.getStore().getName());
 
-            binding.tvPickupLocation.setText(orderStation.getShop().getAddress_en());
-            binding.tvFrom.setText(orderStation.getShop().getName_en());
-        } else {
-            binding.tvPickupLocation.setText(orderStation.getShop().getAddress_ar());
-            binding.tvFrom.setText(orderStation.getShop().getName_ar());
-        }
-        binding.tvTo.setText(orderStation.getUser().getName());
-        binding.tvDestLocation.setText(orderStation.getUser().getAddress());
+        binding.tvDestLocation.setText(orderStation.getCustomer().getAddress());
+        binding.tvTo.setText(orderStation.getCustomer().getName());
     }
 
     public interface NewOrderListener {

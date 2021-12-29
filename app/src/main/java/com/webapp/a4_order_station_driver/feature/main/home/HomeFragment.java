@@ -1,5 +1,7 @@
 package com.webapp.a4_order_station_driver.feature.main.home;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -17,13 +19,9 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.webapp.a4_order_station_driver.databinding.FragmentHomeBinding;
-import com.webapp.a4_order_station_driver.feature.main.MainActivity;
-import com.webapp.a4_order_station_driver.utils.dialogs.UpdateNeighborhoodDialog;
-import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
-import com.webapp.a4_order_station_driver.utils.location.tracking.GPSTracking;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity2;
 import com.webapp.a4_order_station_driver.utils.location.LocationManager;
-
-import static android.app.Activity.RESULT_OK;
+import com.webapp.a4_order_station_driver.utils.location.tracking.GPSTracking;
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback, LocationManager.Listener {
 
@@ -79,7 +77,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
 
     @Override
     public void onLocationFound(double latitude, double longitude) {
-        if (!MainActivity.isLoadingNewOrder) {
+        if (!MainActivity2.isLoadingNewOrder) {
             zoomToLocation(new LatLng(latitude, longitude));
             //tracking
             GPSTracking.getInstance(getActivity()).startMyGPSTracking();

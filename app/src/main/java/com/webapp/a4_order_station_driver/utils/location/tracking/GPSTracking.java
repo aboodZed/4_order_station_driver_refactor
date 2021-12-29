@@ -15,7 +15,6 @@ import androidx.core.app.ActivityCompat;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.webapp.a4_order_station_driver.R;
-import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.MyLocation;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
@@ -24,10 +23,6 @@ import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 import java.util.HashMap;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class GPSTracking {
 
@@ -51,7 +46,7 @@ public class GPSTracking {
     public void startMyGPSTracking() {
         MyLocation myLocation = new MyLocation();
         DatabaseReference db = FirebaseDatabase.getInstance().getReference(AppContent.FIREBASE_PUBLIC_TRACKING_INSTANCE)
-                .child(AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getId() + "");
+                .child(AppController.getInstance().getAppSettingsPreferences().getUser().getId() + "");
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
@@ -71,12 +66,11 @@ public class GPSTracking {
                     map.put("lat", "" + location.getLatitude());
                     myLocation.setLng(location.getLongitude());
                     map.put("lng", "" + location.getLongitude());
-                    myLocation.setName(AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getName());
-                    myLocation.setMobile(AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getMobile());
-                    myLocation.setDriver_id(AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getId());
-                    myLocation.setCountry_id(AppController.getInstance().getAppSettingsPreferences().getCountry().getId());
-                    if (AppController.getInstance().getAppSettingsPreferences().getLogin()
-                            .getUser().getIs_online().equals(MainActivity.online)) {
+                    myLocation.setName(AppController.getInstance().getAppSettingsPreferences().getUser().getName());
+                    myLocation.setMobile(AppController.getInstance().getAppSettingsPreferences().getUser().getMobile());
+                    myLocation.setDriver_id(AppController.getInstance().getAppSettingsPreferences().getUser().getId());
+                    myLocation.setCountry_id(AppController.getInstance().getAppSettingsPreferences().getUser().getCountry().getId());
+                    if (AppController.getInstance().getAppSettingsPreferences().getUser().isOnline()) {
                         if (AppController.getInstance().getAppSettingsPreferences().getTrackingOrder() == null) {
                             myLocation.setStatus("online");
                         } else {
@@ -86,7 +80,7 @@ public class GPSTracking {
                         myLocation.setStatus("offline");
                     }
                     db.setValue(myLocation);
-                    map.put("driver_id", AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getId() + "");
+                    map.put("driver_id", AppController.getInstance().getAppSettingsPreferences().getUser().getId() + "");
 
                     new APIUtil<Message>(context).getData(AppController.getInstance().getApi()
                             .updateLocation(map), new RequestListener<Message>() {

@@ -23,9 +23,11 @@
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/drawable/focus_edit_text.xml" value="0.201" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/drawable/gray_button.xml" value="0.2765" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/drawable/gray_button_with_small_cornar.xml" value="0.2765" />
+        <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/drawable/gray_order.xml" value="0.2485" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/drawable/ic_camera_alt_blue.xml" value="0.209" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/drawable/ic_camera_blue.xml" value="0.209" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/drawable/no_focus_edit_text.xml" value="0.201" />
+        <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/drawable/red_circle.xml" value="0.2895" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/drawable/side_nav_bar.xml" value="0.2935" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/drawable/skyblue_button.xml" value="0.3005" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/drawable/top_bar.xml" value="0.2165" />
@@ -39,6 +41,7 @@
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/activity_order.xml" value="0.29743589743589743" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/activity_register.xml" value="0.264" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/activity_reset_password.xml" value="0.25" />
+        <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/activity_splach.xml" value="0.29743589743589743" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/app_bar_main.xml" value="0.264" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/content_main.xml" value="0.264" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/dialog_new_order.xml" value="0.3625" />
@@ -46,12 +49,15 @@
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_bill_dailog.xml" value="0.3625" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_change_password.xml" value="0.25" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_chat.xml" value="0.3625" />
+        <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_complete_pay_dialog.xml" value="0.23412162162162162" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_contact.xml" value="0.3625" />
-        <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_edit_profile.xml" value="0.3625" />
+        <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_country.xml" value="0.29743589743589743" />
+        <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_edit_profile.xml" value="0.25101351351351353" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_gallery.xml" value="0.3625" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_home.xml" value="0.264" />
-        <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_new_order.xml" value="0.29743589743589743" />
-        <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_new_public_order.xml" value="0.3625" />
+        <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_item_image_dialog.xml" value="0.20512820512820512" />
+        <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_new_order.xml" value="0.264" />
+        <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_new_public_order.xml" value="0.264" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_notification.xml" value="0.3625" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_order_station.xml" value="0.25" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_order_station_wallet.xml" value="0.3625" />
@@ -71,15 +77,19 @@
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_send_message.xml" value="0.29743589743589743" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_show_location.xml" value="0.3625" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/fragment_wallet.xml" value="0.3625" />
+        <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/item_attachment.xml" value="0.3175213675213675" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/item_balance.xml" value="0.3625" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/item_chat_left.xml" value="0.3625" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/item_chat_right.xml" value="0.3625" />
+        <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/item_country.xml" value="0.29743589743589743" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/item_left_public_chat.xml" value="0.25" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/item_notification.xml" value="0.3625" />
-        <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/item_order.xml" value="0.15256410256410258" />
+        <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/item_order.xml" value="0.4" />
+        <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/item_order_items.xml" value="0.29743589743589743" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/item_public_order.xml" value="0.25" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/item_public_wallet.xml" value="0.3625" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/item_rating.xml" value="0.25" />
+        <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/item_right_public_chat.xml" value="0.3175213675213675" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/item_spinner.xml" value="0.2111111111111111" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/nav_drawer_logout.xml" value="0.3614583333333333" />
         <entry key="..\:/Users/AboodZ/AndroidStudioProjects/4_order_station_driver_refactor/app/src/main/res/layout/nav_drawer_switch.xml" value="0.3614583333333333" />

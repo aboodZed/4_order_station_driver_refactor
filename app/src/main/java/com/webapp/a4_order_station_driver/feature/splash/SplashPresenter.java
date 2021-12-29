@@ -4,20 +4,16 @@ import android.util.Log;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
-import com.webapp.a4_order_station_driver.feature.main.MainActivity;
-import com.webapp.a4_order_station_driver.feature.reset.ResetPasswordActivity;
-import com.webapp.a4_order_station_driver.feature.reset.three.ResetStep3;
-import com.webapp.a4_order_station_driver.feature.reset.two.ResetStep2;
-import com.webapp.a4_order_station_driver.models.Login;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity2;
+import com.webapp.a4_order_station_driver.models.AppSettings;
 import com.webapp.a4_order_station_driver.models.Order;
-import com.webapp.a4_order_station_driver.models.OrderStation;
 import com.webapp.a4_order_station_driver.models.PublicOrderObject;
-import com.webapp.a4_order_station_driver.models.ResultUser;
+import com.webapp.a4_order_station_driver.models.Result;
+import com.webapp.a4_order_station_driver.models.OrderStation;
 import com.webapp.a4_order_station_driver.models.User;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.NavigateUtil;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.language.AppLanguageUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
@@ -32,8 +28,45 @@ class SplashPresenter {
         this.baseActivity = baseActivity;
         //functions
         setLanguage();
-        checkOrderProcess();
-        checkUserLogin();
+        //checkOrderProcess();
+        //checkUserLogin();
+        getSettings();
+    }
+
+    private void getSettings() {
+        new APIUtil<AppSettings>(baseActivity).getData(AppController.getInstance()
+                .getApi().getSettings(), new RequestListener<AppSettings>() {
+            @Override
+            public void onSuccess(AppSettings appSettings, String msg) {
+                AppController.getInstance().getAppSettingsPreferences()
+                        .setAppSettings(appSettings);
+                FirebaseFirestore.getInstance().collection(AppContent.FIREBASE_PUBLIC_TRACKING_INSTANCE)
+                        .document(AppContent.FIREBASE_DATA).addSnapshotListener((value, error) -> {
+                           /* String s = value.getString(AppContent.FIREBASE_STATUS);
+                            Log.e(getClass().getName()+": firebase:", s);*/
+                        });
+                if (!AppController.getInstance().getAppSettingsPreferences().getToken().equals("")){
+                    baseActivity.navigate(MainActivity2.page);
+                    Log.e(getClass().getName()+": userToken", AppController.getInstance()
+                            .getAppSettingsPreferences().getToken());
+                }else {
+                    baseActivity.navigate(LoginActivity.page);
+                }
+
+            }
+
+            @Override
+            public void onError(String msg) {
+                ToolUtil.showLongToast(msg, baseActivity);
+                baseActivity.navigate(LoginActivity.page);
+            }
+
+            @Override
+            public void onFail(String msg) {
+                ToolUtil.showLongToast(msg, baseActivity);
+                baseActivity.navigate(LoginActivity.page);
+            }
+        });
     }
 
     private void setLanguage() {
@@ -50,11 +83,11 @@ class SplashPresenter {
 
         if (AppController.getInstance().getAppSettingsPreferences().getTrackingOrder() != null) {
             if (order.getType().equals(AppContent.TYPE_ORDER_4STATION)) {
-                new APIUtil<OrderStation>(baseActivity).getData(AppController.getInstance().getApi()
-                        .getOrderById(order.getId()), new RequestListener<OrderStation>() {
+                new APIUtil<Result<OrderStation>>(baseActivity).getData(AppController.getInstance().getApi()
+                        .getOrderById(order.getId()), new RequestListener<Result<OrderStation>>() {
                     @Override
-                    public void onSuccess(OrderStation orderStation, String msg) {
-                        if (orderStation.getStatus().equals(AppContent.DELIVERED_STATUS)) {
+                    public void onSuccess(Result<OrderStation> result, String msg) {
+                        if (result.getData().getStatus().equals(AppContent.DELIVERED_STATUS)) {
                             OrderGPSTracking.newInstance(baseActivity).removeUpdates();
                         } else {
                             OrderGPSTracking.newInstance(baseActivity).startGPSTracking();
@@ -98,27 +131,25 @@ class SplashPresenter {
     }
 
     private void checkUserLogin() {
-        if (AppController.getInstance().getAppSettingsPreferences().getIsLogin()) {
-
-            new APIUtil<ResultUser>(baseActivity).getData(AppController.getInstance().getApi().getUserData()
-                    , new RequestListener<ResultUser>() {
+        if (!AppController.getInstance().getAppSettingsPreferences().getToken().equals("")) {
+            new APIUtil<Result<User>>(baseActivity).getData(AppController.getInstance().getApi().getUserData()
+                    , new RequestListener<Result<User>>() {
                         @Override
-                        public void onSuccess(ResultUser result, String msg) {
+                        public void onSuccess(Result<User> result, String msg) {
                             //update user
-                            Login login = AppController.getInstance().getAppSettingsPreferences().getLogin();
-                            login.setUser(result.getUser());
-                            AppController.getInstance().getAppSettingsPreferences().setLogin(login);
+                            User user = AppController.getInstance().getAppSettingsPreferences().getUser();
+                            AppController.getInstance().getAppSettingsPreferences().setUser(user);
                             //print user token
-                            Log.e(getClass().getName() + " : userData", result.getUser().toString());
+                            Log.e(getClass().getName() + " : userData", result.getData().toString());
 
                             Log.e("usertoken", AppController.getInstance()
-                                    .getAppSettingsPreferences().getLogin().getAccess_token());
+                                    .getAppSettingsPreferences().getToken());
                             //navigate
                             FirebaseFirestore.getInstance().collection(AppContent.FIREBASE_PUBLIC_TRACKING_INSTANCE)
                                     .document(AppContent.FIREBASE_DATA).addSnapshotListener((value, error) -> {
                                 String s = value.getString(AppContent.FIREBASE_STATUS);
                             });
-                            baseActivity.navigate(MainActivity.page);
+                            baseActivity.navigate(MainActivity2.page);
                         }
 
                         @Override

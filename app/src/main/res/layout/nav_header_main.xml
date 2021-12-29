@@ -8,13 +8,28 @@
     android:orientation="vertical"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/iv_user_image"
-        android:layout_width="@dimen/logo_width"
-        android:layout_height="@dimen/logo_width"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/small_margin"
-        android:src="@drawable/ic_user_take_photo" />
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_user_image"
+            android:layout_width="@dimen/logo_width"
+            android:layout_height="@dimen/logo_width"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_user_take_photo" />
+
+        <ProgressBar
+            android:id="@+id/pb_wait"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+
 
     <TextView
         android:id="@+id/tv_user_name"
@@ -73,8 +88,8 @@
             android:id="@+id/tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="online"
-            android:textColor="@color/green"
+            android:text="@string/offline"
+            android:textColor="@color/red"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>

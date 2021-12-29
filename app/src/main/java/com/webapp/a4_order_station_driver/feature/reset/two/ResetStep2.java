@@ -21,27 +21,28 @@ import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 
+import java.util.HashMap;
+
 public class ResetStep2 extends Fragment
         implements PinField.OnTextCompleteListener, TextWatcher
-        , DialogView<ResetCode> {
+        , DialogView<HashMap<String,String>> {
 
     public static final int page = 402;
 
     private FragmentResetStep2Binding binding;
 
     private ResetStep2Presenter presenter;
-    private String verificationCode;
+    private HashMap<String,String> map;
     private BaseActivity baseActivity;
-    private ResetCode resetCode;
-    private CountDownTimer countDownTimer;
+    private String code;
 
-    public ResetStep2(BaseActivity baseActivity) {
+    public ResetStep2(BaseActivity baseActivity, HashMap<String,String> map) {
         this.baseActivity = baseActivity;
-        presenter = new ResetStep2Presenter(baseActivity, this);
+        presenter = new ResetStep2Presenter(baseActivity, this, map);
     }
 
-    public static ResetStep2 newInstance(BaseActivity baseActivity) {
-        ResetStep2 fragment = new ResetStep2(baseActivity);
+    public static ResetStep2 newInstance(BaseActivity baseActivity, HashMap<String,String> map) {
+        ResetStep2 fragment = new ResetStep2(baseActivity, map);
         return fragment;
     }
 
@@ -59,8 +60,9 @@ public class ResetStep2 extends Fragment
     }
 
     private void click() {
-        binding.btnResend.setOnClickListener(view -> presenter.reSend(resetCode.getMobile()));
-        binding.btnConfirm.setOnClickListener(view -> presenter.conform(resetCode, verificationCode, countDownTimer));
+//        binding.btnResend.setOnClickListener(view -> presenter.reSend(resetCode.getMobile()));
+//        binding.btnConfirm.setOnClickListener(view -> presenter.conform(resetCode, verificationCode, countDownTimer));
+        binding.btnConfirm.setOnClickListener(v -> presenter.verify(code));
     }
 
     //function
@@ -81,9 +83,7 @@ public class ResetStep2 extends Fragment
     }
 
     @Override
-    public void setData(ResetCode data) {
-        resetCode = data;
-        Log.e("reset_code",resetCode.toString());
+    public void setData(HashMap<String,String> map) {
     }
 
     @Override
@@ -109,12 +109,13 @@ public class ResetStep2 extends Fragment
 
     @Override
     public void afterTextChanged(Editable editable) {
-        verificationCode = editable.toString();
+
+        code = editable.toString();
     }
 
     @Override
     public boolean onTextComplete(@NotNull String s) {
-        verificationCode = s;
+        code = s;
         return false;
     }
 }

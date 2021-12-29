@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/rate"
-    android:background="@color/top"
+    android:layout_marginBottom="@dimen/small_margin"
+    android:background="@drawable/dark_gray_button"
     android:orientation="vertical"
     android:padding="@dimen/medium_padding">
 
@@ -13,100 +14,30 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/ll_order_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="horizontal">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="vertical">
+                android:textColor="@color/red"
+                android:textSize="@dimen/text"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tv_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="1:23"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/text"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="july 24"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/text"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/small_padding"
-                android:layout_marginEnd="@dimen/small_padding"
-                android:background="@color/red" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/small_padding"
-                    android:text="@string/payment"
-                    android:textColor="@color/gray"
-                    android:textSize="@dimen/small_text" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/small_padding"
-                    android:text="@string/receive"
-                    android:textColor="@color/gray"
-                    android:textSize="@dimen/small_text" />
-
-                <TextView
-                    android:id="@+id/tv_num_items"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/small_padding"
-                    android:text="2 items"
-                    android:textColor="@color/gray"
-                    android:textSize="@dimen/small_text" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/small_padding"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_payment_way"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/small_padding"
-                    android:text="Credit card"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/small_text" />
-
-                <TextView
-                    android:id="@+id/tv_receiver_point"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/small_padding"
-                    android:text="Home"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/small_text" />
-            </LinearLayout>
+<!--            <TextView-->
+<!--                android:id="@+id/tv_date"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:text="july 24"-->
+<!--                android:textColor="@color/red"-->
+<!--                android:textSize="@dimen/text"-->
+<!--                android:textStyle="bold" />-->
         </LinearLayout>
 
         <LinearLayout
@@ -121,78 +52,163 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/small_padding"
                 android:background="@drawable/blue_sky_button"
-                android:padding="@dimen/rate"
-                android:text="On it's way"
-                android:textColor="@color/text_trans"
-                android:textSize="@dimen/small_margin" />
+                android:padding="@dimen/small_padding"
+                android:textColor="@color/white"
+                android:textSize="@dimen/medium_text" />
 
-            <TextView
-                android:id="@+id/tv_price"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/medium_text"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/small_text" />
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/medium_text" />
+
+                <TextView
+                    android:id="@+id/tv_currency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/small_text"
+                    android:layout_marginStart="@dimen/rate"/>
+
+            </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_order_time"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginTop="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:layout_marginBottom="@dimen/small_margin"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/alpha"
+                android:background="@drawable/ic_distance" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_padding"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_co_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="first location"
+                    android:textColor="@color/black"
+                     />
+
+                <TextView
+                    android:id="@+id/tv_co_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/small_margin"
+                    android:textSize="@dimen/small_text" />
+
+                <TextView
+                    android:id="@+id/tv_receiver_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="second location"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_receiver_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/small_text" />
+
+            </LinearLayout>
+        </LinearLayout>
+
     </RelativeLayout>
 
     <View
         android:layout_width="wrap_content"
         android:layout_height="0.5dp"
-        android:layout_marginTop="@dimen/medium_padding"
         android:layout_marginBottom="@dimen/medium_padding"
         android:background="@color/gray" />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="@dimen/large_margin">
+        android:orientation="horizontal">
 
-        <ImageView
+
+
+        <TextView
+            android:id="@+id/tv_num_items"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_distance" />
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/medium_padding"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tv_co_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="first location"
-                android:textColor="@color/white"
+                android:text="@string/payment"
                 android:textSize="@dimen/text" />
 
             <TextView
-                android:id="@+id/tv_co_address"
+                android:id="@+id/tv_payment_way"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/pickup_location"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/small_text"
-                android:layout_marginBottom="@dimen/small_margin"/>
-
-            <TextView
-                android:id="@+id/tv_receiver_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="second location"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text" />
-
-            <TextView
-                android:id="@+id/tv_receiver_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/destination_location"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/small_text" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/text"
+                android:layout_marginStart="@dimen/small_margin"/>
 
         </LinearLayout>
-    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/receive"
+                android:textSize="@dimen/text" />
+
+            <TextView
+                android:id="@+id/tv_receiver_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text"
+                android:layout_marginStart="@dimen/small_margin"/>
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>

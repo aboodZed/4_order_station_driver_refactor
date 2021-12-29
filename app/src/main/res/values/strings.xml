@@ -9,7 +9,7 @@
     <string name="email">Email address</string>
     <string name="type_email">Type your Email</string>
     <string name="phone">Phone number</string>
-    <string name="type_phone">5×× ××× ×××</string>
+    <string name="type_phone">××× ××× ××××</string>
     <string name="address">Address</string>
     <string name="type_address">Type your Address</string>
     <string name="password">Password</string>
@@ -94,7 +94,7 @@ on the number</string>
     <string name="fill_photos">You must insert all picture</string>
     <string name="channel_name" translatable="false">reset code</string>
     <string name="channel_description" translatable="false">code to reset the password</string>
-    <string name="user_avater">Avatar</string>
+    <string name="user_avatar">Avatar</string>
     <string name="ok">OK</string>
     <string name="select">Select</string>
     <string name="items">" items"</string>
@@ -219,4 +219,12 @@ on the number</string>
     <string name="others">Others</string>
     <string name="change_password">Change Password</string>
     <string name="area">Area</string>
+    <string name="offline">Offline</string>
+    <string name="online">Online</string>
+    <string name="phone_must">"phone number must be "</string>
+    <string name="digits">digits</string>
+    <string name="accept_terms"><![CDATA[You must accept terms & conditions]]></string>
+    <string name="order_items">Ordered items</string>
+    <string name="quantity">Qnt.</string>
+    <string name="amount">Amount</string>
 </resources>

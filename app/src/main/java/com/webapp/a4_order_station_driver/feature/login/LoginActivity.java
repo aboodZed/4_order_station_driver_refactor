@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.webapp.a4_order_station_driver.databinding.ActivityLoginBinding;
-import com.webapp.a4_order_station_driver.feature.main.MainActivity;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity2;
 import com.webapp.a4_order_station_driver.feature.register.RegisterActivity;
+import com.webapp.a4_order_station_driver.feature.register.two.RegisterStepTwoFragment;
 import com.webapp.a4_order_station_driver.feature.reset.ResetPasswordActivity;
 import com.webapp.a4_order_station_driver.models.Login;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.NavigateUtil;
-import com.webapp.a4_order_station_driver.utils.dialogs.CountryFragment;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.language.AppLanguageUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
@@ -23,7 +23,6 @@ public class LoginActivity extends BaseActivity implements DialogView<Login> {
     private ActivityLoginBinding binding;
 
     private LoginPresenter presenter;
-    private CountryFragment countryFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,40 +32,58 @@ public class LoginActivity extends BaseActivity implements DialogView<Login> {
         //presenter
         presenter = new LoginPresenter(this, this);
         //view
-        //data();
-        showCountries();
+        data();
+        //showCountries();
         //on click
         click();
     }
 
     private void data() {
         binding.tvCode.setText(AppController.getInstance()
-             .getAppSettingsPreferences().getCountry().getPhone_code());
+                .getAppSettingsPreferences().getSettings().getData().getPhone_code());
     }
 
     private void click() {
         binding.btnLogin.setOnClickListener(view -> presenter.checkInput(binding.etEnterPhone, binding.etEnterPassword));
         binding.tvForget.setOnClickListener(view -> navigate(ResetPasswordActivity.page));
         binding.btnSignUp.setOnClickListener(view -> navigate(RegisterActivity.page));
+
+        if (AppController.getInstance().getAppSettingsPreferences().getAppLanguage().equals(AppLanguageUtil.ARABIC)) {
+            binding.tvArabic.setVisibility(View.GONE);
+            binding.tvEnglish.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvArabic.setVisibility(View.VISIBLE);
+            binding.tvEnglish.setVisibility(View.GONE);
+        }
+
         binding.tvArabic.setOnClickListener(view -> {
             AppLanguageUtil.getInstance().setAppLanguage(LoginActivity.this, AppLanguageUtil.ARABIC);
+            binding.tvArabic.setVisibility(View.GONE);
+            binding.tvEnglish.setVisibility(View.VISIBLE);
+            recreate();
+        });
+
+        binding.tvEnglish.setOnClickListener(view -> {
+            AppLanguageUtil.getInstance().setAppLanguage(LoginActivity.this, AppLanguageUtil.English);
+            binding.tvArabic.setVisibility(View.VISIBLE);
+            binding.tvEnglish.setVisibility(View.GONE);
             recreate();
         });
     }
 
-    private void showCountries() {
+    /*private void showCountries() {
         countryFragment = CountryFragment.newInstance();
         countryFragment.show(getSupportFragmentManager(), "");
         countryFragment.setCountryListener(() -> {
-          binding.tvCode.setText(AppController.getInstance()
-                   .getAppSettingsPreferences().getCountry().getPhone_code());
+            binding.tvCode.setText(AppController.getInstance()
+                    .getAppSettingsPreferences().getUser().getCountry().getPhone_code());
         });
-    }
+    }*/
 
-    @Override
+   /*@Override
     public void onBackPressed() {
         showCountries();
-    }
+    }*/
 
     @Override
     public void setData(Login login) {
@@ -86,11 +103,15 @@ public class LoginActivity extends BaseActivity implements DialogView<Login> {
     @Override
     public void navigate(int page) {
         switch (page) {
-            case MainActivity.page:
-                new NavigateUtil().activityIntent(this, MainActivity.class, false);
+            case MainActivity2.page:
+                new NavigateUtil().activityIntent(this, MainActivity2.class, false);
                 break;
             case RegisterActivity.page:
                 new NavigateUtil().activityIntent(this, RegisterActivity.class, false);
+                break;
+            case RegisterStepTwoFragment.page:
+                new NavigateUtil().activityIntentWithPage(this, RegisterActivity.class
+                        , true, RegisterStepTwoFragment.page);
                 break;
             case ResetPasswordActivity.page:
                 new NavigateUtil().activityIntent(this, ResetPasswordActivity.class, false);

@@ -1,54 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:layout_marginTop="@dimen/rate"
     android:layout_marginBottom="@dimen/rate">
 
-        <LinearLayout
+    <LinearLayout
+        android:id="@+id/linearLayout8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_gravity="start"
-            android:layout_alignParentStart="true">
-
-            <TextView
-                android:id="@+id/tv_item_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="burger king"
-                android:textColor="@color/black"
-                android:textSize="@dimen/small_text"
-                android:layout_gravity="start"/>
-
-            <TextView
-                android:id="@+id/tv_item_describe"
-                android:layout_width="@dimen/width_text"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_margin"
-                android:textColor="@color/gray" />
-
-        </LinearLayout>
+            android:textColor="@color/black"
+            android:textSize="@dimen/medium_text" />
 
         <TextView
-            android:id="@+id/tv_item_qnt"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_item_describe"
+            android:layout_width="@dimen/width_text"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="1"
-            android:textColor="@color/black"
-            android:textSize="@dimen/small_text"
-            android:layout_centerInParent="true"/>
+            android:textSize="@dimen/text" />
 
-        <TextView
-            android:id="@+id/tv_item_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:textColor="@color/black"
-            android:textSize="@dimen/small_text"
-            android:layout_alignParentEnd="true"/>
+    </LinearLayout>
 
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_item_qnt"
+        android:layout_width="10dp"
+        android:layout_height="18dp"
+        android:gravity="center"
+        android:text="1"
+        android:textColor="@color/black"
+        android:textSize="@dimen/medium_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:textColor="@color/black"
+        android:textSize="@dimen/medium_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

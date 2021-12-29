@@ -1,5 +1,6 @@
 package com.webapp.a4_order_station_driver.utils.dialogs;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -14,7 +15,6 @@ import androidx.fragment.app.DialogFragment;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.DialogNewOrderBinding;
-import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.order.newPublicOrder.NewPublicOrderFragment;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
 import com.webapp.a4_order_station_driver.models.PublicOrderObject;
@@ -24,6 +24,8 @@ import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.NavigateUtil;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
+
+import java.util.Objects;
 
 public class NewPublicOrderDialog extends DialogFragment {
 
@@ -50,7 +52,10 @@ public class NewPublicOrderDialog extends DialogFragment {
         return binding.getRoot();
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void click() {
+        binding.llBackground.setBackground(Objects.requireNonNull(getDialog()).getContext()
+                .getDrawable(R.drawable.back_new_public_order));
         binding.btnView.setOnClickListener(view -> {
             dismiss();
             new NavigateUtil().openOrder(getContext(), publicOrder

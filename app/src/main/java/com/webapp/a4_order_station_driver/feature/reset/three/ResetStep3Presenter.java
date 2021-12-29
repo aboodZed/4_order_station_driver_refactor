@@ -63,7 +63,7 @@ public class ResetStep3Presenter {
             @Override
             public void onSuccess(Message message, String msg) {
                 dialogView.hideDialog();
-                AppController.getInstance().getAppSettingsPreferences().setPassword(hashMap.get("password"));
+                //AppController.getInstance().getAppSettingsPreferences().setPassword(hashMap.get("password"));
                 baseActivity.navigate(LoginActivity.page);
             }
 

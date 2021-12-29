@@ -4,7 +4,7 @@
     android:id="@+id/ll_countries"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@drawable/back"
     tools:context=".utils.dialogs.CountryFragment"
     android:orientation="vertical">
 
@@ -12,9 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/choose_country"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="@dimen/large_text"
         android:gravity="center"
+        android:textStyle="bold"
         android:layout_marginTop="@dimen/medium_margin"
         android:layout_marginBottom="@dimen/small_margin"/>
 

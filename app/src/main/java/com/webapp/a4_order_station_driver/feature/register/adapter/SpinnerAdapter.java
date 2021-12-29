@@ -7,18 +7,18 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.webapp.a4_order_station_driver.R;
-import com.webapp.a4_order_station_driver.models.Neighborhood;
+import com.webapp.a4_order_station_driver.models.City;
 
 import java.util.ArrayList;
 
 public class SpinnerAdapter extends BaseAdapter implements android.widget.SpinnerAdapter {
 
-    ArrayList<Neighborhood> items;
+    ArrayList<City> items;
     Context context;
 
-    public SpinnerAdapter(Context context, ArrayList<Neighborhood> neighborhoods) {
+    public SpinnerAdapter(Context context, ArrayList<City> cities) {
         this.context = context;
-        items = neighborhoods;
+        items = cities;
     }
 
     @Override

@@ -2,19 +2,16 @@ package com.webapp.a4_order_station_driver.feature.register;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.ActivityRegisterBinding;
-import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity2;
 import com.webapp.a4_order_station_driver.feature.register.one.RegisterStepOneFragment;
 import com.webapp.a4_order_station_driver.feature.register.two.RegisterStepTwoFragment;
 import com.webapp.a4_order_station_driver.utils.AppContent;
@@ -40,7 +37,6 @@ public class RegisterActivity extends BaseActivity {
         //view
         presenter = new RegisterPresenter(this);
         initFragment();
-        click();
     }
 
     //functions
@@ -51,22 +47,7 @@ public class RegisterActivity extends BaseActivity {
             PermissionUtil.requestPermission(this, Manifest.permission.CAMERA
                     , AppContent.REQUEST_PERMISSIONS_R_W_STORAGE_CAMERA);
         }
-        navigate(RegisterStepTwoFragment.page);
-    }
-
-
-    private void click() {
-        //binding.btnNext.setOnClickListener(view -> next());
-        //binding.ivBack.setOnClickListener(view -> back());
-    }
-
-    //clicks
-    public void next() {
-        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof RegisterStepOneFragment) {
-            registerStep1.signUp();
-        } else {
-            registerStep2.signUp();
-        }
+        navigate(RegisterStepOneFragment.page);
     }
 
     public void back() {
@@ -86,8 +67,8 @@ public class RegisterActivity extends BaseActivity {
             case RegisterStepTwoFragment.page:
                 new NavigateUtil().replaceFragment(getSupportFragmentManager(), registerStep2, R.id.fragment_container);
                 break;
-            case MainActivity.page:
-                new NavigateUtil().activityIntent(this, MainActivity.class, false);
+            case MainActivity2.page:
+                new NavigateUtil().activityIntent(this, MainActivity2.class, false);
                 break;
             case LoginActivity.page:
                 new NavigateUtil().activityIntent(this, LoginActivity.class, false);

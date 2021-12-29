@@ -14,7 +14,9 @@ import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 
-public class ResetStep1 extends Fragment implements DialogView<ResetCode> {
+import java.util.HashMap;
+
+public class ResetStep1 extends Fragment implements DialogView<String> {
 
     public static final int page = 401;
 
@@ -22,7 +24,6 @@ public class ResetStep1 extends Fragment implements DialogView<ResetCode> {
 
     private ResetStep1Presenter presenter;
     private BaseActivity baseActivity;
-    private ResetCode resetCode;
 
     public ResetStep1(BaseActivity baseActivity) {
         presenter = new ResetStep1Presenter(baseActivity, this);
@@ -47,20 +48,20 @@ public class ResetStep1 extends Fragment implements DialogView<ResetCode> {
 
     private void data() {
         binding.tvCode.setText(AppController.getInstance()
-                .getAppSettingsPreferences().getCountry().getPhone_code());
+                .getAppSettingsPreferences().getSettings().getData().getPhone_code());
     }
 
     private void click() {
         binding.btnSend.setOnClickListener(view -> presenter.validInput(binding.etEnterPhone));
     }
 
-    public ResetCode getData() {
-        return resetCode;
+    public HashMap<String, String> getData() {
+        return presenter.getCredential();
     }
 
     @Override
-    public void setData(ResetCode resetCode) {
-        this.resetCode = resetCode;
+    public void setData(String s) {
+
     }
 
     @Override

@@ -1,8 +1,6 @@
-package com.webapp.a4_order_station_driver.feature.main.orders.publicO;
+package com.webapp.a4_order_station_driver.feature.main.orders;
 
-import android.app.Activity;
-
-import com.webapp.a4_order_station_driver.models.PublicOrderListObject;
+import com.webapp.a4_order_station_driver.models.Orders;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
@@ -10,25 +8,25 @@ import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
-class OrderPublicPresenter {
+public class OrdersPresenter {
 
-    private Activity baseActivity;
-    private DialogView<PublicOrderListObject> dialogView;
+   private BaseActivity baseActivity;
+   private DialogView<Orders> dialogView;
 
-    public OrderPublicPresenter(Activity baseActivity, DialogView<PublicOrderListObject> dialogView) {
+    public OrdersPresenter(BaseActivity baseActivity, DialogView<Orders> dialogView) {
         this.baseActivity = baseActivity;
         this.dialogView = dialogView;
-        getData("driver-orders-list");
+        getData();
     }
 
-    protected void getData(String s) {
+    private void getData() {
         dialogView.showDialog("");
-        new APIUtil<PublicOrderListObject>(baseActivity).getData(AppController.getInstance()
-                .getApi().getPublicOrders(s), new RequestListener<PublicOrderListObject>() {
+        new APIUtil<Orders>(baseActivity).getData(AppController.getInstance()
+                .getApi().getOrders(), new RequestListener<Orders>() {
             @Override
-            public void onSuccess(PublicOrderListObject publicOrderListObject, String msg) {
-                dialogView.setData(publicOrderListObject);
+            public void onSuccess(Orders orders, String msg) {
                 dialogView.hideDialog();
+                dialogView.setData(orders);
             }
 
             @Override

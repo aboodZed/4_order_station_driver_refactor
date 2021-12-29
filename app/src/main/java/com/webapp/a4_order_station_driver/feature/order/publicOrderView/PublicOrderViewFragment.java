@@ -5,45 +5,33 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.firebase.database.annotations.NotNull;
-import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentPublicChatBinding;
-import com.webapp.a4_order_station_driver.feature.main.orders.OrdersFragment;
-import com.webapp.a4_order_station_driver.feature.main.orders.publicO.OrderPublicFragment;
-import com.webapp.a4_order_station_driver.feature.main.wallets.WalletFragment;
-import com.webapp.a4_order_station_driver.feature.main.wallets.publicO.PublicWalletFragment;
 import com.webapp.a4_order_station_driver.feature.order.adapter.PublicChatAdapter;
 import com.webapp.a4_order_station_driver.models.Order;
-import com.webapp.a4_order_station_driver.models.PublicOrder;
+import com.webapp.a4_order_station_driver.models.OrderStation;
 import com.webapp.a4_order_station_driver.models.PublicOrderObject;
 import com.webapp.a4_order_station_driver.utils.AppContent;
-import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.PermissionUtil;
 import com.webapp.a4_order_station_driver.utils.Photo.PhotoTakerManager;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
-import com.webapp.a4_order_station_driver.utils.dialogs.AddBillDialog;
 import com.webapp.a4_order_station_driver.utils.dialogs.BillDialog;
 import com.webapp.a4_order_station_driver.utils.dialogs.ItemSelectImageDialogFragment;
-import com.webapp.a4_order_station_driver.utils.dialogs.ShowLocationDialog;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
-import com.webapp.a4_order_station_driver.utils.formatter.DecimalFormatterManager;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
-import com.webapp.a4_order_station_driver.utils.location.tracking.OrderGPSTracking;
 
 public class PublicOrderViewFragment extends Fragment implements
         RequestListener<Bitmap>, DialogView<PublicOrderObject> {
@@ -52,7 +40,7 @@ public class PublicOrderViewFragment extends Fragment implements
 
     private FragmentPublicChatBinding binding;
 
-    private PublicOrder publicOrder;
+    private OrderStation orderStation;
     private PublicChatAdapter publicChatAdapter;
     private ItemSelectImageDialogFragment itemSelectImageDialogFragment
             = ItemSelectImageDialogFragment.newInstance();
@@ -106,7 +94,8 @@ public class PublicOrderViewFragment extends Fragment implements
     }
 
     private void onActivityResulting() {
-        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> presenter.onActivityResult(result.getResultCode(), result.getData()));
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> presenter.onActivityResult(result.getResultCode(), result.getData()));
     }
 
     private void click() {
@@ -122,8 +111,8 @@ public class PublicOrderViewFragment extends Fragment implements
     @Override
     public void onStart() {
         super.onStart();
-        OrdersFragment.viewPagerPage = OrderPublicFragment.viewPagerPage;
-        WalletFragment.viewPagerPage = PublicWalletFragment.viewPagerPage;
+        //OrdersFragment.viewPagerPage = OrderPublicFragment.viewPagerPage;
+        //WalletFragment.viewPagerPage = PublicWalletFragment.viewPagerPage;
         isOpenPublicChat = true;
     }
 
@@ -150,63 +139,59 @@ public class PublicOrderViewFragment extends Fragment implements
         itemSelectImageDialogFragment.show(getChildFragmentManager(), "");
     }
 
-    public void showLocation() {
-        ShowLocationDialog showLocationDialog = ShowLocationDialog.newInstance(publicOrder);
-        showLocationDialog.show(getChildFragmentManager(), "");
-    }
-
     private void openBillDialog() {
-        billDialog = BillDialog.newInstance(publicOrder);
+        billDialog = BillDialog.newInstance(orderStation);
         billDialog.show(getChildFragmentManager(), "");
         billDialog.setListener(new BillDialog.Listener() {
             @Override
             public void updatePublicOrder() {
                 billDialog.dismiss();
-                presenter.getData(publicOrder);
+                presenter.getData(orderStation);
             }
 
             @Override
             public void addBill() {
-                AddBillDialog addBillDialog;
+             /*   AddBillDialog addBillDialog;
                 if (billPrice == 0) {
-                    addBillDialog = AddBillDialog.newInstance(publicOrder,
+                    addBillDialog = AddBillDialog.newInstance(testOrder,
                             getString(R.string.enter_bill_price));
                 } else {
-                    addBillDialog = AddBillDialog.newInstance(publicOrder,
+                   addBillDialog = AddBillDialog.newInstance(testOrder,
                             getString(R.string.show_bill));
                 }
-                addBillDialog.show(getParentFragmentManager(), "");
+                addBillDialog.show(getParentFragmentManager(), "");*/
             }
         });
     }
 
     //functions
     private void data() {
-       /* binding.tvOrderId.setText((getString(R.string.order) + "#" + publicOrder.getInvoice_number()));
+       /* binding.tvOrderId.setText((getString(R.string.order) + "#" + testOrder.getInvoice_number()));
 
         setPrice();
-        String currency = AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code();
-        binding.tvOrderDetails.setText(publicOrder.getNote());
-        binding.tvDeliveryPrice.setText((DecimalFormatterManager.getFormatterInstance()
-                .format(Double.parseDouble(publicOrder.getDelivery_cost())) + " " + currency));
+        String currency = AppController.getInstance().getAppSettingsPreferences().getUser()
+                .getCountry().getCurrency_code();
+        binding.tvOrderDetails.setText(testOrder.getd());
+        binding..setText((DecimalFormatterManager.getFormatterInstance()
+                .format(Double.parseDouble(testOrder.getDelivery_cost())) + " " + currency));
         binding.tvTaxPrice.setText((DecimalFormatterManager.getFormatterInstance()
-                .format(Double.parseDouble(publicOrder.getTax())) + " " + currency));
-        if (publicOrder.getStatus().equals(AppContent.DELIVERED_STATUS)
-                || publicOrder.getStatus().equals(AppContent.CANCELLED_STATUS)) {
+                .format(Double.parseDouble(testOrder.getTax())) + " " + currency));
+        if (testOrder.getStatus().equals(AppContent.DELIVERED_STATUS)
+                || testOrder.getStatus().equals(AppContent.CANCELLED_STATUS)) {
             binding.ivMore.setVisibility(View.GONE);
             binding.ivTracking.setVisibility(View.GONE);
             binding.llBottom.setVisibility(View.GONE);
-        }*/
+        }
     }
 
     private void setPrice() {
-        if (publicOrder.getPurchase_invoice_value() != null) {
-            billPrice = Double.parseDouble(publicOrder.getPurchase_invoice_value());
+        if (testOrder.getPurchase_invoice_value() != null) {
+            billPrice = Double.parseDouble(testOrder.getPurchase_invoice_value());
         } else {
             billPrice = 0;
         }
         Log.e("billPrice:", billPrice + "");
-
+*/
     }
 
 
@@ -223,18 +208,18 @@ public class PublicOrderViewFragment extends Fragment implements
 
     @Override
     public void setData(PublicOrderObject publicOrderObject) {
-        publicOrder = publicOrderObject.getPublicOrder();
-        Log.e("orderdata", publicOrder.toString());
+        /*testOrder = publicOrderObject.getPublicOrder();
+        Log.e("orderdata", testOrder.toString());
         data();
 
-        if (publicOrder.getStatus().equals(AppContent.DELIVERED_STATUS)
-                || publicOrder.getStatus().equals(AppContent.CANCELLED_STATUS)) {
+        if (testOrder.getStatus().equals(AppContent.DELIVERED_STATUS)
+                || testOrder.getStatus().equals(AppContent.CANCELLED_STATUS)) {
             OrderGPSTracking.newInstance(baseActivity).removeUpdates();
         }
         if (openBillDialog) {
             openBillDialog();
             openBillDialog = false;
-        }
+        }*/
     }
 
     @Override

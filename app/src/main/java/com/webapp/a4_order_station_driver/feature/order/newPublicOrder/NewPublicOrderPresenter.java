@@ -2,10 +2,8 @@ package com.webapp.a4_order_station_driver.feature.order.newPublicOrder;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.feature.main.orders.OrdersFragment;
-import com.webapp.a4_order_station_driver.feature.main.orders.publicO.OrderPublicFragment;
-import com.webapp.a4_order_station_driver.feature.main.wallets.publicO.PublicWalletFragment;
-import com.webapp.a4_order_station_driver.feature.main.wallets.WalletFragment;
 import com.webapp.a4_order_station_driver.models.Message;
+import com.webapp.a4_order_station_driver.models.OrderStation;
 import com.webapp.a4_order_station_driver.models.PublicOrder;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
@@ -38,8 +36,8 @@ class NewPublicOrderPresenter {
                         .setTrackingOrder(publicOrder, AppContent.TYPE_ORDER_PUBLIC);
                 OrderGPSTracking.newInstance(baseActivity).startGPSTracking();
 
-                OrdersFragment.viewPagerPage = OrderPublicFragment.viewPagerPage;
-                WalletFragment.viewPagerPage = PublicWalletFragment.viewPagerPage;
+                //OrdersFragment.viewPagerPage = OrderPublicFragment.viewPagerPage;
+                //WalletFragment.viewPagerPage = PublicWalletFragment.viewPagerPage;
 
                 ToolUtil.showLongToast(baseActivity.getString(R.string.closeApp), baseActivity);
                 baseActivity.navigate(OrdersFragment.page);

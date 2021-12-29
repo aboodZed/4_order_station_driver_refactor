@@ -1,6 +1,7 @@
 package com.webapp.a4_order_station_driver.feature.data.natification;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.webapp.a4_order_station_driver.databinding.FragmentNotificationBinding;
 import com.webapp.a4_order_station_driver.feature.main.adapter.NotificationsAdapter;
+import com.webapp.a4_order_station_driver.models.Notification;
 import com.webapp.a4_order_station_driver.models.NotificationList;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
@@ -49,7 +51,11 @@ public class NotificationFragment extends Fragment implements DialogView<Notific
 
     @Override
     public void setData(NotificationList notifications) {
-        notificationsAdapter = new NotificationsAdapter(notifications.getNotifications(), baseActivity,this);
+        for (Notification notification :
+                notifications.getNotifications()) {
+            Log.e(getClass().getName() + " notification:", notification.toString());
+        }
+        notificationsAdapter = new NotificationsAdapter(notifications.getNotifications(), baseActivity, this);
         binding.rvNotification.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvNotification.setItemAnimator(new DefaultItemAnimator());
         binding.rvNotification.setAdapter(notificationsAdapter);
@@ -57,7 +63,7 @@ public class NotificationFragment extends Fragment implements DialogView<Notific
 
     @Override
     public void showDialog(String s) {
-        WaitDialogFragment.newInstance().show(getChildFragmentManager(),"");
+        WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
     }
 
     @Override

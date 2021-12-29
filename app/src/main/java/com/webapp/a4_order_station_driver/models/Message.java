@@ -8,23 +8,24 @@ public class Message {
     @SerializedName("success")
     @Expose
     private boolean success;
+
     @SerializedName("message")
     @Expose
-    private String massage;
+    private String message;
 
-    public boolean getSuccess() {
+    public boolean isSuccess() {
         return success;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
+    public String getMessage() {
+        return message;
     }
 
-    public String getMassage() {
-        return massage;
-    }
-
-    public void setMassage(String massage) {
-        this.massage = massage;
+    @Override
+    public String toString() {
+        return "Message{" +
+                "success=" + success +
+                ", message='" + message + '\'' +
+                '}';
     }
 }

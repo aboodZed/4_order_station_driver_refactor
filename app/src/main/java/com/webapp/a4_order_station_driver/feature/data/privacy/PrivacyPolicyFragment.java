@@ -10,11 +10,8 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 import com.webapp.a4_order_station_driver.databinding.FragmentPrivacyPolicyBinding;
-import com.webapp.a4_order_station_driver.models.Privacy;
-import com.webapp.a4_order_station_driver.utils.APIUtil;
+import com.webapp.a4_order_station_driver.models.AppSettings;
 import com.webapp.a4_order_station_driver.utils.AppController;
-import com.webapp.a4_order_station_driver.utils.ToolUtil;
-import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 public class PrivacyPolicyFragment extends Fragment {
 
@@ -45,7 +42,14 @@ public class PrivacyPolicyFragment extends Fragment {
     }
 
     private void data() {
-        new APIUtil<Privacy>(getActivity()).getData(AppController.getInstance()
+        AppSettings settings = AppController.getInstance().getAppSettingsPreferences().getSettings();
+        binding.tvTitle.setText(settings.getPrivacy_title());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            binding.tvPrivacy.setText(Html.fromHtml(settings.getPrivacy_content(), Html.FROM_HTML_MODE_COMPACT));
+        } else {
+            binding.tvPrivacy.setText(Html.fromHtml(settings.getPrivacy_content()));
+        }
+       /* new APIUtil<Privacy>(getActivity()).getData(AppController.getInstance()
                 .getApi().getPrivacy(), new RequestListener<Privacy>() {
             @Override
             public void onSuccess(Privacy privacy, String msg) {
@@ -70,7 +74,7 @@ public class PrivacyPolicyFragment extends Fragment {
                 ToolUtil.showLongToast(msg, getActivity());
                 binding.pbWait.setVisibility(View.GONE);
             }
-        });
+        });*/
     }
 /*
     @Override

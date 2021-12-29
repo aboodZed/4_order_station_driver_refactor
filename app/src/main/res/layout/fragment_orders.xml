@@ -16,28 +16,28 @@
         android:layout_height="wrap_content"
         android:text="@string/in_progress"
         android:textColor="@color/black"
-        android:textSize="@dimen/medium_text"
+        android:textSize="@dimen/large_text"
         android:textStyle="bold"
         android:layout_marginTop="@dimen/large_margin"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_balance_in_progress"
+        android:id="@+id/rv_orders"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/medium_padding"
-        tools:listitem="@layout/item_balance"/>
+        tools:listitem="@layout/item_order"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/others"
         android:textColor="@color/black"
-        android:textSize="@dimen/medium_text"
+        android:textSize="@dimen/large_text"
         android:textStyle="bold"
         android:layout_marginTop="@dimen/medium_margin"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_balance_others"
+        android:id="@+id/rv_orders_others"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/medium_padding"

@@ -5,20 +5,20 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class OrderStationList {
+public class Rating extends Result<ArrayList<RatingData>> {
 
-    @SerializedName("orders")
+    @SerializedName("rate")
     @Expose
-    private ArrayList<OrderStation> orders;
+    private String rate;
 
-    public ArrayList<OrderStation> getOrders() {
-        return orders;
+    public String getRate() {
+        return rate;
     }
 
     @Override
     public String toString() {
-        return "OrderStationList{" +
-                "orders=" + orders +
+        return "TestRating{" +
+                "rate='" + rate + '\'' +
                 '}';
     }
 }

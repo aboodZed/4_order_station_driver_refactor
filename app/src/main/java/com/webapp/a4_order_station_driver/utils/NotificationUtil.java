@@ -14,7 +14,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.webapp.a4_order_station_driver.R;
-import com.webapp.a4_order_station_driver.feature.main.MainActivity;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity2;
 import com.webapp.a4_order_station_driver.feature.main.home.HomeFragment;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
@@ -78,7 +78,7 @@ public class NotificationUtil {
         notification.sound = alarmSound;
 
         Intent intent;
-        intent = new Intent(context, MainActivity.class);
+        intent = new Intent(context, MainActivity2.class);
         intent.putExtra(AppContent.PAGE, HomeFragment.page);
         intent.putExtra(AppContent.FIREBASE_MESSAGE, message);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

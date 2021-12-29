@@ -1,8 +1,6 @@
-package com.webapp.a4_order_station_driver.feature.main.orders.station;
+package com.webapp.a4_order_station_driver.feature.main.wallets;
 
-import android.app.Activity;
-
-import com.webapp.a4_order_station_driver.models.OrderStationList;
+import com.webapp.a4_order_station_driver.models.StationWallet;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
@@ -10,38 +8,37 @@ import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
-class OrderStationPresenter {
+public class WalletPresenter {
 
-    private Activity baseActivity;
-    private DialogView<OrderStationList> dialogView;
+    private BaseActivity baseActivity;
+    private DialogView<StationWallet> dialogView;
 
-    public OrderStationPresenter(Activity baseActivity, DialogView<OrderStationList> dialogView) {
+    public WalletPresenter(BaseActivity baseActivity, DialogView<StationWallet> dialogView) {
         this.baseActivity = baseActivity;
         this.dialogView = dialogView;
         getData();
     }
 
-
     private void getData() {
         dialogView.showDialog("");
-        new APIUtil<OrderStationList>(baseActivity).getData(AppController.getInstance()
-                .getApi().getOrdersStation(), new RequestListener<OrderStationList>() {
+        new APIUtil<StationWallet>(baseActivity).getData(AppController.getInstance()
+                .getApi().getWalletDetails(), new RequestListener<StationWallet>() {
             @Override
-            public void onSuccess(OrderStationList orderStationList, String msg) {
-                dialogView.setData(orderStationList);
+            public void onSuccess(StationWallet stationWallet, String msg) {
                 dialogView.hideDialog();
+                dialogView.setData(stationWallet);
             }
 
             @Override
             public void onError(String msg) {
-                ToolUtil.showLongToast(msg, baseActivity);
                 dialogView.hideDialog();
+                ToolUtil.showLongToast(msg, baseActivity);
             }
 
             @Override
             public void onFail(String msg) {
-                ToolUtil.showLongToast(msg, baseActivity);
                 dialogView.hideDialog();
+                ToolUtil.showLongToast(msg, baseActivity);
             }
         });
     }

@@ -4,7 +4,6 @@ import static com.webapp.a4_order_station_driver.utils.AppContent.PHONE_CALL_COD
 
 import android.Manifest;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,21 +14,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.annotations.NotNull;
-import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentOrderViewBinding;
 import com.webapp.a4_order_station_driver.feature.main.adapter.OrderItemsAdapter;
 import com.webapp.a4_order_station_driver.feature.order.chat.ChatFragment;
 import com.webapp.a4_order_station_driver.models.Order;
-import com.webapp.a4_order_station_driver.models.OrderItem;
 import com.webapp.a4_order_station_driver.models.OrderStation;
+import com.webapp.a4_order_station_driver.models.OrderStationItem;
 import com.webapp.a4_order_station_driver.utils.APIImageUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.NavigateUtil;
 import com.webapp.a4_order_station_driver.utils.PermissionUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
-import com.webapp.a4_order_station_driver.utils.formatter.DecimalFormatterManager;
-import com.webapp.a4_order_station_driver.utils.language.AppLanguageUtil;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 
@@ -80,14 +76,14 @@ public class OrderStationViewFragment extends Fragment implements DialogView<Ord
         binding.ivCoCall.setOnClickListener(view -> coCall());
         binding.ivReceiveCall.setOnClickListener(view -> receiverCall());
         binding.ivCoLocation.setOnClickListener(view -> new NavigateUtil()
-                .setLocation(requireActivity(), new LatLng(orderStation.getShop().getLat(), orderStation.getShop().getLng())));
+                .setLocation(requireActivity(), new LatLng(orderStation.getStore().getLat(), orderStation.getStore().getLng())));
         binding.ivReceiveLocation.setOnClickListener(view -> new NavigateUtil()
-                .setLocation(requireActivity(), new LatLng(orderStation.getDestination_lat(), orderStation.getDestination_lng())));
+                .setLocation(requireActivity(), new LatLng(orderStation.getCustomer().getLat(), orderStation.getCustomer().getLng())));
     }
 
     public void coCall() {
         if (PermissionUtil.isPermissionGranted(Manifest.permission.CALL_PHONE, getActivity())) {
-            new NavigateUtil().makeCall(requireActivity(), orderStation.getShop().getMobile());
+            new NavigateUtil().makeCall(requireActivity(), orderStation.getStore().getMobile());
         } else {
             PermissionUtil.requestPermission(getActivity(), Manifest.permission.CALL_PHONE, PHONE_CALL_CODE);
         }
@@ -95,7 +91,7 @@ public class OrderStationViewFragment extends Fragment implements DialogView<Ord
 
     public void receiverCall() {
         if (PermissionUtil.isPermissionGranted(Manifest.permission.CALL_PHONE, getActivity())) {
-            new NavigateUtil().makeCall(requireActivity(), orderStation.getUser().getMobile());
+            new NavigateUtil().makeCall(requireActivity(), orderStation.getCustomer().getMobile());
         } else {
             PermissionUtil.requestPermission(getActivity(), Manifest.permission.CALL_PHONE, PHONE_CALL_CODE);
         }
@@ -103,9 +99,16 @@ public class OrderStationViewFragment extends Fragment implements DialogView<Ord
 
     @Override
     public void setData(OrderStation orderStation) {
-        /*String currency = AppController.getInstance().getAppSettingsPreferences().getCountry().getCurrency_code();
+        String currency = AppController.getInstance().getAppSettingsPreferences().getUser()
+                .getCountry().getCurrency_code();
         this.orderStation = orderStation;
+        APIImageUtil.loadImage(getContext(), binding.pbWaitReciverImage, this.orderStation.getCustomer().getAvatar_url(), binding.ivReceiverImage);
+        APIImageUtil.loadImage(getContext(), binding.pbWaitCoImage, this.orderStation.getStore().getLogo_url(), binding.ivCoImage);
 
+        binding.tvOrderCoName.setText(this.orderStation.getStore().getName());
+        binding.tvOrderCoAddress.setText(this.orderStation.getStore().getAddress());
+
+       /* binding.tvDelivery.setText();
         if (this.orderStation.getStatus().equals(AppContent.DELIVERED_STATUS)) {
             binding.btnDone.setClickable(false);
             binding.btnDone.setVisibility(View.GONE);
@@ -155,9 +158,9 @@ public class OrderStationViewFragment extends Fragment implements DialogView<Ord
 //user info
         APIImageUtil.loadImage(getContext(), binding.pbWaitReciverImage
                 , this.orderStation.getUser().getAvatar_url(), binding.ivReceiverImage);
-        binding.tvReceiverName.setText(this.orderStation.getUser().getName());
+        binding.tvReceiverName.setText(this.orderStation.getUser().getName());*/
         //items
-        initRecycleView(orderStation.getOrder_items());*/
+        initRecycleView(orderStation.getOrderItems());
     }
 
     @Override
@@ -170,7 +173,7 @@ public class OrderStationViewFragment extends Fragment implements DialogView<Ord
         WaitDialogFragment.newInstance().dismiss();
     }
 
-    public void initRecycleView(ArrayList<OrderItem> orderItems) {
+    public void initRecycleView(ArrayList<OrderStationItem> orderItems) {
         orderItemsAdapter = new OrderItemsAdapter(orderItems);
         binding.rvOrderItem.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvOrderItem.setItemAnimator(new DefaultItemAnimator());

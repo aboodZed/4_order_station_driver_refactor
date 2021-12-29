@@ -10,7 +10,6 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
@@ -40,40 +39,18 @@ public class GenerateFCMService extends Service {
 
     public void generateFCMToken(final Context context) {
         FirebaseApp.initializeApp(context);
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(task -> {
-                    if (!task.isSuccessful()) {
-                        Log.e("Main", "getInstanceId failed", task.getException());
-                        stopSelf();
-                        return;
-                    }
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e("Main", "getInstanceId failed", task.getException());
+                stopSelf();
+                return;
+            }
+            // Get new Instance ID token
+            String token = task.getResult();
 
-                    // Get new Instance ID token
-                    String token = task.getResult();
-
-                    // Log and toast
-                    stopSelf();
-                    if (AppController.getInstance().getAppSettingsPreferences().getIsLogin())
-                        new APIUtil<Message>(context).getData(AppController.getInstance().getApi()
-                                .fcmToken(token), new RequestListener<Message>() {
-                            @Override
-                            public void onSuccess(Message message, String msg) {
-                                Log.e(getClass().getName() + " : ChangeFCMResponse:", message.getMassage());
-                            }
-
-                            @Override
-                            public void onError(String msg) {
-                                Log.e(getClass().getName() + " : ChangeFCMError:", msg);
-
-                            }
-
-                            @Override
-                            public void onFail(String msg) {
-                                Log.e(getClass().getName() + " : ChangeFCMFail:", msg);
-
-                            }
-                        });
-                    Log.e("fcm token", "" + token);
-                });
+            // Log and toast
+            stopSelf();
+            Log.e("fcm token", "" + token);
+        });
     }
 }

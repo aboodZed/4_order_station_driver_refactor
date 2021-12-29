@@ -7,8 +7,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.EXTERNAL_CONTENT_URI" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -22,18 +20,16 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:replace="android:supportsRtl">
-        <activity
-            android:name=".feature.main.MainActivity2"
-            android:exported="false"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme.NoActionBar" />
+        tools:replace="android:supportsRtl"
+        tools:targetApi="m">
+
         <activity
             android:name=".feature.data.DataActivity"
             android:exported="false" />
 
         <service android:name=".services.firebase.GenerateFCMService" />
-        <service android:name=".services.firebase.MyFirebaseMessagingService">
+        <service android:name=".services.firebase.MyFirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -52,23 +48,30 @@
         <activity android:name=".feature.order.OrderActivity" />
         <activity android:name=".feature.reset.ResetPasswordActivity" />
         <activity
-            android:name=".feature.register.RegisterActivity"
-            android:theme="@style/AppTheme" />
+            android:name=".feature.register.RegisterActivity" />
         <activity
-            android:name=".feature.login.LoginActivity"
-            android:theme="@style/AppTheme" />
+            android:name=".feature.login.LoginActivity" />
         <activity
             android:name=".feature.splash.SplashActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppSplashTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<!--        <activity-->
+<!--            android:name=".feature.main.MainActivity">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.webapp.a4_order_station_driver.feture.home.MainActivity" />-->
+
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
         <activity
-            android:name=".feature.main.MainActivity"
-            android:theme="@style/AppTheme">
+            android:name=".feature.main.MainActivity2"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.webapp.a4_order_station_driver.feture.home.MainActivity" />
 

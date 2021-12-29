@@ -4,18 +4,16 @@ import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
-import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.feature.register.two.RegisterStepTwoFragment;
-import com.webapp.a4_order_station_driver.models.Login;
-import com.webapp.a4_order_station_driver.models.NeighborhoodList;
+import com.webapp.a4_order_station_driver.models.City;
+import com.webapp.a4_order_station_driver.models.Result;
 import com.webapp.a4_order_station_driver.models.User;
 import com.webapp.a4_order_station_driver.utils.APIImageUtil;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
@@ -27,23 +25,27 @@ import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
-public class RegisterStepOnePresenter {
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class RegisterStepOnePresenter implements DialogView<String> {
+
 
     private BaseActivity baseActivity;
-    private DialogView<NeighborhoodList> dialogView;
+    private DialogView<ArrayList<City>> dialogView;
     private PhotoTakerManager photoTakerManager;
     private int requestCode;
+    private String fileName;
 
     public RegisterStepOnePresenter(BaseActivity baseActivity
-            , DialogView<NeighborhoodList> dialogView, PhotoTakerManager photoTakerManager) {
+            , DialogView<ArrayList<City>> dialogView, PhotoTakerManager photoTakerManager) {
         this.baseActivity = baseActivity;
         this.dialogView = dialogView;
         this.photoTakerManager = photoTakerManager;
     }
 
     public void validInput(EditText etEnterName, EditText etEnterEmail, EditText etEnterAddress
-            , EditText etEnterPhone, EditText etEnterPassword, EditText etEnterConfirmPassword
-            , Bitmap bitmap, boolean saveImage, int city_id) {
+            , EditText etEnterPhone, EditText etEnterPassword, EditText etEnterConfirmPassword, int city_id) {
 
         String name = etEnterName.getText().toString().trim();
         String email = etEnterEmail.getText().toString().trim();
@@ -51,9 +53,10 @@ public class RegisterStepOnePresenter {
         String password = etEnterPassword.getText().toString().trim();
         String confirmPassword = etEnterConfirmPassword.getText().toString().trim();
         String address = etEnterAddress.getText().toString().trim();
-        int phone_length = AppController.getInstance().getAppSettingsPreferences().getCountry().getPhone_length();
+        int phone_length = AppController.getInstance().getAppSettingsPreferences()
+                .getSettings().getData().getPhone_length();
 
-        if (!saveImage) {
+        if (TextUtils.isEmpty(fileName)) {
             ToolUtil.showLongToast(baseActivity.getString(R.string.fill_photos), baseActivity);
             return;
         }
@@ -74,7 +77,7 @@ public class RegisterStepOnePresenter {
             return;
         }
         if (mobile.length() != phone_length) {
-            etEnterPhone.setError("phone number must be " + phone_length + " digits");
+            etEnterPhone.setError(baseActivity.getString(R.string.phone_must) + phone_length + baseActivity.getString(R.string.digits));
             return;
         }
         if (TextUtils.isEmpty(address)) {
@@ -106,26 +109,30 @@ public class RegisterStepOnePresenter {
             return;
         }*/
 
-        User user = new User(name, APIImageUtil.bitmapToBase64(bitmap),
-                /*AppController.getInstance().getAppSettingsPreferences()
-                        .getCountry().getPhone_code() +*/ mobile, email, address,
+        /*User user = new User(name, fileName,/*APIImageUtil.bitmapToBase64(bitmap),
+                AppController.getInstance().getAppSettingsPreferences()
+                        .getCountry().getPhone_code() + mobile, email, address,
                 "delivery_driver", password, confirmPassword, AppController.getInstance()
                 .getAppSettingsPreferences().getCountry().getId(), city_id);
 
-        Log.e("country_id", user.getCountry_id() + "");
-        finishStepOne(user);
+        Log.e("country_id", user.getCountry_id() + "");*/
+        finishStepOne(User.mapUploadStepOne(name, AppController.getInstance()
+                        .getAppSettingsPreferences().getSettings().getData().getPhone_code() + mobile
+                , email, password, address, AppController.getInstance().getAppSettingsPreferences()
+                        .getSettings().getData().getCountry_id(), city_id, fileName));
     }
 
-    private void finishStepOne(User user) {
+    private void finishStepOne(HashMap<String, String> map) {
         dialogView.showDialog("");
 
-        new APIUtil<Login>(baseActivity).getData(AppController.getInstance().getApi().SignUp(user)
-                , new RequestListener<Login>() {
+        new APIUtil<Result<User>>(baseActivity).getData(AppController.getInstance().getApi().SignUp(map)
+                , new RequestListener<Result<User>>() {
                     @Override
-                    public void onSuccess(Login login, String msg) {
-                        AppController.getInstance().getAppSettingsPreferences().setLogin(login);
-                        AppController.getInstance().getAppSettingsPreferences().setIsLogin(true);
-                        AppController.getInstance().getAppSettingsPreferences().setPassword(user.getPassword());
+                    public void onSuccess(Result<User> result, String msg) {
+                        Log.e(getClass().getName() + "user", result.getData().toString());
+                        AppController.getInstance().getAppSettingsPreferences().setUser(result.getData());
+                        AppController.getInstance().getAppSettingsPreferences().setToken(result.getData().getToken());
+                        //AppController.getInstance().getAppSettingsPreferences().setPassword(user.getPassword());
                         dialogView.hideDialog();
 
                         baseActivity.navigate(RegisterStepTwoFragment.page);
@@ -145,29 +152,30 @@ public class RegisterStepOnePresenter {
                 });
     }
 
-    public void getNeighborhood() {
+    public void getCities() {
         dialogView.showDialog("");
-        new APIUtil<NeighborhoodList>(baseActivity).getData(AppController.getInstance().getApi()
-                .getNeighborhood(AppController.getInstance().getAppSettingsPreferences().getCountry().getId())
-                , new RequestListener<NeighborhoodList>() {
-            @Override
-            public void onSuccess(NeighborhoodList neighborhoodList, String msg) {
-                dialogView.hideDialog();
-                dialogView.setData(neighborhoodList);
-            }
+        new APIUtil<Result<ArrayList<City>>>(baseActivity).getData(AppController.getInstance().getApi()
+                        .getCities(AppController.getInstance().getAppSettingsPreferences().getSettings()
+                                .getData().getCountry_id())
+                , new RequestListener<Result<ArrayList<City>>>() {
+                    @Override
+                    public void onSuccess(Result<ArrayList<City>> result, String msg) {
+                        dialogView.hideDialog();
+                        dialogView.setData(result.getData());
+                    }
 
-            @Override
-            public void onError(String msg) {
-                dialogView.hideDialog();
-                ToolUtil.showLongToast(msg, baseActivity);
-            }
+                    @Override
+                    public void onError(String msg) {
+                        dialogView.hideDialog();
+                        ToolUtil.showLongToast(msg, baseActivity);
+                    }
 
-            @Override
-            public void onFail(String msg) {
-                dialogView.hideDialog();
-                ToolUtil.showLongToast(msg, baseActivity);
-            }
-        });
+                    @Override
+                    public void onFail(String msg) {
+                        dialogView.hideDialog();
+                        ToolUtil.showLongToast(msg, baseActivity);
+                    }
+                });
     }
 
     public void setRequestCode(int requestCode) {
@@ -188,16 +196,23 @@ public class RegisterStepOnePresenter {
             photoTakerManager.deleteLastTakenPhoto();
         }
     }
-/*
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            switch (requestCode) {
-                case AppContent.REQUEST_PERMISSIONS_R_W_STORAGE_CAMERA:
-                    ToolUtil.showLongToast(baseActivity.getString(R.string.permission_garnted), baseActivity);
-                    break;
-            }
-        } else {
-            ToolUtil.showLongToast(baseActivity.getString(R.string.permission_denial), baseActivity);
-        }
-    }*/
+
+    public void uploadImage(Bitmap bitmap) {
+        APIImageUtil.uploadImage(baseActivity, this, bitmap);
+    }
+
+    @Override
+    public void setData(String s) {
+        fileName = s;
+    }
+
+    @Override
+    public void showDialog(String s) {
+        dialogView.showDialog(s);
+    }
+
+    @Override
+    public void hideDialog() {
+        dialogView.hideDialog();
+    }
 }

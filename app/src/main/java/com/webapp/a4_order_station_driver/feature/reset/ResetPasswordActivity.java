@@ -1,12 +1,11 @@
 package com.webapp.a4_order_station_driver.feature.reset;
 
 import android.os.Bundle;
-import android.view.WindowManager;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.ActivityResetPasswordBinding;
-import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity2;
 import com.webapp.a4_order_station_driver.feature.reset.one.ResetStep1;
 import com.webapp.a4_order_station_driver.feature.reset.three.ResetStep3;
 import com.webapp.a4_order_station_driver.feature.reset.two.ResetStep2;
@@ -65,8 +64,7 @@ public class ResetPasswordActivity extends BaseActivity {
                         , resetStep1, R.id.fragment_container);
                 break;
             case ResetStep2.page:
-                resetStep2 = ResetStep2.newInstance(this);
-                //resetStep2.setData(resetStep1.getData());
+                resetStep2 = ResetStep2.newInstance(this, resetStep1.getData());
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , resetStep2, R.id.fragment_container);
                 break;
@@ -75,8 +73,8 @@ public class ResetPasswordActivity extends BaseActivity {
                 new NavigateUtil().replaceFragment(getSupportFragmentManager()
                         , resetStep3, R.id.fragment_container);
                 break;
-            case MainActivity.page:
-                new NavigateUtil().activityIntent(this, MainActivity.class, false);
+            case MainActivity2.page:
+                new NavigateUtil().activityIntent(this, MainActivity2.class, false);
                 break;
             case LoginActivity.page:
                 new NavigateUtil().activityIntent(this, LoginActivity.class, false);

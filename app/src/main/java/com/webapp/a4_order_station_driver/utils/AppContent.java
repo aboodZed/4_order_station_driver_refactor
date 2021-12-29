@@ -5,12 +5,13 @@ public interface AppContent {
     String INPUT_SETTINGS = "setting";
     String CODE_DETAILS = "codeDetails";
 
-    String BASE_URL = "http://www.4order.net/api/v2/";
+    String BASE_URL = "https://satco.vip/api/v3/";
+    //fifth String BASE_URL = "http://www.4order.net/api/v3/";
     //forth String BASE_URL = "http://4orderstation.com/api/v2/";
     //third String BASE_URL = "https://live.4orderstation.net/api/v2/";
     //second url String BASE_URL = "https://stationsback.4orderstation.net/api/v2/";
     //first url String BASE_URL = https://control.4orderstation.net/api/v2/
-
+    String IMAGE_STORAGE_URL = "http://4order.net/uploads/mobile/";
     //navigation
     String PAGE = "page";
     String ORDER_Id = "order_id";

@@ -7,9 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.webapp.a4_order_station_driver.databinding.ItemOrderItemsBinding;
-import com.webapp.a4_order_station_driver.models.ExtraItems;
-import com.webapp.a4_order_station_driver.models.OrderItem;
-import com.webapp.a4_order_station_driver.models.OrderItemItem;
+import com.webapp.a4_order_station_driver.models.OrderStationItem;
+import com.webapp.a4_order_station_driver.models.OrderStationItemExtra;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.formatter.DecimalFormatterManager;
 
@@ -17,9 +16,9 @@ import java.util.ArrayList;
 
 public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.OrderItemHolder> {
 
-    private ArrayList<OrderItem> orderItems;
+    private ArrayList<OrderStationItem> orderItems;
 
-    public OrderItemsAdapter(ArrayList<OrderItem> orderItems) {
+    public OrderItemsAdapter(ArrayList<OrderStationItem> orderItems) {
         this.orderItems = orderItems;
     }
 
@@ -40,7 +39,7 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Or
         return orderItems.size();
     }
 
-    public void addItem(OrderItem item) {
+    public void addItem(OrderStationItem item) {
         orderItems.add(item);
         notifyItemInserted(getItemCount() - 1);
     }
@@ -54,23 +53,24 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Or
             this.binding = binding;
         }
 
-        public void setData(OrderItem orderItem) {
-            OrderItemItem item = orderItem.getOrderItemItem();
+        public void setData(OrderStationItem testOrderItem) {
+            //OrderItemItem item = orderItem.getExtra_items();
             if (AppController.getInstance().getAppSettingsPreferences().getAppLanguage().equals("en")) {
-                binding.tvItemName.setText(item.getName_en());
-                for (ExtraItems s : orderItem.getExtra_items()) {
-                    binding.tvItemDescribe.append(s.getName_en() + "\n");
+                binding.tvItemName.setText(testOrderItem.getItem_name());
+                for (OrderStationItemExtra s : testOrderItem.getExtra_items()) {
+                    binding.tvItemDescribe.append(s.getName() + "\n");
                 }
-            } else {
+            }
+            /*} else {
                 binding.tvItemName.setText(item.getName_ar());
                 for (ExtraItems s : orderItem.getExtra_items()) {
                     binding.tvItemDescribe.append(s.getName_ar() + "\n");
                 }
-            }
-            binding.tvItemQnt.setText(orderItem.getQty());
+            }*/
+            binding.tvItemQnt.setText(String.valueOf(testOrderItem.getQty()));
             binding.tvItemPrice.setText((DecimalFormatterManager.getFormatterInstance()
-                    .format(Double.parseDouble(orderItem.getPrice())) + " " + AppController
-                    .getInstance().getAppSettingsPreferences().getCountry().getCurrency_code()));
+                    .format(testOrderItem.getPrice()) + " " + AppController.getInstance()
+                    .getAppSettingsPreferences().getUser().getCountry().getCurrency_code()));
         }
     }
 }

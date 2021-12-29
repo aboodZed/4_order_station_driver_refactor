@@ -47,7 +47,7 @@
             android:inputType="number"
             android:textColor="@color/colorPrimary"
             android:textSelectHandle="@drawable/text_handle"
-            android:textSize="16sp"
+            android:textSize="12sp"
             app:distanceInBetween="10dp"
             app:fieldColor="@color/gray"
             app:highlightColor="@color/colorPrimary"
@@ -56,10 +56,10 @@
             app:isCursorEnabled="true"
             app:isCustomBackground="true"
             app:lineThickness="@dimen/small_rat"
-            app:circleRadius="@dimen/xlarge_padding"
+            app:circleRadius="@dimen/large_padding"
             app:fillerRadius="@dimen/medium_padding"
             app:fillerColor="@color/colorAccent"
-            app:noOfFields="4" />
+            app:noOfFields="6" />
 
             <TextView
                 android:id="@+id/btn_resend"

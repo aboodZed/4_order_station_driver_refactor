@@ -3,7 +3,9 @@ package com.webapp.a4_order_station_driver.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Country {
+import java.io.Serializable;
+
+public class Country implements Serializable {
 
     @SerializedName("id")
     @Expose

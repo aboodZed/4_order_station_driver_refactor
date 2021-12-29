@@ -49,18 +49,23 @@ public class ApiClient {
         public Response intercept(Chain chain) throws IOException {
             Request.Builder builder = chain.request().newBuilder();
             builder.header("X-Requested-With", "XMLHttpRequest");
-            builder.header("Content-Type", "application/json");
+            //builder.header("Content-Type", "application/json");
+            builder.header("Accept", "application/json");
             builder.header("Connection", "close");
-            if (AppController.getInstance().getAppSettingsPreferences().getLogin() != null) {
-                builder.header("Authorization", AppController.getInstance().getAppSettingsPreferences().getLogin().getAccess_token());
+            builder.header("Authorization", AppController.getInstance()
+                    .getAppSettingsPreferences().getToken());
+            /*if (AppController.getInstance().getAppSettingsPreferences().getUser() != null) {
+                builder.header("Authorization", AppController.getInstance()
+                        .getAppSettingsPreferences().getUser().getToken());
             } else {
                 builder.header("Authorization", "");
-            }
-            if (AppController.getInstance().getAppSettingsPreferences().getCountry() != null) {
-                builder.header("country_id", AppController.getInstance().getAppSettingsPreferences().getCountry().getId() + "");
+            }*/
+            /*if (AppController.getInstance().getAppSettingsPreferences().getUser().getCountry() != null) {
+                builder.header("country_id", AppController.getInstance()
+                        .getAppSettingsPreferences().getUser().getCountry().getId() + "");
             } else {
                 builder.header("country_id", "");
-            }
+            }*/
             builder.header("X-Local", AppController.getInstance().getAppSettingsPreferences().getAppLanguage());
             return chain.proceed(builder.build());
         }

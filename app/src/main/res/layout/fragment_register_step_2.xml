@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".feature.register.two.RegisterStepTwoFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="@drawable/white_button"
+        android:orientation="vertical"
         android:padding="@dimen/large_padding">
 
         <LinearLayout
@@ -53,9 +53,9 @@
                     android:id="@+id/tv_page"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorAccent"
                     android:layout_marginTop="@dimen/small_margin"
                     android:text="2"
+                    android:textColor="@color/colorAccent"
                     android:textSize="@dimen/large_text"
                     app:layout_constraintEnd_toStartOf="@+id/textView3"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -80,15 +80,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginTop="@dimen/medium_margin"
-                android:layout_marginBottom="@dimen/medium_margin">
+                android:layout_marginBottom="@dimen/medium_margin"
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -103,76 +103,6 @@
                         android:layout_height="@dimen/medium_avatar"
                         android:src="@drawable/photo_capture" />
 
-                    <!-- <LinearLayout
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_gravity="end"
-                     android:orientation="horizontal">
-
-                     <ImageView
-                         android:id="@+id/iv_vehicle_upload"
-                         android:layout_width="40dp"
-                         android:layout_height="40dp"
-                         android:layout_margin="5dp"
-                         android:layout_weight="1"
-                         android:background="@drawable/ic_upload" />
-
-                     <ImageView
-                         android:id="@+id/iv_vehicle_camera"
-                         android:layout_width="40dp"
-                         android:layout_height="40dp"
-                         android:layout_margin="5dp"
-                         android:layout_weight="1"
-                         android:background="@drawable/ic_camera" />
-                 </LinearLayout>
-                 -->
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/vehicle_license"
-                        android:layout_marginBottom="@dimen/small_margin" />
-
-
-
-                    <ImageView
-                        android:id="@+id/iv_vehicle_license"
-                        android:layout_width="@dimen/medium_avatar"
-                        android:layout_height="@dimen/medium_avatar"
-                        android:src="@drawable/photo_capture"
-                        android:layout_weight="1" />
-
-                    <!--<LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/iv_vehicle_license_upload"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/ic_upload" />
-
-                    <ImageView
-                        android:id="@+id/iv_vehicle_license_camera"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/ic_camera" />
-
-                </LinearLayout> -->
                 </LinearLayout>
 
             </LinearLayout>
@@ -180,13 +110,63 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="@dimen/medium_margin">
+                android:layout_marginBottom="@dimen/medium_margin"
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/small_margin"
+                        android:text="@string/vehicle_license" />
+
+
+                    <ImageView
+                        android:id="@+id/iv_vehicle_license"
+                        android:layout_width="@dimen/medium_avatar"
+                        android:layout_height="@dimen/medium_avatar"
+                        android:layout_weight="1"
+                        android:src="@drawable/photo_capture" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/your_license" />
+
+
+                    <ImageView
+                        android:id="@+id/iv_your_license"
+                        android:layout_width="@dimen/medium_avatar"
+                        android:layout_height="@dimen/medium_avatar"
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:src="@drawable/photo_capture" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
@@ -200,40 +180,15 @@
                         android:id="@+id/iv_vehicle_insurance"
                         android:layout_width="@dimen/medium_avatar"
                         android:layout_height="@dimen/medium_avatar"
-                        android:src="@drawable/photo_capture"
-                        android:layout_marginTop="@dimen/small_margin" />
-
-                    <!--
-                 <LinearLayout
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_gravity="end"
-                     android:orientation="horizontal">
-
-                     <ImageView
-                         android:id="@+id/iv_vehicle_insurance_upload"
-                         android:layout_width="40dp"
-                         android:layout_height="40dp"
-                         android:layout_margin="5dp"
-                         android:layout_weight="1"
-                         android:background="@drawable/ic_upload" />
-
-                     <ImageView
-                         android:id="@+id/iv_vehicle_insurance_camera"
-                         android:layout_width="40dp"
-                         android:layout_height="40dp"
-                         android:layout_margin="5dp"
-                         android:layout_weight="1"
-                         android:background="@drawable/ic_camera" />
-
-                 </LinearLayout>  -->
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:src="@drawable/photo_capture" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -248,133 +203,9 @@
                         android:layout_height="@dimen/medium_avatar"
                         android:layout_marginTop="@dimen/small_margin"
                         android:src="@drawable/photo_capture" />
-
-
-                    <!-- <LinearLayout
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:layout_gravity="end"
-                         android:orientation="horizontal">
-
-                         <ImageView
-                             android:id="@+id/iv_identity_upload"
-                             android:layout_width="40dp"
-                             android:layout_height="40dp"
-                             android:layout_margin="5dp"
-                             android:layout_weight="1"
-                             android:background="@drawable/ic_upload" />
-
-                         <ImageView
-                             android:id="@+id/iv_identity_camera"
-                             android:layout_width="40dp"
-                             android:layout_height="40dp"
-                             android:layout_margin="5dp"
-                             android:layout_weight="1"
-                             android:background="@drawable/ic_camera" />
-
-                     </LinearLayout> -->
                 </LinearLayout>
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/vehicle_Inc" />
-
-
-                    <ImageView
-                        android:id="@+id/iv_your_license"
-                        android:layout_width="@dimen/medium_avatar"
-                        android:layout_height="@dimen/medium_avatar"
-                        android:src="@drawable/photo_capture"
-                        android:layout_marginTop="@dimen/small_margin" />
-
-                    <!--
-                 <LinearLayout
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_gravity="end"
-                     android:orientation="horizontal">
-
-                     <ImageView
-                         android:id="@+id/iv_vehicle_insurance_upload"
-                         android:layout_width="40dp"
-                         android:layout_height="40dp"
-                         android:layout_margin="5dp"
-                         android:layout_weight="1"
-                         android:background="@drawable/ic_upload" />
-
-                     <ImageView
-                         android:id="@+id/iv_vehicle_insurance_camera"
-                         android:layout_width="40dp"
-                         android:layout_height="40dp"
-                         android:layout_margin="5dp"
-                         android:layout_weight="1"
-                         android:background="@drawable/ic_camera" />
-
-                 </LinearLayout>  -->
-                </LinearLayout>
-
-
-
-            </LinearLayout>
-
-            <!--<FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/your_license"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/medium_text" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/iv_your_license"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1" />
-
-                    <ImageView
-                        android:id="@+id/iv_your_license_upload"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/ic_upload" />
-
-                    <ImageView
-                        android:id="@+id/iv_your_license_camera"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/ic_camera" />
-
-                </LinearLayout>
-            </FrameLayout> -->
 
         </LinearLayout>
 
@@ -387,8 +218,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/dark_gray"
-                android:layout_marginBottom="@dimen/medium_margin"/>
+                android:layout_marginBottom="@dimen/medium_margin"
+                android:background="@color/dark_gray" />
 
             <!--  <TextView
                   android:layout_width="wrap_content"
@@ -405,8 +236,8 @@
                 android:background="@drawable/edit_text"
                 android:hint="@string/enter_vehicle_type"
                 android:inputType="textAutoComplete"
-                android:textSize="@dimen/medium_text"
-                android:padding="@dimen/large_padding"/>
+                android:padding="@dimen/large_padding"
+                android:textSize="@dimen/medium_text" />
 
             <!--  <TextView
                   android:layout_width="wrap_content"
@@ -419,11 +250,11 @@
                 android:id="@+id/et_vehicle_plate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/enter_vehicle_plate"
                 android:background="@drawable/edit_text"
+                android:hint="@string/enter_vehicle_plate"
                 android:inputType="text"
-                android:textSize="@dimen/medium_text"
-                android:padding="@dimen/large_padding" />
+                android:padding="@dimen/large_padding"
+                android:textSize="@dimen/medium_text" />
 
         </LinearLayout>
 
@@ -432,9 +263,9 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/medium_margin">
+        android:layout_marginTop="@dimen/medium_margin"
+        android:orientation="horizontal">
 
         <CheckBox
             android:id="@+id/cb_agree_terms"
@@ -447,13 +278,12 @@
             android:id="@+id/tv_terms_conditions"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/rate"
             android:gravity="center"
             android:text="@string/terms_and_conditions"
-            android:textColor="@color/red"
-            android:layout_marginStart="@dimen/rate"/>
+            android:textColor="@color/red" />
 
     </LinearLayout>
-
 
 
     <Button
@@ -474,16 +304,16 @@
         android:id="@+id/btn_sign_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/rate"
             android:text="@string/have_account"
             android:textColor="@color/hint"
-            android:textSize="@dimen/medium_text"
-            android:layout_marginEnd="@dimen/rate"/>
+            android:textSize="@dimen/medium_text" />
 
         <TextView
             android:id="@+id/tv_sign_in"

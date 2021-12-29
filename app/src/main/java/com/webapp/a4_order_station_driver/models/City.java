@@ -4,7 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.webapp.a4_order_station_driver.utils.location.LocationManager;
 
-public class Neighborhood extends GPSLocation {
+import java.io.Serializable;
+
+public class City extends GPSLocation implements Serializable {
 
     @SerializedName("id")
     @Expose
@@ -14,7 +16,7 @@ public class Neighborhood extends GPSLocation {
     @Expose
     private String name;
 
-    public Neighborhood(int id, String name) {
+    public City(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -29,7 +31,7 @@ public class Neighborhood extends GPSLocation {
 
     @Override
     public String toString() {
-        return "Neighborhood{" +
+        return "City{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

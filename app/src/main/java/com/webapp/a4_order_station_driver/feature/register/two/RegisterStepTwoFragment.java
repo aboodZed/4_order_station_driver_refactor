@@ -12,8 +12,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
 import com.webapp.a4_order_station_driver.databinding.FragmentRegisterStep2Binding;
-import com.webapp.a4_order_station_driver.models.User;
-import com.webapp.a4_order_station_driver.utils.APIImageUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.Photo.PhotoTakerManager;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
@@ -23,7 +21,9 @@ import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
-public class RegisterStepTwoFragment extends Fragment implements DialogView<User>, RequestListener<Bitmap> {
+import java.util.HashMap;
+
+public class RegisterStepTwoFragment extends Fragment implements DialogView<String>, RequestListener<Bitmap> {
 
     public static final int page = 302;
 
@@ -31,10 +31,10 @@ public class RegisterStepTwoFragment extends Fragment implements DialogView<User
     private RegisterStepTwoPresenter presenter;
     private ItemSelectImageDialogFragment itemSelectImageDialogFragment;
     private PhotoTakerManager photoTakerManager;
-    private String[] images = new String[5];
+    private HashMap<String, String> map = new HashMap<>();
     private int process_image;
 
-    private final int VEHICLE_IMAGE = 0;
+    private final int VEHICLE = 0;
     private final int VEHICLE_LICENSE = 1;
     private final int VEHICLE_INSURANCE = 2;
     private final int IDENTITY = 3;
@@ -66,197 +66,77 @@ public class RegisterStepTwoFragment extends Fragment implements DialogView<User
     }
 
     private void onActivityResulting() {
-        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> presenter.onActivityResult(result.getResultCode(), result.getData()));
-    }
-
-    public void signUp() {
-        presenter.validInput(images, binding.etVehiclePlate, binding.etVehicleType);
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult()
+                , result -> presenter.onActivityResult(result.getResultCode(), result.getData()));
     }
 
     private void click() {
         binding.ivVehicle.setOnClickListener(view -> {
-            itemSelectImageDialogFragment = ItemSelectImageDialogFragment.newInstance();
-            itemSelectImageDialogFragment.setListener(new ItemSelectImageDialogFragment.Listener() {
-                @Override
-                public void onGalleryClicked() {
-                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_UPLOAD);
-                    photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
-                    process_image = VEHICLE_IMAGE;
-                }
-
-                @Override
-                public void onCameraClicked() {
-                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_CAMERA);
-                    photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
-                    process_image = VEHICLE_IMAGE;
-                }
-            });
-            itemSelectImageDialogFragment.show(getChildFragmentManager(), "");
+            process_image = VEHICLE;
+            request(AppContent.REQUEST_IMAGE_VEHICLE_UPLOAD, AppContent.REQUEST_IMAGE_VEHICLE_CAMERA);
         });
 
         binding.ivVehicleLicense.setOnClickListener(view -> {
-            itemSelectImageDialogFragment = ItemSelectImageDialogFragment.newInstance();
-            itemSelectImageDialogFragment.setListener(new ItemSelectImageDialogFragment.Listener() {
-                @Override
-                public void onGalleryClicked() {
-                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_UPLOAD);
-                    photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
-                    process_image = VEHICLE_LICENSE;
-                }
-
-                @Override
-                public void onCameraClicked() {
-                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_CAMERA);
-                    photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
-                    process_image = VEHICLE_LICENSE;
-                }
-            });
-            itemSelectImageDialogFragment.show(getChildFragmentManager(), "");
+            process_image = VEHICLE_LICENSE;
+            request(AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_UPLOAD, AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_CAMERA);
         });
 
         binding.ivVehicleInsurance.setOnClickListener(view -> {
-            itemSelectImageDialogFragment = ItemSelectImageDialogFragment.newInstance();
-            itemSelectImageDialogFragment.setListener(new ItemSelectImageDialogFragment.Listener() {
-                @Override
-                public void onGalleryClicked() {
-                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_UPLOAD);
-                    photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
-                    process_image = VEHICLE_INSURANCE;
-                }
-
-                @Override
-                public void onCameraClicked() {
-                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_CAMERA);
-                    photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
-                    process_image = VEHICLE_INSURANCE;
-                }
-            });
-            itemSelectImageDialogFragment.show(getChildFragmentManager(), "");
+            process_image = VEHICLE_INSURANCE;
+            request(AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_UPLOAD, AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_CAMERA);
         });
 
         binding.ivIdentity.setOnClickListener(view -> {
-            itemSelectImageDialogFragment = ItemSelectImageDialogFragment.newInstance();
-            itemSelectImageDialogFragment.setListener(new ItemSelectImageDialogFragment.Listener() {
-                @Override
-                public void onGalleryClicked() {
-                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_IDENTITY_UPLOAD);
-                    photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
-                    process_image = IDENTITY;
-                }
-
-                @Override
-                public void onCameraClicked() {
-                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_IDENTITY_CAMERA);
-                    photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
-                    process_image = IDENTITY;
-                }
-            });
-            itemSelectImageDialogFragment.show(getChildFragmentManager(), "");
+            process_image = IDENTITY;
+            request(AppContent.REQUEST_IMAGE_IDENTITY_UPLOAD, AppContent.REQUEST_IMAGE_IDENTITY_CAMERA);
         });
 
         binding.ivYourLicense.setOnClickListener(view -> {
-            itemSelectImageDialogFragment = ItemSelectImageDialogFragment.newInstance();
-            itemSelectImageDialogFragment.setListener(new ItemSelectImageDialogFragment.Listener() {
-                @Override
-                public void onGalleryClicked() {
-                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_YOUR_LICENSE_UPLOAD);
-                    photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
-                    process_image = YOUR_LICENSE;
-                }
-
-                @Override
-                public void onCameraClicked() {
-                    presenter.setRequestCode(AppContent.REQUEST_IMAGE_YOUR_LICENSE_CAMERA);
-                    photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
-                    process_image = YOUR_LICENSE;
-                }
-            });
-            itemSelectImageDialogFragment.show(getChildFragmentManager(), "");
-        });
-        /*
-        binding.ivVehicleUpload.setOnClickListener(view ->
-        {
-            presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_UPLOAD);
-            photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
-            process_image = VEHICLE_IMAGE;
-        });
-
-        binding.ivVehicleLicenseUpload.setOnClickListener(view ->
-        {
-            presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_UPLOAD);
-            photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
-            process_image = VEHICLE_LICENSE;
-        });
-
-        binding.ivVehicleInsuranceUpload.setOnClickListener(view ->
-        {
-            presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_UPLOAD);
-            photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
-            process_image = VEHICLE_INSURANCE;
-        });
-
-        binding.ivIdentityUpload.setOnClickListener(view ->
-        {
-            presenter.setRequestCode(AppContent.REQUEST_IMAGE_IDENTITY_UPLOAD);
-            photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
-            process_image = IDENTITY;
-        });
-
-        binding.ivYourLicenseUpload.setOnClickListener(view ->
-        {
-            presenter.setRequestCode(AppContent.REQUEST_IMAGE_YOUR_LICENSE_UPLOAD);
-            photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
             process_image = YOUR_LICENSE;
+            request(AppContent.REQUEST_IMAGE_YOUR_LICENSE_UPLOAD, AppContent.REQUEST_IMAGE_YOUR_LICENSE_CAMERA);
         });
 
-
-        binding.ivVehicleCamera.setOnClickListener(view ->
-        {
-            presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_CAMERA);
-            photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
-            process_image = VEHICLE_IMAGE;
-        });
-
-        binding.ivVehicleLicenseCamera.setOnClickListener(view ->
-        {
-            presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_CAMERA);
-            photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
-            process_image = VEHICLE_LICENSE;
-        });
-
-        binding.ivVehicleInsuranceCamera.setOnClickListener(view ->
-        {
-            presenter.setRequestCode(AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_CAMERA);
-            photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
-            process_image = VEHICLE_INSURANCE;
-        });
-
-        binding.ivIdentityCamera.setOnClickListener(view ->
-        {
-            presenter.setRequestCode(AppContent.REQUEST_IMAGE_IDENTITY_CAMERA);
-            photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
-            process_image = IDENTITY;
-        });
-
-        binding.ivYourLicenseCamera.setOnClickListener(view ->
-        {
-            presenter.setRequestCode(AppContent.REQUEST_IMAGE_YOUR_LICENSE_CAMERA);
-            photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
-            process_image = YOUR_LICENSE;
-        });
-
-         */
+        binding.btnRegister.setOnClickListener(view -> presenter.validInput(binding, map));
+        binding.btnSignIn.setOnClickListener(view -> presenter.goLoginPage());
     }
-/*
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        presenter.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
-    }*/
+
+    private void request(int request_upload, int request_camera) {
+        itemSelectImageDialogFragment = ItemSelectImageDialogFragment.newInstance();
+        itemSelectImageDialogFragment.setListener(new ItemSelectImageDialogFragment.Listener() {
+            @Override
+            public void onGalleryClicked() {
+                presenter.setRequestCode(request_upload);
+                photoTakerManager.galleryRequestLauncher(getActivity(), launcher);
+            }
+
+            @Override
+            public void onCameraClicked() {
+                presenter.setRequestCode(request_camera);
+                photoTakerManager.cameraRequestLauncher(getActivity(), launcher);
+            }
+        });
+        itemSelectImageDialogFragment.show(getChildFragmentManager(), "");
+    }
 
     @Override
-    public void setData(User user) {
-
+    public void setData(String fileName) {
+        switch (process_image) {
+            case VEHICLE:
+                map.put("vehicle_pic", fileName);
+                break;
+            case VEHICLE_LICENSE:
+                map.put("vehicle_license", fileName);
+                break;
+            case VEHICLE_INSURANCE:
+                map.put("insurance_license", fileName);
+                break;
+            case IDENTITY:
+                map.put("id_pic", fileName);
+                break;
+            case YOUR_LICENSE:
+                map.put("drive_license", fileName);
+                break;
+        }
     }
 
     @Override
@@ -271,33 +151,29 @@ public class RegisterStepTwoFragment extends Fragment implements DialogView<User
 
     @Override
     public void onSuccess(Bitmap bitmap, String msg) {
+        presenter.uploadImage(bitmap);
         switch (process_image) {
-            case VEHICLE_IMAGE:
+            case VEHICLE:
                 binding.ivVehicle.setImageBitmap(bitmap);
-                images[VEHICLE_IMAGE] = APIImageUtil.bitmapToBase64(bitmap);
                 break;
             case VEHICLE_LICENSE:
                 binding.ivVehicleLicense.setImageBitmap(bitmap);
-                images[VEHICLE_LICENSE] = APIImageUtil.bitmapToBase64(bitmap);
                 break;
             case VEHICLE_INSURANCE:
                 binding.ivVehicleInsurance.setImageBitmap(bitmap);
-                images[VEHICLE_INSURANCE] = APIImageUtil.bitmapToBase64(bitmap);
                 break;
             case IDENTITY:
                 binding.ivIdentity.setImageBitmap(bitmap);
-                images[IDENTITY] = APIImageUtil.bitmapToBase64(bitmap);
                 break;
             case YOUR_LICENSE:
                 binding.ivYourLicense.setImageBitmap(bitmap);
-                images[YOUR_LICENSE] = APIImageUtil.bitmapToBase64(bitmap);
                 break;
         }
     }
 
     @Override
     public void onError(String msg) {
-
+        ToolUtil.showLongToast(msg, getActivity());
     }
 
     @Override

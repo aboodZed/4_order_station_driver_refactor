@@ -2,15 +2,22 @@ package com.webapp.a4_order_station_driver.feature.register.two;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
-import android.widget.EditText;
+import android.util.Log;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.webapp.a4_order_station_driver.R;
-import com.webapp.a4_order_station_driver.feature.main.MainActivity;
-import com.webapp.a4_order_station_driver.models.Login;
+import com.webapp.a4_order_station_driver.databinding.FragmentRegisterStep2Binding;
+import com.webapp.a4_order_station_driver.feature.login.LoginActivity;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity2;
+import com.webapp.a4_order_station_driver.models.Result;
 import com.webapp.a4_order_station_driver.models.User;
 import com.webapp.a4_order_station_driver.services.firebase.GenerateFCMService;
+import com.webapp.a4_order_station_driver.utils.APIImageUtil;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
@@ -20,61 +27,77 @@ import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
+import java.util.HashMap;
+
 public class RegisterStepTwoPresenter {
 
     private BaseActivity baseActivity;
-    private DialogView<User> dialogView;
+    private DialogView<String> dialogView;
     private PhotoTakerManager photoTakerManager;
     private int requestCode;
 
     public RegisterStepTwoPresenter(BaseActivity baseActivity
-            , DialogView<User> dialogView, PhotoTakerManager photoTakerManager) {
+            , DialogView<String> dialogView, PhotoTakerManager photoTakerManager) {
         this.baseActivity = baseActivity;
         this.dialogView = dialogView;
         this.photoTakerManager = photoTakerManager;
     }
 
-    public void validInput( String images[], EditText etVehiclePlate, EditText etVehicleType) {
-        String plate = etVehiclePlate.getText().toString().trim();
-        String type = etVehicleType.getText().toString().trim();
+    public void validInput(FragmentRegisterStep2Binding binding, HashMap<String, String> map) {
+        String plate = binding.etVehiclePlate.getText().toString().trim();
+        String type = binding.etVehicleType.getText().toString().trim();
 
-        for (int i = 0; i < images.length; i++) {
-            if (TextUtils.isEmpty(images[i])) {
-                ToolUtil.showLongToast(baseActivity.getString(R.string.fill_photos), baseActivity);
-                return;
-            }
+        if (map.size() < 5) {
+            ToolUtil.showLongToast(baseActivity.getString(R.string.fill_photos), baseActivity);
+            return;
         }
+
         if (TextUtils.isEmpty(type)) {
-            etVehicleType.setError(baseActivity.getString(R.string.empty_error));
+            binding.etVehicleType.setError(baseActivity.getString(R.string.empty_error));
             return;
         }
         if (TextUtils.isEmpty(plate)) {
-            etVehiclePlate.setError(baseActivity.getString(R.string.empty_error));
+            binding.etVehiclePlate.setError(baseActivity.getString(R.string.empty_error));
             return;
         }
 
-        User user = new User(images[0], images[1], images[2], images[3], images[4], plate, type);
-
-        finishStepTwo(user);
+        if (!binding.cbAgreeTerms.isChecked()) {
+            binding.cbAgreeTerms.setError(baseActivity.getString(R.string.accept_terms));
+            return;
+        }
+        map.put("vehicle_plate",plate);
+        map.put("vehicle_type", type);
+        generateFCMToken(baseActivity, map);
     }
 
-    public void finishStepTwo(User user) {
+    public void generateFCMToken(Context context, HashMap<String, String> map) {
         dialogView.showDialog("");
-        new APIUtil<User>(baseActivity).getData(AppController.getInstance().getApi().signUp2(user),
-                new RequestListener<User>() {
+        FirebaseApp.initializeApp(context);
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e("Main", "getInstanceId failed", task.getException());
+                return;
+            }
+            // Get new Instance ID token
+            String token = task.getResult();
+            Log.e("fcm token", "" + token);
+            map.put("fcm_token", token);
+            finishStepTwo(map);
+        });
+    }
+
+    public void finishStepTwo(HashMap<String, String> map) {
+        new APIUtil<Result<User>>(baseActivity).getData(AppController.getInstance().getApi().signUpStepTwo(map),
+                new RequestListener<Result<User>>() {
                     @Override
-                    public void onSuccess(User user, String msg) {
+                    public void onSuccess(Result<User> result, String msg) {
                         dialogView.hideDialog();
-                        //update user
-                        Login login = AppController.getInstance().getAppSettingsPreferences().getLogin();
-                        login.setUser(user);
-                        AppController.getInstance().getAppSettingsPreferences().setLogin(login);
-                        AppController.getInstance().getAppSettingsPreferences().setIsLogin(true);
+                        AppController.getInstance().getAppSettingsPreferences().setUser(result.getData());
                         //service
                         Intent service = new Intent(baseActivity, GenerateFCMService.class);
                         baseActivity.startService(service);
-
-                        baseActivity.navigate(MainActivity.page);
+                        //main
+                        baseActivity.navigate(MainActivity2.page);
                     }
 
                     @Override
@@ -115,5 +138,13 @@ public class RegisterStepTwoPresenter {
 
             }
         }
+    }
+
+    public void uploadImage(Bitmap bitmap) {
+        APIImageUtil.uploadImage(baseActivity, dialogView, bitmap);
+    }
+
+    public void goLoginPage() {
+        baseActivity.navigate(LoginActivity.page);
     }
 }

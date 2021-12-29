@@ -15,20 +15,15 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.FragmentChatBinding;
 import com.webapp.a4_order_station_driver.models.ChatMessage;
-import com.webapp.a4_order_station_driver.models.Order;
 import com.webapp.a4_order_station_driver.models.OrderStation;
-import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.NotificationUtil;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.feature.order.adapter.ChatAdapter;
-import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
-import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
 import java.util.ArrayList;
 
@@ -45,7 +40,7 @@ public class ChatFragment extends Fragment {
     private OrderStation orderStation;
     private ChatAdapter chatAdapter;
 
-    public static ChatFragment newInstance(Order order) {
+    public static ChatFragment newInstance(OrderStation order) {
         ChatFragment fragment = new ChatFragment();
         Bundle args = new Bundle();
         args.putSerializable(AppContent.ORDER_OBJECT, order);
@@ -62,7 +57,10 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //View v = inflater.inflate(R.layout.fragment_chat, container, false);
         binding = FragmentChatBinding.inflate(getLayoutInflater());
-        getOrderData();
+        //getOrderData();
+        orderStation = (OrderStation) getArguments().get(AppContent.ORDER_OBJECT);
+        getMessages();
+        initRecycleView();
         click();
         return binding.getRoot();
     }
@@ -84,19 +82,19 @@ public class ChatFragment extends Fragment {
     private void click() {
         binding.ivUploadMessage.setOnClickListener(view -> sendMessage());
     }
-
+/*
     private void getOrderData() {
         if (getArguments() != null) {
             WaitDialogFragment.newInstance().show(getChildFragmentManager(), "");
 
             Order order = (Order) getArguments().get(AppContent.ORDER_OBJECT);
-            new APIUtil<OrderStation>(requireActivity()).getData(AppController
+            new APIUtil<Result<TestOrder>>(requireActivity()).getData(AppController
                             .getInstance().getApi().getOrderById(order.getId())
-                    , new RequestListener<OrderStation>() {
+                    , new RequestListener<Result<TestOrder>>() {
                         @Override
-                        public void onSuccess(OrderStation orderStation, String msg) {
+                        public void onSuccess(Result<TestOrder> result, String msg) {
                             WaitDialogFragment.newInstance().dismiss();
-                            ChatFragment.this.orderStation = orderStation;
+                            orderStation = result.getData();
                             db = FirebaseDatabase.getInstance().getReference(AppContent.FIREBASE_CHAT_INSTANCE);
                             getMessages();
                             initRecycleView();
@@ -116,7 +114,7 @@ public class ChatFragment extends Fragment {
                     });
         }
     }
-
+*/
     private void initRecycleView() {
         messageArrayList = new ArrayList<>();
         chatAdapter = new ChatAdapter(getActivity(), messageArrayList);
@@ -163,16 +161,16 @@ public class ChatFragment extends Fragment {
             if (!binding.etMessage.getText().toString().equals("")) {
                 ChatMessage chatMessage = new ChatMessage();
                 chatMessage.setText(binding.etMessage.getText().toString());
-                chatMessage.setSender_id(AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getId());
-                chatMessage.setSender_name(AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getName());
-                chatMessage.setSender_avatar_url(AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getAvatar_url());
+                chatMessage.setSender_id(AppController.getInstance().getAppSettingsPreferences().getUser().getId());
+                chatMessage.setSender_name(AppController.getInstance().getAppSettingsPreferences().getUser().getName());
+                chatMessage.setSender_avatar_url(AppController.getInstance().getAppSettingsPreferences().getUser().getAvatar_url());
                 chatMessage.setTime(System.currentTimeMillis() / 1000);
                 String key = db.push().getKey();
                 db.child(orderStation.getId() + "").child(key).setValue(chatMessage);
                 ToolUtil.hideSoftKeyboard(getActivity(), binding.etMessage);
                 binding.etMessage.setText("");
                 NotificationUtil.sendMessageNotification(getActivity(), orderStation.getInvoice_number()
-                        , orderStation.getId() + "", orderStation.getUser().getId() + ""
+                        , orderStation.getId() + "", orderStation.getCustomer().getId() + ""
                         , AppContent.TYPE_ORDER_4STATION);
             }
         } else {

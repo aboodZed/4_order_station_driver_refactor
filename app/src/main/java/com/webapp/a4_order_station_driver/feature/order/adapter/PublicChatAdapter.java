@@ -18,7 +18,6 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.webapp.a4_order_station_driver.databinding.ItemLeftPublicChatBinding;
 import com.webapp.a4_order_station_driver.databinding.ItemRightPublicChatBinding;
-import com.webapp.a4_order_station_driver.models.ChatMessage;
 import com.webapp.a4_order_station_driver.models.PublicChatMessage;
 import com.webapp.a4_order_station_driver.utils.APIImageUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
@@ -42,7 +41,7 @@ public class PublicChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemViewType(int position) {
         if (publicChatMessages.get(position).getSender_id() == AppController.getInstance()
-                .getAppSettingsPreferences().getLogin().getUser().getId()) {
+                .getAppSettingsPreferences().getUser().getId()) {
             return 1;
         } else {
             return 2;

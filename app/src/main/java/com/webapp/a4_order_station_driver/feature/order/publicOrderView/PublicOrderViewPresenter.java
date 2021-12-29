@@ -1,10 +1,7 @@
 package com.webapp.a4_order_station_driver.feature.order.publicOrderView;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,7 +26,6 @@ import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.NotificationUtil;
 import com.webapp.a4_order_station_driver.utils.Photo.PhotoTakerManager;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
-import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
@@ -126,10 +122,10 @@ public class PublicOrderViewPresenter {
             if (!binding.etMessage.getText().toString().equals("") || !avatarPath.isEmpty()) {
                 PublicChatMessage publicStoreMessage = new PublicChatMessage();
                 publicStoreMessage.setText(binding.etMessage.getText().toString());
-                publicStoreMessage.setSender_name(AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getName());
+                publicStoreMessage.setSender_name(AppController.getInstance().getAppSettingsPreferences().getUser().getName());
                 publicStoreMessage.setImageUrl(avatarPath);
-                publicStoreMessage.setSender_id(AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getId());
-                publicStoreMessage.setSender_avatar_url(AppController.getInstance().getAppSettingsPreferences().getLogin().getUser().getAvatar_url());
+                publicStoreMessage.setSender_id(AppController.getInstance().getAppSettingsPreferences().getUser().getId());
+                publicStoreMessage.setSender_avatar_url(AppController.getInstance().getAppSettingsPreferences().getUser().getAvatar_url());
                 publicStoreMessage.setTime(System.currentTimeMillis() / 1000);
                 String key = db.push().getKey();
                 db.child(publicOrder.getId() + "").child(key).setValue(publicStoreMessage);

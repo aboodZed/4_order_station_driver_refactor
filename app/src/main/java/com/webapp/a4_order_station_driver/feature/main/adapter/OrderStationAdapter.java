@@ -5,32 +5,25 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.webapp.a4_order_station_driver.R;
 import com.webapp.a4_order_station_driver.databinding.ItemOrderBinding;
-import com.webapp.a4_order_station_driver.feature.main.MainActivity;
 import com.webapp.a4_order_station_driver.feature.order.orderStationView.OrderStationViewFragment;
 import com.webapp.a4_order_station_driver.models.OrderStation;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.NavigateUtil;
-import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.formatter.DecimalFormatterManager;
-import com.webapp.a4_order_station_driver.utils.language.AppLanguageUtil;
-import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 
 import java.util.ArrayList;
 
 public class OrderStationAdapter extends RecyclerView.Adapter<OrderStationAdapter.OrdersHolder> {
 
     private ArrayList<OrderStation> orders = new ArrayList<>();
-    private FragmentActivity activity;
     private Activity baseActivity;
 
-    public OrderStationAdapter(FragmentActivity activity, Activity baseActivity) {
-        this.activity = activity;
+    public OrderStationAdapter(Activity baseActivity) {
         this.baseActivity = baseActivity;
     }
 
@@ -82,10 +75,10 @@ public class OrderStationAdapter extends RecyclerView.Adapter<OrderStationAdapte
         public void setData(OrderStation order, Activity baseActivity) {
             this.baseActivity = baseActivity;
             this.order = order;
-            binding.tvTime.setText(ToolUtil.getTime(order.getOrder_created_timestamp()));
-            binding.tvDate.setText(ToolUtil.getDate(order.getOrder_created_timestamp()));
-            binding.tvNumItems.setText((order.getItem_count() + " " + activity.getString(R.string.items)));
-            binding.tvPaymentWay.setText(order.getPayment_type());
+            binding.tvTime.setText(order.getOrder_date());
+            //binding.tvDate.setText();
+            binding.tvNumItems.setText((order.getOrderItems().size() + " " + baseActivity.getString(R.string.items)));
+            //binding.tvPaymentWay.setText(order.getPayment_type());
             binding.tvReceiverPoint.setText(order.getType_of_receive());
             if (order.getStatus().equals(AppContent.DELIVERED_STATUS)) {
                 binding.tvOrderState.setBackgroundResource(R.drawable.green_button);
@@ -94,19 +87,20 @@ public class OrderStationAdapter extends RecyclerView.Adapter<OrderStationAdapte
             }
             binding.tvOrderState.setText(order.getStatus());
             binding.tvPrice.setText((DecimalFormatterManager.getFormatterInstance()
-                    .format(Double.parseDouble(order.getTotal())) + " " + AppController
-                    .getInstance().getAppSettingsPreferences().getCountry().getCurrency_code()));
-            binding.tvReceiverName.setText(order.getUser().getName());
-            binding.tvReceiverAddress.setText(order.getUser().getAddress());
+                    .format(order.getTotal())));
+            binding.tvCurrency.setText(AppController.getInstance().getAppSettingsPreferences()
+                    .getUser().getCountry().getCurrency_code());
+            binding.tvReceiverName.setText(order.getCustomer().getName());
+            binding.tvReceiverAddress.setText(order.getCustomer().getAddress());
 
-            if (AppController.getInstance().getAppSettingsPreferences()
-                    .getAppLanguage().equals(AppLanguageUtil.English)) {
-                binding.tvCoName.setText(order.getShop().getName_en());
-                binding.tvCoAddress.setText(order.getShop().getAddress_en());
-            } else {
+            /*if (AppController.getInstance().getAppSettingsPreferences()
+                    .getAppLanguage().equals(AppLanguageUtil.English)) {*/
+                binding.tvCoName.setText(order.getStore().getName());
+                binding.tvCoAddress.setText(order.getStore().getAddress());
+           /* } else {
                 binding.tvCoName.setText(order.getShop().getName_ar());
                 binding.tvCoAddress.setText(order.getShop().getAddress_ar());
-            }
+            }*/
         }
     }
 }

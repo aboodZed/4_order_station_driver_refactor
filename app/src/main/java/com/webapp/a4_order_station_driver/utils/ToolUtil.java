@@ -7,10 +7,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.webapp.a4_order_station_driver.R;
 
 import org.json.JSONObject;
@@ -41,15 +44,12 @@ public class ToolUtil {
 
 
     public static String showError(Context context, ResponseBody s) {
-        String message = "";
+        String message = context.getString(R.string.error);
         try {
             JSONObject jObjError = new JSONObject(s.string());
             message = jObjError.getString(AppContent.FIREBASE_MESSAGE);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        if (TextUtils.isEmpty(message) && context != null) {
-            message = context.getString(R.string.error);
         }
         return message;
     }

@@ -2,7 +2,7 @@ package com.webapp.a4_order_station_driver.feature.data.rate;
 
 import android.app.Activity;
 
-import com.webapp.a4_order_station_driver.models.RatingObject;
+import com.webapp.a4_order_station_driver.models.Rating;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.ToolUtil;
@@ -12,21 +12,21 @@ import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 class RatingPresenter {
 
     private Activity activity;
-    private DialogView<RatingObject> dialogView;
+    private DialogView<Rating> dialogView;
 
-    public RatingPresenter(Activity activity, DialogView<RatingObject> dialogView) {
+    public RatingPresenter(Activity activity, DialogView<Rating> dialogView) {
         this.activity = activity;
         this.dialogView = dialogView;
     }
 
     public void getRatings(String url) {
         dialogView.showDialog("");
-        new APIUtil<RatingObject>(activity).getData(AppController.getInstance()
-                .getApi().getRating(url), new RequestListener<RatingObject>() {
+        new APIUtil<Rating>(activity).getData(AppController.getInstance()
+                .getApi().getRating(url), new RequestListener<Rating>() {
             @Override
-            public void onSuccess(RatingObject ratings, String msg) {
+            public void onSuccess(Rating testRating, String msg) {
                 dialogView.hideDialog();
-                dialogView.setData(ratings);
+                dialogView.setData(testRating);
             }
 
             @Override

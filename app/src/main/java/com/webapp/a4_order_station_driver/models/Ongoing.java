@@ -1,7 +1,5 @@
 package com.webapp.a4_order_station_driver.models;
 
-import android.view.ViewDebug;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

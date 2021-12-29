@@ -7,7 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -24,6 +26,9 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.webapp.a4_order_station_driver.R;
+import com.webapp.a4_order_station_driver.models.PhotoObject;
+import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
+import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -43,10 +48,9 @@ public class APIImageUtil {
         return ((BitmapDrawable) imageView.getDrawable()).getBitmap();
     }
 
-    public static MultipartBody.Part bitmapToMultipartBodyPart(Activity activity
-            , Bitmap bitmap, String name) {
+    public static MultipartBody.Part bitmapToMultipartBodyPart(Activity activity, Bitmap bitmap, String name) {
         //create a file to write bitmap data
-        int iUniqueId = (int) (System.currentTimeMillis() & 0xfffffff);
+        /*int iUniqueId = (int) (System.currentTimeMillis() & 0xfffffff);
         File file = new File(activity.getCacheDir(), iUniqueId + ".jpg");
         try {
             file.createNewFile();
@@ -55,10 +59,10 @@ public class APIImageUtil {
         }
         //Convert bitmap to byte array
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG*/, bos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100 ignored for PNG, bos);
         byte[] bitmapdata = bos.toByteArray();
 
-        //write the bytes in file
+        write the bytes in file
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(file);
@@ -71,7 +75,23 @@ public class APIImageUtil {
             fos.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }*/
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+
+        int iUniqueId = (int) (System.currentTimeMillis() & 0xfffffff);
+        File file = new File(activity.getCacheDir(), iUniqueId + ".jpg");
+
+        try {
+            FileOutputStream fo = new FileOutputStream(file);
+            fo.write(bytes.toByteArray());
+            fo.flush();
+            fo.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
         //pass it like this
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         // MultipartBody.Part is used to send also the actual file name
@@ -114,6 +134,7 @@ public class APIImageUtil {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model
                                 , Target<Bitmap> target, boolean isFirstResource) {
+                            progressBar.setVisibility(View.GONE);
                             return false;
                         }
 
@@ -121,6 +142,7 @@ public class APIImageUtil {
                         public boolean onResourceReady(Bitmap resource, Object model
                                 , Target<Bitmap> target, DataSource dataSource
                                 , boolean isFirstResource) {
+                            progressBar.setVisibility(View.GONE);
                             return false;
                         }
                     })
@@ -139,7 +161,35 @@ public class APIImageUtil {
                         }
                     });
         } else {
+            progressBar.setVisibility(View.GONE);
             Toast.makeText(context, R.string.no_connection, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public static void uploadImage(BaseActivity baseActivity, DialogView<String> dialogView, Bitmap bitmap) {
+        dialogView.showDialog(baseActivity.getString(R.string.upload_image));
+        new APIUtil<PhotoObject>(baseActivity).getData(AppController.getInstance().getApi()
+                        .uploadImage(APIImageUtil.bitmapToMultipartBodyPart(baseActivity, bitmap, "file"))
+                , new com.webapp.a4_order_station_driver.utils.listeners.RequestListener<PhotoObject>() {
+                    @Override
+                    public void onSuccess(PhotoObject photoObject, String msg) {
+                        //ToolUtil.showLongToast(photoObject.toString(), baseActivity);
+                        Log.e(getClass().getName() + "fileName:", photoObject.toString());
+                        dialogView.hideDialog();
+                        dialogView.setData(photoObject.getFile_name());
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        ToolUtil.showLongToast(msg, baseActivity);
+                        dialogView.hideDialog();
+                    }
+
+                    @Override
+                    public void onFail(String msg) {
+                        ToolUtil.showLongToast(msg, baseActivity);
+                        dialogView.hideDialog();
+                    }
+                });
     }
 }

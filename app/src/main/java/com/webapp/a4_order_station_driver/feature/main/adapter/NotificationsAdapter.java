@@ -14,8 +14,9 @@ import com.webapp.a4_order_station_driver.feature.order.orderStationView.OrderSt
 import com.webapp.a4_order_station_driver.feature.order.publicOrderView.PublicOrderViewFragment;
 import com.webapp.a4_order_station_driver.models.Notification;
 import com.webapp.a4_order_station_driver.models.NotificationList;
-import com.webapp.a4_order_station_driver.models.OrderStation;
 import com.webapp.a4_order_station_driver.models.PublicOrderObject;
+import com.webapp.a4_order_station_driver.models.Result;
+import com.webapp.a4_order_station_driver.models.OrderStation;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
@@ -114,7 +115,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         public void openOrder() {
             if (id != 0) {
                 if (!type.equals(AppContent.TYPE_ORDER_PUBLIC)) {
-                    openOrderStation();
+                    //openOrderStation();
                 } else {
                     openPublicOrder();
                 }
@@ -123,20 +124,20 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
         private void openOrderStation() {
             dialogView.showDialog("");
-            new APIUtil<OrderStation>(baseActivity).getData(AppController
+            new APIUtil<Result<OrderStation>>(baseActivity).getData(AppController
                             .getInstance().getApi().getOrderById(id)
-                    , new RequestListener<OrderStation>() {
+                    , new RequestListener<Result<OrderStation>>() {
                         @Override
-                        public void onSuccess(OrderStation orderStation, String msg) {
+                        public void onSuccess(Result<OrderStation> result, String msg) {
                             dialogView.hideDialog();
-                            //MainActivity.setId(orderStation);
-                            if (orderStation.getStatus().equals(AppContent.READY_STATUS)) {
-                                new NavigateUtil().openOrder(baseActivity, orderStation, NewOrderStationFragment.page, true);
+                            //MainActivity.setId(result);
+                            if (result.getData().getStatus().equals(AppContent.READY_STATUS)) {
+                                new NavigateUtil().openOrder(baseActivity, result.getData(), NewOrderStationFragment.page, true);
                                 //baseActivity.navigate(6);
-                            } else if (orderStation.getDriver_id() != null) {
-                                if (orderStation.getDriver_id().equals(AppController.getInstance()
-                                        .getAppSettingsPreferences().getLogin().getUser().getId() + "")) {
-                                    new NavigateUtil().openOrder(baseActivity, orderStation, OrderStationViewFragment.page, true);
+                            } else if (result.getData().getDriver() != null) {
+                                if (result.getData().getDriver().getId() == AppController.getInstance()
+                                        .getAppSettingsPreferences().getUser().getId()) {
+                                    new NavigateUtil().openOrder(baseActivity, result.getData(), OrderStationViewFragment.page, true);
                                     //baseActivity.navigate(7);
                                 } else {
                                     ToolUtil.showLongToast(baseActivity.getString(R.string.can_not_open), baseActivity);
@@ -176,7 +177,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
                                     } else if (publicOrderObject.getPublicOrder().getDriver_id()
                                             .equals(String.valueOf(AppController.getInstance()
-                                                    .getAppSettingsPreferences().getLogin().getUser().getId()))) {
+                                                    .getAppSettingsPreferences().getUser().getId()))) {
 
                                         new NavigateUtil().openOrder(baseActivity, publicOrderObject.getPublicOrder()
                                                 , PublicOrderViewFragment.page, true);

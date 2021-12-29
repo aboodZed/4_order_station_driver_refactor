@@ -12,7 +12,7 @@
         android:layout_marginEnd="@dimen/small_padding">
 
         <ProgressBar
-            android:id="@+id/pb_wait_avater"
+            android:id="@+id/pb_wait_avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

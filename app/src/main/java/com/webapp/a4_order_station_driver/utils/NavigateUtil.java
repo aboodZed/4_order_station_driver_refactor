@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.webapp.a4_order_station_driver.R;
-import com.webapp.a4_order_station_driver.feature.main.MainActivity;
+import com.webapp.a4_order_station_driver.feature.main.MainActivity2;
 import com.webapp.a4_order_station_driver.feature.main.home.HomeFragment;
 import com.webapp.a4_order_station_driver.feature.order.OrderActivity;
 import com.webapp.a4_order_station_driver.models.Order;
@@ -41,7 +41,7 @@ public class NavigateUtil {
     }
 
     public void openNotification(Context from, String message) {
-        Intent intent = new Intent(from, MainActivity.class);
+        Intent intent = new Intent(from, MainActivity2.class);
         intent.putExtra(AppContent.PAGE, HomeFragment.page);
         intent.putExtra(AppContent.FIREBASE_MESSAGE, message);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

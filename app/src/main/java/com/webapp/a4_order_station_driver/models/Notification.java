@@ -64,4 +64,18 @@ public class Notification extends Message {
     public long getCreated_at() {
         return created_at;
     }
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "id='" + id + '\'' +
+                ", type='" + type + '\'' +
+                ", notifiable_type='" + notifiable_type + '\'' +
+                ", notifiable_id='" + notifiable_id + '\'' +
+                ", data=" + data +
+                ", read_at='" + read_at + '\'' +
+                ", created_at=" + created_at +
+                '}';
+    }
 }
+

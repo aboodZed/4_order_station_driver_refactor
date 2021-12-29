@@ -1,4 +1,6 @@
-package com.webapp.a4_order_station_driver.feature.main.editProfile;
+package com.webapp.a4_order_station_driver.feature.data.editProfile;
+
+import static com.webapp.a4_order_station_driver.utils.AppContent.IMAGE_STORAGE_URL;
 
 import android.Manifest;
 import android.content.Intent;
@@ -10,12 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.webapp.a4_order_station_driver.databinding.FragmentEditProfileBinding;
@@ -25,15 +23,18 @@ import com.webapp.a4_order_station_driver.utils.AppContent;
 import com.webapp.a4_order_station_driver.utils.AppController;
 import com.webapp.a4_order_station_driver.utils.PermissionUtil;
 import com.webapp.a4_order_station_driver.utils.Photo.PhotoTakerManager;
+import com.webapp.a4_order_station_driver.utils.ToolUtil;
 import com.webapp.a4_order_station_driver.utils.dialogs.ItemSelectImageDialogFragment;
 import com.webapp.a4_order_station_driver.utils.dialogs.WaitDialogFragment;
 import com.webapp.a4_order_station_driver.utils.language.BaseActivity;
 import com.webapp.a4_order_station_driver.utils.listeners.DialogView;
 import com.webapp.a4_order_station_driver.utils.listeners.RequestListener;
 
-public class EditProfileFragment extends Fragment implements DialogView<User>, RequestListener<Bitmap> {
+import java.util.HashMap;
 
-    public static final int page = 209;
+public class EditProfileFragment extends Fragment implements DialogView<String>, RequestListener<Bitmap> {
+
+    public static final int page = 605;
 
     private FragmentEditProfileBinding binding;
     private EditProfilePresenter presenter;
@@ -41,15 +42,15 @@ public class EditProfileFragment extends Fragment implements DialogView<User>, R
     private PhotoTakerManager photoTakerManager;
     private BaseActivity baseActivity;
 
-    private String[] images = new String[6];
+    private HashMap<String, String> map = new HashMap<>();
     private int process_image;
 
-    protected static final int AVATAR = 0;
-    protected static final int VEHICLE_IMAGE = 5;
-    protected static final int VEHICLE_LICENSE = 3;
-    protected static final int VEHICLE_INSURANCE = 1;
-    protected static final int IDENTITY = 4;
-    protected static final int YOUR_LICENSE = 2;
+    private final int VEHICLE = 0;
+    private final int VEHICLE_LICENSE = 1;
+    private final int VEHICLE_INSURANCE = 2;
+    private final int IDENTITY = 3;
+    private final int YOUR_LICENSE = 4;
+    private final int AVATAR = 5;
 
     private ActivityResultLauncher<Intent> launcher;
 
@@ -75,45 +76,52 @@ public class EditProfileFragment extends Fragment implements DialogView<User>, R
     }
 
     private void click() {
-        binding.ivEditDriverAvatar.setOnClickListener(view -> {
-            request(AppContent.REQUEST_IMAGE_AVATAR_UPLOAD, AppContent.REQUEST_IMAGE_AVATAR_CAMERA);
+        binding.ivDriverAvatar.setOnClickListener(view -> {
             process_image = AVATAR;
+            request(AppContent.REQUEST_IMAGE_AVATAR_UPLOAD, AppContent.REQUEST_IMAGE_AVATAR_CAMERA);
         });
-        binding.ivEditIdPic.setOnClickListener(view -> {
-            request(AppContent.REQUEST_IMAGE_IDENTITY_UPLOAD, AppContent.REQUEST_IMAGE_IDENTITY_CAMERA);
+        binding.ivIdentity.setOnClickListener(view -> {
             process_image = IDENTITY;
+            request(AppContent.REQUEST_IMAGE_IDENTITY_UPLOAD, AppContent.REQUEST_IMAGE_IDENTITY_CAMERA);
         });
-        binding.ivEditYourVehicle.setOnClickListener(view -> {
+        binding.ivVehicle.setOnClickListener(view -> {
+            process_image = VEHICLE;
             request(AppContent.REQUEST_IMAGE_VEHICLE_UPLOAD, AppContent.REQUEST_IMAGE_VEHICLE_CAMERA);
-            process_image = VEHICLE_IMAGE;
         });
-        binding.ivEditInsuranceLicense.setOnClickListener(view -> {
-            request(AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_UPLOAD, AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_CAMERA);
+        binding.ivVehicleInsurance.setOnClickListener(view -> {
             process_image = VEHICLE_INSURANCE;
+            request(AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_UPLOAD, AppContent.REQUEST_IMAGE_VEHICLE_INSURANCE_CAMERA);
         });
-        binding.ivEditVehicleLicense.setOnClickListener(view -> {
-            request(AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_UPLOAD, AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_CAMERA);
+        binding.ivVehicleLicense.setOnClickListener(view -> {
             process_image = VEHICLE_LICENSE;
+            request(AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_UPLOAD, AppContent.REQUEST_IMAGE_VEHICLE_LICENSE_CAMERA);
         });
-        binding.ivEditYourLicense.setOnClickListener(view -> {
-            request(AppContent.REQUEST_IMAGE_YOUR_LICENSE_UPLOAD, AppContent.REQUEST_IMAGE_YOUR_LICENSE_CAMERA);
+        binding.ivYourLicense.setOnClickListener(view -> {
             process_image = YOUR_LICENSE;
+            request(AppContent.REQUEST_IMAGE_YOUR_LICENSE_UPLOAD, AppContent.REQUEST_IMAGE_YOUR_LICENSE_CAMERA);
         });
 
-        binding.btnOk.setOnClickListener(view -> presenter.validInput(binding, images));
+        binding.btnSave.setOnClickListener(view -> presenter.validInput(binding, map));
     }
 
     //functions
     private void data() {
-        User user = AppController.getInstance().getAppSettingsPreferences().getLogin().getUser();
-        APIImageUtil.loadImage(getContext(), binding.pbWaitAvater, user.getAvatar_url(), binding.ivDriverAvatar);
-        APIImageUtil.loadImage(getContext(), binding.pbWaitIdPic, user.getId_pic_url(), binding.ivIdPic);
-        APIImageUtil.loadImage(getContext(), binding.pbWaitYourLicense, user.getDrive_license_url(), binding.ivYourLicense);
-        APIImageUtil.loadImage(getContext(), binding.pbWaitYourVehicle, user.getVehicle_pic_url(), binding.ivYourVehicle);
-        APIImageUtil.loadImage(getContext(), binding.pbWaitVehicleLicense, user.getVehicle_license_url(), binding.ivVehicleLicense);
-        APIImageUtil.loadImage(getContext(), binding.pbWaitInsuranceLicense, user.getInsurance_license_url(), binding.ivInsuranceLicense);
+        presenter.getCities(binding);
+        User user = AppController.getInstance().getAppSettingsPreferences().getUser();
+        APIImageUtil.loadImage(getContext(), binding.pbWaitAvatar, user.getAvatar_url(), binding.ivDriverAvatar);
+        map.put("avatar",user.getAvatar_url().replace(IMAGE_STORAGE_URL,""));
+        APIImageUtil.loadImage(getContext(), binding.bpWaitDriverIdentity, user.getId_pic_url(), binding.ivIdentity);
+        map.put("id_pic",user.getId_pic_url().replace(IMAGE_STORAGE_URL,""));
+        APIImageUtil.loadImage(getContext(), binding.bpWaitDriverLicense, user.getDriver_license_url(), binding.ivYourLicense);
+        map.put("drive_license",user.getDriver_license_url().replace(IMAGE_STORAGE_URL,""));
+        APIImageUtil.loadImage(getContext(), binding.bpWaitVehicle, user.getVehicle_pic_url(), binding.ivVehicle);
+        map.put("vehicle_pic",user.getVehicle_pic_url().replace(IMAGE_STORAGE_URL,""));
+        APIImageUtil.loadImage(getContext(), binding.bpWaitVehicleLicense, user.getVehicle_license_url(), binding.ivVehicleLicense);
+        map.put("vehicle_license",user.getVehicle_license_url().replace(IMAGE_STORAGE_URL,""));
+        APIImageUtil.loadImage(getContext(), binding.bpWaitVehicleInsurance, user.getInsurance_license_url(), binding.ivVehicleInsurance);
+        map.put("insurance_license",user.getInsurance_license_url().replace(IMAGE_STORAGE_URL,""));
+        binding.etEnterName.setText(user.getName());
         binding.etEnterEmail.setText(user.getEmail());
-        binding.etEnterPhone.setText(user.getMobile());
         binding.etEnterAddress.setText(user.getAddress());
         Log.e(getClass().getName() + " : userData", user.toString());
         if (PermissionUtil.isPermissionGranted(MediaStore.ACTION_IMAGE_CAPTURE, getContext()))
@@ -122,7 +130,8 @@ public class EditProfileFragment extends Fragment implements DialogView<User>, R
     }
 
     private void onActivityResulting() {
-        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> presenter.onActivityResult(result.getResultCode(), result.getData()));
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> presenter.onActivityResult(result.getResultCode(), result.getData()));
     }
 
     private void request(int request_upload, int request_camera) {
@@ -144,8 +153,27 @@ public class EditProfileFragment extends Fragment implements DialogView<User>, R
     }
 
     @Override
-    public void setData(User user) {
-
+    public void setData(String fileName) {
+        switch (process_image) {
+            case AVATAR:
+                map.put("avatar", fileName);
+                break;
+            case VEHICLE:
+                map.put("vehicle_pic", fileName);
+                break;
+            case VEHICLE_LICENSE:
+                map.put("vehicle_license", fileName);
+                break;
+            case VEHICLE_INSURANCE:
+                map.put("insurance_license", fileName);
+                break;
+            case IDENTITY:
+                map.put("id_pic", fileName);
+                break;
+            case YOUR_LICENSE:
+                map.put("drive_license", fileName);
+                break;
+        }
     }
 
     @Override
@@ -160,36 +188,25 @@ public class EditProfileFragment extends Fragment implements DialogView<User>, R
 
     @Override
     public void onSuccess(Bitmap bitmap, String msg) {
+        APIImageUtil.uploadImage(baseActivity, this, bitmap);
         switch (process_image) {
             case AVATAR:
                 binding.ivDriverAvatar.setImageBitmap(bitmap);
-                images[AVATAR] = APIImageUtil.bitmapToBase64(bitmap);
-                binding.pbWaitAvater.setVisibility(View.GONE);
                 break;
-            case VEHICLE_IMAGE:
-                binding.ivYourVehicle.setImageBitmap(bitmap);
-                images[VEHICLE_IMAGE] = APIImageUtil.bitmapToBase64(bitmap);
-                binding.pbWaitYourVehicle.setVisibility(View.GONE);
+            case VEHICLE:
+                binding.ivVehicle.setImageBitmap(bitmap);
                 break;
             case VEHICLE_LICENSE:
                 binding.ivVehicleLicense.setImageBitmap(bitmap);
-                images[VEHICLE_LICENSE] = APIImageUtil.bitmapToBase64(bitmap);
-                binding.pbWaitVehicleLicense.setVisibility(View.GONE);
                 break;
             case VEHICLE_INSURANCE:
-                binding.ivInsuranceLicense.setImageBitmap(bitmap);
-                images[VEHICLE_INSURANCE] = APIImageUtil.bitmapToBase64(bitmap);
-                binding.pbWaitInsuranceLicense.setVisibility(View.GONE);
+                binding.ivVehicleInsurance.setImageBitmap(bitmap);
                 break;
             case IDENTITY:
-                binding.ivIdPic.setImageBitmap(bitmap);
-                images[IDENTITY] = APIImageUtil.bitmapToBase64(bitmap);
-                binding.pbWaitIdPic.setVisibility(View.GONE);
+                binding.ivIdentity.setImageBitmap(bitmap);
                 break;
             case YOUR_LICENSE:
                 binding.ivYourLicense.setImageBitmap(bitmap);
-                images[YOUR_LICENSE] = APIImageUtil.bitmapToBase64(bitmap);
-                binding.pbWaitYourLicense.setVisibility(View.GONE);
                 break;
         }
     }

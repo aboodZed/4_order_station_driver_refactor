@@ -28,7 +28,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         remote(remoteMessage);
     }
 
-    private void remote(RemoteMessage remoteMessage){
+    private void remote(RemoteMessage remoteMessage) {
         try {
             Map<String, String> map = remoteMessage.getData();
             JSONObject mapJSON = new JSONObject(map);
@@ -48,10 +48,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             } else if (!body.isNull(AppContent.FIREBASE_STATUS)) {
                 String status = body.getString(AppContent.FIREBASE_STATUS);
 
-                if (status.equals(AppContent.NEW_MESSAGE) && PublicOrderViewFragment.isOpenPublicChat) { }
-                else if (status.equals(AppContent.NEW_MESSAGE) && ChatFragment.isOpenChat){ }
-
-                else if (status.equals(AppContent.IN_WAY_TO_STORE)) {
+                if (status.equals(AppContent.NEW_MESSAGE) && PublicOrderViewFragment.isOpenPublicChat) {
+                } else if (status.equals(AppContent.NEW_MESSAGE) && ChatFragment.isOpenChat) {
+                } else if (status.equals(AppContent.IN_WAY_TO_STORE)) {
                     //send notification
                     new NotificationUtil().sendNotification(this, msg, message);
                     AppController.getInstance().getAppSettingsPreferences()
@@ -66,32 +65,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e(getClass().getName()+ " error", "" + e.getMessage());
+            Log.e(getClass().getName() + " error", "" + e.getMessage());
         }
-    }
-
-    @Override
-    public void onNewToken(String refreshedToken) {
-        super.onNewToken(refreshedToken);
-        if (AppController.getInstance().getAppSettingsPreferences().getIsLogin())
-            new APIUtil<Message>(this).getData(AppController.getInstance().getApi()
-                    .fcmToken(refreshedToken), new RequestListener<Message>() {
-                @Override
-                public void onSuccess(Message message, String msg) {
-                    Log.e(getClass().getName() + " : ChangeFCMResponse:", message.getMassage());
-                }
-
-                @Override
-                public void onError(String msg) {
-                    Log.e(getClass().getName() + " : ChangeFCMError:", msg);
-
-                }
-
-                @Override
-                public void onFail(String msg) {
-                    Log.e(getClass().getName() + " : ChangeFCMFail:", msg);
-
-                }
-            });
     }
 }

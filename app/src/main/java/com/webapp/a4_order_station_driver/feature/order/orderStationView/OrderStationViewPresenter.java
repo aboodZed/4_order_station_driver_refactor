@@ -3,6 +3,7 @@ package com.webapp.a4_order_station_driver.feature.order.orderStationView;
 import com.webapp.a4_order_station_driver.feature.main.orders.OrdersFragment;
 import com.webapp.a4_order_station_driver.models.Message;
 import com.webapp.a4_order_station_driver.models.Order;
+import com.webapp.a4_order_station_driver.models.Result;
 import com.webapp.a4_order_station_driver.models.OrderStation;
 import com.webapp.a4_order_station_driver.utils.APIUtil;
 import com.webapp.a4_order_station_driver.utils.AppController;
@@ -24,11 +25,11 @@ public class OrderStationViewPresenter {
 
     public void getOrderData(Order order) {
         dialogView.showDialog("");
-        new APIUtil<OrderStation>(baseActivity).getData(AppController.getInstance()
-                .getApi().getOrderById(order.getId()), new RequestListener<OrderStation>() {
+        new APIUtil<Result<OrderStation>>(baseActivity).getData(AppController.getInstance()
+                .getApi().getOrderById(order.getId()), new RequestListener<Result<OrderStation>>() {
             @Override
-            public void onSuccess(OrderStation orderStation, String msg) {
-                dialogView.setData(orderStation);
+            public void onSuccess(Result<OrderStation> result, String msg) {
+                dialogView.setData(result.getData());
                 dialogView.hideDialog();
             }
 

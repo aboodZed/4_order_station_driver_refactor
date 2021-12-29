@@ -15,8 +15,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(rootView);
+        super.onCreate(savedInstanceState);
     }
 
     public abstract void navigate(int page);
