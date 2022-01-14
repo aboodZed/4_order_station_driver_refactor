@@ -1,8 +1,10 @@
 package com.webapp.mohammad_al_loh.feature.reset.two;
 
 import android.os.CountDownTimer;
+import android.text.TextUtils;
 
 import com.webapp.mohammad_al_loh.R;
+import com.webapp.mohammad_al_loh.databinding.FragmentResetStep2Binding;
 import com.webapp.mohammad_al_loh.feature.reset.three.ResetStep3;
 import com.webapp.mohammad_al_loh.models.Login;
 import com.webapp.mohammad_al_loh.models.ResetCode;
@@ -15,11 +17,14 @@ import com.webapp.mohammad_al_loh.utils.listeners.DialogView;
 import com.webapp.mohammad_al_loh.utils.listeners.RequestListener;
 
 import java.util.HashMap;
+import java.util.Objects;
+import java.util.Random;
 
 public class ResetStep2Presenter {
 
     private BaseActivity baseActivity;
     private DialogView<ResetCode> dialogView;
+    private int code;
 
     public ResetStep2Presenter(BaseActivity baseActivity
             , DialogView<ResetCode> dialogView) {
@@ -27,12 +32,25 @@ public class ResetStep2Presenter {
         this.dialogView = dialogView;
     }
 
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public void generateCode() {
+        Random random = new Random();
+        int i = random.nextInt(9000) + 1000;
+        ToolUtil.showLongToast(String.valueOf(i), baseActivity);
+        ResetCode resetCode = new ResetCode();
+        resetCode.setCode(i);
+        dialogView.setData(resetCode);
+    }
+
     public void reSend(String mobile) {
         dialogView.showDialog("");
 
-        HashMap<String,String> map = new HashMap<>();
-        map.put("mobile",mobile);
-        map.put("role","delivery_driver");
+        HashMap<String, String> map = new HashMap<>();
+        map.put("mobile", mobile);
+        map.put("role", "delivery_driver");
 
         new APIUtil<ResetCode>(baseActivity).getData(
                 AppController.getInstance().getApi().forgetPassword(map),
@@ -56,6 +74,18 @@ public class ResetStep2Presenter {
                         ToolUtil.showLongToast(msg, baseActivity);
                     }
                 });
+    }
+
+    public void conform(FragmentResetStep2Binding binding, CountDownTimer countDownTimer) {
+        if (TextUtils.isEmpty(binding.lfCode.getText())) {
+            binding.lfCode.setError(baseActivity.getString(R.string.empty_error));
+            return;
+        }
+
+        if (Objects.requireNonNull(binding.lfCode.getText()).toString().equals(String.valueOf(code))) {
+            countDownTimer.cancel();
+            baseActivity.navigate(ResetStep3.page);
+        }
     }
 
     public void conform(ResetCode resetCode, String verify, CountDownTimer countDownTimer) {

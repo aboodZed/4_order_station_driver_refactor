@@ -51,7 +51,8 @@ public class ResetStep1 extends Fragment implements DialogView<ResetCode> {
     }
 
     private void click() {
-        binding.btnSend.setOnClickListener(view -> presenter.validInput(binding.etEnterPhone));
+        // binding.btnSend.setOnClickListener(view -> presenter.validInput(binding.etEnterPhone));
+         binding.btnSend.setOnClickListener(view -> presenter.generateCode());
     }
 
     public ResetCode getData() {

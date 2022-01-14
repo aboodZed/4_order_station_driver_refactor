@@ -33,7 +33,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/margin"
             android:layout_marginTop="@dimen/large_margin"
-            android:src="@drawable/logo" />
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
             android:layout_width="wrap_content"

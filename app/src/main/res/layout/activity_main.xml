@@ -34,7 +34,7 @@
                 android:layout_height="@dimen/large_margin"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/logo" />
+                android:src="@mipmap/ic_launcher" />
 
             <FrameLayout
                 android:layout_width="wrap_content"

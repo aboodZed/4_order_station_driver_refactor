@@ -30,9 +30,9 @@ public class ResetStep2 extends Fragment
     private FragmentResetStep2Binding binding;
 
     private ResetStep2Presenter presenter;
-    private String verificationCode;
+    //    private String verificationCode;
     private BaseActivity baseActivity;
-    private ResetCode resetCode;
+    //    private ResetCode resetCode;
     private CountDownTimer countDownTimer;
 
     public ResetStep2(BaseActivity baseActivity) {
@@ -59,8 +59,10 @@ public class ResetStep2 extends Fragment
     }
 
     private void click() {
-        binding.btnResend.setOnClickListener(view -> presenter.reSend(resetCode.getMobile()));
-        binding.btnConfirm.setOnClickListener(view -> presenter.conform(resetCode, verificationCode, countDownTimer));
+        //binding.btnResend.setOnClickListener(view -> presenter.reSend(resetCode.getMobile()));
+        //binding.btnConfirm.setOnClickListener(view -> presenter.conform(resetCode, verificationCode, countDownTimer));
+        binding.btnResend.setOnClickListener(view -> presenter.generateCode());
+        binding.btnConfirm.setOnClickListener(view -> presenter.conform(binding, countDownTimer));
     }
 
     //function
@@ -82,8 +84,9 @@ public class ResetStep2 extends Fragment
 
     @Override
     public void setData(ResetCode data) {
-        resetCode = data;
-        Log.e("reset_code",resetCode.toString());
+        //resetCode = data;
+        presenter.setCode(data.getCode());
+        Log.e("reset_code", data.toString());
     }
 
     @Override
@@ -109,12 +112,12 @@ public class ResetStep2 extends Fragment
 
     @Override
     public void afterTextChanged(Editable editable) {
-        verificationCode = editable.toString();
+        //verificationCode = editable.toString();
     }
 
     @Override
     public boolean onTextComplete(@NotNull String s) {
-        verificationCode = s;
+        //verificationCode = s;
         return false;
     }
 }

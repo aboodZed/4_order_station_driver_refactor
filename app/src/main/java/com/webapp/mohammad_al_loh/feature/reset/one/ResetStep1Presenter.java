@@ -14,6 +14,7 @@ import com.webapp.mohammad_al_loh.utils.listeners.DialogView;
 import com.webapp.mohammad_al_loh.utils.listeners.RequestListener;
 
 import java.util.HashMap;
+import java.util.Random;
 
 public class ResetStep1Presenter {
 
@@ -23,6 +24,16 @@ public class ResetStep1Presenter {
     public ResetStep1Presenter(BaseActivity baseActivity, DialogView<ResetCode> dialogView) {
         this.baseActivity = baseActivity;
         this.dialogView = dialogView;
+    }
+
+    public void generateCode() {
+        Random random = new Random();
+        int i = random.nextInt(9000) + 1000;
+        ToolUtil.showLongToast(String.valueOf(i), baseActivity);
+        ResetCode resetCode = new ResetCode();
+        resetCode.setCode(i);
+        dialogView.setData(resetCode);
+        baseActivity.navigate(ResetStep2.page);
     }
 
     public void validInput(EditText etEnterPhone) {

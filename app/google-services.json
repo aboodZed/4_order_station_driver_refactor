@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "685564478494",
-    "firebase_url": "https://orderstation-test-default-rtdb.firebaseio.com",
-    "project_id": "orderstation-test",
-    "storage_bucket": "orderstation-test.appspot.com"
+    "project_number": "870032109342",
+    "firebase_url": "https://mohammedalloh-947ca-default-rtdb.firebaseio.com",
+    "project_id": "mohammedalloh-947ca",
+    "storage_bucket": "mohammedalloh-947ca.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:685564478494:android:bbfc68f2cb54022f309a0f",
+        "mobilesdk_app_id": "1:870032109342:android:873dac58fcfaf5532fa30f",
         "android_client_info": {
-          "package_name": "com.webapp.a4_order_station_driver"
+          "package_name": "com.webapp.mohammad_al_loh"
         }
       },
       "oauth_client": [
         {
-          "client_id": "685564478494-abuul7s5b7p17q7fogikurb0r2dtup28.apps.googleusercontent.com",
+          "client_id": "870032109342-b1is4qrr3pa00ap5a2lkbh66j10a37ba.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyChtNEhx8SuJ5z_I8Xj4avk60-9zM1snsE"
+          "current_key": "AIzaSyAalafXk91tqm6krm-NCzgYaqpnEcF5v6M"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "685564478494-abuul7s5b7p17q7fogikurb0r2dtup28.apps.googleusercontent.com",
+              "client_id": "870032109342-b1is4qrr3pa00ap5a2lkbh66j10a37ba.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
