@@ -5,5 +5,5 @@
         path="." />
     <external-path
         name="my_images"
-        path="/Android/data/com.webapp.a4_order_station_driver/files/Pictures" />
+        path="/Android/data/com.webapp.mohammad_al_loh/files/Pictures" />
 </paths>

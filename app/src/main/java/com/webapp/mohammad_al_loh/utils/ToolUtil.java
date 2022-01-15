@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ public class ToolUtil {
         String message = "";
         try {
             JSONObject jObjError = new JSONObject(s.string());
+            Log.e("ToolUtil:responseBody:", s.toString());
             message = jObjError.getString(AppContent.FIREBASE_MESSAGE);
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,17 +56,17 @@ public class ToolUtil {
         return message;
     }
 
-    public static String getDate(long time) {
+    public static String getDate(long timeStamp) {
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-        cal.setTimeInMillis(time * 1000);
+        cal.setTimeInMillis(timeStamp * 1000);
         String date = DateFormat.format("dd-MM-yyyy", cal).toString();
         return date;
     }
 
-    public static String getTime(long time) {
+    public static String getTime(long timeStamp) {
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-        cal.setTimeInMillis(time * 1000);
-        String date = DateFormat.format("hh:mm", cal).toString();
-        return date;
+        cal.setTimeInMillis(timeStamp * 1000);
+        String time = DateFormat.format("hh:mm", cal).toString();
+        return time;
     }
 }

@@ -62,7 +62,7 @@
             android:name="com.webapp.mohammad_al_loh.feature.main.MainActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="com.webapp.a4_order_station_driver.feture.home.MainActivity" />
+                <action android:name="com.webapp.mohammad_al_loh.feture.home.MainActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

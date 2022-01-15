@@ -99,21 +99,26 @@ class SplashPresenter {
                     , new RequestListener<ResultUser>() {
                         @Override
                         public void onSuccess(ResultUser result, String msg) {
-                            //update user
-                            Login login = AppController.getInstance().getAppSettingsPreferences().getLogin();
-                            login.setUser(result.getUser());
-                            AppController.getInstance().getAppSettingsPreferences().setLogin(login);
-                            //print user token
-                            Log.e(getClass().getName() + " : userData", result.getUser().toString());
+                            if (result.isSuccess()){
+                                //update user
+                                Login login = AppController.getInstance().getAppSettingsPreferences().getLogin();
+                                login.setUser(result.getUser());
+                                AppController.getInstance().getAppSettingsPreferences().setLogin(login);
+                                //print user token
+                                Log.e(getClass().getName() + " : userData", result.getUser().toString());
 
-                            Log.e("usertoken", AppController.getInstance()
-                                    .getAppSettingsPreferences().getLogin().getAccess_token());
-                            //navigate
-                            FirebaseFirestore.getInstance().collection(AppContent.FIREBASE_PUBLIC_TRACKING_INSTANCE)
-                                    .document(AppContent.FIREBASE_DATA).addSnapshotListener((value, error) -> {
-                                String s = value.getString(AppContent.FIREBASE_STATUS);
-                            });
-                            baseActivity.navigate(MainActivity.page);
+                                Log.e("usertoken", AppController.getInstance()
+                                        .getAppSettingsPreferences().getLogin().getAccess_token());
+                                //navigate
+                                FirebaseFirestore.getInstance().collection(AppContent.FIREBASE_PUBLIC_TRACKING_INSTANCE)
+                                        .document(AppContent.FIREBASE_DATA).addSnapshotListener((value, error) -> {
+                                            String s = value.getString(AppContent.FIREBASE_STATUS);
+                                        });
+                                baseActivity.navigate(MainActivity.page);
+                            }else {
+                                ToolUtil.showLongToast(msg, baseActivity);
+                                baseActivity.navigate(LoginActivity.page);
+                            }
                         }
 
                         @Override

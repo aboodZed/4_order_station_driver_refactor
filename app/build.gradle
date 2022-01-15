@@ -3,7 +3,7 @@ apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 30
     defaultConfig {
-        applicationId "com.webapp.a4_order_station_driver"
+        applicationId "com.webapp.mohammad_al_loh"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 25

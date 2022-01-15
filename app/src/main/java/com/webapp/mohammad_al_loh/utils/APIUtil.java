@@ -27,21 +27,22 @@ public class APIUtil<T> {
                 public void onResponse(Call<T> call, Response<T> response) {
                     if (context != null) {
                         if (response.isSuccessful() && response.body() != null) {
+                            Log.e(getClass().getName() + " : request success", response.body().toString());
                             listener.onSuccess(response.body(), response.message());
                         } else {
-                            listener.onError(ToolUtil.showError(context, response.errorBody()));
                             Log.e(getClass().getName() + " : request Error",
                                     ToolUtil.showError(context, response.errorBody()));
+                            listener.onError(ToolUtil.showError(context, response.errorBody()));
                         }
                     }
                 }
 
                 @Override
                 public void onFailure(Call<T> call, Throwable t) {
-                    t.printStackTrace();
-                    listener.onFail(t.getLocalizedMessage());
                     Log.e(getClass().getName() + " : request Failure",
                             Objects.requireNonNull(t.getLocalizedMessage()));
+                    t.printStackTrace();
+                    listener.onFail(t.getLocalizedMessage());
                 }
             });
         } else {
