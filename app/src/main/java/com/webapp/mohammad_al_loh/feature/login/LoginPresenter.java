@@ -9,6 +9,7 @@ import com.webapp.mohammad_al_loh.feature.main.MainActivity;
 import com.webapp.mohammad_al_loh.models.Login;
 import com.webapp.mohammad_al_loh.services.firebase.GenerateFCMService;
 import com.webapp.mohammad_al_loh.utils.APIUtil;
+import com.webapp.mohammad_al_loh.utils.AppContent;
 import com.webapp.mohammad_al_loh.utils.AppController;
 import com.webapp.mohammad_al_loh.utils.ToolUtil;
 import com.webapp.mohammad_al_loh.utils.language.BaseActivity;

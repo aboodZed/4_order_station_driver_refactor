@@ -5,7 +5,7 @@ public interface AppContent {
     String INPUT_SETTINGS = "setting";
     String CODE_DETAILS = "codeDetails";
 
-    String BASE_URL = "http://mohammed-alloh.live/api/v2/";
+    String BASE_URL = "https://mohammed-alloh.live/api/v2/";
     //String BASE_URL = "http://www.4order.net/api/v2/";
     //forth String BASE_URL = "http://4orderstation.com/api/v2/";
     //third String BASE_URL = "https://live.4orderstation.net/api/v2/";
@@ -51,8 +51,8 @@ public interface AppContent {
     String RESET_MOBILE = "mobile";
     String RESET_CODE = "code";
     String RESET_TOKEN = "token";
-    String FILE_PROVIDER_AUTHORITY = "com.webapp.a4_order_station_driver.provider";
-    String FILE_PROVIDER_PATH = "/Android/data/com.webapp.a4_order_station_driver/files/Pictures";
+    String FILE_PROVIDER_AUTHORITY ="com.webapp.mohammad_al_loh.provider";
+    String FILE_PROVIDER_PATH = "/Android/data/com.webapp.mohammad_al_loh/files/Pictures";
     //API
     //order type
     String TYPE_ORDER_PUBLIC = "public";

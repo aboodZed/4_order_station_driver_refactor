@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 android {
-    compileSdkVersion 30
+    compileSdk 30
     defaultConfig {
         applicationId "com.webapp.mohammad_al_loh"
-        minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 25
-        versionName "3.6"
+        minSdk 21
+        targetSdk 30
+        versionCode 27
+        versionName "4.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
